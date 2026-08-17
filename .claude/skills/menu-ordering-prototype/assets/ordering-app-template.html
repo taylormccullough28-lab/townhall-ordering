@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[BRAND] — Order Online (Test Build)</title>
+<!--
+  TEMPLATE — starting skeleton for the menu-ordering-prototype skill.
+  Replace everything in [BRACKETS], and replace the MENU array below with the
+  real extracted menu. Everything under "engine" is generic and should not
+  need rewriting unless the new menu needs a modifier shape this schema can't
+  express — in that case, extend the schema, don't fork a parallel system.
+
+  If publishing this as a Claude Artifact (not a local file / normal web
+  deploy), swap the Google Fonts <link> below for a system-font stack and
+  inline everything — strict Artifact CSP blocks the font request.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1B16;
+    --muted: #6B6B60;
+    --faint: #9C9C90;
+    --line: #E7E3D6;
+    --bg: #FBFAF6;
+    --card: #FFFFFF;
+    --accent: #33593F;
+    --accent-dark: #23402C;
+    --accent-soft: #EAF1EA;
+    --warn: #9A5B12;
+    --warn-soft: #FBF0DE;
+    --danger: #A32B2B;
+    --danger-soft: #FBEAEA;
+  }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  * { box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, .serif { font-family: 'Fraunces', Georgia, serif; }
+  button, input, select { font-family: inherit; font: inherit; }
+  button { cursor: pointer; }
+  .mono { font-family: 'Inter', monospace; letter-spacing: 0.04em; }
+  ::selection { background: var(--accent-soft); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .tag { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; padding: 2px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent-dark); }
+  .tag.warn { background: var(--warn-soft); color: var(--warn); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  #topbar { position: sticky; top: 0; z-index: 30; background: rgba(251,250,246,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  #topbar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
+  #brand { display: flex; flex-direction: column; gap: 2px; }
+  #brand .name { font-size: 19px; font-weight: 600; }
+  #brand .loc { font-size: 11px; color: var(--muted); }
+  .btn { border-radius: 7px; border: 1px solid var(--line); background: var(--card); padding: 9px 14px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-dark); }
+  .btn.ghost { border: none; background: none; color: var(--muted); padding: 6px 8px; }
+  .btn.ghost:hover { color: var(--accent-dark); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  #cart-btn { position: relative; }
+  #cart-count { position: absolute; top: -7px; right: -7px; background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 700; min-width: 18px; height: 18px; border-radius: 999px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+  #catnav-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; overflow-x: auto; }
+  #catnav { display: flex; gap: 6px; padding: 10px 0; }
+  .cat-pill { flex: none; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-size: 12.5px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .cat-pill.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+  #allergy-banner { max-width: 1180px; margin: 14px auto 0; padding: 0 24px; }
+  .banner { display: flex; align-items: flex-start; gap: 10px; background: var(--warn-soft); border: 1px solid #EAD4A6; color: #6B4A10; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; }
+  .banner b { color: #5A3D0C; }
+  .banner .x { margin-left: auto; border: 0; background: none; color: #6B4A10; font-size: 15px; padding: 0 2px; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 120px; }
+  .cat-section { margin-bottom: 44px; }
+  .cat-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .cat-header h2 { margin: 0; font-size: 24px; font-weight: 600; }
+  .cat-note { font-size: 12px; color: var(--warn); font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .item-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .item-card.locked { opacity: 0.6; }
+  .item-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .item-name { font-size: 15.5px; font-weight: 600; line-height: 1.3; }
+  .item-price { font-size: 14px; font-weight: 700; color: var(--accent-dark); white-space: nowrap; }
+  .item-desc { font-size: 12.5px; line-height: 1.55; color: var(--muted); flex: 1; }
+  .item-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+  .lock-note { font-size: 11.5px; color: var(--warn); font-weight: 600; }
+  .qty-note { font-size: 11px; color: var(--faint); }
+
+  .overlay { position: fixed; inset: 0; background: rgba(20,20,16,0.42); z-index: 50; display: flex; justify-content: flex-end; }
+  .overlay.center { justify-content: center; align-items: center; }
+  .panel { background: var(--bg); width: 480px; max-width: 100%; height: 100%; overflow-y: auto; box-shadow: -12px 0 30px rgba(0,0,0,0.12); animation: slide-in .22s ease both; }
+  @keyframes slide-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-card { background: var(--card); border-radius: 12px; width: 460px; max-width: calc(100vw - 32px); max-height: calc(100vh - 48px); overflow-y: auto; padding: 26px; }
+  .panel-head { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 16px 20px; display: flex; align-items: flex-start; gap: 10px; z-index: 2; }
+  .panel-head h3 { margin: 0; font-size: 18px; }
+  .panel-body { padding: 18px 20px 100px; }
+  .close-x { border: 0; background: none; font-size: 18px; color: var(--muted); margin-left: auto; padding: 2px 4px; }
+
+  .notice { border-radius: 8px; padding: 10px 12px; font-size: 12.5px; line-height: 1.5; margin-bottom: 14px; }
+  .notice.danger { background: var(--danger-soft); color: #7A1F1F; border: 1px solid #EFC6C6; }
+  .notice.warn { background: var(--warn-soft); color: #6B4A10; border: 1px solid #EAD4A6; }
+  .notice.info { background: var(--accent-soft); color: var(--accent-dark); border: 1px solid #CFE1D2; }
+
+  .group { margin-bottom: 20px; }
+  .group-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 3px; display: flex; justify-content: space-between; }
+  .group-hint { font-size: 11.5px; color: var(--faint); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .opt-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F0EEE4; font-size: 13.5px; }
+  .opt-row:last-child { border-bottom: none; }
+  .opt-row label { flex: 1; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .opt-price { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  .opt-row input[type=radio], .opt-row input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--accent); }
+
+  .qty-stepper { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; }
+  .qty-stepper button { border: 0; background: none; width: 26px; height: 26px; font-size: 16px; border-radius: 6px; }
+  .qty-stepper button:hover { background: var(--accent-soft); }
+  .qty-stepper span { min-width: 18px; text-align: center; font-weight: 700; }
+
+  .panel-foot { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .panel-foot .total { font-weight: 700; font-size: 15px; }
+  .panel-foot .btn.primary { flex: 1; }
+
+  #cart-panel .panel-body { padding: 16px 20px 190px; }
+  .cart-line { border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+  .cart-line-top { display: flex; justify-content: space-between; gap: 10px; }
+  .cart-line-name { font-weight: 600; font-size: 13.5px; }
+  .cart-line-price { font-weight: 700; font-size: 13.5px; }
+  .cart-line-mods { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .cart-line-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .cart-empty { text-align: center; padding: 60px 20px; color: var(--faint); font-size: 13.5px; }
+
+  .row-line { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; }
+  .row-line.total { font-size: 15px; font-weight: 700; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 10px; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .field select, .field input[type=text] { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 7px; font-size: 13.5px; background: var(--card); }
+
+  .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12.5px; }
+  .legend-grid div span.tag { margin-right: 6px; }
+
+  .receipt-num { font-family: 'Inter', monospace; font-size: 12px; color: var(--muted); }
+  .footnote { font-size: 11px; color: var(--faint); line-height: 1.6; margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    #brand .name { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div id="topbar-inner">
+    <div id="brand">
+      <div class="name">[BRAND] <span style="color:var(--muted); font-weight:500;">— [LOCATION]</span></div>
+      <div class="loc">Online ordering · test build · first-party pickup only</div>
+    </div>
+    <div style="flex:1"></div>
+    <button class="btn ghost" id="legend-btn">Dietary legend</button>
+    <button class="btn" id="cart-btn">Cart <span id="cart-count" style="display:none;">0</span></button>
+  </div>
+  <div id="catnav-wrap"><div id="catnav"></div></div>
+</div>
+
+<div id="allergy-banner"></div>
+
+<main id="main"></main>
+
+<div id="modal-root"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================================================================
+     MENU DATA — replace this whole block with the extracted menu.
+     Everything below "ENGINE" does not need to change.
+     ================================================================ */
+
+  // Whatever legend the source menu prints. Keys must match the tag
+  // strings you put on items/options below.
+  var TAG_LABELS = {
+    GF: 'Gluten-Free', V: 'Vegan', N: 'Contains Nuts', K: 'Keto-Friendly'
+    // ...extend to match the real menu's legend exactly.
+  };
+
+  // The transaction/service fee the real menu discloses, if any. Set to 0
+  // and remove the "Transaction fee" row further down if the menu has none.
+  var FEE_RATE = 0.029;
+
+  // g(key, label, type, options, opts) builds one choice group.
+  //   type: 'single' (radio) or 'multi' (checkbox)
+  //   opts.required: must a choice be made before Add to Cart enables?
+  //   opts.max: cap on multi-select count (e.g. "choose up to 3")
+  //   opts.min: minimum required selections for a required multi group
+  //   opts.extraChargeAfter / opts.extraChargePrice: "first N free, then
+  //     +$X each" — set extraChargeAfter to N, applies automatically.
+  function g(key, label, type, options, opts) {
+    opts = opts || {};
+    return Object.assign({ key: key, label: label, type: type, options: options,
+      required: !!opts.required, min: opts.min || 0, max: opts.max || null,
+      extraChargeAfter: opts.extraChargeAfter != null ? opts.extraChargeAfter : null,
+      extraChargePrice: opts.extraChargePrice || 0, hint: opts.hint || '' });
+  }
+
+  var MENU = [
+    { id: 'example-category', label: 'Example Category', items: [
+      // A plain item with no modifiers — renders with a single "Add" button.
+      { id: 'plain-item', name: 'Plain Item', price: 6, tags: ['GF'],
+        desc: 'An item with no customization.' },
+
+      // An item with optional single-select upgrades (radio group, not required).
+      { id: 'single-select-item', name: 'Item With An Upgrade', price: 12, tags: ['V'],
+        desc: 'Demonstrates an optional single-select swap group.',
+        groups: [ g('size', 'Size', 'single', [
+          { id: 'regular', label: 'Regular (default)', price: 0 },
+          { id: 'large', label: 'Large', price: 3 }
+        ]) ] },
+
+      // An item with a required single-select group and a capped multi-select.
+      { id: 'multi-select-item', name: 'Item With Add-Ons', price: 9, tags: [],
+        desc: 'Demonstrates a required single-select plus a max-3 multi-select.',
+        groups: [
+          g('sauce', 'Sauce', 'single', [
+            { id: 'red', label: 'Red Sauce', price: 0 },
+            { id: 'white', label: 'White Sauce', price: 0 }
+          ], { required: true }),
+          g('toppings', 'Toppings — choose up to 3', 'multi', [
+            { id: 'a', label: 'Topping A', price: 1 },
+            { id: 'b', label: 'Topping B', price: 1 },
+            { id: 'c', label: 'Topping C', price: 1 },
+            { id: 'd', label: 'Topping D', price: 1 }
+          ], { max: 3 })
+        ] },
+
+      // Demonstrates "choose 2 free, +$3 each additional" (e.g. bowl sides).
+      { id: 'build-your-own-example', name: 'Build-Your-Own Example', price: 16, tags: [],
+        desc: 'Demonstrates the extraChargeAfter / extraChargePrice pattern.',
+        groups: [ g('sides', 'Sides — choose 2, +$3 each additional', 'multi', [
+          { id: 'rice', label: 'Rice', price: 0 },
+          { id: 'salad', label: 'Salad', price: 0 },
+          { id: 'upcharge-side', label: 'Premium Side', price: 2 }
+        ], { required: true, min: 1, extraChargeAfter: 2, extraChargePrice: 3 }) ] },
+
+      // Time-gated item (e.g. dinner-only). Gates on the guest's selected
+      // pickup time, not the real clock — see pickupMeetsGate() below.
+      { id: 'dinner-only-example', name: 'Dinner-Only Example', price: 24, tags: [],
+        desc: 'Only orderable for pickup at or after the category/item servedAfter time.',
+        servedAfter: '17:00' },
+
+      // Item whose specifics aren't on the menu (e.g. "ask your server").
+      // Don't invent a specific answer — flag it honestly instead.
+      { id: 'ask-server-example', name: 'Rotating Special', price: 6, tags: [], askServer: true,
+        desc: 'Ask staff for today’s selection.' }
+    ] }
+    // ...one entry per category from the real menu, following this shape.
+  ];
+
+  /* ================================================================
+     ENGINE — generic; should not need to change per menu.
+     ================================================================ */
+
+  var cart = [];
+  var pickupTime = '';
+  var lastOrder = null;
+  var STORE_KEY = 'menu-order-test-v1'; // scope this per-brand if hosting multiple prototypes on one origin
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        cart = Array.isArray(s.cart) ? s.cart : [];
+        pickupTime = s.pickupTime || '';
+      }
+    } catch (e) {}
+  }
+  function saveState() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ cart: cart, pickupTime: pickupTime })); } catch (e) {}
+  }
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function fmtPrice(n) {
+    if (n == null) return '';
+    if (n === 0) return '$0';
+    return '$' + (Number.isInteger(n) ? n : n.toFixed(2).replace(/0$/, '').replace(/\.$/, ''));
+  }
+  function fmtDelta(n) {
+    if (!n) return 'no charge';
+    var s = Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/^0\./, '.').replace(/0$/, '');
+    return '+$' + s;
+  }
+
+  function tagBadges(tags) {
+    if (!tags || !tags.length) return '';
+    return '<span class="tag-row">' + tags.filter(function (t) { return TAG_LABELS[t]; }).map(function (t) {
+      return '<span class="tag" title="' + escapeHtml(TAG_LABELS[t]) + '">' + t + '</span>';
+    }).join('') + '</span>';
+  }
+
+  function findItem(itemId) {
+    for (var c = 0; c < MENU.length; c++) {
+      for (var i = 0; i < MENU[c].items.length; i++) {
+        if (MENU[c].items[i].id === itemId) return MENU[c].items[i];
+      }
+    }
+    return null;
+  }
+
+  function timeToMinutes(t) {
+    var parts = String(t).split(':');
+    return (+parts[0]) * 60 + (+(parts[1] || 0));
+  }
+
+  // Gates on the guest's SELECTED pickup time, not the real wall-clock time.
+  function pickupMeetsGate(gateTime) {
+    if (!gateTime) return true;
+    if (!pickupTime) return false;
+    return timeToMinutes(pickupTime) >= timeToMinutes(gateTime);
+  }
+
+  function pickupOptions() {
+    var opts = [];
+    var start = 11 * 60, end = 22 * 60; // adjust to the venue's real hours
+    for (var m = start; m <= end; m += 15) {
+      var hh = Math.floor(m / 60), mm = m % 60;
+      var label = ((hh % 12) || 12) + ':' + (mm < 10 ? '0' + mm : mm) + ' ' + (hh < 12 ? 'AM' : 'PM');
+      var val = (hh < 10 ? '0' + hh : hh) + ':' + (mm < 10 ? '0' + mm : mm);
+      opts.push({ value: val, label: label });
+    }
+    return opts;
+  }
+
+  function defaultSelections(item) {
+    var sel = {};
+    (item.groups || []).forEach(function (grp) {
+      if (grp.type === 'single') {
+        var def = grp.options.find(function (o) { return o.price === 0; });
+        sel[grp.key] = grp.required ? (def ? def.id : grp.options[0].id) : null;
+      } else {
+        sel[grp.key] = [];
+      }
+    });
+    return sel;
+  }
+
+  function groupSelectionValid(grp, sel) {
+    var v = sel[grp.key];
+    if (grp.type === 'single') return !grp.required || !!v;
+    var count = (v || []).length;
+    if (grp.required && count < (grp.min || 1)) return false;
+    return true;
+  }
+
+  function allGroupsValid(item, sel) {
+    return (item.groups || []).every(function (grp) { return groupSelectionValid(grp, sel); });
+  }
+
+  function computeModPrice(item, sel) {
+    var total = 0;
+    var lines = [];
+    (item.groups || []).forEach(function (grp) {
+      if (grp.type === 'single') {
+        var chosen = grp.options.find(function (o) { return o.id === sel[grp.key]; });
+        if (chosen && chosen.price) { total += chosen.price; lines.push(chosen.label + ' (' + fmtDelta(chosen.price) + ')'); }
+        else if (chosen && sel[grp.key] && chosen.price === 0 && !/default|keep|no /i.test(chosen.label)) {
+          lines.push(chosen.label);
+        }
+      } else {
+        var ids = sel[grp.key] || [];
+        var freeCount = grp.extraChargeAfter != null ? grp.extraChargeAfter : Infinity;
+        ids.forEach(function (id, idx) {
+          var opt = grp.options.find(function (o) { return o.id === id; });
+          if (!opt) return;
+          var extra = idx >= freeCount ? grp.extraChargePrice : 0;
+          var delta = (opt.price || 0) + extra;
+          total += delta;
+          lines.push(opt.label + (delta ? ' (' + fmtDelta(delta) + ')' : ''));
+        });
+      }
+    });
+    return { total: total, lines: lines };
+  }
+
+  function itemUnitPrice(item, sel) {
+    return (item.price || 0) + computeModPrice(item, sel).total;
+  }
+
+  function renderShell() {
+    renderCatNav();
+    renderBanner();
+    renderMain();
+    renderCartBadge();
+  }
+
+  function renderCatNav() {
+    var el = document.getElementById('catnav');
+    el.innerHTML = MENU.map(function (cat) {
+      return '<button class="cat-pill" data-scroll="' + cat.id + '">' + escapeHtml(cat.label) + '</button>';
+    }).join('');
+    el.querySelectorAll('.cat-pill').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = document.getElementById('sec-' + btn.getAttribute('data-scroll'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function renderBanner() {
+    var el = document.getElementById('allergy-banner');
+    var dismissed = false;
+    try { dismissed = sessionStorage.getItem('th-allergy-dismissed') === '1'; } catch (e) {}
+    if (dismissed) { el.innerHTML = ''; return; }
+    // Replace this copy with the real menu's actual disclosed disclaimers
+    // (cross-contact, raw/undercooked, fees) — don't invent or drop them.
+    el.innerHTML = '<div class="banner">' +
+      '<span>&#9888;&#65039;</span>' +
+      '<span><b>Please note:</b> [Carry the source menu\'s real allergen / cross-contact / fee disclaimers here.]</span>' +
+      '<button class="x" id="dismiss-banner">&#10005;</button>' +
+    '</div>';
+    document.getElementById('dismiss-banner').addEventListener('click', function () {
+      try { sessionStorage.setItem('th-allergy-dismissed', '1'); } catch (e) {}
+      el.innerHTML = '';
+    });
+  }
+
+  function renderMain() {
+    var main = document.getElementById('main');
+    main.innerHTML = MENU.map(renderCategorySection).join('') +
+      '<div class="footnote">[Carry the real dietary legend and any footnote disclaimers here.]<br><br>' +
+      '<i>This is a test build for practicing an ordering flow. No real payment is processed and no order is sent to the business.</i></div>';
+    main.querySelectorAll('[data-action="open-item"]').forEach(function (el) {
+      el.addEventListener('click', function () { openItemPanel(el.getAttribute('data-item')); });
+    });
+  }
+
+  function renderCategorySection(cat) {
+    var gateOk = pickupMeetsGate(cat.servedAfter);
+    return '<section class="cat-section" id="sec-' + cat.id + '">' +
+      '<div class="cat-header"><h2>' + escapeHtml(cat.label) + '</h2>' +
+        (cat.servedAfter ? '<span class="cat-note">Served from ' + fmtTimeLabel(cat.servedAfter) + '</span>' : '') +
+      '</div>' +
+      (cat.servedAfter && !gateOk ? '<div class="notice warn">This section opens for pickup at ' + fmtTimeLabel(cat.servedAfter) + ' or later. ' + (pickupTime ? 'Your pickup time is ' + fmtTimeLabel(pickupTime) + ' — choose a later pickup time to order from this section.' : 'Set a pickup time of ' + fmtTimeLabel(cat.servedAfter) + ' or later to order from this section.') + ' <button class="btn ghost" style="padding:2px 6px; text-decoration:underline;" data-action="set-pickup-gate" data-gate="' + cat.servedAfter + '">Set pickup to ' + fmtTimeLabel(cat.servedAfter) + '</button></div>' : '') +
+      '<div class="grid">' + cat.items.map(function (item) { return renderItemCard(item, cat, gateOk); }).join('') + '</div>' +
+    '</section>';
+  }
+
+  function fmtTimeLabel(t) {
+    var m = timeToMinutes(t), hh = Math.floor(m / 60), mm = m % 60;
+    return ((hh % 12) || 12) + (mm ? ':' + (mm < 10 ? '0' + mm : mm) : ':00') + ' ' + (hh < 12 ? 'AM' : 'PM');
+  }
+
+  function renderItemCard(item, cat, gateOk) {
+    var base = item.price || 0;
+    var priceLabel = (item.groups && item.groups.length) ? 'from ' + fmtPrice(base) : fmtPrice(base);
+    var itemGate = item.servedAfter || cat.servedAfter;
+    var itemGateOk = item.servedAfter ? pickupMeetsGate(item.servedAfter) : gateOk;
+    var locked = itemGate && !itemGateOk;
+    return '<div class="item-card' + (locked ? ' locked' : '') + '">' +
+      '<div class="item-top"><div class="item-name">' + escapeHtml(item.name) + (item.asterisk ? '<span title="Contains raw or undercooked ingredients"> *</span>' : '') + '</div>' +
+        '<div class="item-price">' + priceLabel + (item.qtyNote ? ' <span class="qty-note">' + escapeHtml(item.qtyNote) + '</span>' : '') + '</div></div>' +
+      (item.tags && item.tags.filter(function(t){return TAG_LABELS[t];}).length ? tagBadges(item.tags) : '') +
+      '<div class="item-desc">' + escapeHtml(item.desc || '') + (item.askServer ? ' <em>(ask staff for current selection)</em>' : '') + '</div>' +
+      '<div class="item-foot">' +
+        (locked ? '<span class="lock-note">Available after ' + fmtTimeLabel(itemGate) + '</span><button class="btn" disabled>Locked</button>' :
+          '<span></span><button class="btn primary" data-action="open-item" data-item="' + item.id + '">' + ((item.groups && item.groups.length) ? 'Customize' : 'Add') + '</button>') +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderCartBadge() {
+    var count = cart.reduce(function (n, l) { return n + l.qty; }, 0);
+    var badge = document.getElementById('cart-count');
+    if (count > 0) { badge.style.display = 'flex'; badge.textContent = count; }
+    else badge.style.display = 'none';
+  }
+
+  var activeSelections = {};
+  var activeQty = 1;
+
+  function openItemPanel(itemId) {
+    var item = findItem(itemId);
+    if (!item) return;
+    activeSelections = defaultSelections(item);
+    activeQty = 1;
+    renderItemModal(item);
+  }
+
+  function renderItemModal(item) {
+    var root = document.getElementById('modal-root');
+    // Scroll preservation: capture BEFORE replacing innerHTML, restore AFTER.
+    // Skipping this makes every click in a multi-group builder jump the
+    // panel back to the top — see the skill's "known pitfall" note.
+    var prevPanel = document.getElementById('item-panel');
+    var savedScroll = prevPanel ? prevPanel.scrollTop : 0;
+    var priced = computeModPrice(item, activeSelections);
+    var unit = (item.price || 0) + priced.total;
+    var valid = allGroupsValid(item, activeSelections);
+
+    var groupsHtml = (item.groups || []).map(function (grp) {
+      var optsHtml = grp.options.map(function (opt) {
+        var checked = grp.type === 'single' ? activeSelections[grp.key] === opt.id : (activeSelections[grp.key] || []).indexOf(opt.id) > -1;
+        var disabled = false;
+        if (grp.type === 'multi' && grp.max) {
+          var sel = activeSelections[grp.key] || [];
+          disabled = !checked && sel.length >= grp.max;
+        }
+        return '<div class="opt-row">' +
+          '<label>' +
+            '<input type="' + (grp.type === 'single' ? 'radio' : 'checkbox') + '" name="' + grp.key + '" data-group="' + grp.key + '" data-opt="' + opt.id + '"' + (checked ? ' checked' : '') + (disabled ? ' disabled' : '') + '>' +
+            '<span>' + escapeHtml(opt.label) + '</span>' + (opt.tags ? tagBadges(opt.tags) : '') +
+          '</label>' +
+          '<span class="opt-price">' + fmtDelta(opt.price) + '</span>' +
+        '</div>';
+      }).join('');
+      return '<div class="group"><div class="group-label"><span>' + escapeHtml(grp.label) + (grp.required ? ' *' : '') + '</span>' +
+        (grp.max ? '<span class="group-hint">choose up to ' + grp.max + '</span>' : '') + '</div>' + optsHtml + '</div>';
+    }).join('');
+
+    var notices = '';
+    if (item.asterisk) notices += '<div class="notice danger">Contains raw or undercooked ingredients. [Carry the real food-safety disclaimer text here.]</div>';
+    if (item.askServer) notices += '<div class="notice warn">This item’s current selection is set by staff. We’ll add a note so it’s confirmed at pickup.</div>';
+    if (item.servedAfter) notices += '<div class="notice info">Only available for pickup at ' + fmtTimeLabel(item.servedAfter) + ' or later.</div>';
+
+    root.innerHTML = '<div class="overlay" id="item-overlay"><div class="panel" id="item-panel">' +
+      '<div class="panel-head"><div><h3>' + escapeHtml(item.name) + '</h3>' + (item.desc ? '<div style="font-size:12.5px; color:var(--muted); margin-top:4px;">' + escapeHtml(item.desc) + '</div>' : '') + '</div>' +
+        '<button class="close-x" id="item-close">&#10005;</button></div>' +
+      '<div class="panel-body">' + notices +
+        (item.tags && item.tags.filter(function(t){return TAG_LABELS[t];}).length ? '<div style="margin-bottom:16px;">' + tagBadges(item.tags) + '</div>' : '') +
+        groupsHtml +
+        '<div class="group"><div class="group-label"><span>Quantity</span></div>' +
+          '<div class="qty-stepper"><button id="qty-minus">&#8722;</button><span id="qty-val">' + activeQty + '</span><button id="qty-plus">+</button></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="panel-foot"><span class="total" id="item-total">' + fmtPrice(unit * activeQty) + '</span>' +
+        '<button class="btn primary" id="item-add"' + (!valid ? ' disabled' : '') + '>' + (valid ? 'Add to Cart' : 'Complete required choices') + '</button></div>' +
+    '</div></div>';
+
+    var newPanel = document.getElementById('item-panel');
+    if (newPanel) newPanel.scrollTop = savedScroll;
+
+    document.getElementById('item-close').addEventListener('click', closeModal);
+    document.getElementById('item-overlay').addEventListener('click', function (e) { if (e.target.id === 'item-overlay') closeModal(); });
+
+    root.querySelectorAll('input[data-group]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        var grp = (item.groups || []).find(function (g2) { return g2.key === input.getAttribute('data-group'); });
+        var optId = input.getAttribute('data-opt');
+        if (grp.type === 'single') activeSelections[grp.key] = optId;
+        else {
+          var arr = activeSelections[grp.key] || [];
+          if (input.checked) arr.push(optId); else arr = arr.filter(function (id) { return id !== optId; });
+          activeSelections[grp.key] = arr;
+        }
+        renderItemModal(item);
+      });
+    });
+
+    document.getElementById('qty-minus').addEventListener('click', function () { if (activeQty > 1) { activeQty--; renderItemModal(item); } });
+    document.getElementById('qty-plus').addEventListener('click', function () { activeQty++; renderItemModal(item); });
+
+    var addBtn = document.getElementById('item-add');
+    if (valid) addBtn.addEventListener('click', function () { addToCart(item); });
+  }
+
+  function closeModal() { document.getElementById('modal-root').innerHTML = ''; }
+
+  function addToCart(item) {
+    var priced = computeModPrice(item, activeSelections);
+    var unit = (item.price || 0) + priced.total;
+    cart.push({
+      lineId: 'l' + Date.now() + Math.random().toString(36).slice(2, 7),
+      itemId: item.id, name: item.name, unit: unit, qty: activeQty,
+      modLines: priced.lines, asterisk: !!item.asterisk, askServer: !!item.askServer
+    });
+    saveState();
+    closeModal();
+    renderCartBadge();
+    openCart();
+  }
+
+  function openCart() {
+    var root = document.getElementById('modal-root');
+    var prevPanel = document.getElementById('cart-panel');
+    var savedScroll = prevPanel ? prevPanel.scrollTop : 0;
+    root.innerHTML = '<div class="overlay" id="cart-overlay"><div class="panel" id="cart-panel">' + cartPanelHtml() + '</div></div>';
+    var newPanel = document.getElementById('cart-panel');
+    if (newPanel) newPanel.scrollTop = savedScroll;
+    attachCartHandlers();
+  }
+
+  function cartPanelHtml() {
+    var subtotal = cart.reduce(function (s, l) { return s + l.unit * l.qty; }, 0);
+    var fee = subtotal * FEE_RATE;
+    var total = subtotal + fee;
+    var hasAsterisk = cart.some(function (l) { return l.asterisk; });
+
+    return '<div class="panel-head"><h3>Your Order (Test)</h3><button class="close-x" id="cart-close">&#10005;</button></div>' +
+      '<div class="panel-body">' +
+        (cart.length === 0 ? '<div class="cart-empty">Your cart is empty.<br>Add items from the menu to start practicing an order.</div>' :
+          '<div class="field"><label>Pickup Time</label><select id="pickup-select">' +
+            '<option value="">Select a pickup time&hellip;</option>' +
+            pickupOptions().map(function (o) { return '<option value="' + o.value + '"' + (o.value === pickupTime ? ' selected' : '') + '>' + o.label + '</option>'; }).join('') +
+          '</select></div>' +
+          cart.map(cartLineHtml).join('') +
+          (hasAsterisk ? '<div class="notice danger">Your order includes raw or undercooked items. [Carry the real food-safety disclaimer text here.]</div>' : '') +
+          '<div style="margin-top:18px;">' +
+            '<div class="row-line"><span>Subtotal</span><span>' + fmtPrice(round2(subtotal)) + '</span></div>' +
+            (FEE_RATE ? '<div class="row-line"><span>Transaction fee (' + (FEE_RATE * 100).toFixed(1) + '%)</span><span>' + fmtPrice(round2(fee)) + '</span></div>' : '') +
+            '<div class="row-line total"><span>Total</span><span>' + fmtPrice(round2(total)) + '</span></div>' +
+          '</div>') +
+      '</div>' +
+      (cart.length > 0 ? '<div class="panel-foot"><button class="btn ghost" id="cart-clear">Clear</button><button class="btn primary" id="cart-checkout"' + (!pickupTime ? ' disabled' : '') + '>' + (pickupTime ? 'Place Test Order' : 'Choose a pickup time') + '</button></div>' : '');
+  }
+
+  function round2(n) { return Math.round(n * 100) / 100; }
+
+  function cartLineHtml(line) {
+    return '<div class="cart-line" data-line="' + line.lineId + '">' +
+      '<div class="cart-line-top"><div class="cart-line-name">' + escapeHtml(line.name) + (line.asterisk ? ' *' : '') + '</div><div class="cart-line-price">' + fmtPrice(round2(line.unit * line.qty)) + '</div></div>' +
+      (line.modLines.length ? '<div class="cart-line-mods">' + line.modLines.map(escapeHtml).join(' · ') + '</div>' : '') +
+      (line.askServer ? '<div class="cart-line-mods">Selection confirmed by staff at pickup.</div>' : '') +
+      '<div class="cart-line-actions">' +
+        '<div class="qty-stepper"><button class="cart-qty-minus">&#8722;</button><span>' + line.qty + '</span><button class="cart-qty-plus">+</button></div>' +
+        '<button class="btn ghost" style="color:var(--danger);" class="cart-remove">Remove</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function attachCartHandlers() {
+    var close = document.getElementById('cart-close');
+    if (close) close.addEventListener('click', closeModal);
+    var overlay = document.getElementById('cart-overlay');
+    if (overlay) overlay.addEventListener('click', function (e) { if (e.target.id === 'cart-overlay') closeModal(); });
+
+    var pickupSel = document.getElementById('pickup-select');
+    if (pickupSel) pickupSel.addEventListener('change', function () { pickupTime = pickupSel.value; saveState(); openCart(); renderShell(); });
+
+    document.querySelectorAll('.cart-line').forEach(function (row) {
+      var lineId = row.getAttribute('data-line');
+      row.querySelector('.cart-qty-minus').addEventListener('click', function () { changeQty(lineId, -1); });
+      row.querySelector('.cart-qty-plus').addEventListener('click', function () { changeQty(lineId, 1); });
+      row.querySelector('.btn.ghost').addEventListener('click', function () { removeLine(lineId); });
+    });
+
+    var clearBtn = document.getElementById('cart-clear');
+    if (clearBtn) clearBtn.addEventListener('click', function () { cart = []; saveState(); openCart(); renderCartBadge(); });
+
+    var checkoutBtn = document.getElementById('cart-checkout');
+    if (checkoutBtn) checkoutBtn.addEventListener('click', placeOrder);
+  }
+
+  function changeQty(lineId, delta) {
+    var line = cart.find(function (l) { return l.lineId === lineId; });
+    if (!line) return;
+    line.qty = Math.max(1, line.qty + delta);
+    saveState(); openCart(); renderCartBadge();
+  }
+  function removeLine(lineId) {
+    cart = cart.filter(function (l) { return l.lineId !== lineId; });
+    saveState(); openCart(); renderCartBadge();
+  }
+
+  function placeOrder() {
+    var subtotal = cart.reduce(function (s, l) { return s + l.unit * l.qty; }, 0);
+    var fee = round2(subtotal * FEE_RATE);
+    var total = round2(subtotal + fee);
+    lastOrder = {
+      num: 'TEST-' + Math.floor(1000 + Math.random() * 9000),
+      lines: cart.slice(),
+      pickupTime: pickupTime,
+      subtotal: round2(subtotal), fee: fee, total: total
+    };
+    cart = [];
+    saveState();
+    renderCartBadge();
+    renderShell();
+    renderReceiptModal();
+  }
+
+  function renderReceiptModal() {
+    var root = document.getElementById('modal-root');
+    var o = lastOrder;
+    root.innerHTML = '<div class="overlay center" id="receipt-overlay"><div class="modal-card">' +
+      '<div class="notice info" style="margin-bottom:16px;">This is a <b>practice order</b> from a test build. Nothing was charged and nothing was sent to the business.</div>' +
+      '<h3 style="margin:0 0 4px;">Order Confirmed</h3>' +
+      '<div class="receipt-num">' + o.num + ' &middot; pickup at ' + fmtTimeLabel(o.pickupTime) + '</div>' +
+      '<div style="margin-top:16px;">' + o.lines.map(function (l) {
+        return '<div class="row-line"><span>' + l.qty + '&times; ' + escapeHtml(l.name) + '</span><span>' + fmtPrice(round2(l.unit * l.qty)) + '</span></div>' +
+          (l.modLines.length ? '<div class="cart-line-mods" style="margin:-2px 0 6px;">' + l.modLines.map(escapeHtml).join(' · ') + '</div>' : '');
+      }).join('') + '</div>' +
+      '<div class="row-line"><span>Subtotal</span><span>' + fmtPrice(o.subtotal) + '</span></div>' +
+      (FEE_RATE ? '<div class="row-line"><span>Transaction fee</span><span>' + fmtPrice(o.fee) + '</span></div>' : '') +
+      '<div class="row-line total"><span>Total</span><span>' + fmtPrice(o.total) + '</span></div>' +
+      '<button class="btn primary" id="receipt-close" style="width:100%; margin-top:18px;">Start a New Order</button>' +
+    '</div></div>';
+    document.getElementById('receipt-close').addEventListener('click', closeModal);
+  }
+
+  function openLegend() {
+    var root = document.getElementById('modal-root');
+    root.innerHTML = '<div class="overlay center" id="legend-overlay"><div class="modal-card">' +
+      '<h3 style="margin:0 0 14px;">Dietary Legend</h3>' +
+      '<div class="legend-grid">' + Object.keys(TAG_LABELS).map(function (k) {
+        return '<div><span class="tag">' + k + '</span>' + TAG_LABELS[k] + '</div>';
+      }).join('') + '</div>' +
+      '<div class="notice warn" style="margin-top:16px;">[Carry the real allergen/cross-contact disclaimer here.]</div>' +
+      '<button class="btn" id="legend-close" style="width:100%; margin-top:14px;">Close</button>' +
+    '</div></div>';
+    document.getElementById('legend-close').addEventListener('click', closeModal);
+    document.getElementById('legend-overlay').addEventListener('click', function (e) { if (e.target.id === 'legend-overlay') closeModal(); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action="set-pickup-gate"]');
+    if (btn) { pickupTime = btn.getAttribute('data-gate'); saveState(); renderShell(); }
+  });
+
+  document.getElementById('legend-btn').addEventListener('click', openLegend);
+  document.getElementById('cart-btn').addEventListener('click', openCart);
+
+  loadState();
+  renderShell();
+})();
+</script>
+</body>
+</html>
