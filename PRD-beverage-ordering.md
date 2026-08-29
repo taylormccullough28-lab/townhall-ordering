@@ -93,10 +93,35 @@ The POS sells *menu items*; vendors sell *SKUs*. The mapping between them is the
 | **Packaged beer / RTD** | 1 sold = 1 unit. `cases = units ÷ pack_size` (Bud Light 24, Mich Ultra Gold 12, Nutrl 6, Pacifico 16oz 6/4pk) |
 | **Draft** | `oz_sold = pours × pour_size`. Usable yield after ~5% foam and line loss: **1/2 bbl ≈ 1,880 oz (~117 pints)**, **1/6 bbl ≈ 627 oz (~39 pints)** |
 | **Wine by the glass** | 750ml = 25.4 oz; a 5oz pour yields **5 glasses per bottle** with spill allowance. Cases of 12. |
-| **Spirits in cocktails** | Recipe spec × drinks sold, summed across every drink containing that spirit. 750ml = 25.4 oz, 1L = 33.8 oz. |
-| **Prep ingredients** | Same as spirits, via recipe. This is how Chinola, Llords Elderflower and Mr. Boston Triple Sec get forecast — they never appear on a POS line of their own. |
+| **Spirits, poured** | `oz = qty × pour_size`, where pour size comes from the **modifier report** — see the pour table below. Default to Single when no pour modifier is present. |
+| **Spirits in cocktails** | Recipe spec × drinks sold, summed across every drink containing that spirit. |
+| **Bottle service** | **1 sold = 1 whole bottle.** Not a pour, not a recipe. Plus any bundled mixers. See below — this one breaks the model if handled wrong. |
+| **Prep ingredients** | Same as cocktails, via recipe. This is how Chinola, Llords Elderflower and Mr. Boston Triple Sec get forecast — they never appear on a POS line of their own. |
+
+### Standard pours and bottle yields
+
+Confirmed house pours:
+
+| Pour | Size | 750ml bottle yields | 1L bottle yields |
+|---|---|---|---|
+| **Single** | 1.5 oz | 16.9 | 22.5 |
+| **Rocks** | 2.5 oz | 10.1 | 13.5 |
+| **Double** | 3.0 oz | 8.4 | 11.3 |
+
+Reference: 750ml = 25.36 oz, 1L = 33.81 oz, 1.75L = 59.17 oz.
+
+These yields are theoretical. Real depletion runs higher, and the system applies a configurable **overpour factor** per bar rather than baking a number in — `effective_yield = theoretical_yield ÷ (1 + overpour)`. A free-pouring bar typically loses meaningfully more than a jiggered one, so the factor is a setting, seeded at 5% and corrected once the count data shows the true gap.
 
 Draft partial kegs: V1 does not weigh kegs. The manager marks each tapped keg **full / ¾ / ½ / ¼ / blowing** and the system converts to remaining ounces. Crude, but it's the difference between ordering blind and ordering close.
+
+### Bottle service
+
+Bottle service is the single most dangerous item type in this model, and it needs its own handling:
+
+- **A bottle service sale depletes a whole bottle, not a pour.** If a bottle service line is mapped like a cocktail or a pour, the system under-counts that spirit's depletion by a factor of ten or more. Bottle service items get an explicit `whole_bottle` conversion type.
+- **Bundled mixers deplete too.** A bottle service package that includes Red Bull, juice or soda depletes those alongside the spirit. The bundle contents are part of the mapping, not an afterthought.
+- **It must be excluded from the trailing-average baseline.** Bottle service is lumpy and event-driven — one buyout can move more Grey Goose in a night than a normal month of cocktails. Left in the four-week average, a single big night inflates the forecast for a month and the bar over-orders premium spirits it won't touch. Bottle service is forecast from the **events calendar** (known bookings, expected VIP nights), not from trailing sales.
+- **Premium bottles are the highest-dollar exposure in the bar.** Ace of Spades and Dom Pérignon are already flagged "not ordered frequently" in the order guide — those are almost certainly bottle-service-only SKUs, and getting them wrong is expensive in both directions.
 
 ### Forecast — what next week looks like
 
@@ -170,7 +195,11 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 
 | Requirement | Acceptance Criteria |
 |---|---|
-| Toast PMIX ingest | Accepts the Toast PMIX CSV export for a Monday–Sunday range. Parses menu item, quantity, and sales category. Filters to beverage categories. Excludes voids; comps counted as depletion. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Toast PMIX ingest | Accepts the Toast PMIX CSV export for a Monday–Sunday business-day range. Parses menu item, menu, quantity, and sales category. Filters to Liquor, Beer, Wine, Cocktails. Excludes voids; comps counted as depletion but stay flagged. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Toast modifier ingest | Accepts the modifier report for the same range. Classifies every modifier as pour-size (replaces default pour) or product (adds a depletion line). Unclassified modifiers go to the unmapped queue. |
+| Composite mapping key | Products map on Sales Category + Menu + Menu Group + Menu Item, not item name alone. Two same-named items on different menus stay distinct. |
+| Pour size configuration | Single 1.5oz, Rocks 2.5oz, Double 3.0oz as defaults, editable. Configurable overpour factor per bar. Sales with no pour modifier default to Single. |
+| Bottle service handling | Bottle service items deplete a whole bottle, carry their bundled mixers, and are excluded from the trailing-average baseline — forecast from the events calendar instead. |
 | Post-cutoff depletion adjustment | For orders placed before the week's business is done (Sun 5–7pm, Mon 4–5pm), the system subtracts projected sales between the cutoff and the delivery from the counted on-hand. |
 | Product catalog | All products from the order guide, each with vendor, category, pack size, unit size, and par. Editable without a code change. |
 | Menu-item → SKU mapping | Every POS item maps to one or more catalog products with a conversion factor. Recipe-based mapping supported for cocktails and prep ingredients. Admin UI, no engineering required. |
@@ -218,54 +247,78 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 ## Open Questions
 
 1. **This is the big one: is a count still required?** A sales report alone cannot produce an order quantity — it tells you what left, not what's on the shelf. Two paths: **(a)** a short weekly count of order-critical items, which is what this PRD assumes, or **(b)** perpetual inventory, where the system tracks on-hand by subtracting depletion and adding receipts, with a full recount monthly to correct drift. Path (b) is less weekly work but accumulates error fast if any receipt or transfer goes unrecorded, and it needs an accurate starting count regardless. **Recommendation: build (a) first, add (b) as an option once the mapping is proven accurate.**
-2. ~~Which POS?~~ **Resolved: Toast PMIX, Monday–Sunday of the prior week.** What remains is verifying the export against a real file — see the PMIX appendix for the four specifics that need confirming before stage 1 can be built.
-3. **What are the actual pour sizes?** Draft in pints or 16oz? 12oz for high-ABV? Wine at 5oz or 6oz? Every draft and wine number is wrong until these are confirmed.
-4. **Do cocktail recipes exist in writing?** Spirit and prep-ingredient forecasting requires specs. If they aren't documented, that's a prerequisite project, not a feature.
-5. **Who owns the mapping upkeep?** New menu items and keg rotations break the mapping continuously. Without a named owner this degrades within a season.
-6. **What did Sculpture actually deliver that we still need?** Before the engagement ends: get back historical count data, par levels, and the item catalog. Some of it is seed data for this system.
-7. **Does this ever extend to CLE?** Affects whether the catalog is built single-tenant or multi-tenant from the start.
+2. ~~Which POS?~~ **Resolved: Toast PMIX plus a modifier report, Monday–Sunday, 4:00 AM business-day close. Categories: Liquor, Beer, Wine, Cocktails. Comps counted, voids excluded.**
+3. ~~Spirit pour sizes?~~ **Resolved: Single 1.5oz, Rocks 2.5oz, Double 3.0oz.** Still open: **wine by the glass** (5oz or 6oz — a 25% swing per bottle) and **draft** (16oz throughout, or 12oz for high-ABV).
+4. **How do the reports actually reach the app?** No Toast connector exists in Claude's registry, so there is no direct integration path available today. Three options, in order of how fast they can ship: manual CSV upload (V1 as specced); **Toast scheduled email reports into a dedicated inbox, read automatically** — the pragmatic middle path; or the Toast partner/developer API, which has real lead time and needs a conversation with the Toast rep. **Recommendation: build the parser against manual upload, then move to scheduled email without changing the parser.**
+5. **Where do non-alcoholic items live?** Red Bull, Brew AF N/A, coconut water and juice are real inventory from real vendors, but none of the four confirmed sales categories obviously holds them. If they fall outside the filter, the system never orders Red Bull — which moves in volume through Southern Glazer's.
+6. **Do cocktail recipes exist in writing?** Spirit and prep-ingredient forecasting requires specs. If they aren't documented, that's a prerequisite project, not a feature.
+7. **Free-pour or jiggered?** Sets the starting overpour factor, which moves every spirit quantity in the system.
+8. **What's in each bottle service package?** Bundled mixers have to be enumerated per package to deplete correctly.
+9. **Who owns the mapping upkeep?** New menu items and keg rotations break the mapping continuously. Without a named owner this degrades within a season.
+10. **What did Sculpture actually deliver that we still need?** Before the engagement ends: get back historical count data, par levels, and the item catalog. Some of it is seed data for this system.
+11. **Does this ever extend to CLE?** Affects whether the catalog is built single-tenant or multi-tenant from the start.
 
 ## Timeline Considerations
 
 Rough sequencing, not committed dates.
 
-- **Phase 0 — Prerequisites.** Pull one real Toast PMIX export and answer the four questions in the PMIX appendix. Confirm pour sizes and cocktail specs. Extract whatever is recoverable from Sculpture before the engagement closes. Nothing else can start cleanly without this.
+- **Phase 0 — Prerequisites.** Pull one real Toast PMIX export and one modifier export, and answer the remaining questions in the ingest appendix. Confirm wine and draft pour sizes and cocktail specs. Extract whatever is recoverable from Sculpture before the engagement closes. Nothing else can start cleanly without this.
 - **Phase 1 — Catalog and mapping.** Load the order guide's products, vendors and windows. Build the mapping admin. Map the current menu. This is the largest single chunk of work and it is unglamorous.
 - **Phase 2 — Count and suggest.** Count entry, depletion math, order suggestion, reasoning lines, per-vendor output. This is the first version that saves anyone time.
 - **Phase 3 — Events and forecast.** Event calendar, multipliers, weather. This is where "order based off of events" actually lands.
 - **Phase 4 — Receiving and history.** Receiving checklist, keg return tracking, order history, stockout and dead-stock reporting.
 
-## Appendix: Toast PMIX Ingest
+## Appendix: Toast Report Ingest
 
-**Report:** Toast → Reports → Menu Item Sales / PMIX. **Range:** prior Monday 00:00 through Sunday close. **Format:** CSV export.
+**Two reports, not one.** The PMIX carries menu-item quantities; the modifier report carries the pour sizes. Neither alone is sufficient — PMIX says a Tito's was sold, the modifier report says whether it was a 1.5oz Single or a 3oz Double, and those differ by 2× on the depletion math.
 
-### Expected columns
+| Report | Range | Carries |
+|---|---|---|
+| **PMIX** (Menu Item Sales / product mix) | Prior Mon–Sun business days | Menu item, category, menu, quantity |
+| **Modifier report** | Same range | Pour size, add-ons, upcharged options, bottle service bundle contents |
 
-Toast's PMIX export is expected to carry roughly the following. **This needs verifying against a real export before stage 1 is built** — column names and casing vary by Toast version and account configuration, so the parser should match on normalized headers, not exact strings.
+### Confirmed configuration
 
-| Column | Use |
-|---|---|
-| Menu Item | The join key to the product mapping. Primary field. |
-| Menu Group / Menu Subgroup | Secondary disambiguation when two items share a name across menus. |
-| Sales Category | The beverage filter — everything not in a beverage category is discarded before mapping. |
-| Item Qty | Units sold. The number the depletion math runs on. |
-| Net Amount | Not used for ordering. Kept for the dead-stock and cost reporting in P1. |
-| Void Qty | Subtracted — a voided item never left the building. |
+- **Business day ends at 4:00 AM.** Late-night sales roll into the correct business day — a Saturday 1:30am pour belongs to Friday. No weekend split, no correction needed. This is the right setting and nothing has to be worked around.
+- **Sales categories: Liquor, Beer, Wine, Cocktails.** These are the beverage filter. Multiple menus exist *inside* each category.
+- **Comps count as depletion.** A comped drink was poured and left inventory. All comps are included in the count.
+- **Voids do not.** Subtract void quantity — a voided item never left the building.
+
+### The composite mapping key
+
+Because multiple menus live inside each sales category, **menu item name alone is not a unique key.** The same "Tito's" can appear on a well menu, a cocktail menu and a bottle service menu with three different conversions. The mapping key is:
+
+```
+Sales Category + Menu + Menu Group + Menu Item
+```
+
+Mapping on item name alone will silently collapse those into one product and produce wrong numbers with no error. This is the most likely source of a quiet, hard-to-find bug in the whole system.
+
+### Joining PMIX to modifiers without double-counting
+
+The failure mode: counting the base spirit once from PMIX and again from the modifier row, doubling depletion.
+
+Rule: **PMIX establishes that a sale happened. The modifier only adjusts its size.** A Tito's sold with a "Double" modifier is one depletion event of 3.0 oz — not a 1.5 oz base plus a 3.0 oz modifier. Modifiers that *add* a distinct product (a Red Bull mixer, an added shot of a different spirit) create their own separate depletion event; modifiers that *describe* the pour do not.
+
+- Pour modifiers (Single / Rocks / Double) → **replace** the default pour size.
+- Product modifiers (added mixer, floater, upgrade to a different spirit) → **add** a new depletion line.
+- No pour modifier present → default to **Single, 1.5 oz**.
+- Every modifier value must classify as one or the other. An unclassified modifier goes to the unmapped queue rather than being guessed at.
 
 ### Parser rules
 
-- **Filter on Sales Category first.** TownHall's beverage categories (Beer, Wine, Liquor, N/A — exact names to be confirmed) are the only rows that reach the mapper. This keeps the unmapped queue from filling with every food item on the menu.
-- **Comps count as depletion.** A comped drink was poured and left inventory. It affects what to order even though it produced no revenue.
-- **Voids do not.** Subtract void quantity.
-- **Match on normalized item name** — lowercased, punctuation and multiple spaces collapsed — so "Bud Light " and "bud light" don't create two mappings.
+- **Filter on Sales Category first** — Liquor, Beer, Wine, Cocktails. Everything else is discarded before mapping, which keeps the unmapped queue from filling with food.
+- **Match on normalized names** — lowercased, punctuation and repeated spaces collapsed — so "Bud Light " and "bud light" don't create two mappings.
 - **Never silently drop a row.** Anything that survives the category filter but doesn't map goes to the unmapped queue with its quantity, so the manager can see what the system is blind to.
+- **Keep comps flagged, not just merged.** Comps count toward depletion but should stay identifiable, so the P1 cost reporting can separate poured-and-comped from poured-and-sold. Same units, different revenue — merging them permanently loses that.
 
-### To confirm against a real export
+### Still to confirm
 
-1. **Are modifiers broken out as their own rows?** Matters for shots added to a drink, doubles, and any upcharged pour — those are real depletion that a menu-item-only read would miss.
-2. **What is the business-day cutoff?** Late-night sales after midnight should roll into the prior business day. If Toast is configured to a calendar-day boundary instead, every Friday and Saturday number is split across two rows and the weekend forecast skews.
-3. **What are the exact beverage Sales Category names?** These are the filter. Wrong names, empty report.
-4. **Are comps and voids separate columns, or already netted into Item Qty?** Changes whether the parser adds or subtracts.
+1. **Where do non-alcoholic items live?** Red Bull, Brew AF N/A, coconut water and juice are all real inventory from real vendors, but none of the four confirmed categories obviously holds them. If they sit outside Liquor/Beer/Wine/Cocktails, the filter drops them and the system never orders Red Bull — which comes through Southern Glazer's in volume.
+2. **Free-pour or jiggered?** Sets the starting overpour factor. A free-pour bar's real yield can run 15–20% under theoretical; a jiggered bar much closer. This single number moves every spirit quantity.
+3. **Wine by the glass pour size** — 5oz or 6oz? At 750ml that is 5 glasses versus 4, a 25% swing on every by-the-glass wine.
+4. **Draft pour sizes** — 16oz pints throughout, or 12oz for high-ABV? Same magnitude of error on kegs.
+5. **What's in each bottle service package?** The bundled mixers have to be enumerated per package to deplete correctly.
 
 ---
 
