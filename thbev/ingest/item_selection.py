@@ -24,7 +24,7 @@ from __future__ import annotations
 import csv
 from datetime import date, datetime
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any, Iterable
 
 from ..models import IngestResult, ItemKey, SalesRow, Severity, UnmappedRow
 from ..normalize import cell, clean_text, normalize_key, parse_bool, parse_number

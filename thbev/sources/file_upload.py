@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any, Iterable
 
 from ..ingest import detect_format, parse_item_selection_details, parse_pmix
 from ..models import IngestResult, Severity, filter_rows_to_range
