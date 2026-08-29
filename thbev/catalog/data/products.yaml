@@ -1,0 +1,279 @@
+# Product catalog seed.
+#
+# HONESTY NOTE ON VENDOR ASSIGNMENT
+# ---------------------------------
+# The PRD names specific products (pack sizes in "The Math", prep ingredients,
+# bottle-service exposure) but the product-to-distributor mapping lives in
+# TH_ORDER_GUIDE.docx, which is not in this repo. Every product below therefore
+# carries `vendor_confidence`:
+#
+#   confirmed   - the PRD states the vendor outright (OYO routes through Arena;
+#                 Sixth City and Cavalier own the rotating 1/6 bbl lines).
+#   unconfirmed - vendor is null. The order engine groups these under an
+#                 "unassigned" bucket and refuses to pretend it knows who to
+#                 call. Fill these in from the order guide.
+#
+# Nothing here is invented from nothing: every product name, pack size and
+# conversion type traces to a line in the PRD.
+#
+# category drives the event/weather multipliers in config.yaml.
+# conversion drives the depletion math.
+# pack_size is what order quantities round UP to.
+
+products:
+  # --- Packaged beer / RTD (pack sizes stated verbatim in the PRD) -----------
+  - key: bud_light
+    name: Bud Light
+    category: light_beer
+    conversion: packaged
+    pack_size: 24
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+
+  - key: mich_ultra_gold
+    name: Michelob Ultra Gold
+    category: light_beer
+    conversion: packaged
+    pack_size: 12
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+
+  - key: nutrl
+    name: Nutrl
+    category: seltzer
+    conversion: packaged
+    pack_size: 6
+    unit_label: can
+    pack_label: pack
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+
+  - key: pacifico_16oz
+    name: Pacifico 16oz
+    category: domestic_beer
+    conversion: packaged
+    pack_size: 24          # 6 x 4-pack
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["PRD records this as 16oz 6/4pk, i.e. 24 cans to the case."]
+
+  - key: suncruiser
+    name: Suncruiser
+    category: seltzer
+    conversion: packaged
+    pack_size: 12
+    unit_label: can
+    pack_label: case
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["Observed in the Bottled Beer sales category alongside Nutrl."]
+
+  # --- Draft ----------------------------------------------------------------
+  - key: rotating_sixth_bbl_sixth_city
+    name: Rotating 1/6 bbl (Sixth City)
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    order_critical: true
+    vendor: sixth_city
+    vendor_confidence: confirmed
+    style: "sours and pale ales"
+    notes:
+      - "Placeholder for the rotating line. Never ordered by SKU - the engine
+         emits a style-and-count recommendation and the manager asks the rep."
+
+  - key: rotating_sixth_bbl_cavalier
+    name: Rotating 1/6 bbl (Cavalier)
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    style: "rotating craft"
+    notes: ["Rotating line. Style-and-count only."]
+
+  # --- Spirits --------------------------------------------------------------
+  - key: oyo_vodka_750
+    name: OYO Vodka 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: arena
+    vendor_confidence: confirmed
+    notes: ["PRD: order through Arena first; Zack is the fallback contact only."]
+
+  - key: espolon_blanco_750
+    name: Espolon Blanco 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+
+  - key: bacardi_750
+    name: Bacardi 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes:
+      - "Observed in a real export as 'Bacardi FB', qty 4, with a BLANK sales
+         category. Proof that category-only filtering drops real liquor."
+
+  - key: grey_goose_750
+    name: Grey Goose 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+
+  # --- Bottle service (whole bottle per sale, excluded from baseline) --------
+  - key: grey_goose_bottle_service
+    name: Grey Goose (bottle service)
+    category: bottle_service
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes:
+      - "Depletes a WHOLE bottle per sale plus its bundled mixers. Mapping it as
+         a pour undercounts this spirit by an order of magnitude."
+
+  - key: ace_of_spades
+    name: Ace of Spades
+    category: champagne
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["Order guide flags it 'not ordered frequently'. Bottle service only."]
+
+  - key: dom_perignon
+    name: Dom Perignon
+    category: champagne
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["Order guide flags it 'not ordered frequently'. Bottle service only."]
+
+  # --- Prep ingredients: never sold on a POS line of their own ---------------
+  - key: chinola
+    name: Chinola Passion Fruit Liqueur
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 6
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["Forecast only through cocktail recipes."]
+
+  - key: llords_elderflower
+    name: Llords Elderflower
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 6
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["Forecast only through cocktail recipes."]
+
+  - key: mr_boston_triple_sec
+    name: Mr. Boston Triple Sec
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 12
+    unit_size_oz: 33.81
+    unit_label: bottle
+    pack_label: case
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes: ["1L. Forecast only through cocktail recipes."]
+
+  # --- Non-alcoholic --------------------------------------------------------
+  - key: red_bull
+    name: Red Bull
+    category: na_beverage
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: null
+    vendor_confidence: unconfirmed
+    notes:
+      - "Lives under the NA Beverage sales category. Filtering that category out
+         would mean never ordering Red Bull. Also a bottle-service bundle item."
+
+# Recipes: cocktail specs and bottle-service bundles.
+#
+# NOTE: no cocktail spec book was available when this catalog was seeded. The
+# entries below exist to exercise the recipe machinery end to end and are
+# labelled unverified. Do not treat these amounts as house specs - PRD open
+# question 6 ("do cocktail recipes exist in writing?") is still open, and
+# spirit and prep forecasting is only as good as the answer.
+recipes:
+  - key: passionpunch_margarita
+    description: "UNVERIFIED placeholder spec - replace with the house build."
+    unverified: true
+    lines:
+      - {product: espolon_blanco_750, oz: 1.5}
+      - {product: chinola, oz: 0.5}
+      - {product: mr_boston_triple_sec, oz: 0.5}
+
+  - key: bottle_service_bundle_standard
+    description: "Mixers bundled with a standard bottle-service package. UNVERIFIED."
+    unverified: true
+    lines:
+      - {product: red_bull, units: 4}

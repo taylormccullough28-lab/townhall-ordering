@@ -1,0 +1,158 @@
+# TownHall Columbus beverage vendors, order windows and channel rules.
+#
+# Source: PRD "Appendix: Vendor Order Windows", which is itself transcribed from
+# TH_ORDER_GUIDE.docx. This file is seed data and is meant to be edited without
+# a code change.
+#
+# Weekdays are names (monday..sunday). Times are 24-hour local.
+# order_weekday/order_time  = the cutoff the manager must beat.
+# delivery_weekday/time     = when that order lands.
+# optional: true            = a secondary window the manager may skip.
+
+vendors:
+  - key: superior
+    name: Superior Beverage
+    channel: phone
+    contact: {name: Shane, phone: "(614) 306-4582"}
+    rules:
+      keg_return_required: true
+      notes:
+        - "Two windows. The engine compares a 7-day cover against a 4-day cover and
+           recommends the Thursday window only when it meaningfully reduces the order."
+    windows:
+      - key: superior_sunday
+        order_weekday: sunday
+        order_time: "19:00"
+        delivery_weekday: monday
+        delivery_time: "09:00"
+      - key: superior_thursday
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        optional: true
+        note: "Second window. Using it turns a 7-day cover into 4 days Mon->Fri."
+
+  - key: columbus_distributing
+    name: The Columbus Distributing Co.
+    channel: phone
+    contact: {name: Conner, phone: "(937) 581-1234"}
+    rules:
+      keg_return_required: true
+    windows:
+      - key: columbus_sunday
+        order_weekday: sunday
+        order_time: "19:00"
+        delivery_weekday: monday
+        delivery_time: "09:00"
+
+  - key: arena
+    name: Arena Liquor
+    channel: email
+    contact: {email: arenaliquor@gmail.com, label: "Orders (email only)"}
+    rules:
+      email_only: true
+      order_email: arenaliquor@gmail.com
+      emergency_contact: {name: Gursev, label: "Emergency only - do not use for routine orders"}
+      notes:
+        - "Email only. The engine will not produce a phone or text script for Arena."
+    windows:
+      - key: arena_sunday
+        order_weekday: sunday
+        order_time: "17:00"
+        delivery_weekday: monday
+        delivery_time: "09:00"
+      - key: arena_wednesday
+        order_weekday: wednesday
+        order_time: "21:00"
+        delivery_weekday: thursday
+        delivery_time: "17:00"
+        optional: true
+
+  - key: southern_glazers
+    name: Southern Glazer's of Ohio
+    channel: phone
+    contact: {name: Bethany, phone: "(740) 507-1973"}
+    rules:
+      # PRD: "a Southern Glazer's Tuesday drop has to cover eight days if the
+      # Wednesday follow-up isn't placed". Tuesday to Tuesday is arithmetically
+      # seven days, so the eighth is carried here as an explicit buffer rather
+      # than buried in the cover math. Set to 0 to use the strict gap.
+      cover_buffer_days: 1
+    windows:
+      - key: sgws_monday
+        order_weekday: monday
+        order_time: "16:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+      - key: sgws_wednesday_followup
+        order_weekday: wednesday
+        order_time: "16:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        optional: true
+        requires_confirmation: true
+        confirm_with: Bethany
+        note: "Follow-up is not guaranteed - confirm with Bethany first."
+
+  - key: sixth_city
+    name: Sixth City Distributors
+    channel: phone
+    contact: {name: Jenna Carelly, phone: "(614) 301-4877"}
+    rules:
+      style_only: true
+      style_unit: "1/6 bbl"
+      keg_return_required: true
+      notes:
+        - "Rotating line. Output is a style-and-count recommendation, never a SKU."
+    windows:
+      - key: sixth_city_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+
+  - key: cavalier
+    name: Cavalier Distributing
+    channel: phone
+    contact: {name: Dan, phone: "(614) 582-0014"}
+    rules:
+      style_only: true
+      style_unit: "1/6 bbl"
+      keg_return_required: true
+      notes:
+        - "Rotating line. Output is a style-and-count recommendation, never a SKU."
+    windows:
+      - key: cavalier_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+
+  - key: heidelberg
+    name: Heidelberg / Wine Trends
+    channel: phone
+    contact: {name: Tess Canby, phone: "(740) 583-4555"}
+    rules:
+      delivery_note: "Deliver after 9am, hallway behind bar."
+    windows:
+      - key: heidelberg_wednesday
+        order_weekday: wednesday
+        order_time: "17:00"
+        delivery_weekday: thursday
+        delivery_time: "12:00"
+        note: "Delivers Thursday PM."
+
+  - key: oyo
+    name: OYO Vodka
+    channel: phone
+    contact: {name: Zack, phone: "(614) 981-9341"}
+    rules:
+      route_through: arena
+      routed_contact_hidden_unless: arena_out_of_stock
+      notes:
+        - "Order through Arena first. Zack's number is surfaced only when the
+           manager marks Arena out of stock."
+    # No fixed window: the guide records OYO as ordered as needed. Cover is
+    # inherited from Arena while routing through Arena.
+    windows: []
