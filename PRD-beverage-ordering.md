@@ -26,8 +26,8 @@ The data to solve this already exists — the POS knows exactly what sold, and t
 
 - Turn last week's POS sales export into a concrete, per-vendor order sheet in under 15 minutes, versus the ~60–90 minutes of counting and guessing it takes now.
 - Adjust order quantities for known demand drivers — OSU and Blue Jackets home games, Gallery Hop, private buyouts, weather, promos — rather than ordering a flat week every week.
-- Never miss an order window. The system knows Sunday 7pm, Monday 4pm, Monday 5pm, Wednesday 5pm, Wednesday 9pm and Thursday 5pm, and pushes the manager before each one.
-- Order to the *next delivery*, not to a flat seven days — a Southern Glazer's Tuesday drop has to cover eight days if the Wednesday follow-up isn't placed, and a Superior Monday drop only has to cover four if the Thursday window is used.
+- Never miss an order window. The system knows all seven cutoffs — Sunday 5pm and 7pm, Monday 4pm and 5pm, Wednesday 5pm and 9pm, Thursday 5pm — and pushes the manager before each one.
+- Order to the *next delivery*, not to a flat week — a Superior Monday drop only has to cover four days if the Thursday window is used, while a Southern Glazer's Tuesday drop has to cover the full seven to the next Tuesday, plus whatever buffer the vendor's reliability warrants.
 - Replace the Sculpture engagement with a count short enough that a manager actually does it — an order-critical list, not a full inventory.
 - Make every ordered quantity explainable in one line: what sold, what's coming, what's on hand, what we're ordering and why.
 - Capture the keg credits we're owed by making empty-keg return a required field on receiving, not a reminder someone ignores.
@@ -92,7 +92,7 @@ The POS sells *menu items*; vendors sell *SKUs*. The mapping between them is the
 |---|---|
 | **Packaged beer / RTD** | 1 sold = 1 unit. `cases = units ÷ pack_size` (Bud Light 24, Mich Ultra Gold 12, Nutrl 6, Pacifico 16oz 6/4pk) |
 | **Draft** | `oz_sold = pours × pour_size`. Usable yield after ~5% foam and line loss: **1/2 bbl ≈ 1,880 oz (~117 pints)**, **1/6 bbl ≈ 627 oz (~39 pints)** |
-| **Wine by the glass** | 750ml = 25.4 oz; a 5oz pour yields **5 glasses per bottle** with spill allowance. Cases of 12. |
+| **Wine by the glass** | 750ml = 25.36 oz ÷ 5oz pour = 5.07 theoretical glasses. Apply the overpour factor as with spirits; do **not** also round down to "5 glasses with spill allowance" — that double-counts the same loss. Cases of 12. |
 | **Spirits, poured** | `oz = qty × pour_size`, where pour size comes from the **modifier report** — see the pour table below. Default to Single when no pour modifier is present. |
 | **Spirits in cocktails** | Recipe spec × drinks sold, summed across every drink containing that spirit. |
 | **Bottle service** | **1 sold = 1 whole bottle.** Not a pour, not a recipe. Plus any bundled mixers. See below — this one breaks the model if handled wrong. |
@@ -154,11 +154,17 @@ Once there are ~6 months of history, these coefficients should be fit from TownH
 ```
 days_of_cover = days until the NEXT delivery from this vendor
                 (not a flat 7 — Superior Mon→Fri is 4 days if the Thursday
-                 window is used; Southern Glazer's Tue→Tue is 7, or 8 if the
-                 Wednesday follow-up isn't placed)
+                 window is used; Southern Glazer's Tue→Tue is 7)
+
+cover_days    = gap_days + cover_buffer_days   # buffer configurable per vendor,
+                                               # default 0; use it for vendors
+                                               # whose delivery slips, not to
+                                               # fudge the gap arithmetic
 
 need      = forecast_over_cover + safety_stock − on_hand − already_on_order
 safety    = 25% of forecast_over_cover, floored at 1 unit  (V1 flat rule)
+          # WARNING: applied literally, a zero-demand SKU with zero on hand
+          # orders a full case every week. See Open Question 12.
 order_qty = round_up_to_pack(need), subject to vendor minimum
 ```
 
@@ -166,7 +172,7 @@ Safety stock as a flat 25% is deliberately simple for V1. The statistically corr
 
 ### Adjusting for business that happens after the cutoff
 
-The PMIX week runs Monday–Sunday, but three vendors are ordered **Sunday between 5:00 and 7:00 PM** and two more **Monday between 4:00 and 5:00 PM**. Those orders are placed while the bar is still open and still selling, and the delivery doesn't arrive until the next morning. A count taken Sunday afternoon therefore overstates what will actually be on the shelf when Monday's truck shows up — by a full Sunday night of business, which for a Short North bar is not a rounding error.
+The PMIX week runs Monday–Sunday, but three vendors are ordered **Sunday between 5:00 and 7:00 PM** (Arena 5pm, Superior and Columbus Dist. 7pm) and three more **Monday between 4:00 and 5:00 PM** (Southern Glazer's 4pm, Sixth City and Cavalier 5pm). Those orders are placed while the bar is still open and still selling, and the delivery doesn't arrive until the next morning. A count taken Sunday afternoon therefore overstates what will actually be on the shelf when Monday's truck shows up — by a full Sunday night of business, which for a Short North bar is not a rounding error.
 
 ```
 effective_on_hand = counted_on_hand − projected_sales(cutoff → delivery)
@@ -209,7 +215,7 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 | Order suggestion engine | Produces per-vendor quantities using the math above, rounded to pack size, covering to the next delivery for that vendor. |
 | Reasoning line | Every suggested quantity shows: units sold last week, applied multipliers, on hand, days of cover, resulting order. |
 | Manual override | Any quantity is editable. Overrides persist and are recorded against the order. |
-| Order windows & reminders | Six windows encoded. Countdown per vendor. Notification ahead of each cutoff to the ordering manager. |
+| Order windows & reminders | Seven distinct cutoffs encoded across four days: Sun 5pm, Sun 7pm, Mon 4pm, Mon 5pm, Wed 5pm, Wed 9pm, Thu 5pm. Countdown per vendor. Notification ahead of each cutoff to the ordering manager. |
 | Per-vendor output | Formatted order per vendor, matching that vendor's channel — email body for Arena, copy-paste text for phone/text vendors, style recommendation for rotating lines. |
 | Receiving checklist | Expected quantities per delivery, count-in confirmation, shorts and damages noted, **required empty-keg return count**. |
 | Order history | Every order saved with its inputs, suggestions, overrides and receipt. |
@@ -258,6 +264,11 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 9. **Who owns the mapping upkeep?** New menu items and keg rotations break the mapping continuously. Without a named owner this degrades within a season.
 10. **What did Sculpture actually deliver that we still need?** Before the engagement ends: get back historical count data, par levels, and the item catalog. Some of it is seed data for this system.
 11. **Does this ever extend to CLE?** Affects whether the catalog is built single-tenant or multi-tenant from the start.
+12. **What should the safety-stock floor do on a dead SKU?** "25% of forecast, floored at 1 unit" applied literally means an item that sold nothing, with none on hand, still orders a full case — a dead-stock generator. Options: suppress the floor below a demand threshold, floor at zero when trailing demand is zero, or keep the floor only for items flagged must-never-86. **Recommendation: floor at zero when four-week demand is zero, and warn rather than order.**
+13. **Do vendors take partial cases?** `round_up_to_pack` currently rounds to whole packs, so a need of 25 Bud Light bottles buys 2 cases. Confirm per vendor — some allow splits, and rounding a 25-bottle need up to 48 is a real cost.
+14. **How is a bottle-service forecast entered?** "Forecast from the events calendar" has no defined input. Currently wired to explicit booked-bottle counts per event day. Confirm that matches how bookings actually arrive.
+15. **What triggers the Southern Glazer's Wednesday follow-up?** "When Tuesday won't cover" is not a condition the engine can evaluate — with round-up-to-pack, an uncapped order always covers. Currently triggered by a real shortfall against a per-delivery cap, or a manager override.
+16. **Buyout per-head consumption rates.** The formula is specced; the rates are not. A buyout event currently raises rather than silently forecasting zero.
 
 ## Timeline Considerations
 
