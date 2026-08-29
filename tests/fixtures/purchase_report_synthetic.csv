@@ -1,0 +1,13 @@
+Restaurant,Product,,Category,Report By,Purchased Units,Purchased Amount,Avg Cost
+TownHall - Columbus,"Onions, Yellow",COGS Food,COGS Produce,Pound,620,$522.00 ,$0.84 
+TownHall - Columbus,Titos Handmade Vodka,COGS Liquor,COGS Liquor,750mL (Bottle),277,"$5,279.00 ",$19.03 
+TownHall - Columbus,"Vodka, OYO",COGS Liquor,COGS Liquor,OYO 750mL (Bottle),78,"$1,283.00 ",$16.45 
+TownHall - Columbus,Michelob Ultra Pure Gold 12oz Bottle,COGS Beer Bottle,COGS Beer Bottle,12oz (Bottle),2808,"$3,002.00 ",$1.07 
+TownHall - Columbus,Downeast Original Keg (1/2BBL),COGS Beer Draft,COGS Beer Draft,Keg (1/2BBL) 15.5GAL,15,"$2,910.00 ",$194.00 
+TownHall - Columbus,Whitehaven Sauvignon Blanc,COGS Wine,COGS Wine,Bottle (750 Milliliters),142,"$1,881.00 ",$13.25 
+TownHall - Columbus,Red Bull 8.4oz Can,R&D - NA Bev,R&D - NA Bev,Can (8.4 Fluid Ounces),624,"$1,156.00 ",$1.85 
+TownHall - Columbus,Keg Deposit - At Purchase $30,COGS Beer Draft,Keg Deposits,Each,76,"$2,280.00 ",$30.00 
+TownHall - Columbus,Keg Deposit- At Return $30,COGS Beer Draft,Keg Deposits,Each,-31,"($930.00)",$30.00 
+TownHall - Columbus,Keg Deposit - At Return $30,COGS Beer Draft,Keg Deposits,Each,-3,"($90.00)",$30.00 
+TownHall - Columbus,Bottle Deposit- At purchase,COGS N/A Bev,COGS Pop & Bev,Bottle,198,$495.00 ,$2.50 
+TownHall - Cleveland,Titos Handmade Vodka,COGS Liquor,COGS Liquor,750mL (Bottle),100,"$1,900.00 ",$19.00 
