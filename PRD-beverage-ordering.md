@@ -10,6 +10,7 @@
 - Columbus only. The CLE guest-ordering PRD (`PRD.md`) is a separate product — this one is internal purchasing, not guest-facing, and shares no surface with it.
 - Beverage only. Food, paper, and chemical ordering are out of scope.
 - This replaces the third-party inventory service (Sculpture Hospitality / Intellipar), which is being discontinued. Whatever this system does not cover, nobody covers.
+- **Sales input is the Toast PMIX (product mix) report, Monday through Sunday of the prior week.** Confirmed. Manual export in V1; a Toast API integration is a later phase.
 
 ---
 
@@ -69,7 +70,7 @@ The data to solve this already exists — the POS knows exactly what sold, and t
 
 Five stages. Each one is a screen.
 
-**1. Drop in the sales report.** Manager exports last week's product-mix report from the POS and uploads the CSV/XLSX. The system parses item names and quantities by day. Anything it can't map to a known product lands in an **unmapped queue** — the manager maps it once and it stays mapped.
+**1. Drop in the Toast PMIX.** Manager exports the PMIX report for the prior Monday–Sunday and uploads the CSV. The system filters to beverage sales categories, parses item names and quantities, and drops anything it can't map into an **unmapped queue** — the manager maps it once and it stays mapped. See the PMIX appendix for the expected shape.
 
 **2. Count the order-critical list.** A short list — the fast movers, the kegs on tap, the prep ingredients — entered on a phone while walking the keg cooler, back bar, walk-in and dry storage. Not a full inventory. Target: under 10 minutes, roughly 40–60 lines.
 
@@ -138,6 +139,21 @@ order_qty = round_up_to_pack(need), subject to vendor minimum
 
 Safety stock as a flat 25% is deliberately simple for V1. The statistically correct version — `z × σ(weekly demand)`, sized per item by how volatile it is — needs demand history the system won't have on day one.
 
+### Adjusting for business that happens after the cutoff
+
+The PMIX week runs Monday–Sunday, but three vendors are ordered **Sunday between 5:00 and 7:00 PM** and two more **Monday between 4:00 and 5:00 PM**. Those orders are placed while the bar is still open and still selling, and the delivery doesn't arrive until the next morning. A count taken Sunday afternoon therefore overstates what will actually be on the shelf when Monday's truck shows up — by a full Sunday night of business, which for a Short North bar is not a rounding error.
+
+```
+effective_on_hand = counted_on_hand − projected_sales(cutoff → delivery)
+
+where projected_sales uses the same baseline × multiplier model,
+prorated for the remaining hours of the shift
+```
+
+Worked: counting 4 cases of Bud Light at 4pm Sunday, with Sunday nights averaging 30 bottles after 5pm, means Monday's truck is really landing against 2.75 cases, not 4. Without this adjustment the system under-orders every Sunday and every Monday — the two heaviest ordering days on the calendar.
+
+The same logic makes the **Monday–Sunday PMIX window the right choice**: it is the most recent *complete* week available at the Sunday cutoff. Pulling a week that includes the in-progress Sunday would double-count it — once as partial history, once as projected depletion.
+
 ### Vendor rules encoded from the guide
 
 - **Arena Liquor** — output is an email body to arenaliquor@gmail.com. The system will not produce a text or call script for Arena. Gursev's number appears only under an "emergency" label.
@@ -154,7 +170,8 @@ Safety stock as a flat 25% is deliberately simple for V1. The statistically corr
 
 | Requirement | Acceptance Criteria |
 |---|---|
-| Sales report ingest | Accepts CSV and XLSX export from the POS. Parses item name, quantity, and date. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Toast PMIX ingest | Accepts the Toast PMIX CSV export for a Monday–Sunday range. Parses menu item, quantity, and sales category. Filters to beverage categories. Excludes voids; comps counted as depletion. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Post-cutoff depletion adjustment | For orders placed before the week's business is done (Sun 5–7pm, Mon 4–5pm), the system subtracts projected sales between the cutoff and the delivery from the counted on-hand. |
 | Product catalog | All products from the order guide, each with vendor, category, pack size, unit size, and par. Editable without a code change. |
 | Menu-item → SKU mapping | Every POS item maps to one or more catalog products with a conversion factor. Recipe-based mapping supported for cocktails and prep ingredients. Admin UI, no engineering required. |
 | Count entry | Mobile-friendly entry for the order-critical list. Saves partial progress. Shows last week's count for reference. |
@@ -201,7 +218,7 @@ Safety stock as a flat 25% is deliberately simple for V1. The statistically corr
 ## Open Questions
 
 1. **This is the big one: is a count still required?** A sales report alone cannot produce an order quantity — it tells you what left, not what's on the shelf. Two paths: **(a)** a short weekly count of order-critical items, which is what this PRD assumes, or **(b)** perpetual inventory, where the system tracks on-hand by subtracting depletion and adding receipts, with a full recount monthly to correct drift. Path (b) is less weekly work but accumulates error fast if any receipt or transfer goes unrecorded, and it needs an accurate starting count regardless. **Recommendation: build (a) first, add (b) as an option once the mapping is proven accurate.**
-2. **Which POS, and what does its product-mix export actually contain?** Everything in stage 1 depends on the real export format — item granularity, whether modifiers are broken out, whether comps and voids are separated.
+2. ~~Which POS?~~ **Resolved: Toast PMIX, Monday–Sunday of the prior week.** What remains is verifying the export against a real file — see the PMIX appendix for the four specifics that need confirming before stage 1 can be built.
 3. **What are the actual pour sizes?** Draft in pints or 16oz? 12oz for high-ABV? Wine at 5oz or 6oz? Every draft and wine number is wrong until these are confirmed.
 4. **Do cocktail recipes exist in writing?** Spirit and prep-ingredient forecasting requires specs. If they aren't documented, that's a prerequisite project, not a feature.
 5. **Who owns the mapping upkeep?** New menu items and keg rotations break the mapping continuously. Without a named owner this degrades within a season.
@@ -212,11 +229,45 @@ Safety stock as a flat 25% is deliberately simple for V1. The statistically corr
 
 Rough sequencing, not committed dates.
 
-- **Phase 0 — Prerequisites.** Confirm the POS export format, pour sizes, and cocktail specs. Extract whatever is recoverable from Sculpture before the engagement closes. Nothing else can start cleanly without this.
+- **Phase 0 — Prerequisites.** Pull one real Toast PMIX export and answer the four questions in the PMIX appendix. Confirm pour sizes and cocktail specs. Extract whatever is recoverable from Sculpture before the engagement closes. Nothing else can start cleanly without this.
 - **Phase 1 — Catalog and mapping.** Load the order guide's products, vendors and windows. Build the mapping admin. Map the current menu. This is the largest single chunk of work and it is unglamorous.
 - **Phase 2 — Count and suggest.** Count entry, depletion math, order suggestion, reasoning lines, per-vendor output. This is the first version that saves anyone time.
 - **Phase 3 — Events and forecast.** Event calendar, multipliers, weather. This is where "order based off of events" actually lands.
 - **Phase 4 — Receiving and history.** Receiving checklist, keg return tracking, order history, stockout and dead-stock reporting.
+
+## Appendix: Toast PMIX Ingest
+
+**Report:** Toast → Reports → Menu Item Sales / PMIX. **Range:** prior Monday 00:00 through Sunday close. **Format:** CSV export.
+
+### Expected columns
+
+Toast's PMIX export is expected to carry roughly the following. **This needs verifying against a real export before stage 1 is built** — column names and casing vary by Toast version and account configuration, so the parser should match on normalized headers, not exact strings.
+
+| Column | Use |
+|---|---|
+| Menu Item | The join key to the product mapping. Primary field. |
+| Menu Group / Menu Subgroup | Secondary disambiguation when two items share a name across menus. |
+| Sales Category | The beverage filter — everything not in a beverage category is discarded before mapping. |
+| Item Qty | Units sold. The number the depletion math runs on. |
+| Net Amount | Not used for ordering. Kept for the dead-stock and cost reporting in P1. |
+| Void Qty | Subtracted — a voided item never left the building. |
+
+### Parser rules
+
+- **Filter on Sales Category first.** TownHall's beverage categories (Beer, Wine, Liquor, N/A — exact names to be confirmed) are the only rows that reach the mapper. This keeps the unmapped queue from filling with every food item on the menu.
+- **Comps count as depletion.** A comped drink was poured and left inventory. It affects what to order even though it produced no revenue.
+- **Voids do not.** Subtract void quantity.
+- **Match on normalized item name** — lowercased, punctuation and multiple spaces collapsed — so "Bud Light " and "bud light" don't create two mappings.
+- **Never silently drop a row.** Anything that survives the category filter but doesn't map goes to the unmapped queue with its quantity, so the manager can see what the system is blind to.
+
+### To confirm against a real export
+
+1. **Are modifiers broken out as their own rows?** Matters for shots added to a drink, doubles, and any upcharged pour — those are real depletion that a menu-item-only read would miss.
+2. **What is the business-day cutoff?** Late-night sales after midnight should roll into the prior business day. If Toast is configured to a calendar-day boundary instead, every Friday and Saturday number is split across two rows and the weekend forecast skews.
+3. **What are the exact beverage Sales Category names?** These are the filter. Wrong names, empty report.
+4. **Are comps and voids separate columns, or already netted into Item Qty?** Changes whether the parser adds or subtracts.
+
+---
 
 ## Appendix: Vendor Order Windows
 
