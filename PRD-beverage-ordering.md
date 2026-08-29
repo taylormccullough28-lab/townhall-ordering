@@ -10,7 +10,7 @@
 - Columbus only. The CLE guest-ordering PRD (`PRD.md`) is a separate product — this one is internal purchasing, not guest-facing, and shares no surface with it.
 - Beverage only. Food, paper, and chemical ordering are out of scope.
 - This replaces the third-party inventory service (Sculpture Hospitality / Intellipar), which is being discontinued. Whatever this system does not cover, nobody covers.
-- **Sales input is the Toast PMIX (product mix) report, Monday through Sunday of the prior week.** Confirmed. Manual export in V1; a Toast API integration is a later phase.
+- **Sales input is Toast, Monday through Sunday of the prior week.** Confirmed. Manual export in V1 — no Toast connector exists in Claude's registry and no scheduled Toast export exists in the account today. Report selection (ItemSelectionDetails vs. PMIX) is pending a Short North sample; see the ingest appendix.
 
 ---
 
@@ -195,7 +195,8 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 
 | Requirement | Acceptance Criteria |
 |---|---|
-| Toast PMIX ingest | Accepts the Toast PMIX CSV export for a Monday–Sunday business-day range. Parses menu item, menu, quantity, and sales category. Filters to Liquor, Beer, Wine, Cocktails. Excludes voids; comps counted as depletion but stay flagged. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Toast sales ingest | Accepts Toast exports for a Monday–Sunday business-day range in both shapes: multi-sheet PMIX XLSX and line-item ItemSelectionDetails CSV. Matches columns by normalized header name, never position. Treats every column and sheet as optional. Filters `All levels` rows to `Type` in (menuItem, openItem) so rollup rows never double-count. Excludes voids; comps counted as depletion but stay flagged. Unrecognized items go to an unmapped queue rather than being silently dropped. |
+| Beverage classification | Sales Category when present, falling back to the product mapping on Menu + Menu group + Item. Never category alone — blank categories occur on real liquor SKUs, and the same item can carry different categories on different menus. |
 | Toast modifier ingest | Accepts the modifier report for the same range. Classifies every modifier as pour-size (replaces default pour) or product (adds a depletion line). Unclassified modifiers go to the unmapped queue. |
 | Composite mapping key | Products map on Sales Category + Menu + Menu Group + Menu Item, not item name alone. Two same-named items on different menus stay distinct. |
 | Pour size configuration | Single 1.5oz, Rocks 2.5oz, Double 3.0oz as defaults, editable. Configurable overpour factor per bar. Sales with no pour modifier default to Single. |
@@ -249,8 +250,8 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 1. **This is the big one: is a count still required?** A sales report alone cannot produce an order quantity — it tells you what left, not what's on the shelf. Two paths: **(a)** a short weekly count of order-critical items, which is what this PRD assumes, or **(b)** perpetual inventory, where the system tracks on-hand by subtracting depletion and adding receipts, with a full recount monthly to correct drift. Path (b) is less weekly work but accumulates error fast if any receipt or transfer goes unrecorded, and it needs an accurate starting count regardless. **Recommendation: build (a) first, add (b) as an option once the mapping is proven accurate.**
 2. ~~Which POS?~~ **Resolved: Toast PMIX plus a modifier report, Monday–Sunday, 4:00 AM business-day close. Categories: Liquor, Beer, Wine, Cocktails. Comps counted, voids excluded.**
 3. ~~Spirit pour sizes?~~ **Resolved: Single 1.5oz, Rocks 2.5oz, Double 3.0oz.** Still open: **wine by the glass** (5oz or 6oz — a 25% swing per bottle) and **draft** (16oz throughout, or 12oz for high-ABV).
-4. **How do the reports actually reach the app?** No Toast connector exists in Claude's registry, so there is no direct integration path available today. Three options, in order of how fast they can ship: manual CSV upload (V1 as specced); **Toast scheduled email reports into a dedicated inbox, read automatically** — the pragmatic middle path; or the Toast partner/developer API, which has real lead time and needs a conversation with the Toast rep. **Recommendation: build the parser against manual upload, then move to scheduled email without changing the parser.**
-5. **Where do non-alcoholic items live?** Red Bull, Brew AF N/A, coconut water and juice are real inventory from real vendors, but none of the four confirmed sales categories obviously holds them. If they fall outside the filter, the system never orders Red Bull — which moves in volume through Southern Glazer's.
+4. **How do the reports actually reach the app?** No Toast connector exists in Claude's registry, and no scheduled Toast export exists in the account — the only recurring Toast email is an HTML-body Daily Performance Summary with no attachment. Three options: manual upload (works today, V1 as specced); a **newly configured Toast scheduled export emailed to a dedicated inbox**, which first requires confirming Toast will attach a file rather than render it inline; or the Toast partner/developer API, which has real lead time. **Recommendation: build the parser against manual upload, then move to scheduled email without changing the parser.**
+5. ~~Where do non-alcoholic items live?~~ **Likely `NA Beverage`** — that category exists in the recovered exports. Confirm it is the label used at Short North, since filtering it out would mean never ordering Red Bull.
 6. **Do cocktail recipes exist in writing?** Spirit and prep-ingredient forecasting requires specs. If they aren't documented, that's a prerequisite project, not a feature.
 7. **Free-pour or jiggered?** Sets the starting overpour factor, which moves every spirit quantity in the system.
 8. **What's in each bottle service package?** Bundled mixers have to be enumerated per package to deplete correctly.
@@ -270,55 +271,102 @@ Rough sequencing, not committed dates.
 
 ## Appendix: Toast Report Ingest
 
-**Two reports, not one.** The PMIX carries menu-item quantities; the modifier report carries the pour sizes. Neither alone is sufficient — PMIX says a Tito's was sold, the modifier report says whether it was a 1.5oz Single or a 3oz Double, and those differ by 2× on the depletion math.
+**Evidence base:** two real Toast PMIX exports and one ItemSelectionDetails CSV recovered from the company OneDrive. Verbatim headers and sample rows below are from those files. **Important caveat: both PMIX exports are from FWD Day & Nightclub, a different concept in the same Toast account family.** The single TownHall file is a 2023 CLE export. Nothing recovered is a TownHall Short North beverage export, so the *structure* below is trustworthy and the *category values* are not yet confirmed for our location.
 
-| Report | Range | Carries |
-|---|---|---|
-| **PMIX** (Menu Item Sales / product mix) | Prior Mon–Sun business days | Menu item, category, menu, quantity |
-| **Modifier report** | Same range | Pour size, add-ons, upcharged options, bottle service bundle contents |
+### The format is a multi-sheet workbook, not a flat CSV
 
-### Confirmed configuration
+Toast's PMIX exports as XLSX with up to eight sheets: `Summary`, `All levels`, `Menus`, `Menu groups`, `Items`, `Open items`, `Modifiers`, `Special requests`.
 
-- **Business day ends at 4:00 AM.** Late-night sales roll into the correct business day — a Saturday 1:30am pour belongs to Friday. No weekend split, no correction needed. This is the right setting and nothing has to be worked around.
-- **Sales categories: Liquor, Beer, Wine, Cocktails.** These are the beverage filter. Multiple menus exist *inside* each category.
-- **Comps count as depletion.** A comped drink was poured and left inventory. All comps are included in the count.
-- **Voids do not.** Subtract void quantity — a voided item never left the building.
+Two sheets matter:
 
-### The composite mapping key
+| Sheet | Observed header row |
+|---|---|
+| `Items` | `Item \| Sales Category \| Qty sold` |
+| `All levels` | `Type \| Menu \| Menu group \| Item, open item \| Qty sold` |
 
-Because multiple menus live inside each sales category, **menu item name alone is not a unique key.** The same "Tito's" can appear on a well menu, a cocktail menu and a bottle service menu with three different conversions. The mapping key is:
+The `All levels` sheet is the one that carries menu structure, which the composite mapping key needs.
+
+### Three hard-won parser rules
+
+**1. Match columns by header name, never by position — and treat every column as optional.** The two recovered exports have *different column sets from the same account*, because sheets and columns are selected at export time. One has `Sales Category` on the `Items` sheet; the other has no `Sales Category` column anywhere. One has a `Subgroup` column on `All levels`; the other doesn't. One has `Modifiers` and `Special requests` sheets; the other omits both entirely. A positional parser breaks on the second file it ever sees.
+
+**2. Filter `All levels` on `Type`, or double-count everything.** Rollup rows have a blank `Type`; leaf rows carry `menuItem` or `openItem`. Observed:
 
 ```
-Sales Category + Menu + Menu Group + Menu Item
+Type        Menu              Menu group      Item, open item        Qty sold
+menuItem    LIQUOR            Tequila         Espolon BLANCO         193
+menuItem    COCKTAIL          FWD Cocktails   PassionPunch Margarita  34
+openItem    Open items        Open Drink      Lobos Blanco Bottle      3
 ```
 
-Mapping on item name alone will silently collapse those into one product and produce wrong numbers with no error. This is the most likely source of a quiet, hard-to-find bug in the whole system.
+Only `menuItem` and `openItem` rows are real sales. Everything else is a subtotal.
 
-### Joining PMIX to modifiers without double-counting
+**3. Sales Category cannot be the only beverage filter.** Blank categories are common and include *genuine liquor SKUs* — one observed row is `Bacardi FB`, qty 4, with no category at all. Filtering on category alone silently drops real depletion. The filter must be: category when present, falling back to the explicit product mapping keyed on Menu + Menu group + Item.
 
-The failure mode: counting the base spirit once from PMIX and again from the modifier row, doubling depletion.
+### Observed Sales Category values — and how they differ from expectation
 
-Rule: **PMIX establishes that a sale happened. The modifier only adjusts its size.** A Tito's sold with a "Double" modifier is one depletion event of 3.0 oz — not a 1.5 oz base plus a 3.0 oz modifier. Modifiers that *add* a distinct product (a Red Bull mixer, an added shot of a different spirit) create their own separate depletion event; modifiers that *describe* the pour do not.
+Complete observed set across both accounts: `Liquor` · `Bottled Beer` · `NA Beverage` · `Champagne` · `Bottle Service` · `Cigars` · `Retail` · `Room Rental` · `Food` · *(blank)*
 
-- Pour modifiers (Single / Rocks / Double) → **replace** the default pour size.
-- Product modifiers (added mixer, floater, upgrade to a different spirit) → **add** a new depletion line.
-- No pour modifier present → default to **Single, 1.5 oz**.
-- Every modifier value must classify as one or the other. An unclassified modifier goes to the unmapped queue rather than being guessed at.
+Against the four categories assumed earlier (Liquor, Beer, Wine, Cocktails):
 
-### Parser rules
+- **No `Beer`** — it's `Bottled Beer`, and it absorbs seltzers and RTDs (Nutrl, Suncruiser) and at least one miscategorized chardonnay.
+- **No `Wine`** category appears at all. `Champagne` exists separately.
+- **No `Cocktails`** category. Cocktails roll up to `Liquor` and are only identifiable by `Menu` or `Menu group`. This is further reason the mapping key is composite rather than category-based.
+- **`NA Beverage` is the non-alcoholic label** — this answers where Red Bull, N/A beer and juice live. They are in the data, under a category name that would have been filtered out.
+- **`Bottle Service` is its own category.** Convenient: the whole-bottle conversion type can key off it directly rather than needing manual tagging.
 
-- **Filter on Sales Category first** — Liquor, Beer, Wine, Cocktails. Everything else is discarded before mapping, which keeps the unmapped queue from filling with food.
-- **Match on normalized names** — lowercased, punctuation and repeated spaces collapsed — so "Bud Light " and "bud light" don't create two mappings.
-- **Never silently drop a row.** Anything that survives the category filter but doesn't map goes to the unmapped queue with its quantity, so the manager can see what the system is blind to.
-- **Keep comps flagged, not just merged.** Comps count toward depletion but should stay identifiable, so the P1 cost reporting can separate poured-and-comped from poured-and-sold. Same units, different revenue — merging them permanently loses that.
+**These values come from FWD, not TownHall Short North.** They may well differ at our location. What is *structurally* certain is that the categories are not the four assumed, that blanks occur, and that cocktails are not separately categorized.
+
+### The same item can carry different categories on different menus
+
+From the TownHall CLE ItemSelectionDetails export — one item, one day, four categories and menus:
+
+```
+Location,Order #,Sent Date,Menu Item,Menu Group,Menu,Sales Category,Net Price,Qty,Void?
+TH Ohio City,17,8/27/2023 9:06,Acai Bowl,SMOOTHIES,ONLINE BRUNCH,NA Beverage,16,2,FALSE
+TH Ohio City,66,8/27/2023 9:54,Acai Bowl,Brunch Plates,BRUNCH,Food,8.75,1,FALSE
+TH Ohio City,1240,8/27/2023 19:10,Acai Bowl,Smoothies,ONLINE 3RD PARTY,NA Beverage,8.75,1,FALSE
+```
+
+The same product classified as both `NA Beverage` and `Food` depending on which menu rang it. This validates the composite mapping key and rules out any name-only or category-only approach.
+
+### ItemSelectionDetails may be the better input
+
+The `ItemSelectionDetails` export is line-item level — **one row per sale, with a timestamp** — versus PMIX, which is aggregated for the whole range.
+
+```
+Location,Order #,Sent Date,Menu Item,Menu Group,Menu,Sales Category,Net Price,Qty,Void?
+```
+
+That timestamp matters more than it first appears. **The post-cutoff depletion adjustment needs to know how much sells between a 5:00 PM Sunday order cutoff and 4:00 AM close.** PMIX cannot answer that — it has no time dimension. ItemSelectionDetails can, and it also carries an explicit `Void?` flag and `Location`, which matters in a multi-location Toast account.
+
+**Recommendation: pull ItemSelectionDetails as the primary input and PMIX as a cross-check on totals.** To be confirmed once we see a Short North export of each.
+
+### Modifier data does not exist yet
+
+No modifier-level export exists anywhere in the account. In the one PMIX that *has* a `Modifiers` sheet, **the sheet is empty**; the other export omits it. The ItemSelectionDetails CSV has no modifier rows and no parent-selection column.
+
+One column name confirms Toast tracks it — `Avg. item price (not incl. mods)` — so the data exists in Toast and simply has not been exported. **This must be pulled fresh. There is nothing to build against today**, and without it every spirit defaults to a 1.5oz Single, which will undercount every rocks and double pour in the bar.
+
+### No scheduled export exists to hook into
+
+`no-reply@toasttab.com` sends a **Daily Performance Summary** once per day per location, and `Townhall - Short North` is among the active locations. But every one of these is an **HTML-body email with no attachment** — there is no recurring CSV or XLSX delivery anywhere in the account. The two PMIX files on OneDrive were manual downloads someone saved.
+
+So the "scheduled email into an inbox" automation path requires **setting up a new scheduled export in Toast first**, and confirming Toast will attach PMIX/ItemSelectionDetails as a file rather than rendering it in the body. Until that is verified, manual upload is the only working path.
+
+### What to pull from Short North
+
+1. **ItemSelectionDetails**, prior Mon–Sun, Short North only.
+2. **PMIX**, same range, **with the `Sales Category` column and the `Modifiers` sheet both checked on at export.**
+3. **The modifier report**, same range — whatever Toast labels it in this account.
 
 ### Still to confirm
 
-1. **Where do non-alcoholic items live?** Red Bull, Brew AF N/A, coconut water and juice are all real inventory from real vendors, but none of the four confirmed categories obviously holds them. If they sit outside Liquor/Beer/Wine/Cocktails, the filter drops them and the system never orders Red Bull — which comes through Southern Glazer's in volume.
-2. **Free-pour or jiggered?** Sets the starting overpour factor. A free-pour bar's real yield can run 15–20% under theoretical; a jiggered bar much closer. This single number moves every spirit quantity.
-3. **Wine by the glass pour size** — 5oz or 6oz? At 750ml that is 5 glasses versus 4, a 25% swing on every by-the-glass wine.
-4. **Draft pour sizes** — 16oz pints throughout, or 12oz for high-ABV? Same magnitude of error on kegs.
-5. **What's in each bottle service package?** The bundled mixers have to be enumerated per package to deplete correctly.
+1. **Actual Sales Category values at Short North.** The FWD set above is indicative, not authoritative.
+2. **Free-pour or jiggered?** Sets the overpour factor, which moves every spirit quantity.
+3. **Wine by the glass pour size** — 5oz or 6oz. A 25% swing per bottle.
+4. **Draft pour sizes** — 16oz throughout, or 12oz for high-ABV.
+5. **What's in each bottle service package?** Bundled mixers must be enumerated per package.
 
 ---
 
