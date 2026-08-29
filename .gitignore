@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Local data — never commit real Toast or MarginEdge exports
+/data/
+*.local.csv
+*.local.xlsx
