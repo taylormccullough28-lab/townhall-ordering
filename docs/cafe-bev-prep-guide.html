@@ -428,24 +428,25 @@
 
   /* ---------- questions ---------- */
 
-  ol.asks { margin: 0; padding: 0; list-style: none; counter-reset: q; display: grid; gap: 14px; }
-  ol.asks li {
-    counter-increment: q;
+  ul.asks { margin: 0; padding: 0; list-style: none; display: grid; gap: 13px; }
+  ul.asks li {
     display: grid;
-    grid-template-columns: 30px 1fr;
+    grid-template-columns: 22px 1fr;
     gap: 12px;
+    align-items: start;
     font-size: 16.5px;
     color: var(--ink-2);
   }
-  ol.asks li::before {
-    content: "Q" counter(q);
-    font-family: var(--f-mono);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--spir);
-    padding-top: 4px;
+  ul.asks li::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    margin-top: 6px;
+    border: 1.5px solid var(--rule-hard);
+    background: var(--card);
   }
-  ol.asks li b { color: var(--ink); font-weight: 500; }
+  ul.asks li b { color: var(--ink); font-weight: 500; }
+  ul.asks li.block::before { border-color: var(--flag); }
 
   footer.colophon {
     margin-top: 72px;
@@ -1215,24 +1216,22 @@
     <div class="sec-head">
       <span class="n">I</span>
       <h2>Send to Helena</h2>
-      <span class="note">Blocking items first</span>
+      <span class="note">Amber box = blocking</span>
     </div>
 
-    <ol class="asks">
-      <li><b>Confirm the batch names are swapped in the prep sheet</b> — chlorophyll in the chlorophyll mixture, spirulina in the spirulina mixture. Blocking; we don't batch until this is confirmed.</li>
-      <li><b>Coconut water or RO water in the coconut blue spirulina mixture?</b> The build sheet and prep sheet disagree, and it changes both the flavor and the cost. Blocking.</li>
+    <ul class="asks">
+      <li class="block"><b>Confirm the batch names are swapped in the prep sheet</b> — chlorophyll in the chlorophyll mixture, spirulina in the spirulina mixture. We don't batch until this is confirmed.</li>
+      <li class="block"><b>Coconut water or RO water in the coconut blue spirulina mixture?</b> The build sheet and prep sheet disagree, and it changes both the flavor and the cost.</li>
+      <li class="block"><b>Send the procedure steps for both built syrups, plus the linked Allulose Simple Syrup for Soft Serve sub-recipe.</b> The ingredient lists are done; prep can't run either syrup without the method, and the pumpkin spice one is 92% a base recipe we don't have.</li>
+      <li class="block"><b>Fix the Keto Pumpkin Spice Latte menu copy.</b> The built syrup has no pumpkin in it, so "organic pumpkin" can't stay on the screens. Same question on the Bulletproof, where the copy reads "organic pumpkin spice" but her list says "keto pumpkin spice allulose." Nate needs this before the next artwork round.</li>
+      <li class="block"><b>Approve or correct the Pumpkin Date draft in section H</b>, and tell us whether a Pumpkin Date syrup card already exists in Fusion — two of three turned up once we looked. If it exists, the draft gets deleted rather than tasted.</li>
+      <li><b>Syrup pour per drink on all four builds</b>, plus the four data fixes listed in section H.</li>
+      <li><b>Hot, iced, or both</b> on the three lattes, and the espresso count if it isn't our standard double.</li>
       <li><b>What's the finished yield on a 1.5 lb ginger batch?</b> Without it we can't set a ginger par.</li>
       <li><b>Gram weight and water volume for the 2 oz prepped matcha</b>, so every store pulls the same drink.</li>
       <li><b>How is the espresso pre-prepped?</b> Batch size, how it's chilled, how long we hold it.</li>
-      <li><b>Hold times for the three batch mixtures</b>, or confirmation that we date them to house cold-prep standard.</li>
-      <li><b>Approve or correct the draft fall prep recipes in section H.</b> They're printed on the café screens at $6 with nothing behind them, so we drafted a starting point — but it needs a tasting and her sign-off, not a reply-all. Most urgent item on this list.</li>
-      <li><b>Send the procedure steps for both built syrups, plus the linked Allulose Simple Syrup for Soft Serve sub-recipe.</b> The ingredient lists are done; prep can't run either syrup without the method, and the pumpkin spice one is 92% a base recipe we don't have.</li>
-      <li><b>Is there a Pumpkin Date syrup card already built?</b> Two of three turned up once we looked — if this one exists too, the draft in section H should be deleted rather than tasted.</li>
-      <li><b>Syrup pour per drink on all four builds</b>, and the four data fixes listed in section H.</li>
-      <li><b>Fix the Keto Pumpkin Spice Latte menu copy.</b> The built syrup has no pumpkin in it, so "organic pumpkin" can't stay on the screens. Nate needs this before the next artwork round.</li>
-      <li><b>Hot, iced, or both</b> on the three lattes, and the espresso count if it isn't our standard double.</li>
-      <li><b>Does the Keto Pumpkin Spice Latte contain organic pumpkin?</b> The printed copy says it does; her Aug 28 ingredient list doesn't. Same question for the Bulletproof, where the copy reads "organic pumpkin spice" but her list says "keto pumpkin spice allulose."</li>
-    </ol>
+      <li><b>Hold times for the three summer batch mixtures</b>, or confirmation that we date them to house cold-prep standard.</li>
+    </ul>
   </section>
 
   <footer class="colophon">
