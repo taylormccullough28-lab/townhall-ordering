@@ -1,0 +1,983 @@
+<title>Café Bev Prep Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+  :root {
+    --paper:      #F4F7F4;
+    --card:       #FFFFFF;
+    --card-2:     #EDF2EE;
+    --ink:        #131C18;
+    --ink-2:      #3B4A44;
+    --muted:      #6B7A73;
+    --rule:       #D9E2DB;
+    --rule-hard:  #B9C7BF;
+    --chloro:     #276B4A;
+    --chloro-bg:  #E4F0E8;
+    --spir:       #1C5C9E;
+    --spir-bg:    #E3ECF7;
+    --flag:       #9C4A0C;
+    --flag-bg:    #FBF0E3;
+    --flag-rule:  #E6C79E;
+    --shadow:     0 1px 2px rgba(19,28,24,.05), 0 8px 24px -16px rgba(19,28,24,.22);
+
+    --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    "Newsreader", Georgia, "Times New Roman", serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0E1512;
+      --card:       #151E1A;
+      --card-2:     #1B2621;
+      --ink:        #E7EFE9;
+      --ink-2:      #B3C2B9;
+      --muted:      #869790;
+      --rule:       #26332C;
+      --rule-hard:  #3A4C42;
+      --chloro:     #74CE9B;
+      --chloro-bg:  #172C22;
+      --spir:       #7DB7EE;
+      --spir-bg:    #142435;
+      --flag:       #E9AC6A;
+      --flag-bg:    #291F14;
+      --flag-rule:  #4E3A22;
+      --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #0E1512;
+    --card:       #151E1A;
+    --card-2:     #1B2621;
+    --ink:        #E7EFE9;
+    --ink-2:      #B3C2B9;
+    --muted:      #869790;
+    --rule:       #26332C;
+    --rule-hard:  #3A4C42;
+    --chloro:     #74CE9B;
+    --chloro-bg:  #172C22;
+    --spir:       #7DB7EE;
+    --spir-bg:    #142435;
+    --flag:       #E9AC6A;
+    --flag-bg:    #291F14;
+    --flag-rule:  #4E3A22;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---------- shared type roles ---------- */
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--f-display);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    line-height: 1.15;
+  }
+
+  h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  p { margin: 0; }
+  a { color: var(--spir); }
+
+  .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+  /* ---------- masthead ---------- */
+
+  header.masthead {
+    padding: 64px 0 34px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  header.masthead h1 {
+    font-size: clamp(38px, 7vw, 62px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: .98;
+    margin: 14px 0 0;
+  }
+
+  .masthead .standfirst {
+    margin-top: 18px;
+    max-width: 60ch;
+    font-size: 19px;
+    color: var(--ink-2);
+  }
+
+  .sourceline {
+    margin-top: 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .sourceline b { color: var(--ink-2); font-weight: 600; }
+
+  /* ---------- sections ---------- */
+
+  section { padding-top: 56px; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule-hard);
+    margin-bottom: 26px;
+  }
+  .sec-head .n {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--chloro);
+  }
+  .sec-head .note {
+    margin-left: auto;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .lede {
+    max-width: 66ch;
+    color: var(--ink-2);
+    margin-bottom: 26px;
+  }
+
+  /* ---------- alert block ---------- */
+
+  .alert {
+    background: var(--flag-bg);
+    border: 1px solid var(--flag-rule);
+    border-left: 4px solid var(--flag);
+    padding: 22px 24px;
+    margin-top: 40px;
+  }
+  .alert h2 { color: var(--flag); }
+  .conflict { margin-top: 20px; }
+  .conflict + .conflict { padding-top: 20px; border-top: 1px solid var(--flag-rule); }
+  .conflict .ct {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -.01em;
+  }
+  .conflict p { margin-top: 6px; color: var(--ink-2); max-width: 72ch; }
+  .quotes {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 7px;
+    font-family: var(--f-mono);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .quotes li {
+    padding: 8px 12px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+  }
+  .quotes li b { color: var(--ink); font-weight: 600; }
+  .verdict {
+    margin-top: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .verdict::before {
+    content: "→ ";
+    color: var(--flag);
+    font-family: var(--f-mono);
+  }
+
+  /* ---------- batch + build cards ---------- */
+
+  .cards { display: grid; gap: 20px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .card-top .titles { min-width: 0; }
+  .card-top .sub {
+    margin-top: 5px;
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .chip {
+    flex: none;
+    margin-left: auto;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .chip.green { color: var(--chloro); background: var(--chloro-bg); }
+  .chip.blue  { color: var(--spir);   background: var(--spir-bg); }
+  .chip.plain { color: var(--muted);  background: var(--card-2); }
+  .chip.warn  { color: var(--flag);   background: var(--flag-bg); }
+
+  .card-body { padding: 20px 24px 24px; display: grid; gap: 22px; }
+
+  @media (min-width: 720px) {
+    .card-body.split {
+      grid-template-columns: minmax(230px, 300px) 1fr;
+      gap: 34px;
+    }
+  }
+
+  /* spec list — quantity in mono, aligned */
+  .spec { display: grid; gap: 0; }
+  .spec .row {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--rule);
+    align-items: baseline;
+  }
+  .spec .row:first-child { padding-top: 0; }
+  .spec .row:last-child { border-bottom: 0; }
+  .spec .q {
+    font-family: var(--f-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -.02em;
+  }
+  .spec .q.fill { color: var(--muted); font-weight: 400; }
+  .spec .i { font-size: 16px; color: var(--ink-2); line-height: 1.4; }
+
+  /* numbered build steps — a real sequence */
+  ol.steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 11px;
+  }
+  ol.steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 16.5px;
+    color: var(--ink-2);
+  }
+  ol.steps li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--chloro);
+    padding-top: 3px;
+  }
+  ol.steps li b { color: var(--ink); font-weight: 500; }
+
+  .finish {
+    margin-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .finish b { color: var(--ink); font-weight: 600; }
+
+  /* house-add annotation */
+  .house {
+    margin-top: 2px;
+    padding: 11px 14px;
+    background: var(--card-2);
+    border-left: 2px solid var(--rule-hard);
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  .house::before {
+    content: "House note";
+    display: block;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  /* ---------- tables ---------- */
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--card); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  th, td {
+    text-align: left;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--card-2);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num, th.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.name { font-family: var(--f-display); font-weight: 600; font-size: 15px; }
+
+  /* ---------- checklist ---------- */
+
+  ul.checks {
+    margin: 0; padding: 0; list-style: none;
+    display: grid; gap: 10px;
+  }
+  ul.checks li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    align-items: start;
+    font-size: 16.5px;
+    color: var(--ink-2);
+  }
+  ul.checks li::before {
+    content: "";
+    width: 14px; height: 14px;
+    margin-top: 6px;
+    border: 1.5px solid var(--rule-hard);
+    background: var(--card);
+  }
+  ul.checks li b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- questions ---------- */
+
+  ol.asks { margin: 0; padding: 0; list-style: none; counter-reset: q; display: grid; gap: 14px; }
+  ol.asks li {
+    counter-increment: q;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 12px;
+    font-size: 16.5px;
+    color: var(--ink-2);
+  }
+  ol.asks li::before {
+    content: "Q" counter(q);
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--spir);
+    padding-top: 4px;
+  }
+  ol.asks li b { color: var(--ink); font-weight: 500; }
+
+  footer.colophon {
+    margin-top: 72px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-hard);
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .card, .alert, .tablewrap { break-inside: avoid; box-shadow: none; }
+    section { padding-top: 28px; }
+    header.masthead { padding-top: 0; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">TownHall Cleveland &middot; Café &middot; Rollout August 4, 2026</div>
+    <h1>Café Bev Prep Guide</h1>
+    <p class="standfirst">Every batch mixture, build spec, and garnish for the four new café beverages, consolidated from Helena's rollout emails — plus the two spec conflicts that need her answer before we train the line.</p>
+    <div class="sourceline">
+      <span><b>Source</b> Helena Manson, 4 emails</span>
+      <span><b>Builds</b> CAFE.docx &middot; Aug 1</span>
+      <span><b>Prep</b> Doc4.docx &middot; Aug 1 (ginger corrected)</span>
+      <span><b>Menu</b> Jul 30 &amp; Aug 28</span>
+    </div>
+  </header>
+
+  <div class="alert">
+    <h2>Read before you batch</h2>
+    <div class="conflict">
+      <div class="ct">1. The two batch names are swapped in the prep doc</div>
+      <p>Helena's prep sheet pairs each mixture name with the other one's ingredient. Her build sheet, sent the same day, has the pairing right.</p>
+      <ul class="quotes">
+        <li><b>Prep sheet:</b> "COCONUT BLUE SPIRULINA MIXTURE: 1 liter reverse osmosis water + 1 tablespoon of chlorophyll"</li>
+        <li><b>Prep sheet:</b> "CHLOROPHYLL WATER MIXTURE: 1 liter reverse osmosis water + 4.5 grams of organic blue spirulina"</li>
+        <li><b>Build sheet:</b> "chlorophyll mixture (chlorophyll and reverse osmosis water)" &middot; "Coconut blue spirulina mixture (coconut water + blue spirulina)"</li>
+      </ul>
+      <p class="verdict">This guide uses the corrected pairing: chlorophyll goes in the chlorophyll mixture, spirulina goes in the spirulina mixture. Batch it that way, but get Helena's yes in writing before rollout.</p>
+    </div>
+    <div class="conflict">
+      <div class="ct">2. Coconut water or RO water in the spirulina mixture?</div>
+      <p>The build sheet calls it "coconut water + blue spirulina." The prep sheet says 1 liter RO water + 4.5 g spirulina. The drink name says coconut, and Spirulina Reviver already tops off with coconut water on top of the mixture — so the two sheets point different directions on cost and flavor.</p>
+      <p class="verdict">Unresolved. Batch RO water for training only; do not lock a par or a cost sheet on it until Helena confirms.</p>
+    </div>
+    <div class="conflict">
+      <div class="ct">3. Use the 1.5 lb ginger yield, not the 3 lb</div>
+      <p>Helena sent the prep sheet twice on Aug 1. The 17:14 version says 3 lbs of peeled ginger; the 17:20 resend — subject line "FIXED INGREDIENT ON GINGER JUICE USE THIS ONE" — says 1.5 lbs. Everything else is identical.</p>
+      <p class="verdict">1.5 lbs is current. Delete the earlier printout from the station.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">A</span>
+      <h2>Batch mixtures</h2>
+      <span class="note">Prep first &middot; every drink depends on these</span>
+    </div>
+    <p class="lede">Three components get batched ahead. Nothing else on the menu can be built until they're done, so these lead the prep list.</p>
+
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Chlorophyll Water Mixture</h3>
+            <div class="sub">Body of Chlorophyll Vitality</div>
+          </div>
+          <span class="chip green">Batch &middot; 1 L</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Yields 1 liter</h4>
+            <div class="spec">
+              <div class="row"><span class="q">34 fl oz</span><span class="i">Reverse osmosis water <span class="mono" style="font-size:12px;color:var(--muted)">(1 L)</span></span></div>
+              <div class="row"><span class="q">1 Tbsp</span><span class="i">Nature's Way Chlorofresh liquid chlorophyll</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li>Measure <b>1 liter of RO water</b> into a clean, labeled container.</li>
+              <li>Add <b>1 tablespoon of chlorophyll</b>.</li>
+              <li><b>Stir thoroughly</b> to combine — chlorophyll settles, so it has to fully disperse.</li>
+            </ol>
+            <div class="house">This mixture is the whole body of the drink, roughly 4–5 oz per 12 oz glass once it's packed with ice. One liter covers about <span class="mono">6–7</span> drinks. It's the first batch you'll run out of on a busy morning — count it in pars accordingly.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Coconut Blue Spirulina Mixture</h3>
+            <div class="sub">Used in Iced Blue Coconut Matcha &amp; Spirulina Reviver</div>
+          </div>
+          <span class="chip blue">Batch &middot; 1 L</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Yields 1 liter</h4>
+            <div class="spec">
+              <div class="row"><span class="q">34 fl oz</span><span class="i">Reverse osmosis water <span class="mono" style="font-size:12px;color:var(--muted)">(1 L)</span> — <span style="color:var(--flag)">or coconut water, see conflict&nbsp;2</span></span></div>
+              <div class="row"><span class="q">4.5 g</span><span class="i">MicroIngredients organic blue spirulina</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li>Measure <b>1 liter of water</b> into a clean, labeled container.</li>
+              <li>Scale <b>4.5 grams of blue spirulina</b> — weigh it, don't spoon it. This is a color and cost control point.</li>
+              <li><b>Stir thoroughly</b> to combine until there are no streaks or clumps left.</li>
+            </ol>
+            <div class="house">This one goes a long way: 0.50 oz per matcha and 0.75 oz per Reviver means a liter covers roughly <span class="mono">45+</span> drinks. Batch a half liter until we know real volume, so we're not dumping product.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Ginger Juice</h3>
+            <div class="sub">Used in Chlorophyll Vitality</div>
+          </div>
+          <span class="chip green">Batch &middot; 1.5 lb</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Per batch</h4>
+            <div class="spec">
+              <div class="row"><span class="q">1.5 lb</span><span class="i">Peeled ginger</span></div>
+              <div class="row"><span class="q fill">to cover</span><span class="i">Water — enough to fully cover the ginger</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li><b>Peel 1.5 lbs of ginger</b> and add it to the blender.</li>
+              <li>Add <b>enough water to cover the top of the ginger completely</b>.</li>
+              <li>Blend <b>30 seconds on high</b>.</li>
+              <li>Strain through a <b>chinois</b> into a labeled container.</li>
+            </ol>
+            <div class="house">Helena's sheet doesn't give a finished yield. Measure the strained juice on the first three batches and write it on the container — that's how we set a real ginger par instead of guessing.</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">B</span>
+      <h2>Station components</h2>
+      <span class="note">Pulled or portioned &agrave; la minute</span>
+    </div>
+    <p class="lede">These aren't batch recipes in Helena's docs, but the builds call for them, so the station has to have them ready.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th class="num">Per drink</th>
+            <th>What the spec says</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Espresso</td>
+            <td class="num">1 oz</td>
+            <td>"Pre-prepped espresso" — batch-pulled and held cold. Volume per batch and hold time aren't specified.</td>
+          </tr>
+          <tr>
+            <td class="name">Matcha</td>
+            <td class="num">2 oz</td>
+            <td>Prepped and whisked with water "as if making a regular matcha." No gram weight given — match our existing matcha standard.</td>
+          </tr>
+          <tr>
+            <td class="name">Lemon juice</td>
+            <td class="num">0.50 oz</td>
+            <td>Natalie's. Ready to pour.</td>
+          </tr>
+          <tr>
+            <td class="name">Lime juice</td>
+            <td class="num">0.50 oz</td>
+            <td>Natalie's. Ready to pour.</td>
+          </tr>
+          <tr>
+            <td class="name">Coconut water</td>
+            <td class="num">top off</td>
+            <td>Once Upon a Coconut, 32 oz. Keep chilled — it's the fill on three of four drinks.</td>
+          </tr>
+          <tr>
+            <td class="name">Shaved coconut</td>
+            <td class="num">garnish</td>
+            <td>Garnish on all drinks except Chlorophyll Vitality.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">C</span>
+      <h2>The four builds</h2>
+      <span class="note">12 oz glass &middot; packed with ice, every time</span>
+    </div>
+    <p class="lede">Helena's rule sits above all four: <b>all drinks use a 12 oz glass and each must be packed with ice.</b> Ice goes in first, and you top the glass back off with ice after the liquid so it finishes full.</p>
+
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Iced Coconut Americano</h3>
+            <div class="sub">Organic espresso &amp; organic coconut water</div>
+          </div>
+          <span class="chip plain">$7</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Spec</h4>
+            <div class="spec">
+              <div class="row"><span class="q">1 oz</span><span class="i">Pre-prepped espresso</span></div>
+              <div class="row"><span class="q fill">fill</span><span class="i">Once Upon a Coconut water</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li><b>Fill the glass with ice.</b></li>
+              <li>Add <b>1 oz espresso</b>.</li>
+              <li>Add <b>coconut water and fill to the top</b>.</li>
+              <li><b>Pack with ice</b> so the glass finishes full.</li>
+            </ol>
+            <div class="finish"><span><b>Garnish</b> Shaved coconut</span><span><b>Glass</b> 12 oz</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Iced Blue Coconut Matcha</h3>
+            <div class="sub">Organic matcha, organic coconut water &amp; organic blue spirulina</div>
+          </div>
+          <span class="chip plain">$7</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Spec</h4>
+            <div class="spec">
+              <div class="row"><span class="q">2 oz</span><span class="i">Prepped matcha, whisked with water</span></div>
+              <div class="row"><span class="q">0.50 oz</span><span class="i">Coconut blue spirulina mixture</span></div>
+              <div class="row"><span class="q fill">fill</span><span class="i">Once Upon a Coconut water</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li><b>Fill the glass with ice.</b></li>
+              <li>Add <b>2 oz prepped matcha</b> and <b>0.50 oz coconut blue spirulina mixture</b>.</li>
+              <li>Add <b>coconut water and fill to the top</b>.</li>
+              <li><b>Pack with ice</b> so the glass finishes full.</li>
+            </ol>
+            <div class="finish"><span><b>Garnish</b> Shaved coconut</span><span><b>Glass</b> 12 oz</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Chlorophyll Vitality</h3>
+            <div class="sub">Organic chlorophyll, RO water, organic ginger &amp; organic lemon</div>
+          </div>
+          <span class="chip plain">$8</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Spec</h4>
+            <div class="spec">
+              <div class="row"><span class="q">0.50 oz</span><span class="i">Ginger juice</span></div>
+              <div class="row"><span class="q">0.50 oz</span><span class="i">Lemon juice</span></div>
+              <div class="row"><span class="q fill">fill</span><span class="i">Chlorophyll water mixture</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li><b>Fill the glass with ice.</b></li>
+              <li>Add <b>0.50 oz ginger juice</b> and <b>0.50 oz lemon juice</b>.</li>
+              <li>Add <b>chlorophyll water mixture and fill to the top</b>.</li>
+              <li><b>Pack with ice</b> so the glass finishes full.</li>
+            </ol>
+            <div class="finish"><span><b>Garnish</b> None</span><span><b>Glass</b> 12 oz</span><span><b>Guest-facing</b> detox, cleanse, purify</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="titles">
+            <h3>Spirulina Reviver</h3>
+            <div class="sub">Organic blue spirulina, organic coconut water &amp; organic lime</div>
+          </div>
+          <span class="chip plain">$8</span>
+        </div>
+        <div class="card-body split">
+          <div>
+            <h4>Spec</h4>
+            <div class="spec">
+              <div class="row"><span class="q">0.75 oz</span><span class="i">Coconut blue spirulina mixture</span></div>
+              <div class="row"><span class="q">0.50 oz</span><span class="i">Lime juice</span></div>
+              <div class="row"><span class="q fill">fill</span><span class="i">Once Upon a Coconut water</span></div>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li><b>Fill the glass with ice.</b></li>
+              <li>Add <b>0.50 oz lime juice</b> and <b>0.75 oz coconut blue spirulina mixture</b>.</li>
+              <li>Add <b>Once Upon a Coconut water and fill to the top</b>.</li>
+              <li><b>Pack with ice</b> so the glass finishes full.</li>
+            </ol>
+            <div class="finish"><span><b>Garnish</b> Shaved coconut</span><span><b>Glass</b> 12 oz</span><span><b>Guest-facing</b> electrolytes, hydration, antioxidants</span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">D</span>
+      <h2>Line card</h2>
+      <span class="note">Print this one for the station</span>
+    </div>
+    <p class="lede">Same numbers as above, stripped to what a barista needs mid-rush.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Drink</th>
+            <th class="num">Price</th>
+            <th>Pour 1</th>
+            <th>Pour 2</th>
+            <th>Fill</th>
+            <th>Garnish</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Iced Coconut Americano</td>
+            <td class="num">$7</td>
+            <td class="num">1 oz espresso</td>
+            <td class="num">&mdash;</td>
+            <td>Coconut water</td>
+            <td>Shaved coconut</td>
+          </tr>
+          <tr>
+            <td class="name">Iced Blue Coconut Matcha</td>
+            <td class="num">$7</td>
+            <td class="num">2 oz matcha</td>
+            <td class="num">0.50 oz spirulina mix</td>
+            <td>Coconut water</td>
+            <td>Shaved coconut</td>
+          </tr>
+          <tr>
+            <td class="name">Chlorophyll Vitality</td>
+            <td class="num">$8</td>
+            <td class="num">0.50 oz ginger</td>
+            <td class="num">0.50 oz lemon</td>
+            <td>Chlorophyll mix</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td class="name">Spirulina Reviver</td>
+            <td class="num">$8</td>
+            <td class="num">0.50 oz lime</td>
+            <td class="num">0.75 oz spirulina mix</td>
+            <td>Coconut water</td>
+            <td>Shaved coconut</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">E</span>
+      <h2>Sourcing</h2>
+      <span class="note">Helena's approved list &mdash; no substitutions</span>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ingredient</th>
+            <th>Brand / source</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Blue spirulina</td>
+            <td>MicroIngredients</td>
+            <td>Amazon. Scaled by weight at 4.5 g per liter.</td>
+          </tr>
+          <tr>
+            <td class="name">Chlorophyll</td>
+            <td>Nature's Way Chlorofresh</td>
+            <td>Amazon. Liquid, 1 Tbsp per liter.</td>
+          </tr>
+          <tr>
+            <td class="name">Coconut water</td>
+            <td>Once Upon a Coconut, 32 oz</td>
+            <td>The fill on three of four drinks — the highest-volume item on the list.</td>
+          </tr>
+          <tr>
+            <td class="name">Ginger</td>
+            <td>Food distributor or transfer from sister store</td>
+            <td>Buy whole; we peel and juice in house.</td>
+          </tr>
+          <tr>
+            <td class="name">Lemon juice</td>
+            <td>Natalie's</td>
+            <td>&mdash;</td>
+          </tr>
+          <tr>
+            <td class="name">Lime juice</td>
+            <td>Natalie's</td>
+            <td>&mdash;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">F</span>
+      <h2>Prep-shift checklist</h2>
+      <span class="note">House standard &mdash; not in Helena's docs</span>
+    </div>
+    <p class="lede">Helena's sheets cover recipes, not handling. This is our side of it — confirm the hold times against our house cold-prep standard before it goes on the wall.</p>
+
+    <ul class="checks">
+      <li><b>Batch the chlorophyll mixture first.</b> It empties fastest and every Vitality is blocked without it.</li>
+      <li><b>Weigh the spirulina on a gram scale.</b> Eyeballing 4.5 g swings the color and the cost.</li>
+      <li><b>Peel, blend, strain ginger — then record the yield</b> on the container so we can build a real par.</li>
+      <li><b>Date and initial every container</b> the moment it's filled, including the batch size.</li>
+      <li><b>Fresh ginger juice gets the shortest life</b> of the three batches. Set its discard day against house standard and don't carry it past.</li>
+      <li><b>Stir the chlorophyll and spirulina mixtures before each service</b> — both settle out while they sit.</li>
+      <li><b>Coconut water stays chilled and rotated.</b> It's the fill on three drinks, so warm product shows up in every one of them.</li>
+      <li><b>Check the ice well before open.</b> Every one of these builds is spec'd packed with ice; short ice means a short pour and a wrong drink.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">G</span>
+      <h2>Fall menu &mdash; specs still open</h2>
+      <span class="note">Helena, Aug 28</span>
+    </div>
+    <p class="lede">Four fall lattes are approved on the menu edit, but that email carried ingredients and prices only. None of them have build specs, glassware, or prep recipes yet, so they can't be trained or costed off this document.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Drink</th>
+            <th class="num">Price</th>
+            <th>Ingredients as listed</th>
+            <th class="num">Build spec</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Pumpkin Date Latte</td>
+            <td class="num">$7</td>
+            <td>Milk, pumpkin puree, dates, pumpkin spice, unrefined coconut sugar</td>
+            <td class="num" style="color:var(--flag)">Needed</td>
+          </tr>
+          <tr>
+            <td class="name">Salted Maple Vanilla Bean Latte</td>
+            <td class="num">$7</td>
+            <td>Milk, pure maple syrup, vanilla bean, salt</td>
+            <td class="num" style="color:var(--flag)">Needed</td>
+          </tr>
+          <tr>
+            <td class="name">Keto Pumpkin Spice Latte</td>
+            <td class="num">$7</td>
+            <td>Milk, keto pumpkin spice allulose</td>
+            <td class="num" style="color:var(--flag)">Needed</td>
+          </tr>
+          <tr>
+            <td class="name">Keto Pumpkin Spice Bulletproof</td>
+            <td class="num">$7</td>
+            <td>Keto pumpkin spice allulose, grass-fed butter, MCT oil</td>
+            <td class="num" style="color:var(--flag)">Needed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="n">H</span>
+      <h2>Send to Helena</h2>
+      <span class="note">Blocking items first</span>
+    </div>
+
+    <ol class="asks">
+      <li><b>Confirm the batch names are swapped in the prep sheet</b> — chlorophyll in the chlorophyll mixture, spirulina in the spirulina mixture. Blocking; we don't batch until this is confirmed.</li>
+      <li><b>Coconut water or RO water in the coconut blue spirulina mixture?</b> The build sheet and prep sheet disagree, and it changes both the flavor and the cost. Blocking.</li>
+      <li><b>What's the finished yield on a 1.5 lb ginger batch?</b> Without it we can't set a ginger par.</li>
+      <li><b>Gram weight and water volume for the 2 oz prepped matcha</b>, so every store pulls the same drink.</li>
+      <li><b>How is the espresso pre-prepped?</b> Batch size, how it's chilled, how long we hold it.</li>
+      <li><b>Hold times for the three batch mixtures</b>, or confirmation that we date them to house cold-prep standard.</li>
+      <li><b>Build specs for the four fall lattes</b> from the Aug 28 menu edit — ounces, glass, and prep for the pumpkin puree and date components.</li>
+    </ol>
+  </section>
+
+  <footer class="colophon">
+    Compiled from Helena Manson's rollout emails: "CAFE BEVS 2026 MENU EDITS AND INGREDIENT LIST!" (Jul 30), CAFE.docx build specs (Aug 1, 17:57), "FIXED INGREDIENT ON GINGER JUICE USE THIS ONE" prep sheet (Aug 1, 17:20), and "Fall 2026 Cafe Bev Menu Edit" (Aug 28).<br>
+    Recipes, specs, prices, and sourcing are reproduced from those emails. Sections marked <em>House note</em>, the prep-shift checklist, and the yield estimates are operational additions, not Helena's spec &mdash; hold times must be set against our house cold-prep standard. Guest-facing benefit language ("detox, cleanse, purify" / "electrolytes, hydration, antioxidants") is quoted from the menu copy and is not a health claim we should extend beyond the printed menu.
+  </footer>
+
+</div>
