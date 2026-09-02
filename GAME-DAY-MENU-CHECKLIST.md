@@ -9,8 +9,8 @@ Menus are the first thing a guest touches. A wrong price, an old beer, or a stac
 
 ## Day Before — 100% of it, before you leave
 
-### 1. $1 Up menus printed
-- [ ] Confirm the current $1 Up file is the current one — check the date on the file before you print. Print nothing you did not open and read.
+### 1. $1 up menus printed
+- [ ] Confirm the current $1 up file is the current one — check the date on the file before you print. Print nothing you did not open and read.
 - [ ] Proof one copy first: pricing, spelling, dates, and the game day it applies to.
 - [ ] Print full count for the floor: **tables, bar, host stand, patio, private/reserved tops.**
 - [ ] Print the back-of-house copies: **kitchen line, expo, service bar.** If the staff can't see it, they can't sell it.
@@ -50,7 +50,7 @@ Menus are the first thing a guest touches. A wrong price, an old beer, or a stac
 
 | Item | Done by | Time | Verified by MOD |
 |---|---|---|---|
-| $1 Up menus printed | | | |
+| $1 up menus printed | | | |
 | Beer list updated | | | |
 | Bottle Service updated | | | |
 | Brunch game day menus | | | |
