@@ -1,0 +1,1579 @@
+week	period	section	category	reg_hrs	reg_pay	ot_pay	total_pay	pct_sales	pct_food_sales
+2.1.26	last_year	exec	BOH	725	11733	33	11766	6.99	14.48
+2.1.26	last_year	exec	FOH	1168	7505	0	7505	4.46	
+2.1.26	last_year	exec	Training	92	986	0	986	0.59	
+2.1.26	last_year	exec	FOH Salary	0	8490	0	8490	5.05	
+2.1.26	last_year	exec	BOH Salary	0	8895	0	8895	5.29	10.95
+2.1.26	last_year	exec	OTHER	0	1548	0	1548	0.92	
+2.1.26	last_year	exec	SUBTOTAL	1985	39156	33	39189	23.29	25.43
+2.1.26	last_year	exec	PAYROLL TAX		7831	7	7838	4.66	
+2.1.26	last_year	exec	TOTAL LABOR		46987	40	47027	27.95	
+2.1.26	report_week	exec	BOH	532	8345	0	8345	6.48	13.00
+2.1.26	report_week	exec	FOH	932	5814	77	5891	4.58	
+2.1.26	report_week	exec	Training	24	348	35	383	0.30	
+2.1.26	report_week	exec	FOH Salary	0	6978	0	6978	5.42	
+2.1.26	report_week	exec	BOH Salary	0	8168	0	8168	6.35	12.72
+2.1.26	report_week	exec	OTHER	0	422	0	422	0.33	
+2.1.26	report_week	exec	SUBTOTAL	1488	30076	112	30188	23.45	25.72
+2.1.26	report_week	exec	PAYROLL TAX		6015	22	6038	4.69	
+2.1.26	report_week	exec	TOTAL LABOR		36091	134	36225	28.14	
+2.1.26	last_year	boh	Cook	375	5894	0	5894	3.50	7.26
+2.1.26	last_year	boh	Prep	173	3227	33	3261	1.94	4.01
+2.1.26	last_year	boh	Dish	178	2612	0	2612	1.55	3.22
+2.1.26	last_year	boh	Salary	0	8895	0	8895	5.29	10.95
+2.1.26	last_year	boh	BOH TOTAL	725	20627	33	20661	12.28	25.43
+2.1.26	report_week	boh	Cook	338	5346	0	5346	4.15	8.33
+2.1.26	report_week	boh	Prep	114	2241	0	2241	1.74	3.49
+2.1.26	report_week	boh	Dish	80	759	0	759	0.59	1.18
+2.1.26	report_week	boh	Salary		8168		8168	6.35	12.72
+2.1.26	report_week	boh	BOH TOTAL	532	16513	0	16513	12.83	25.72
+2.1.26	last_year	foh	Security	43	946	0	946	0.56	
+2.1.26	last_year	foh	Bar Back	133	857	0	857	0.51	
+2.1.26	last_year	foh	Bartender	140	705	0	705	0.42	
+2.1.26	last_year	foh	Crepe	0	0	0	0	0.00	
+2.1.26	last_year	foh	Cafe	199	1195	0	1195	0.71	
+2.1.26	last_year	foh	Hostess	107	642	0	642	0.38	
+2.1.26	last_year	foh	Runner	43	233	0	233	0.14	
+2.1.26	last_year	foh	Server	485	2597	0	2597	1.54	
+2.1.26	last_year	foh	Training	92	986	0	986	0.59	
+2.1.26	last_year	foh	Maintenance	17	331	0	331	0.20	
+2.1.26	last_year	foh	COPS	0	1548		1548	0.25	
+2.1.26	last_year	foh	FOH TOTAL	1260	10038	0	10038	5.97	
+2.1.26	report_week	foh	Security	8	167		167	0.13	
+2.1.26	report_week	foh	Bar Back	166	1054	0	1054	0.82	
+2.1.26	report_week	foh	Bartender	158	867	131	998	0.78	
+2.1.26	report_week	foh	Crepe	0	0	0	0	0.00	
+2.1.26	report_week	foh	Cafe	155	928	0	928	0.72	
+2.1.26	report_week	foh	Hostess	123	1029	0	1029	0.80	
+2.1.26	report_week	foh	Runner	0	0	0	0	0.00	
+2.1.26	report_week	foh	Server	322	1769	0	1769	1.37	
+2.1.26	report_week	foh	Training	24	348	35	383	0.30	
+2.1.26	report_week	foh	Maintenance	0	0	0	0	0.00	
+2.1.26	report_week	foh	COPS	0	422	0	422	0.33	
+2.1.26	report_week	foh	FOH TOTAL	956	6584	166	6751	5.24	
+2.1.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+2.1.26	last_year	mgmt	Comp	0	2180	0	2180	1.30	
+2.1.26	last_year	mgmt	Salary	0	6310		6310	3.75	
+2.1.26	last_year	mgmt	MGMT TOTAL	0	8490	0	8490	5.05	
+2.1.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+2.1.26	report_week	mgmt	Comp		1000	0	1000	0.78	
+2.1.26	report_week	mgmt	Salary	0	5978		5978	4.64	
+2.1.26	report_week	mgmt	MGMT TOTAL	0	6978	0	6978	5.42	
+2.8.26	last_year	exec	BOH	694	11163	50	11213	5.67	11.56
+2.8.26	last_year	exec	FOH	1333	8216	0	8216	4.15	
+2.8.26	last_year	exec	Training	51	547	0	547	0.28	
+2.8.26	last_year	exec	FOH Salary	0	7925	0	7925	4.01	
+2.8.26	last_year	exec	BOH Salary	0	10395	0	10395	5.26	10.72
+2.8.26	last_year	exec	OTHER	0	1548	0	1548	0.78	
+2.8.26	last_year	exec	SUBTOTAL	2078	39794	50	39844	20.15	22.28
+2.8.26	last_year	exec	PAYROLL TAX		7959	10	7969	4.03	
+2.8.26	last_year	exec	TOTAL LABOR		47753	60	47813	24.18	
+2.8.26	report_week	exec	BOH	552	8779	0	8779	6.40	13.15
+2.8.26	report_week	exec	FOH	949	6637	77	6714	4.90	
+2.8.26	report_week	exec	Training	27	298	35	333	0.24	
+2.8.26	report_week	exec	FOH Salary	0	6688	0	6688	4.88	
+2.8.26	report_week	exec	BOH Salary	0	8961	0	8961	6.53	13.43
+2.8.26	report_week	exec	OTHER	0	687	0	687	0.50	
+2.8.26	report_week	exec	SUBTOTAL	1528	32049	112	32161	23.45	26.58
+2.8.26	report_week	exec	PAYROLL TAX		6410	22	6432	4.69	
+2.8.26	report_week	exec	TOTAL LABOR		38459	134	38594	28.14	
+2.8.26	last_year	boh	Cook	401	6387	0	6387	3.23	6.59
+2.8.26	last_year	boh	Prep	158	2998	16	3014	1.52	3.11
+2.8.26	last_year	boh	Dish	136	1778	34	1812	0.92	1.87
+2.8.26	last_year	boh	Salary	0	10395	0	10395	5.26	10.72
+2.8.26	last_year	boh	BOH TOTAL	694	21558	50	21608	10.93	22.28
+2.8.26	report_week	boh	Cook	353	5676	0	5676	4.14	8.50
+2.8.26	report_week	boh	Prep	120	2353	0	2353	1.72	3.52
+2.8.26	report_week	boh	Dish	79	749	0	749	0.55	1.12
+2.8.26	report_week	boh	Salary		8961		8961	6.53	13.43
+2.8.26	report_week	boh	BOH TOTAL	552	17740	0	17740	12.93	26.58
+2.8.26	last_year	foh	Security	28	593	0	593	0.30	
+2.8.26	last_year	foh	Bar Back	174	1014	0	1014	0.51	
+2.8.26	last_year	foh	Bartender	186	995	0	995	0.50	
+2.8.26	last_year	foh	Crepe	0	0	0	0	0.00	
+2.8.26	last_year	foh	Cafe	216	1294	0	1294	0.65	
+2.8.26	last_year	foh	Hostess	135	811	0	811	0.41	
+2.8.26	last_year	foh	Runner	39	209	0	209	0.11	
+2.8.26	last_year	foh	Server	555	2969	0	2969	1.50	
+2.8.26	last_year	foh	Training	51	547	0	547	0.28	
+2.8.26	last_year	foh	Maintenance	0	331	0	331	0.17	
+2.8.26	last_year	foh	COPS	0	1548		1548	0.35	
+2.8.26	last_year	foh	FOH TOTAL	1384	10312	0	10312	5.21	
+2.8.26	report_week	foh	Security	0	400		400	0.29	
+2.8.26	report_week	foh	Bar Back	152	998	39	1037	0.76	
+2.8.26	report_week	foh	Bartender	172	947	74	1021	0.74	
+2.8.26	report_week	foh	Crepe	0	0	0	0	0.00	
+2.8.26	report_week	foh	Cafe	140	842	0	842	0.61	
+2.8.26	report_week	foh	Hostess	140	1556	0	1556	1.13	
+2.8.26	report_week	foh	Runner	0	0	0	0	0.00	
+2.8.26	report_week	foh	Server	344	1894	0	1894	1.38	
+2.8.26	report_week	foh	Training	27	298	35	333	0.24	
+2.8.26	report_week	foh	Maintenance	0	0	0	0	0.00	
+2.8.26	report_week	foh	COPS	0	687	0	687	0.50	
+2.8.26	report_week	foh	FOH TOTAL	976	7622	148	7770	5.67	
+2.8.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+2.8.26	last_year	mgmt	Comp	0	1615	0	1615	0.82	
+2.8.26	last_year	mgmt	Salary	0	6310		6310	3.19	
+2.8.26	last_year	mgmt	MGMT TOTAL	0	7925	0	7925	4.01	
+2.8.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+2.8.26	report_week	mgmt	Comp		800	0	800	0.58	
+2.8.26	report_week	mgmt	Salary	0	5888		5888	4.29	
+2.8.26	report_week	mgmt	MGMT TOTAL	0	6688	0	6688	4.88	
+8.16.26	last_year	exec	BOH	727	10221	28	10249	5.44	10.86
+8.16.26	last_year	exec	FOH	1396	8729	73	8802	4.67	
+8.16.26	last_year	exec	Training	179	1917	0	1917	1.02	
+8.16.26	last_year	exec	FOH Salary	0	7338	0	7338	3.89	
+8.16.26	last_year	exec	BOH Salary	0	12383	0	12383	6.57	13.12
+8.16.26	last_year	exec	OTHER	0	1548	0	1548	0.82	
+8.16.26	last_year	exec	SUBTOTAL	2302	42136	101	42237	22.41	23.98
+8.16.26	last_year	exec	PAYROLL TAX		8427	20	8447	4.48	
+8.16.26	last_year	exec	TOTAL LABOR		50563	121	50684	26.89	
+8.16.26	report_week	exec	BOH	651	11917	0	11917	9.19	15.87
+8.16.26	report_week	exec	FOH	1033	6551	77	6628	5.11	
+8.16.26	report_week	exec	Training	23	254	0	254	0.20	
+8.16.26	report_week	exec	FOH Salary	0	5870	0	5870	4.53	
+8.16.26	report_week	exec	BOH Salary	0	8518	0	8518	6.57	11.35
+8.16.26	report_week	exec	OTHER	0	852	0	852	0.66	
+8.16.26	report_week	exec	SUBTOTAL	1707	33962	77	34039	26.25	27.22
+8.16.26	report_week	exec	PAYROLL TAX		6792	15	6808	5.25	
+8.16.26	report_week	exec	TOTAL LABOR		40754	92	40847	31.50	
+8.16.26	last_year	boh	Cook	464	6525	5	480	0.25	0.51
+8.16.26	last_year	boh	Prep	81	1636	23	1659	0.88	1.76
+8.16.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+8.16.26	last_year	boh	Dish	182	2060	0	2060	1.09	2.18
+8.16.26	last_year	boh	Salary	0	12383	0	12383	6.57	13.12
+8.16.26	last_year	boh	BOH TOTAL	727	22604	28	16582	8.80	17.57
+8.16.26	report_week	boh	Cook	424	7417	331	7748	5.98	10.32
+8.16.26	report_week	boh	Prep	67	1306	0	1306	1.01	1.74
+8.16.26	report_week	boh	Expo	80	1758	0	1758	1.36	2.34
+8.16.26	report_week	boh	Dish	80	1436	53	1489	1.15	1.98
+8.16.26	report_week	boh	Salary	0	8518	0	8518	6.57	11.35
+8.16.26	report_week	boh	BOH TOTAL	651	20435	384	20819	16.06	27.73
+8.16.26	last_year	foh	Security	45	940	0	940	0.50	
+8.16.26	last_year	foh	Bar Back	161	923	24	947	0.50	
+8.16.26	last_year	foh	Bartender	205	1031	1	1032	0.55	
+8.16.26	last_year	foh	Crepe	0	300	0	300	0.16	
+8.16.26	last_year	foh	Cafe	183	1065	48	1113	0.59	
+8.16.26	last_year	foh	Hostess	164	984	0	984	0.52	
+8.16.26	last_year	foh	Runner	29	156	0	156	0.08	
+8.16.26	last_year	foh	Server	602	3220	0	3220	1.71	
+8.16.26	last_year	foh	Training	179	1917	0	1917	1.02	
+8.16.26	last_year	foh	Maintenance	7	110	0	110	0.06	
+8.16.26	last_year	foh	COPS	0	1548		1548	0.45	
+8.16.26	last_year	foh	FOH TOTAL	1575	12194	73	12267	6.51	
+8.16.26	report_week	foh	Security	12	243	0	243	0.19	
+8.16.26	report_week	foh	Bar Back	160	863	21	884	0.68	
+8.16.26	report_week	foh	Bartender	170	933	0	933	0.72	
+8.16.26	report_week	foh	Crepe	0	225	0	225	0.17	
+8.16.26	report_week	foh	Cafe	171	1026	0	1026	0.79	
+8.16.26	report_week	foh	Hostess	122	997	0	997	0.77	
+8.16.26	report_week	foh	Runner	15	84	0	84	0.06	
+8.16.26	report_week	foh	Server	378	2074	9	2083	1.61	
+8.16.26	report_week	foh	Training	23	254	0	254	0.20	
+8.16.26	report_week	foh	Maintenance	5	106	0	106	0.08	
+8.16.26	report_week	foh	COPS	0	852	0	852	0.66	
+8.16.26	report_week	foh	FOH TOTAL	1056	7657	30	7687	5.93	
+8.16.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+8.16.26	last_year	mgmt	Comp	0	1128	0	1128	0.60	
+8.16.26	last_year	mgmt	Salary	0	6210		6210	3.30	
+8.16.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	3.89	
+8.16.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+8.16.26	report_week	mgmt	Comp		1200	0	1200	0.93	
+8.16.26	report_week	mgmt	Salary	0	4670		4670	3.60	
+8.16.26	report_week	mgmt	MGMT TOTAL	0	5870	0	5870	4.53	
+2.15.26	last_year	exec	BOH	702	12122	65	12186	6.38	12.57
+2.15.26	last_year	exec	FOH	1185	7346	77	7423	3.89	
+2.15.26	last_year	exec	Training	53	565	0	565	0.30	
+2.15.26	last_year	exec	FOH Salary	0	8710	0	8710	4.56	
+2.15.26	last_year	exec	BOH Salary	0	11395	0	11395	5.97	11.75
+2.15.26	last_year	exec	OTHER	0	1548	0	1548	0.81	
+2.15.26	last_year	exec	SUBTOTAL	1940	41685	142	41827	21.91	24.32
+2.15.26	last_year	exec	PAYROLL TAX		8337	28	8365	4.38	
+2.15.26	last_year	exec	TOTAL LABOR		50023	170	50193	26.30	
+2.15.26	report_week	exec	BOH	550	8690	0	8690	6.14	12.45
+2.15.26	report_week	exec	FOH	971	6659	77	6736	4.76	
+2.15.26	report_week	exec	Training	142	1561	0	1561	1.10	
+2.15.26	report_week	exec	FOH Salary	0	6688	0	6688	4.72	
+2.15.26	report_week	exec	BOH Salary	0	9248	0	9248	6.53	13.25
+2.15.26	report_week	exec	OTHER	0	0	0	0	0.00	
+2.15.26	report_week	exec	SUBTOTAL	1663	32845	77	32922	23.25	25.71
+2.15.26	report_week	exec	PAYROLL TAX		6569	15	6584	4.65	
+2.15.26	report_week	exec	TOTAL LABOR		39414	92	39507	27.90	
+2.15.26	last_year	boh	Cook	389	6980	0	6980	3.66	7.20
+2.15.26	last_year	boh	Prep	160	3037	64	3102	1.63	3.20
+2.15.26	last_year	boh	Dish	153	2104	0	2104	1.10	2.17
+2.15.26	last_year	boh	Salary	0	11395	0	11395	5.97	11.75
+2.15.26	last_year	boh	BOH TOTAL	702	23516	65	23581	12.35	24.32
+2.15.26	report_week	boh	Cook	350	5579	677	6256	4.42	8.97
+2.15.26	report_week	boh	Prep	120	2351	19	2370	1.67	3.40
+2.15.26	report_week	boh	Dish	80	760	56	816	0.58	1.17
+2.15.26	report_week	boh	Salary		9248		9248	6.53	13.25
+2.15.26	report_week	boh	BOH TOTAL	550	17938	753	18691	13.20	26.79
+2.15.26	last_year	foh	Security	32	686	0	686	0.36	
+2.15.26	last_year	foh	Bar Back	140	826	39	865	0.45	
+2.15.26	last_year	foh	Bartender	143	763	0	763	0.40	
+2.15.26	last_year	foh	Crepe	0	0	0	0	0.00	
+2.15.26	last_year	foh	Cafe	205	1232	0	1232	0.65	
+2.15.26	last_year	foh	Hostess	148	888	10	898	0.47	
+2.15.26	last_year	foh	Runner	27	146	0	146	0.08	
+2.15.26	last_year	foh	Server	475	2541	28	2570	1.35	
+2.15.26	last_year	foh	Training	53	565	0	565	0.30	
+2.15.26	last_year	foh	Maintenance	15	265	0	265	0.14	
+2.15.26	last_year	foh	COPS	0	1548		1548	0.00	
+2.15.26	last_year	foh	FOH TOTAL	1238	9459	77	9536	5.00	
+2.15.26	report_week	foh	Security	0	400		400	0.28	
+2.15.26	report_week	foh	Bar Back	171	1107	67	1174	0.83	
+2.15.26	report_week	foh	Bartender	183	1005	110	1115	0.79	
+2.15.26	report_week	foh	Crepe	0	0	0	0	0.00	
+2.15.26	report_week	foh	Cafe	136	818	0	818	0.58	
+2.15.26	report_week	foh	Hostess	125	1339	0	1339	0.95	
+2.15.26	report_week	foh	Runner	23	129	0	129	0.09	
+2.15.26	report_week	foh	Server	331	1820	101	1921	1.36	
+2.15.26	report_week	foh	Training	142	1561	0	1561	1.10	
+2.15.26	report_week	foh	Maintenance	2	40	0	40	0.03	
+2.15.26	report_week	foh	COPS	0	0	0	0	0.00	
+2.15.26	report_week	foh	FOH TOTAL	1113	8219	277	8497	6.00	
+2.15.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+2.15.26	last_year	mgmt	Comp	0	2400	0	2400	1.26	
+2.15.26	last_year	mgmt	Salary	0	6310		6310	3.31	
+2.15.26	last_year	mgmt	MGMT TOTAL	0	8710	0	8710	4.56	
+2.15.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+2.15.26	report_week	mgmt	Comp		800	0	800	0.56	
+2.15.26	report_week	mgmt	Salary	0	5888		5888	4.16	
+2.15.26	report_week	mgmt	MGMT TOTAL	0	6688	0	6688	4.72	
+2.22.26	last_year	exec	BOH	675	11274	0	11274	5.13	10.70
+2.22.26	last_year	exec	FOH	1277	7705	33	7738	3.52	
+2.22.26	last_year	exec	Training	58	618	0	618	0.28	
+2.22.26	last_year	exec	FOH Salary	0	6064	0	6064	2.76	
+2.22.26	last_year	exec	BOH Salary	0	11395	0	11395	5.18	10.81
+2.22.26	last_year	exec	OTHER	0	1548	0	1548	0.70	
+2.22.26	last_year	exec	SUBTOTAL	2009	38604	33	38637	17.58	21.51
+2.22.26	last_year	exec	PAYROLL TAX		7721	7	7727	3.52	
+2.22.26	last_year	exec	TOTAL LABOR		46325	40	46364	21.09	
+2.22.26	report_week	exec	BOH	543	8603	0	8603	5.70	11.34
+2.22.26	report_week	exec	FOH	ERR	6505	77	6582	4.36	
+2.22.26	report_week	exec	Training	ERR	1462	0	1462	0.97	
+2.22.26	report_week	exec	FOH Salary	0	6088	0	6088	4.03	
+2.22.26	report_week	exec	BOH Salary	0	9798	0	9798	6.49	12.91
+2.22.26	report_week	exec	OTHER	0	0	0	0	0.00	
+2.22.26	report_week	exec	SUBTOTAL	ERR	32456	77	32533	21.55	24.25
+2.22.26	report_week	exec	PAYROLL TAX		6491	15	6507	4.31	
+2.22.26	report_week	exec	TOTAL LABOR		38947	92	39040	25.85	
+2.22.26	last_year	boh	Cook	378	6481	0	6481	2.95	6.15
+2.22.26	last_year	boh	Prep	180	3379	0	3379	1.54	3.21
+2.22.26	last_year	boh	Dish	117	1414	0	1414	0.64	1.34
+2.22.26	last_year	boh	Salary	0	11395	0	11395	5.18	10.81
+2.22.26	last_year	boh	BOH TOTAL	675	22668	0	22668	10.31	21.51
+2.22.26	report_week	boh	Cook	360	5828	0	5828	3.86	7.68
+2.22.26	report_week	boh	Prep	112	2190	0	2190	1.45	2.89
+2.22.26	report_week	boh	Dish	71	586	0	586	0.39	0.77
+2.22.26	report_week	boh	Salary		9798		9798	6.49	12.91
+2.22.26	report_week	boh	BOH TOTAL	543	18401	0	18401	12.19	24.25
+2.22.26	last_year	foh	Security	26	548	0	548	0.25	
+2.22.26	last_year	foh	Bar Back	175	1092	0	1092	0.50	
+2.22.26	last_year	foh	Bartender	160	782	33	815	0.37	
+2.22.26	last_year	foh	Crepe	0	0	0	0	0.00	
+2.22.26	last_year	foh	Cafe	190	1138	0	1138	0.52	
+2.22.26	last_year	foh	Hostess	146	873	0	873	0.40	
+2.22.26	last_year	foh	Runner	58	313	0	313	0.14	
+2.22.26	last_year	foh	Server	510	2727	0	2727	1.24	
+2.22.26	last_year	foh	Training	58	618	0	618	0.28	
+2.22.26	last_year	foh	Maintenance	13	233	0	233	0.11	
+2.22.26	last_year	foh	COPS	0	1548		1548	0.00	
+2.22.26	last_year	foh	FOH TOTAL	1334	9872	33	9905	4.51	
+2.22.26	report_week	foh	Security	10	200		200	0.13	
+2.22.26	report_week	foh	Bar Back	175	1132	0	1132	0.75	
+2.22.26	report_week	foh	Bartender	164	903	92	995	0.66	
+2.22.26	report_week	foh	Crepe	0	0	0	0	0.00	
+2.22.26	report_week	foh	Cafe	150	903	0	903	0.60	
+2.22.26	report_week	foh	Hostess	128	1205	0	1205	0.80	
+2.22.26	report_week	foh	Runner	7	41	0	41	0.03	
+2.22.26	report_week	foh	Server	352	1938	169	2107	1.40	
+2.22.26	report_week	foh	Training	ERR	1462	0	1462	0.97	
+2.22.26	report_week	foh	Maintenance	11	183	0	183	0.12	
+2.22.26	report_week	foh	COPS	0	0	0	0	0.00	
+2.22.26	report_week	foh	FOH TOTAL	999	7967	261	8228	5.45	
+2.22.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+2.22.26	last_year	mgmt	Comp	0	954	0	954	0.43	
+2.22.26	last_year	mgmt	Salary	0	5110		5110	2.32	
+2.22.26	last_year	mgmt	MGMT TOTAL	0	6064	0	6064	2.76	
+2.22.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+2.22.26	report_week	mgmt	Comp		200	0	200	0.13	
+2.22.26	report_week	mgmt	Salary	0	5888		5888	3.90	
+2.22.26	report_week	mgmt	MGMT TOTAL	0	6088	0	6088	4.03	
+3.1.26	last_year	exec	BOH	730	11806	200	12005	4.89	11.39
+3.1.26	last_year	exec	FOH	1485	9424	264	9688	3.94	
+3.1.26	last_year	exec	Training	65	700	0	700	0.28	
+3.1.26	last_year	exec	FOH Salary	0	6179	0	6179	2.51	
+3.1.26	last_year	exec	BOH Salary	0	12050	0	12050	4.90	11.43
+3.1.26	last_year	exec	OTHER	0	1548	0	1548	0.63	
+3.1.26	last_year	exec	SUBTOTAL	2280	41706	464	42170	17.16	22.83
+3.1.26	last_year	exec	PAYROLL TAX		8341	93	8434	3.43	
+3.1.26	last_year	exec	TOTAL LABOR		50047	557	50604	20.60	
+3.1.26	report_week	exec	BOH	576	9162	0	9162	5.48	12.08
+3.1.26	report_week	exec	FOH	1132	7368	77	7445	4.45	
+3.1.26	report_week	exec	Training	57	630	0	630	0.38	
+3.1.26	report_week	exec	FOH Salary	0	6939	0	6939	4.15	
+3.1.26	report_week	exec	BOH Salary	0	10248	0	10248	6.12	13.51
+3.1.26	report_week	exec	OTHER	0	0	0	0	0.00	
+3.1.26	report_week	exec	SUBTOTAL	1766	34347	77	34424	20.57	25.58
+3.1.26	report_week	exec	PAYROLL TAX		6869	15	6885	4.11	
+3.1.26	report_week	exec	TOTAL LABOR		41217	92	41309	24.69	
+3.1.26	last_year	boh	Cook	420	6786	0	6786	2.76	6.44
+3.1.26	last_year	boh	Prep	194	3614	200	3814	1.55	3.62
+3.1.26	last_year	boh	Dish	116	1405	0	1405	0.57	1.33
+3.1.26	last_year	boh	Salary	0	12050	0	12050	4.90	11.43
+3.1.26	last_year	boh	BOH TOTAL	730	23855	200	24055	9.79	22.83
+3.1.26	report_week	boh	Cook	362	5867	0	5867	3.51	7.73
+3.1.26	report_week	boh	Prep	103	2004	42	2046	1.22	2.70
+3.1.26	report_week	boh	Dish	111	1291	169	1460	0.87	1.92
+3.1.26	report_week	boh	Salary	0	10248	0	10248	6.12	13.51
+3.1.26	report_week	boh	BOH TOTAL	576	19410	210	19621	11.73	25.86
+3.1.26	last_year	foh	Security	39	815	0	815	0.33	
+3.1.26	last_year	foh	Bar Back	201	1233	52	1285	0.52	
+3.1.26	last_year	foh	Bartender	140	716	0	716	0.29	
+3.1.26	last_year	foh	Crepe	0	0	0	0	0.00	
+3.1.26	last_year	foh	Cafe	219	1314	115	1429	0.58	
+3.1.26	last_year	foh	Hostess	177	1314	0	1314	0.53	
+3.1.26	last_year	foh	Runner	68	365	72	437	0.18	
+3.1.26	last_year	foh	Server	622	3326	26	3352	1.36	
+3.1.26	last_year	foh	Training	65	700	0	700	0.28	
+3.1.26	last_year	foh	Maintenance	19	340	0	340	0.14	
+3.1.26	last_year	foh	COPS	0	1548		1548	0.00	
+3.1.26	last_year	foh	FOH TOTAL	1550	11672	264	11936	4.86	
+3.1.26	report_week	foh	Security	26	548	0	548	0.33	
+3.1.26	report_week	foh	Bar Back	162	891	60	951	0.57	
+3.1.26	report_week	foh	Bartender	197	1083	0	1083	0.65	
+3.1.26	report_week	foh	Crepe	0	0	0	0	0.00	
+3.1.26	report_week	foh	Cafe	190	1141	0	1141	0.68	
+3.1.26	report_week	foh	Hostess	136	1305	0	1305	0.78	
+3.1.26	report_week	foh	Runner	7	38	0	38	0.02	
+3.1.26	report_week	foh	Server	406	2234	0	2234	1.34	
+3.1.26	report_week	foh	Training	57	630	0	630	0.38	
+3.1.26	report_week	foh	Maintenance	8	127	0	127	0.08	
+3.1.26	report_week	foh	COPS	0	0		0	0.00	
+3.1.26	report_week	foh	FOH TOTAL	1189	7998	60	8058	4.82	
+3.1.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+3.1.26	last_year	mgmt	Comp	0	1069	0	1069	0.44	
+3.1.26	last_year	mgmt	Salary	0	5110		5110	2.08	
+3.1.26	last_year	mgmt	MGMT TOTAL	0	6179	0	6179	2.51	
+3.1.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+3.1.26	report_week	mgmt	Comp		800	0	800	0.48	
+3.1.26	report_week	mgmt	Salary	0	6139		6139	3.67	
+3.1.26	report_week	mgmt	MGMT TOTAL	0	6939	0	6939	4.15	
+3.8.26	last_year	exec	BOH	691	11656	0	11656	7.29	12.60
+3.8.26	last_year	exec	FOH	1137	7188	1	7189	4.50	
+3.8.26	last_year	exec	Training	63	673	0	673	0.42	
+3.8.26	last_year	exec	FOH Salary	0	6179	0	6179	3.86	
+3.8.26	last_year	exec	BOH Salary	0	12050	0	12050	7.53	13.03
+3.8.26	last_year	exec	OTHER	0	1548	0	1548	0.97	
+3.8.26	last_year	exec	SUBTOTAL	1891	39294	1	39295	24.57	25.63
+3.8.26	last_year	exec	PAYROLL TAX		7859	0	7859	4.91	
+3.8.26	last_year	exec	TOTAL LABOR		47153	1	47154	29.49	
+3.8.26	report_week	exec	BOH	569	9009	0	9009	4.44	9.71
+3.8.26	report_week	exec	FOH	1298	8298	77	8375	4.12	
+3.8.26	report_week	exec	Training	94	1032	0	1032	0.51	
+3.8.26	report_week	exec	FOH Salary	0	7027	0	7027	3.46	
+3.8.26	report_week	exec	BOH Salary	0	10248	0	10248	5.05	11.05
+3.8.26	report_week	exec	OTHER	0	0	0	0	0.00	
+3.8.26	report_week	exec	SUBTOTAL	1961	35614	77	35691	17.57	20.76
+3.8.26	report_week	exec	PAYROLL TAX		7123	15	7138	3.51	
+3.8.26	report_week	exec	TOTAL LABOR		42737	92	42830	21.09	
+3.8.26	last_year	boh	Cook	415	6696	0	6696	4.19	7.24
+3.8.26	last_year	boh	Prep	160	3555	0	3555	2.22	3.84
+3.8.26	last_year	boh	Dish	116	1405	0	1405	0.88	1.52
+3.8.26	last_year	boh	Salary	0	12050	0	12050	7.53	13.03
+3.8.26	last_year	boh	BOH TOTAL	691	23706	0	23706	14.82	25.63
+3.8.26	report_week	boh	Cook	374	6130	286	6416	3.16	6.92
+3.8.26	report_week	boh	Prep	80	1517	0	1517	0.75	1.64
+3.8.26	report_week	boh	Dish	115	1362	0	1362	0.67	1.47
+3.8.26	report_week	boh	Salary	0	10248	0	10248	5.05	11.05
+3.8.26	report_week	boh	BOH TOTAL	569	19257	286	19543	9.62	21.07
+3.8.26	last_year	foh	Security	20	416	0	416	0.26	
+3.8.26	last_year	foh	Bar Back	161	1077	0	1077	0.67	
+3.8.26	last_year	foh	Bartender	156	833	0	833	0.52	
+3.8.26	last_year	foh	Crepe	0	0	0	0	0.00	
+3.8.26	last_year	foh	Cafe	172	1034	0	1034	0.65	
+3.8.26	last_year	foh	Hostess	134	1184	0	1184	0.74	
+3.8.26	last_year	foh	Runner	25	135	0	135	0.08	
+3.8.26	last_year	foh	Server	469	2509	1	2510	1.57	
+3.8.26	last_year	foh	Training	63	673	0	673	0.42	
+3.8.26	last_year	foh	Maintenance	0	0	0	0	0.00	
+3.8.26	last_year	foh	COPS	0	1548		1548	0.00	
+3.8.26	last_year	foh	FOH TOTAL	1200	9409	1	9410	5.88	
+3.8.26	report_week	foh	Security	32	480	0	480	0.24	
+3.8.26	report_week	foh	Bar Back	213	1170	13	1183	0.58	
+3.8.26	report_week	foh	Bartender	219	1206	130	1336	0.66	
+3.8.26	report_week	foh	Crepe	0	0	0	0	0.00	
+3.8.26	report_week	foh	Cafe	223	1340	0	1340	0.66	
+3.8.26	report_week	foh	Hostess	177	1622	0	1622	0.80	
+3.8.26	report_week	foh	Runner	17	93	0	93	0.05	
+3.8.26	report_week	foh	Server	409	2249	33	2282	1.12	
+3.8.26	report_week	foh	Training	94	1032	0	1032	0.51	
+3.8.26	report_week	foh	Maintenance	8	138	0	138	0.07	
+3.8.26	report_week	foh	COPS	0	0		0	0.00	
+3.8.26	report_week	foh	FOH TOTAL	1392	9330	176	9506	4.68	
+3.8.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+3.8.26	last_year	mgmt	Comp	0	1069	0	1069	0.67	
+3.8.26	last_year	mgmt	Salary	0	5110		5110	3.20	
+3.8.26	last_year	mgmt	MGMT TOTAL	0	6179	0	6179	3.86	
+3.8.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+3.8.26	report_week	mgmt	Comp		800	0	800	0.39	
+3.8.26	report_week	mgmt	Salary	0	6227		6227	3.07	
+3.8.26	report_week	mgmt	MGMT TOTAL	0	7027	0	7027	3.46	
+3.15.26	last_year	exec	BOH	672	11261	399	11660	7.35	13.03
+3.15.26	last_year	exec	FOH	1144	7142	323	7465	4.71	
+3.15.26	last_year	exec	Training	74	797	0	797	0.50	
+3.15.26	last_year	exec	FOH Salary	0	6910	0	6910	4.36	
+3.15.26	last_year	exec	BOH Salary	0	12983	0	12983	8.19	14.51
+3.15.26	last_year	exec	OTHER	0	1548	0	1548	0.98	
+3.15.26	last_year	exec	SUBTOTAL	1890	40641	722	41363	26.08	27.54
+3.15.26	last_year	exec	PAYROLL TAX		8128	144	8273	5.22	
+3.15.26	last_year	exec	TOTAL LABOR		48769	867	49635	31.29	
+3.15.26	report_week	exec	BOH	564	8971	0	8971	7.05	11.30
+3.15.26	report_week	exec	FOH	926	5363	77	5440	4.27	
+3.15.26	report_week	exec	Training	78	858	0	858	0.67	
+3.15.26	report_week	exec	FOH Salary	0	6177	0	6177	4.85	
+3.15.26	report_week	exec	BOH Salary	0	10248	0	10248	8.05	12.90
+3.15.26	report_week	exec	OTHER	0	422	0	422	0.33	
+3.15.26	report_week	exec	SUBTOTAL	1568	32039	77	32116	25.23	24.20
+3.15.26	report_week	exec	PAYROLL TAX		6408	15	6423	5.05	
+3.15.26	report_week	exec	TOTAL LABOR		38447	92	38540	30.28	
+3.15.26	last_year	boh	Cook	400	6377	399	6776	4.27	7.57
+3.15.26	last_year	boh	Prep	156	3475	0	3475	2.19	3.88
+3.15.26	last_year	boh	Dish	116	1409	0	1409	0.89	1.58
+3.15.26	last_year	boh	Salary	0	12983	0	12983	8.19	14.51
+3.15.26	last_year	boh	BOH TOTAL	672	24244	399	24643	15.54	27.54
+3.15.26	report_week	boh	Cook	368	6081	0	6081	4.78	7.66
+3.15.26	report_week	boh	Prep	80	1516	413	1929	1.52	2.43
+3.15.26	report_week	boh	Dish	116	1374	0	1374	1.08	1.73
+3.15.26	report_week	boh	Salary	0	10248	0	10248	8.05	12.90
+3.15.26	report_week	boh	BOH TOTAL	564	19219	413	19632	15.42	24.72
+3.15.26	last_year	foh	Security	18	383	0	383	0.24	
+3.15.26	last_year	foh	Bar Back	132	706	59	765	0.48	
+3.15.26	last_year	foh	Bartender	198	1059	121	1180	0.74	
+3.15.26	last_year	foh	Crepe	0	0	0	0	0.00	
+3.15.26	last_year	foh	Cafe	144	867	1	868	0.55	
+3.15.26	last_year	foh	Hostess	132	1314	5	1319	0.83	
+3.15.26	last_year	foh	Runner	41	218	32	250	0.16	
+3.15.26	last_year	foh	Server	476	2546	105	2651	1.67	
+3.15.26	last_year	foh	Training	74	797	0	797	0.50	
+3.15.26	last_year	foh	Maintenance	3	49	0	49	0.03	
+3.15.26	last_year	foh	COPS	0	1548		1548	0.27	
+3.15.26	last_year	foh	FOH TOTAL	1218	9487	323	9810	6.18	
+3.15.26	report_week	foh	Security	6	110	0	110	0.09	
+3.15.26	report_week	foh	Bar Back	154	849	0	849	0.67	
+3.15.26	report_week	foh	Bartender	178	981	76	1057	0.83	
+3.15.26	report_week	foh	Crepe	0	0	0	0	0.00	
+3.15.26	report_week	foh	Cafe	162	970	0	970	0.76	
+3.15.26	report_week	foh	Hostess	100	598	0	598	0.47	
+3.15.26	report_week	foh	Runner	6	31	0	31	0.02	
+3.15.26	report_week	foh	Server	314	1727	67	1794	1.41	
+3.15.26	report_week	foh	Training	78	858	0	858	0.67	
+3.15.26	report_week	foh	Maintenance	6	97	0	97	0.08	
+3.15.26	report_week	foh	COPS	0	422	0	422	0.33	
+3.15.26	report_week	foh	FOH TOTAL	1004	6643	143	6786	5.33	
+3.15.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+3.15.26	last_year	mgmt	Comp	0	1800	0	1800	1.13	
+3.15.26	last_year	mgmt	Salary	0	5110		5110	3.22	
+3.15.26	last_year	mgmt	MGMT TOTAL	0	6910	0	6910	4.36	
+3.15.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+3.15.26	report_week	mgmt	Comp		800	0	800	0.63	
+3.15.26	report_week	mgmt	Salary	0	5377		5377	4.22	
+3.15.26	report_week	mgmt	MGMT TOTAL	0	6177	0	6177	4.85	
+3.22.26	last_year	exec	BOH	721	12164	86	12250	5.43	11.24
+3.22.26	last_year	exec	FOH	1392	8344	26	8370	3.71	
+3.22.26	last_year	exec	Training	42	455	0	455	0.20	
+3.22.26	last_year	exec	FOH Salary	0	7124	0	7124	3.16	
+3.22.26	last_year	exec	BOH Salary	0	13683	0	13683	6.06	12.55
+3.22.26	last_year	exec	OTHER	0	1548	0	1548	0.69	
+3.22.26	last_year	exec	SUBTOTAL	2155	43318	112	43429	19.24	23.79
+3.22.26	last_year	exec	PAYROLL TAX		8664	22	8686	3.85	
+3.22.26	last_year	exec	TOTAL LABOR		51981	134	52115	23.08	
+3.22.26	report_week	exec	BOH	610	9772	0	9772	8.58	14.21
+3.22.26	report_week	exec	FOH	874	5413	77	5490	4.82	
+3.22.26	report_week	exec	Training	0	0	0	0	0.00	
+3.22.26	report_week	exec	FOH Salary	0	6476	0	6476	5.68	
+3.22.26	report_week	exec	BOH Salary	0	9348	0	9348	8.21	13.59
+3.22.26	report_week	exec	OTHER	0	422	0	422	0.37	
+3.22.26	report_week	exec	SUBTOTAL	1484	31431	77	31508	27.66	27.81
+3.22.26	report_week	exec	PAYROLL TAX		6286	15	6302	5.53	
+3.22.26	report_week	exec	TOTAL LABOR		37717	92	37810	33.19	
+3.22.26	last_year	boh	Cook	421	6805	0	6805	3.01	6.24
+3.22.26	last_year	boh	Prep	183	3941	25	3966	1.76	3.64
+3.22.26	last_year	boh	Dish	117	1418	60	1478	0.65	1.36
+3.22.26	last_year	boh	Salary	0	13683	0	13683	6.06	12.55
+3.22.26	last_year	boh	BOH TOTAL	721	25847	86	25932	11.49	23.79
+3.22.26	report_week	boh	Cook	397	6541	0	6541	5.74	9.51
+3.22.26	report_week	boh	Prep	80	1520	244	1764	1.55	2.57
+3.22.26	report_week	boh	Dish	133	1711	0	1711	1.50	2.49
+3.22.26	report_week	boh	Salary	0	9348	0	9348	8.21	13.59
+3.22.26	report_week	boh	BOH TOTAL	610	19120	244	19364	17.00	28.16
+3.22.26	last_year	foh	Security	28	556	0	556	0.25	
+3.22.26	last_year	foh	Bar Back	197	1204	0	1204	0.53	
+3.22.26	last_year	foh	Bartender	165	819	0	819	0.36	
+3.22.26	last_year	foh	Crepe	0	0	0	0	0.00	
+3.22.26	last_year	foh	Cafe	199	1191	0	1191	0.53	
+3.22.26	last_year	foh	Hostess	171	1026	0	1026	0.45	
+3.22.26	last_year	foh	Runner	40	215	0	215	0.10	
+3.22.26	last_year	foh	Server	580	3101	26	3127	1.39	
+3.22.26	last_year	foh	Training	42	455	0	455	0.20	
+3.22.26	last_year	foh	Maintenance	12	232	0	232	0.10	
+3.22.26	last_year	foh	COPS	0	1548		1548	0.19	
+3.22.26	last_year	foh	FOH TOTAL	1434	10347	26	10373	4.59	
+3.22.26	report_week	foh	Security	1	24	0	24	0.02	
+3.22.26	report_week	foh	Bar Back	134	735	161	896	0.79	
+3.22.26	report_week	foh	Bartender	175	964	49	1013	0.89	
+3.22.26	report_week	foh	Crepe	0	0	0	0	0.00	
+3.22.26	report_week	foh	Cafe	151	904	8	912	0.80	
+3.22.26	report_week	foh	Hostess	71	902	0	902	0.79	
+3.22.26	report_week	foh	Runner	49	271	0	271	0.24	
+3.22.26	report_week	foh	Server	293	1613	0	1613	1.42	
+3.22.26	report_week	foh	Training	0	0	0	0	0.00	
+3.22.26	report_week	foh	Maintenance	0	0	0	0	0.00	
+3.22.26	report_week	foh	COPS	0	422	0	422	0.37	
+3.22.26	report_week	foh	FOH TOTAL	874	5835	218	6053	5.31	
+3.22.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+3.22.26	last_year	mgmt	Comp	0	1800	0	1800	0.80	
+3.22.26	last_year	mgmt	Salary	0	5324		5324	2.36	
+3.22.26	last_year	mgmt	MGMT TOTAL	0	7124	0	7124	3.16	
+3.22.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+3.22.26	report_week	mgmt	Comp		1200	0	1200	1.05	
+3.22.26	report_week	mgmt	Salary	0	5276		5276	4.63	
+3.22.26	report_week	mgmt	MGMT TOTAL	0	6476	0	6476	5.68	
+3.29.26	last_year	exec	BOH	598	9610	34	9644	4.16	8.85
+3.29.26	last_year	exec	FOH	1486	9296	86	9382	4.05	
+3.29.26	last_year	exec	Training	37	400	0	400	0.17	
+3.29.26	last_year	exec	FOH Salary	0	7204	0	7204	3.11	
+3.29.26	last_year	exec	BOH Salary	0	14183	0	14183	6.12	13.01
+3.29.26	last_year	exec	OTHER	0	1548	0	1548	0.67	
+3.29.26	last_year	exec	SUBTOTAL	2121	42241	120	42360	18.28	21.86
+3.29.26	last_year	exec	PAYROLL TAX		8448	24	8472	3.66	
+3.29.26	last_year	exec	TOTAL LABOR		50689	144	50832	21.93	
+3.29.26	report_week	exec	BOH	654	10789	0	10789	6.27	15.69
+3.29.26	report_week	exec	FOH	1028	6458	77	6535	3.80	
+3.29.26	report_week	exec	Training	42	465	0	465	0.27	
+3.29.26	report_week	exec	FOH Salary	0	6738	0	6738	3.91	
+3.29.26	report_week	exec	BOH Salary	0	9348	0	9348	5.43	13.59
+3.29.26	report_week	exec	OTHER	0	0	0	0	0.00	
+3.29.26	report_week	exec	SUBTOTAL	1725	33798	77	33875	19.68	29.28
+3.29.26	report_week	exec	PAYROLL TAX		6760	15	6775	3.94	
+3.29.26	report_week	exec	TOTAL LABOR		40558	92	40650	23.61	
+3.29.26	last_year	boh	Cook	398	6454	0	6454	2.78	5.92
+3.29.26	last_year	boh	Prep	80	1639	25	1664	0.72	1.53
+3.29.26	last_year	boh	Dish	120	1517	9	1526	0.66	1.40
+3.29.26	last_year	boh	Salary	0	14183	0	14183	6.12	13.01
+3.29.26	last_year	boh	BOH TOTAL	598	23793	34	23826	10.28	21.86
+3.29.26	report_week	boh	Cook	446	7657	31	7688	4.47	11.18
+3.29.26	report_week	boh	Prep	80	1518	244	1762	1.02	2.56
+3.29.26	report_week	boh	Dish	128	1614	323	1937	1.13	2.82
+3.29.26	report_week	boh	Salary	0	9348	0	9348	5.43	13.59
+3.29.26	report_week	boh	BOH TOTAL	654	20137	598	20735	12.04	30.15
+3.29.26	last_year	foh	Security	30	621	0	621	0.27	
+3.29.26	last_year	foh	Bar Back	193	1254	71	1325	0.57	
+3.29.26	last_year	foh	Bartender	177	828	0	828	0.36	
+3.29.26	last_year	foh	Crepe	0	0	0	0	0.00	
+3.29.26	last_year	foh	Cafe	249	1592	15	1607	0.69	
+3.29.26	last_year	foh	Hostess	160	1197	0	1197	0.52	
+3.29.26	last_year	foh	Runner	42	227	0	227	0.10	
+3.29.26	last_year	foh	Server	622	3326	0	3326	1.44	
+3.29.26	last_year	foh	Training	37	400	0	400	0.17	
+3.29.26	last_year	foh	Maintenance	13	251	0	251	0.11	
+3.29.26	last_year	foh	COPS	0	1548		1548	0.00	
+3.29.26	last_year	foh	FOH TOTAL	1523	11244	86	11330	4.89	
+3.29.26	report_week	foh	Security	2	42	0	42	0.02	
+3.29.26	report_week	foh	Bar Back	176	965	0	965	0.56	
+3.29.26	report_week	foh	Bartender	189	1037	42	1079	0.63	
+3.29.26	report_week	foh	Crepe	0	0	0	0	0.00	
+3.29.26	report_week	foh	Cafe	182	1095	8	1103	0.64	
+3.29.26	report_week	foh	Hostess	131	1316	0	1316	0.76	
+3.29.26	report_week	foh	Runner	49	271	0	271	0.16	
+3.29.26	report_week	foh	Server	293	1613	0	1613	0.94	
+3.29.26	report_week	foh	Training	42	465	0	465	0.27	
+3.29.26	report_week	foh	Maintenance	6	119	0	119	0.07	
+3.29.26	report_week	foh	COPS	0	0	0	0	0.00	
+3.29.26	report_week	foh	FOH TOTAL	1071	6923	50	6973	4.05	
+3.29.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+3.29.26	last_year	mgmt	Comp	0	2480	0	2480	1.07	
+3.29.26	last_year	mgmt	Salary	0	4724		4724	2.04	
+3.29.26	last_year	mgmt	MGMT TOTAL	0	7204	0	7204	3.11	
+3.29.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+3.29.26	report_week	mgmt	Comp		1200	0	1200	0.70	
+3.29.26	report_week	mgmt	Salary	0	5538		5538	3.22	
+3.29.26	report_week	mgmt	MGMT TOTAL	0	6738	0	6738	3.91	
+4.5.26	last_year	exec	BOH	642	10380	34	10414	5.20	10.27
+4.5.26	last_year	exec	FOH	1354	8634	40	8674	4.33	
+4.5.26	last_year	exec	Training	64	680	0	680	0.34	
+4.5.26	last_year	exec	FOH Salary	0	7204	0	7204	3.59	
+4.5.26	last_year	exec	BOH Salary	0	14083	0	14083	7.03	13.89
+4.5.26	last_year	exec	OTHER	0	1548	0	1548	0.77	
+4.5.26	last_year	exec	SUBTOTAL	2060	42529	74	42603	21.26	24.15
+4.5.26	last_year	exec	PAYROLL TAX		8506	15	8521	4.25	
+4.5.26	last_year	exec	TOTAL LABOR		51034	89	51123	25.51	
+4.5.26	report_week	exec	BOH	609	9832	0	9832	7.04	13.56
+4.5.26	report_week	exec	FOH	997	6296	77	6373	4.57	
+4.5.26	report_week	exec	Training	10	111	0	111	0.08	
+4.5.26	report_week	exec	FOH Salary	0	6425	0	6425	4.60	
+4.5.26	report_week	exec	BOH Salary	0	8848	0	8848	6.34	12.21
+4.5.26	report_week	exec	OTHER	0	422	0	422	0.30	
+4.5.26	report_week	exec	SUBTOTAL	1616	31934	77	32011	22.93	25.77
+4.5.26	report_week	exec	PAYROLL TAX		6387	15	6402	4.59	
+4.5.26	report_week	exec	TOTAL LABOR		38321	92	38413	27.52	
+4.5.26	last_year	boh	Cook	403	6552	0	6552	3.27	6.46
+4.5.26	last_year	boh	Prep	80	1638	25	1663	0.83	1.64
+4.5.26	last_year	boh	Dish	159	2190	9	2199	1.10	2.17
+4.5.26	last_year	boh	Salary	0	14083	0	14083	7.03	13.89
+4.5.26	last_year	boh	BOH TOTAL	642	24463	34	24497	12.22	24.15
+4.5.26	report_week	boh	Cook	408	6829	0	6829	4.89	9.42
+4.5.26	report_week	boh	Prep	80	1520	360	1880	1.35	2.59
+4.5.26	report_week	boh	Dish	121	1483	0	1483	1.06	2.05
+4.5.26	report_week	boh	Salary	0	8848	0	8848	6.34	12.21
+4.5.26	report_week	boh	BOH TOTAL	609	18680	360	19040	13.64	26.27
+4.5.26	last_year	foh	Security	44	924	0	924	0.46	
+4.5.26	last_year	foh	Bar Back	177	1320	0	1320	0.66	
+4.5.26	last_year	foh	Bartender	172	838	0	838	0.42	
+4.5.26	last_year	foh	Crepe	0	0	0	0	0.00	
+4.5.26	last_year	foh	Cafe	198	1186	31	1217	0.61	
+4.5.26	last_year	foh	Hostess	162	972	0	972	0.49	
+4.5.26	last_year	foh	Runner	11	61	0	61	0.03	
+4.5.26	last_year	foh	Server	577	3087	9	3096	1.54	
+4.5.26	last_year	foh	Training	64	680	0	680	0.34	
+4.5.26	last_year	foh	Maintenance	13	246	0	246	0.12	
+4.5.26	last_year	foh	COPS	0	1548		1548	0.21	
+4.5.26	last_year	foh	FOH TOTAL	1418	10862	40	10902	5.44	
+4.5.26	report_week	foh	Security	11	242	0	242	0.17	
+4.5.26	report_week	foh	Bar Back	139	762	0	762	0.55	
+4.5.26	report_week	foh	Bartender	199	1096	42	1138	0.82	
+4.5.26	report_week	foh	Crepe	0	0	0	0	0.00	
+4.5.26	report_week	foh	Cafe	143	856	3	859	0.62	
+4.5.26	report_week	foh	Hostess	138	1267	0	1267	0.91	
+4.5.26	report_week	foh	Runner	21	114	0	114	0.08	
+4.5.26	report_week	foh	Server	340	1867	60	1927	1.38	
+4.5.26	report_week	foh	Training	10	111	0	111	0.08	
+4.5.26	report_week	foh	Maintenance	6	92	0	92	0.07	
+4.5.26	report_week	foh	COPS	0	422	0	422	0.30	
+4.5.26	report_week	foh	FOH TOTAL	1007	6829	105	6934	4.97	
+4.5.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+4.5.26	last_year	mgmt	Comp	0	2480	0	2480	1.24	
+4.5.26	last_year	mgmt	Salary	0	4724		4724	2.36	
+4.5.26	last_year	mgmt	MGMT TOTAL	0	7204	0	7204	3.59	
+4.5.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+4.5.26	report_week	mgmt	Comp		1200	0	1200	0.86	
+4.5.26	report_week	mgmt	Salary	0	5225		5225	3.74	
+4.5.26	report_week	mgmt	MGMT TOTAL	0	6425	0	6425	4.60	
+4.12.26	last_year	exec	BOH	648	10494	0	10494	4.88	10.35
+4.12.26	last_year	exec	FOH	1375	8433	135	8568	3.98	
+4.12.26	last_year	exec	Training	17	180	0	180	0.08	
+4.12.26	last_year	exec	FOH Salary	0	7204	0	7204	3.35	
+4.12.26	last_year	exec	BOH Salary	0	15383	0	15383	7.15	15.17
+4.12.26	last_year	exec	OTHER	0	1548	0	1548	0.72	
+4.12.26	last_year	exec	SUBTOTAL	2040	43242	135	43377	20.17	25.52
+4.12.26	last_year	exec	PAYROLL TAX		8648	27	8675	4.03	
+4.12.26	last_year	exec	TOTAL LABOR		51890	162	52052	24.20	
+4.12.26	report_week	exec	BOH	348	9685	0	9685	6.29	11.49
+4.12.26	report_week	exec	FOH	1061	5923	77	6000	3.90	
+4.12.26	report_week	exec	Training	2	23	0	23	0.01	
+4.12.26	report_week	exec	FOH Salary	0	6475	0	6475	4.21	
+4.12.26	report_week	exec	BOH Salary	0	11148	0	11148	7.25	13.22
+4.12.26	report_week	exec	OTHER	0	422	0	422	0.27	
+4.12.26	report_week	exec	SUBTOTAL	1411	33676	77	33753	21.94	24.71
+4.12.26	report_week	exec	PAYROLL TAX		6735	15	6751	4.39	
+4.12.26	report_week	exec	TOTAL LABOR		40411	92	40504	26.32	
+4.12.26	last_year	boh	Cook	408	6663	0	6663	3.10	6.57
+4.12.26	last_year	boh	Prep	80	1634	0	1634	0.76	1.61
+4.12.26	last_year	boh	Dish	160	2197	0	2197	1.02	2.17
+4.12.26	last_year	boh	Salary	0	15383	0	15383	7.15	15.17
+4.12.26	last_year	boh	BOH TOTAL	648	25877	0	25877	12.03	25.52
+4.12.26	report_week	boh	Cook	134	6430	0	6430	4.18	7.63
+4.12.26	report_week	boh	Prep	80	1519	0	1519	0.99	1.80
+4.12.26	report_week	boh	Dish	134	1736	0	1736	1.13	2.06
+4.12.26	report_week	boh	Salary	0	11148	0	11148	7.25	13.22
+4.12.26	report_week	boh	BOH TOTAL	348	20833	0	20833	13.54	24.71
+4.12.26	last_year	foh	Security	44	853	0	853	0.40	
+4.12.26	last_year	foh	Bar Back	171	1063	0	1063	0.49	
+4.12.26	last_year	foh	Bartender	166	726	0	726	0.34	
+4.12.26	last_year	foh	Crepe	0	0	0	0	0.00	
+4.12.26	last_year	foh	Cafe	219	1317	135	1452	0.68	
+4.12.26	last_year	foh	Hostess	181	1088	0	1088	0.51	
+4.12.26	last_year	foh	Runner	24	126	0	126	0.06	
+4.12.26	last_year	foh	Server	555	2969	0	2969	1.38	
+4.12.26	last_year	foh	Training	17	180	0	180	0.08	
+4.12.26	last_year	foh	Maintenance	15	291	0	291	0.14	
+4.12.26	last_year	foh	COPS	0	1548		1548	0.20	
+4.12.26	last_year	foh	FOH TOTAL	1392	10161	135	10296	4.79	
+4.12.26	report_week	foh	Security	0	0	0	0	0.00	
+4.12.26	report_week	foh	Bar Back	149	297	47	344	0.22	
+4.12.26	report_week	foh	Bartender	183	1005	71	1076	0.70	
+4.12.26	report_week	foh	Crepe	0	0	0	0	0.00	
+4.12.26	report_week	foh	Cafe	176	1058	0	1058	0.69	
+4.12.26	report_week	foh	Hostess	157	1325	0	1325	0.86	
+4.12.26	report_week	foh	Runner	42	231	0	231	0.15	
+4.12.26	report_week	foh	Server	348	1912	0	1912	1.24	
+4.12.26	report_week	foh	Training	2	23	0	23	0.01	
+4.12.26	report_week	foh	Maintenance	6	95	0	95	0.06	
+4.12.26	report_week	foh	COPS	0	422	0	422	0.27	
+4.12.26	report_week	foh	FOH TOTAL	1063	6368	118	6486	4.22	
+4.12.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+4.12.26	last_year	mgmt	Comp	0	2480	0	2480	1.15	
+4.12.26	last_year	mgmt	Salary	0	4724		4724	2.20	
+4.12.26	last_year	mgmt	MGMT TOTAL	0	7204	0	7204	3.35	
+4.12.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+4.12.26	report_week	mgmt	Comp		1200	0	1200	0.78	
+4.12.26	report_week	mgmt	Salary	0	5275		5275	3.43	
+4.12.26	report_week	mgmt	MGMT TOTAL	0	6475	0	6475	4.21	
+4.19.26	last_year	exec	BOH	632	10180	0	10180	4.92	10.11
+4.19.26	last_year	exec	FOH	1410	8574	8	8582	4.15	
+4.19.26	last_year	exec	Training	76	814	0	814	0.39	
+4.19.26	last_year	exec	FOH Salary	0	5638	0	5638	2.72	
+4.19.26	last_year	exec	BOH Salary	0	15383	0	15383	7.43	15.27
+4.19.26	last_year	exec	OTHER	0	1548	0	1548	0.75	
+4.19.26	last_year	exec	SUBTOTAL	2118	42137	8	42145	20.36	25.38
+4.19.26	last_year	exec	PAYROLL TAX		8427	2	8429	4.07	
+4.19.26	last_year	exec	TOTAL LABOR		50564	10	50574	24.44	
+4.19.26	report_week	exec	BOH	639	10447	0	10447	6.29	10.54
+4.19.26	report_week	exec	FOH	1140	7029	77	7106	4.28	
+4.19.26	report_week	exec	Training	40	443	0	443	0.27	
+4.19.26	report_week	exec	FOH Salary	0	6679	0	6679	4.02	
+4.19.26	report_week	exec	BOH Salary	0	9868	0	9868	5.94	9.95
+4.19.26	report_week	exec	OTHER	0	422	0	422	0.25	
+4.19.26	report_week	exec	SUBTOTAL	1819	34888	77	34965	21.05	20.49
+4.19.26	report_week	exec	PAYROLL TAX		6978	15	6993	4.21	
+4.19.26	report_week	exec	TOTAL LABOR		41866	92	41958	25.26	
+4.19.26	last_year	boh	Cook	403	6546	0	6546	3.16	6.50
+4.19.26	last_year	boh	Prep	80	1638	0	1638	0.79	1.63
+4.19.26	last_year	boh	Dish	149	1996	0	1996	0.96	1.98
+4.19.26	last_year	boh	Salary	0	15383	0	15383	7.43	15.27
+4.19.26	last_year	boh	BOH TOTAL	632	25563	0	25563	12.35	25.38
+4.19.26	report_week	boh	Cook	418	7087	0	7087	4.27	7.15
+4.19.26	report_week	boh	Prep	80	1511	0	1511	0.91	1.52
+4.19.26	report_week	boh	Dish	141	1849	0	1849	1.11	1.86
+4.19.26	report_week	boh	Salary	0	9868	0	9868	5.94	9.95
+4.19.26	report_week	boh	BOH TOTAL	639	20315	0	20315	12.23	20.49
+4.19.26	last_year	foh	Security	52	992	0	992	0.48	
+4.19.26	last_year	foh	Bar Back	190	1200	0	1200	0.58	
+4.19.26	last_year	foh	Bartender	187	911	0	911	0.44	
+4.19.26	last_year	foh	Crepe	0	0	0	0	0.00	
+4.19.26	last_year	foh	Cafe	197	1184	0	1184	0.57	
+4.19.26	last_year	foh	Hostess	149	891	0	891	0.43	
+4.19.26	last_year	foh	Runner	8	42	0	42	0.02	
+4.19.26	last_year	foh	Server	627	3354	8	3362	1.62	
+4.19.26	last_year	foh	Training	76	814	0	814	0.39	
+4.19.26	last_year	foh	Maintenance	0	0	0	0	0.00	
+4.19.26	last_year	foh	COPS	0	1548		1548	0.20	
+4.19.26	last_year	foh	FOH TOTAL	1486	10936	8	10944	5.29	
+4.19.26	report_week	foh	Security	9	175	0	175	0.11	
+4.19.26	report_week	foh	Bar Back	178	980	17	997	0.60	
+4.19.26	report_week	foh	Bartender	191	1049	142	1191	0.72	
+4.19.26	report_week	foh	Crepe	0	0	0	0	0.00	
+4.19.26	report_week	foh	Cafe	191	1148	0	1148	0.69	
+4.19.26	report_week	foh	Hostess	135	1218	0	1218	0.73	
+4.19.26	report_week	foh	Runner	62	340	0	340	0.20	
+4.19.26	report_week	foh	Server	368	2023	58	2081	1.25	
+4.19.26	report_week	foh	Training	40	443	0	443	0.27	
+4.19.26	report_week	foh	Maintenance	6	96	0	96	0.06	
+4.19.26	report_week	foh	COPS	0	422	0	422	0.25	
+4.19.26	report_week	foh	FOH TOTAL	1180	7894	217	8111	4.88	
+4.19.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+4.19.26	last_year	mgmt	Comp	0	1128	0	1128	0.55	
+4.19.26	last_year	mgmt	Salary	0	4510		4510	2.18	
+4.19.26	last_year	mgmt	MGMT TOTAL	0	5638	0	5638	2.72	
+4.19.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+4.19.26	report_week	mgmt	Comp		1200	0	1200	0.72	
+4.19.26	report_week	mgmt	Salary	0	5479		5479	3.30	
+4.19.26	report_week	mgmt	MGMT TOTAL	0	6679	0	6679	4.02	
+4.26.26	last_year	exec	BOH	627	10091	308	10399	4.35	8.79
+4.26.26	last_year	exec	FOH	1532	9502	144	9646	4.04	
+4.26.26	last_year	exec	Training	62	688	0	688	0.29	
+4.26.26	last_year	exec	FOH Salary	0	5798	0	5798	2.43	
+4.26.26	last_year	exec	BOH Salary	0	13395	0	13395	5.60	11.32
+4.26.26	last_year	exec	OTHER	0	1548	0	1548	0.65	
+4.26.26	last_year	exec	SUBTOTAL	2221	41022	452	41474	17.35	20.12
+4.26.26	last_year	exec	PAYROLL TAX		8204	90	8295	3.47	
+4.26.26	last_year	exec	TOTAL LABOR		49226	543	49768	20.82	
+4.26.26	report_week	exec	BOH	636	9767	0	9767	5.32	10.33
+4.26.26	report_week	exec	FOH	1136	7069	77	7146	3.89	
+4.26.26	report_week	exec	Training	689	752	0	752	0.41	
+4.26.26	report_week	exec	FOH Salary	0	6258	0	6258	3.41	
+4.26.26	report_week	exec	BOH Salary	0	9512	0	9512	5.18	10.06
+4.26.26	report_week	exec	OTHER	0	0	0	0	0.00	
+4.26.26	report_week	exec	SUBTOTAL	2461	33358	77	33435	18.22	20.38
+4.26.26	report_week	exec	PAYROLL TAX		6672	15	6687	3.64	
+4.26.26	report_week	exec	TOTAL LABOR		40030	92	40122	21.86	
+4.26.26	last_year	boh	Cook	397	6433	0	6433	2.69	5.44
+4.26.26	last_year	boh	Prep	80	1640	308	1948	0.81	1.65
+4.26.26	last_year	boh	Dish	150	2018	0	2018	0.84	1.71
+4.26.26	last_year	boh	Salary	0	13395	0	13395	5.60	11.32
+4.26.26	last_year	boh	BOH TOTAL	627	23486	308	23794	9.95	20.12
+4.26.26	report_week	boh	Cook	425	6595	90	6685	3.64	7.07
+4.26.26	report_week	boh	Prep	80	1515	1	1516	0.83	1.60
+4.26.26	report_week	boh	Dish	131	1657	1657	3314	1.81	3.50
+4.26.26	report_week	boh	Salary	0	9512	0	9512	5.18	10.06
+4.26.26	report_week	boh	BOH TOTAL	636	19279	1748	21027	11.46	22.23
+4.26.26	last_year	foh	Security	51	949	0	949	0.40	
+4.26.26	last_year	foh	Bar Back	173	1073	12	1085	0.45	
+4.26.26	last_year	foh	Bartender	160	810	0	810	0.34	
+4.26.26	last_year	foh	Crepe	0	0	0	0	0.00	
+4.26.26	last_year	foh	Cafe	225	1368	0	1368	0.57	
+4.26.26	last_year	foh	Hostess	163	1062	0	1062	0.44	
+4.26.26	last_year	foh	Runner	39	207	0	207	0.09	
+4.26.26	last_year	foh	Server	709	3791	132	3923	1.64	
+4.26.26	last_year	foh	Training	62	688	0	688	0.29	
+4.26.26	last_year	foh	Maintenance	12	242	0	242	0.10	
+4.26.26	last_year	foh	COPS	0	1548		1548	0.00	
+4.26.26	last_year	foh	FOH TOTAL	1594	11738	144	11882	4.97	
+4.26.26	report_week	foh	Security	12	218	0	218	0.12	
+4.26.26	report_week	foh	Bar Back	155	877	109	986	0.54	
+4.26.26	report_week	foh	Bartender	236	1297	144	1441	0.79	
+4.26.26	report_week	foh	Crepe	0	0	0	0	0.00	
+4.26.26	report_week	foh	Cafe	161	964	119	1083	0.59	
+4.26.26	report_week	foh	Hostess	140	1254	0	1254	0.68	
+4.26.26	report_week	foh	Runner	39	216	0	216	0.12	
+4.26.26	report_week	foh	Server	385	2120	18	2138	1.16	
+4.26.26	report_week	foh	Training	689	752	0	752	0.41	
+4.26.26	report_week	foh	Maintenance	8	123	0	123	0.07	
+4.26.26	report_week	foh	COPS	0	0	0	0	0.00	
+4.26.26	report_week	foh	FOH TOTAL	1825	7821	390	8211	4.47	
+4.26.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+4.26.26	last_year	mgmt	Comp	0	1128	0	1128	0.47	
+4.26.26	last_year	mgmt	Salary	0	4670		4670	1.95	
+4.26.26	last_year	mgmt	MGMT TOTAL	0	5798	0	5798	2.43	
+4.26.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+4.26.26	report_week	mgmt	Comp		1200	0	1200	0.65	
+4.26.26	report_week	mgmt	Salary	0	5058		5058	2.76	
+4.26.26	report_week	mgmt	MGMT TOTAL	0	6258	0	6258	3.41	
+5.3.26	last_year	exec	BOH	793	9882	2324	12206	4.49	9.47
+5.3.26	last_year	exec	FOH	1531	9212	186	9398	3.46	
+5.3.26	last_year	exec	Training	56	595	0	595	0.22	
+5.3.26	last_year	exec	FOH Salary	0	7338	0	7338	2.70	
+5.3.26	last_year	exec	BOH Salary	0	14195	0	14195	5.23	11.01
+5.3.26	last_year	exec	OTHER	0	1548	0	1548	0.57	
+5.3.26	last_year	exec	SUBTOTAL	2380	42770	2510	45280	16.67	20.48
+5.3.26	last_year	exec	PAYROLL TAX		8554	502	9056	3.33	
+5.3.26	last_year	exec	TOTAL LABOR		51323	3012	54335	20.00	
+5.3.26	report_week	exec	BOH	766	10821	0	10821	5.90	11.44
+5.3.26	report_week	exec	FOH	1105	6807	77	6884	3.75	
+5.3.26	report_week	exec	Training	151	1656	0	1656	0.90	
+5.3.26	report_week	exec	FOH Salary	0	6434	0	6434	3.51	
+5.3.26	report_week	exec	BOH Salary	0	9268	0	9268	5.05	9.80
+5.3.26	report_week	exec	OTHER	0	0	0	0	0.00	
+5.3.26	report_week	exec	SUBTOTAL	2022	34986	77	35063	19.10	21.24
+5.3.26	report_week	exec	PAYROLL TAX		6997	15	7013	3.82	
+5.3.26	report_week	exec	TOTAL LABOR		41983	92	42076	22.92	
+5.3.26	last_year	boh	Cook	485	6097	986	7083	2.61	5.49
+5.3.26	last_year	boh	Prep	122	1640	1338	2978	1.10	2.31
+5.3.26	last_year	boh	Dish	186	2145	0	2145	0.79	1.66
+5.3.26	last_year	boh	Salary	0	14195	0	14195	5.23	11.01
+5.3.26	last_year	boh	BOH TOTAL	793	24077	2324	26401	9.72	20.48
+5.3.26	report_week	boh	Cook	474	6576	25	6601	3.60	6.98
+5.3.26	report_week	boh	Prep	120	2273	0	2273	1.24	2.40
+5.3.26	report_week	boh	Dish	172	1972	0	1972	1.07	2.08
+5.3.26	report_week	boh	Salary	0	9268	0	9268	5.05	9.80
+5.3.26	report_week	boh	BOH TOTAL	766	20089	25	20114	10.96	21.26
+5.3.26	last_year	foh	Security	56	1097	0	1097	0.40	
+5.3.26	last_year	foh	Bar Back	207	1253	12	1265	0.47	
+5.3.26	last_year	foh	Bartender	187	933	0	933	0.34	
+5.3.26	last_year	foh	Crepe	0	0	0	0	0.00	
+5.3.26	last_year	foh	Cafe	188	1127	0	1127	0.41	
+5.3.26	last_year	foh	Hostess	197	1127	0	1127	0.41	
+5.3.26	last_year	foh	Runner	60	323	0	323	0.12	
+5.3.26	last_year	foh	Server	631	3259	174	3433	1.26	
+5.3.26	last_year	foh	Training	56	595	0	595	0.22	
+5.3.26	last_year	foh	Maintenance	5	93	0	93	0.03	
+5.3.26	last_year	foh	COPS	0	1548		1548	0.00	
+5.3.26	last_year	foh	FOH TOTAL	1587	11355	186	11541	4.25	
+5.3.26	report_week	foh	Security	12	218	0	218	0.12	
+5.3.26	report_week	foh	Bar Back	182	895	159	1054	0.57	
+5.3.26	report_week	foh	Bartender	179	958	39	997	0.54	
+5.3.26	report_week	foh	Crepe	0	0	0	0	0.00	
+5.3.26	report_week	foh	Cafe	164	984	0	984	0.54	
+5.3.26	report_week	foh	Hostess	133	1354	0	1354	0.74	
+5.3.26	report_week	foh	Runner	53	290	0	290	0.16	
+5.3.26	report_week	foh	Server	374	1992	88	2080	1.13	
+5.3.26	report_week	foh	Training	151	1656	0	1656	0.90	
+5.3.26	report_week	foh	Maintenance	8	116	0	116	0.06	
+5.3.26	report_week	foh	COPS	0	0	0	0	0.00	
+5.3.26	report_week	foh	FOH TOTAL	1256	8463	286	8749	4.77	
+5.3.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+5.3.26	last_year	mgmt	Comp	0	1128	0	1128	0.42	
+5.3.26	last_year	mgmt	Salary	0	6210		6210	2.29	
+5.3.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	2.70	
+5.3.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+5.3.26	report_week	mgmt	Comp		1200	0	1200	0.65	
+5.3.26	report_week	mgmt	Salary	0	5234		5234	2.85	
+5.3.26	report_week	mgmt	MGMT TOTAL	0	6434	0	6434	3.51	
+5.17.26	last_year	exec	BOH	734	10386	0	10386	5.70	11.04
+5.17.26	last_year	exec	FOH	1525	9506	246	9752	5.35	
+5.17.26	last_year	exec	Training	189	2025	0	2025	1.11	
+5.17.26	last_year	exec	FOH Salary	0	7338	0	7338	4.02	
+5.17.26	last_year	exec	BOH Salary	0	12995	0	12995	7.13	13.82
+5.17.26	last_year	exec	OTHER	0	1548	0	1548	0.85	
+5.17.26	last_year	exec	SUBTOTAL	2448	43798	246	44044	24.15	24.86
+5.17.26	last_year	exec	PAYROLL TAX		8760	49	8809	4.83	
+5.17.26	last_year	exec	TOTAL LABOR		52557	295	52852	28.98	
+5.17.26	report_week	exec	BOH	654	10616	0	10616	7.29	13.30
+5.17.26	report_week	exec	FOH	1213	7397	77	7474	5.13	
+5.17.26	report_week	exec	Training	210	2310	0	2310	1.59	
+5.17.26	report_week	exec	FOH Salary	0	6233	0	6233	4.28	
+5.17.26	report_week	exec	BOH Salary	0	12995	0	12995	8.92	16.28
+5.17.26	report_week	exec	OTHER	0	422	0	422	0.29	
+5.17.26	report_week	exec	SUBTOTAL	2077	39973	77	40050	27.48	29.57
+5.17.26	report_week	exec	PAYROLL TAX		7995	15	8010	5.50	
+5.17.26	report_week	exec	TOTAL LABOR		47967	92	48059	32.98	
+5.17.26	last_year	boh	Cook	495	7071	0	7071	3.88	7.52
+5.17.26	last_year	boh	Prep	80	1637	0	1637	0.90	1.74
+5.17.26	last_year	boh	Dish	159	1678	0	1678	0.92	1.78
+5.17.26	last_year	boh	Salary	0	12995	0	12995	7.13	13.82
+5.17.26	last_year	boh	BOH TOTAL	734	23381	0	23381	12.82	24.86
+5.17.26	report_week	boh	Cook	458	7735	0	7735	5.31	9.69
+5.17.26	report_week	boh	Prep	80	1559	509	2068	1.42	2.59
+5.17.26	report_week	boh	Dish	116	1322	0	1322	0.91	1.66
+5.17.26	report_week	boh	Salary	0	12995	0	12995	8.92	16.28
+5.17.26	report_week	boh	BOH TOTAL	654	23611	509	24120	16.55	30.21
+5.17.26	last_year	foh	Security	58	1122	0	1122	0.62	
+5.17.26	last_year	foh	Bar Back	239	1196	117	1313	0.72	
+5.17.26	last_year	foh	Bartender	183	928	0	928	0.51	
+5.17.26	last_year	foh	Crepe	0	300	0	300	0.16	
+5.17.26	last_year	foh	Cafe	173	1038	0	1038	0.57	
+5.17.26	last_year	foh	Hostess	180	1095	0	1095	0.60	
+5.17.26	last_year	foh	Runner	27	145	0	145	0.08	
+5.17.26	last_year	foh	Server	648	3383	129	3512	1.93	
+5.17.26	last_year	foh	Training	189	2025	0	2025	1.11	
+5.17.26	last_year	foh	Maintenance	17	299	0	299	0.16	
+5.17.26	last_year	foh	COPS	0	1548		1548	0.23	
+5.17.26	last_year	foh	FOH TOTAL	1714	13079	246	13325	7.31	
+5.17.26	report_week	foh	Security	4	72	0	72	0.05	
+5.17.26	report_week	foh	Bar Back	188	1138	54	1192	0.82	
+5.17.26	report_week	foh	Bartender	221	1216	0	1216	0.83	
+5.17.26	report_week	foh	Crepe	0	0	0	0	0.00	
+5.17.26	report_week	foh	Cafe	182	1092	68	1160	0.80	
+5.17.26	report_week	foh	Hostess	134	1217	0	1217	0.84	
+5.17.26	report_week	foh	Runner	56	306	0	306	0.21	
+5.17.26	report_week	foh	Server	428	2356	0	2356	1.62	
+5.17.26	report_week	foh	Training	210	2310	0	2310	1.59	
+5.17.26	report_week	foh	Maintenance	0	0	0	0	0.00	
+5.17.26	report_week	foh	COPS	0	422	0	422	0.29	
+5.17.26	report_week	foh	FOH TOTAL	1423	10129	122	10251	7.03	
+5.17.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+5.17.26	last_year	mgmt	Comp	0	1128	0	1128	0.62	
+5.17.26	last_year	mgmt	Salary	0	6210		6210	3.41	
+5.17.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.02	
+5.17.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+5.17.26	report_week	mgmt	Comp		1200	0	1200	0.82	
+5.17.26	report_week	mgmt	Salary	0	5033		5033	3.45	
+5.17.26	report_week	mgmt	MGMT TOTAL	0	6233	0	6233	4.28	
+6.7.26	last_year	exec	BOH	623	9713	0	9713	5.58	10.74
+6.7.26	last_year	exec	FOH	1348	8570	284	8854	5.09	
+6.7.26	last_year	exec	Training	28	300	0	300	0.17	
+6.7.26	last_year	exec	FOH Salary	0	7338	0	7338	4.22	
+6.7.26	last_year	exec	BOH Salary	0	14195	0	14195	8.16	15.70
+6.7.26	last_year	exec	OTHER	0	1548	0	1548	0.89	
+6.7.26	last_year	exec	SUBTOTAL	1999	41664	284	41948	24.10	26.44
+6.7.26	last_year	exec	PAYROLL TAX		8333	57	8390	4.82	
+6.7.26	last_year	exec	TOTAL LABOR		49996	341	50337	28.92	
+6.7.26	report_week	exec	BOH	670	10224	0	10224	8.51	15.27
+6.7.26	report_week	exec	FOH	1061	6703	77	6780	5.64	
+6.7.26	report_week	exec	Training	170	1874	0	1874	1.56	
+6.7.26	report_week	exec	FOH Salary	0	6434	0	6434	5.36	
+6.7.26	report_week	exec	BOH Salary	0	0	0	0	0.00	0.00
+6.7.26	report_week	exec	OTHER	0	844	0	844	0.70	
+6.7.26	report_week	exec	SUBTOTAL	1901	26079	77	26156	21.77	15.27
+6.7.26	report_week	exec	PAYROLL TAX		5216	15	5231	4.35	
+6.7.26	report_week	exec	TOTAL LABOR		31295	92	31387	26.13	
+6.7.26	last_year	boh	Cook	384	6173	0	6173	3.55	6.83
+6.7.26	last_year	boh	Prep	80	1555	0	1555	0.89	1.72
+6.7.26	last_year	boh	Dish	159	1985	0	1985	1.14	2.19
+6.7.26	last_year	boh	Salary	0	14195	0	14195	8.16	15.70
+6.7.26	last_year	boh	BOH TOTAL	623	23908	0	23908	13.74	26.44
+6.7.26	report_week	boh	Cook	396	5874	0	5874	4.89	8.77
+6.7.26	report_week	boh	Prep	80	1555	0	1555	1.29	2.32
+6.7.26	report_week	boh	Dish	194	2795	0	2795	2.33	4.18
+6.7.26	report_week	boh	Salary	0	0	0	0	0.00	0.00
+6.7.26	report_week	boh	BOH TOTAL	670	10224	0	10224	8.51	15.27
+6.7.26	last_year	foh	Security	58	1072	0	1072	0.62	
+6.7.26	last_year	foh	Bar Back	185	1138	0	1138	0.65	
+6.7.26	last_year	foh	Bartender	169	828	0	828	0.48	
+6.7.26	last_year	foh	Crepe	0	300	0	300	0.17	
+6.7.26	last_year	foh	Cafe	141	845	0	845	0.49	
+6.7.26	last_year	foh	Hostess	207	1242	97	1339	0.77	
+6.7.26	last_year	foh	Runner	14	77	0	77	0.04	
+6.7.26	last_year	foh	Server	574	3068	187	3255	1.87	
+6.7.26	last_year	foh	Training	28	300	0	300	0.17	
+6.7.26	last_year	foh	Maintenance	0	0	0	0	0.00	
+6.7.26	last_year	foh	COPS	0	1548		1548	0.48	
+6.7.26	last_year	foh	FOH TOTAL	1376	10418	284	10702	6.15	
+6.7.26	report_week	foh	Security	7	140	0	140	0.12	
+6.7.26	report_week	foh	Bar Back	99	544	0	544	0.45	
+6.7.26	report_week	foh	Bartender	237	1306	147	1453	1.21	
+6.7.26	report_week	foh	Crepe	8	150	0	150	0.12	
+6.7.26	report_week	foh	Cafe	173	1038	0	1038	0.86	
+6.7.26	report_week	foh	Hostess	120	1230	0	1230	1.02	
+6.7.26	report_week	foh	Runner	49	270	0	270	0.22	
+6.7.26	report_week	foh	Server	368	2025	263	2288	1.90	
+6.7.26	report_week	foh	Training	170	1874	0	1874	1.56	
+6.7.26	report_week	foh	Maintenance	0	0	0	0	0.00	
+6.7.26	report_week	foh	COPS	0	844	0	844	0.70	
+6.7.26	report_week	foh	FOH TOTAL	1231	9421	410	9831	8.18	
+6.7.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+6.7.26	last_year	mgmt	Comp	0	1128	0	1128	0.65	
+6.7.26	last_year	mgmt	Salary	0	6210		6210	3.57	
+6.7.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.22	
+6.7.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+6.7.26	report_week	mgmt	Comp		1200	0	1200	1.00	
+6.7.26	report_week	mgmt	Salary	0	5234		5234	4.36	
+6.7.26	report_week	mgmt	MGMT TOTAL	0	6434	0	6434	5.36	
+6.14.26	last_year	exec	BOH	691	9426	0	9426	5.00	9.81
+6.14.26	last_year	exec	FOH	3308	10275	380	10655	5.65	
+6.14.26	last_year	exec	Training	129	1380	0	1380	0.73	
+6.14.26	last_year	exec	FOH Salary	0	7338	0	7338	3.89	
+6.14.26	last_year	exec	BOH Salary	0	13095	0	13095	6.94	13.63
+6.14.26	last_year	exec	OTHER	0	1548	0	1548	0.82	
+6.14.26	last_year	exec	SUBTOTAL	4128	43062	380	43442	23.02	23.44
+6.14.26	last_year	exec	PAYROLL TAX		8612	76	8688	4.60	
+6.14.26	last_year	exec	TOTAL LABOR		51674	456	52130	27.63	
+6.14.26	report_week	exec	BOH	654	10499	0	10499	6.86	13.96
+6.14.26	report_week	exec	FOH	1329	8249	77	8326	5.44	
+6.14.26	report_week	exec	Training	154	1699	0	1699	1.11	
+6.14.26	report_week	exec	FOH Salary	0	6660	0	6660	4.35	
+6.14.26	report_week	exec	BOH Salary	0	13095	0	13095	8.55	17.41
+6.14.26	report_week	exec	OTHER	0	422	0	422	0.28	
+6.14.26	report_week	exec	SUBTOTAL	2137	40624	77	40701	26.58	31.37
+6.14.26	report_week	exec	PAYROLL TAX		8125	15	8140	5.32	
+6.14.26	report_week	exec	TOTAL LABOR		48748	92	48841	31.90	
+6.14.26	last_year	boh	Cook	473	6536	0	6536	3.46	6.80
+6.14.26	last_year	boh	Prep	80	1632	0	1632	0.86	1.70
+6.14.26	last_year	boh	Dish	138	1258	0	1258	0.67	1.31
+6.14.26	last_year	boh	Salary	0	13095	0	13095	6.94	13.63
+6.14.26	last_year	boh	BOH TOTAL	691	22521	0	22521	11.94	23.44
+6.14.26	report_week	boh	Cook	456	7984	59	8043	5.25	10.70
+6.14.26	report_week	boh	Prep	61	1192	0	1192	0.78	1.59
+6.14.26	report_week	boh	Dish	137	1323	0	1323	0.86	1.76
+6.14.26	report_week	boh	Salary	0	13095	0	13095	8.55	17.41
+6.14.26	report_week	boh	BOH TOTAL	654	23594	59	23653	15.45	31.45
+6.14.26	last_year	foh	Security	64	1380	0	1380	0.73	
+6.14.26	last_year	foh	Bar Back	231	1270	33	1303	0.69	
+6.14.26	last_year	foh	Bartender	225	1087	0	1087	0.58	
+6.14.26	last_year	foh	Crepe	0	0	0	0	0.00	
+6.14.26	last_year	foh	Cafe	1824	1093	33	1126	0.60	
+6.14.26	last_year	foh	Hostess	166	998	0	998	0.53	
+6.14.26	last_year	foh	Runner	54	291	0	291	0.15	
+6.14.26	last_year	foh	Server	715	3617	314	3931	2.08	
+6.14.26	last_year	foh	Training	129	1380	0	1380	0.73	
+6.14.26	last_year	foh	Maintenance	29	539	0	539	0.29	
+6.14.26	last_year	foh	COPS	0	1548		1548	0.22	
+6.14.26	last_year	foh	FOH TOTAL	3437	13203	380	13583	7.20	
+6.14.26	report_week	foh	Security	12	240	0	240	0.16	
+6.14.26	report_week	foh	Bar Back	209	1218	177	1395	0.91	
+6.14.26	report_week	foh	Bartender	220	1192	21	1213	0.79	
+6.14.26	report_week	foh	Crepe	0	0	0	0	0.00	
+6.14.26	report_week	foh	Cafe	210	1258	0	1258	0.82	
+6.14.26	report_week	foh	Hostess	154	1384	0	1384	0.90	
+6.14.26	report_week	foh	Runner	35	192	0	192	0.13	
+6.14.26	report_week	foh	Server	482	2653	0	2653	1.73	
+6.14.26	report_week	foh	Training	154	1699	0	1699	1.11	
+6.14.26	report_week	foh	Maintenance	7	112	0	112	0.07	
+6.14.26	report_week	foh	COPS	0	422	0	422	0.28	
+6.14.26	report_week	foh	FOH TOTAL	1483	10370	198	10568	6.90	
+6.14.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+6.14.26	last_year	mgmt	Comp	0	1128	0	1128	0.60	
+6.14.26	last_year	mgmt	Salary	0	6210		6210	3.29	
+6.14.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	3.89	
+6.14.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+6.14.26	report_week	mgmt	Comp		1200	0	1200	0.78	
+6.14.26	report_week	mgmt	Salary	0	5460		5460	3.57	
+6.14.26	report_week	mgmt	MGMT TOTAL	0	6660	0	6660	4.35	
+6.21.26	last_year	exec	BOH	740	10534	400	10934	5.61	11.02
+6.21.26	last_year	exec	FOH	1640	9777	329	10106	5.18	
+6.21.26	last_year	exec	Training	67	713	0	713	0.37	
+6.21.26	last_year	exec	FOH Salary	0	7338	0	7338	3.76	
+6.21.26	last_year	exec	BOH Salary	0	13395	0	13395	6.87	13.50
+6.21.26	last_year	exec	OTHER	0	1548	0	1548	0.79	
+6.21.26	last_year	exec	SUBTOTAL	2447	43305	729	44034	22.59	24.52
+6.21.26	last_year	exec	PAYROLL TAX		8661	146	8807	4.52	
+6.21.26	last_year	exec	TOTAL LABOR		51965	875	52840	27.10	
+6.21.26	report_week	exec	BOH	753	11082	0	11082	7.27	13.81
+6.21.26	report_week	exec	FOH	1345	8322	77	8399	5.51	
+6.21.26	report_week	exec	Training	113	1246	0	1246	0.82	
+6.21.26	report_week	exec	FOH Salary	0	6610	0	6610	4.34	
+6.21.26	report_week	exec	BOH Salary	0	13395	0	13395	8.79	16.69
+6.21.26	report_week	exec	OTHER	0	426	0	426	0.28	
+6.21.26	report_week	exec	SUBTOTAL	2211	41081	77	41158	27.00	30.49
+6.21.26	report_week	exec	PAYROLL TAX		8216	15	8232	5.40	
+6.21.26	report_week	exec	TOTAL LABOR		49297	92	49389	32.40	
+6.21.26	last_year	boh	Cook	487	7199	0	7199	3.69	7.26
+6.21.26	last_year	boh	Prep	93	1639	400	2039	1.05	2.06
+6.21.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+6.21.26	last_year	boh	Dish	160	1696	0	1696	0.87	1.71
+6.21.26	last_year	boh	Salary	0	13395	0	13395	6.87	13.50
+6.21.26	last_year	boh	BOH TOTAL	740	23929	400	24329	12.48	24.52
+6.21.26	report_week	boh	Cook	498	7887	7	7894	5.18	9.83
+6.21.26	report_week	boh	Prep	73	1229	286	1515	0.99	1.89
+6.21.26	report_week	boh	Expo	58	880	584	1464	0.96	1.82
+6.21.26	report_week	boh	Dish	124	1086	0	1086	0.71	1.35
+6.21.26	report_week	boh	Salary	0	13395	0	13395	8.79	16.69
+6.21.26	report_week	boh	BOH TOTAL	753	24477	877	25354	16.63	31.59
+6.21.26	last_year	foh	Security	48	972	0	972	0.50	
+6.21.26	last_year	foh	Bar Back	262	1455	152	1607	0.82	
+6.21.26	last_year	foh	Bartender	225	1126	74	1200	0.62	
+6.21.26	last_year	foh	Crepe	0	0	0	0	0.00	
+6.21.26	last_year	foh	Cafe	143	860	0	860	0.44	
+6.21.26	last_year	foh	Hostess	188	1129	0	1129	0.58	
+6.21.26	last_year	foh	Runner	55	292	0	292	0.15	
+6.21.26	last_year	foh	Server	706	3706	103	3809	1.95	
+6.21.26	last_year	foh	Training	67	713	0	713	0.37	
+6.21.26	last_year	foh	Maintenance	13	237	0	237	0.12	
+6.21.26	last_year	foh	COPS	0	1548		1548	0.22	
+6.21.26	last_year	foh	FOH TOTAL	1707	12038	329	12367	6.34	
+6.21.26	report_week	foh	Security	12	240	0	240	0.16	
+6.21.26	report_week	foh	Bar Back	203	996	180	1176	0.77	
+6.21.26	report_week	foh	Bartender	230	1226	46	1272	0.83	
+6.21.26	report_week	foh	Crepe	15	301	0	301	0.20	
+6.21.26	report_week	foh	Cafe	208	1251	0	1251	0.82	
+6.21.26	report_week	foh	Hostess	153	1388	0	1388	0.91	
+6.21.26	report_week	foh	Runner	53	292	0	292	0.19	
+6.21.26	report_week	foh	Server	463	2501	62	2563	1.68	
+6.21.26	report_week	foh	Training	113	1246	0	1246	0.82	
+6.21.26	report_week	foh	Maintenance	8	127	0	127	0.08	
+6.21.26	report_week	foh	COPS	0	426	0	426	0.28	
+6.21.26	report_week	foh	FOH TOTAL	1458	9994	288	10282	6.75	
+6.21.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+6.21.26	last_year	mgmt	Comp	0	1128	0	1128	0.58	
+6.21.26	last_year	mgmt	Salary	0	6210		6210	3.19	
+6.21.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	3.76	
+6.21.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+6.21.26	report_week	mgmt	Comp		1200	0	1200	0.79	
+6.21.26	report_week	mgmt	Salary	0	5410		5410	3.55	
+6.21.26	report_week	mgmt	MGMT TOTAL	0	6610	0	6610	4.34	
+6.28.26	last_year	exec	BOH	709	10513	0	10513	5.86	11.31
+6.28.26	last_year	exec	FOH	1576	9773	309	10082	5.62	
+6.28.26	last_year	exec	Training	27	286	0	286	0.16	
+6.28.26	last_year	exec	FOH Salary	0	7338	0	7338	4.09	
+6.28.26	last_year	exec	BOH Salary	0	14008	0	14008	7.80	15.07
+6.28.26	last_year	exec	OTHER	0	1548	0	1548	0.86	
+6.28.26	last_year	exec	SUBTOTAL	2312	43466	309	43775	24.39	26.39
+6.28.26	last_year	exec	PAYROLL TAX		8693	62	8755	4.88	
+6.28.26	last_year	exec	TOTAL LABOR		52159	371	52529	29.27	
+6.28.26	report_week	exec	BOH	753	11082	0	11082	7.98	16.28
+6.28.26	report_week	exec	FOH	1194	6885	77	6962	5.01	
+6.28.26	report_week	exec	Training	189	2077	0	2077	1.50	
+6.28.26	report_week	exec	FOH Salary	0	6460	0	6460	4.65	
+6.28.26	report_week	exec	BOH Salary	0	14008	0	14008	10.08	20.58
+6.28.26	report_week	exec	OTHER	0	426	0	426	0.31	
+6.28.26	report_week	exec	SUBTOTAL	2136	40938	77	41015	29.52	36.87
+6.28.26	report_week	exec	PAYROLL TAX		8188	15	8203	5.90	
+6.28.26	report_week	exec	TOTAL LABOR		49125	92	49217	35.43	
+6.28.26	last_year	boh	Cook	476	7219	0	7219	4.02	7.77
+6.28.26	last_year	boh	Prep	80	1634	0	1634	0.91	1.76
+6.28.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+6.28.26	last_year	boh	Dish	153	1660	0	1660	0.92	1.79
+6.28.26	last_year	boh	Salary	0	14008	0	14008	7.80	15.07
+6.28.26	last_year	boh	BOH TOTAL	709	24521	0	24521	13.66	26.39
+6.28.26	report_week	boh	Cook	498	7887	7	7894	5.68	11.60
+6.28.26	report_week	boh	Prep	73	1229	286	1515	1.09	2.23
+6.28.26	report_week	boh	Expo	58	880	584	1464	1.05	2.15
+6.28.26	report_week	boh	Dish	124	1086	0	1086	0.78	1.60
+6.28.26	report_week	boh	Salary	0	14008	0	14008	10.08	20.58
+6.28.26	report_week	boh	BOH TOTAL	753	25090	877	25967	18.69	38.16
+6.28.26	last_year	foh	Security	47	961	0	961	0.54	
+6.28.26	last_year	foh	Bar Back	249	1488	4	1492	0.83	
+6.28.26	last_year	foh	Bartender	244	1205	155	1360	0.76	
+6.28.26	last_year	foh	Crepe	0	300	0	300	0.17	
+6.28.26	last_year	foh	Cafe	172	1031	0	1031	0.57	
+6.28.26	last_year	foh	Hostess	185	1112	0	1112	0.62	
+6.28.26	last_year	foh	Runner	40	216	0	216	0.12	
+6.28.26	last_year	foh	Server	627	3250	150	3400	1.89	
+6.28.26	last_year	foh	Training	27	286	0	286	0.16	
+6.28.26	last_year	foh	Maintenance	12	210	0	210	0.12	
+6.28.26	last_year	foh	COPS	0	1548		1548	0.24	
+6.28.26	last_year	foh	FOH TOTAL	1603	11607	309	11916	6.64	
+6.28.26	report_week	foh	Security	12	240	0	240	0.17	
+6.28.26	report_week	foh	Bar Back	172	928	43	971	0.70	
+6.28.26	report_week	foh	Bartender	187	1030	0	1030	0.74	
+6.28.26	report_week	foh	Crepe	0	0	0	0	0.00	
+6.28.26	report_week	foh	Cafe	191	1143	0	1143	0.82	
+6.28.26	report_week	foh	Hostess	149	894	0	894	0.64	
+6.28.26	report_week	foh	Runner	39	217	0	217	0.16	
+6.28.26	report_week	foh	Server	437	2326	119	2445	1.76	
+6.28.26	report_week	foh	Training	189	2077	0	2077	1.50	
+6.28.26	report_week	foh	Maintenance	7	107	0	107	0.08	
+6.28.26	report_week	foh	COPS	0	426	0	426	0.31	
+6.28.26	report_week	foh	FOH TOTAL	1383	9388	162	9550	6.87	
+6.28.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+6.28.26	last_year	mgmt	Comp	0	1128	0	1128	0.63	
+6.28.26	last_year	mgmt	Salary	0	6210		6210	3.46	
+6.28.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.09	
+6.28.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+6.28.26	report_week	mgmt	Comp		1200	0	1200	0.86	
+6.28.26	report_week	mgmt	Salary	0	5260		5260	3.79	
+6.28.26	report_week	mgmt	MGMT TOTAL	0	6460	0	6460	4.65	
+7.05.26	last_year	exec	BOH	693	9176	327	9503	6.68	11.44
+7.05.26	last_year	exec	FOH	1523	9970	236	10206	7.18	
+7.05.26	last_year	exec	Training	96	1032	0	1032	0.73	
+7.05.26	last_year	exec	FOH Salary	0	7338	0	7338	5.16	
+7.05.26	last_year	exec	BOH Salary	0	12383	0	12383	8.71	14.91
+7.05.26	last_year	exec	OTHER	0	1548	0	1548	1.09	
+7.05.26	last_year	exec	SUBTOTAL	2312	41447	563	42010	29.55	26.35
+7.05.26	last_year	exec	PAYROLL TAX		8289	113	8402	5.91	
+7.05.26	last_year	exec	TOTAL LABOR		49736	676	50411	35.46	
+7.05.26	report_week	exec	BOH	612	10184	0	10184	10.14	16.40
+7.05.26	report_week	exec	FOH	1074	6720	77	6797	6.77	
+7.05.26	report_week	exec	Training	67	735	0	735	0.73	
+7.05.26	report_week	exec	FOH Salary	0	7034	0	7034	7.00	
+7.05.26	report_week	exec	BOH Salary	0	12383	0	12383	12.33	19.94
+7.05.26	report_week	exec	OTHER	0	1278	0	1278	1.27	
+7.05.26	report_week	exec	SUBTOTAL	1753	38334	77	38411	38.24	36.34
+7.05.26	report_week	exec	PAYROLL TAX		7667	15	7682	7.65	
+7.05.26	report_week	exec	TOTAL LABOR		46000	92	46093	45.89	
+7.05.26	last_year	boh	Cook	460	5988	327	6315	4.44	7.60
+7.05.26	last_year	boh	Prep	80	1639	0	1639	1.15	1.97
+7.05.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+7.05.26	last_year	boh	Dish	153	1549	0	1549	1.09	1.86
+7.05.26	last_year	boh	Salary	0	12383	0	12383	8.71	14.91
+7.05.26	last_year	boh	BOH TOTAL	693	21559	327	21886	15.39	26.35
+7.05.26	report_week	boh	Cook	349	5899	7	5906	5.88	9.51
+7.05.26	report_week	boh	Prep	62	1221	0	1221	1.22	1.97
+7.05.26	report_week	boh	Expo	80	1756	584	2340	2.33	3.77
+7.05.26	report_week	boh	Dish	121	1308	0	1308	1.30	2.11
+7.05.26	report_week	boh	Salary	0	12383	0	12383	12.33	19.94
+7.05.26	report_week	boh	BOH TOTAL	612	22567	591	23158	23.06	37.29
+7.05.26	last_year	foh	Security	61	1249	0	1249	0.88	
+7.05.26	last_year	foh	Bar Back	200	1163	45	1208	0.85	
+7.05.26	last_year	foh	Bartender	184	973	17	990	0.70	
+7.05.26	last_year	foh	Crepe	0	300	0	300	0.21	
+7.05.26	last_year	foh	Cafe	176	1200	0	1200	0.84	
+7.05.26	last_year	foh	Hostess	212	1273	0	1273	0.90	
+7.05.26	last_year	foh	Runner	36	192	0	192	0.14	
+7.05.26	last_year	foh	Server	634	3277	174	3451	2.43	
+7.05.26	last_year	foh	Training	96	1032	0	1032	0.73	
+7.05.26	last_year	foh	Maintenance	20	343	0	343	0.24	
+7.05.26	last_year	foh	COPS	0	1548		1548	0.90	
+7.05.26	last_year	foh	FOH TOTAL	1619	12550	236	12786	8.99	
+7.05.26	report_week	foh	Security	10	194	0	194	0.19	
+7.05.26	report_week	foh	Bar Back	156	860	0	860	0.86	
+7.05.26	report_week	foh	Bartender	171	940	0	940	0.94	
+7.05.26	report_week	foh	Crepe	0	0	0	0	0.00	
+7.05.26	report_week	foh	Cafe	179	1073	0	1073	1.07	
+7.05.26	report_week	foh	Hostess	159	1396	0	1396	1.39	
+7.05.26	report_week	foh	Runner	17	95	0	95	0.09	
+7.05.26	report_week	foh	Server	372	2017	45	2062	2.05	
+7.05.26	report_week	foh	Training	67	735	0	735	0.73	
+7.05.26	report_week	foh	Maintenance	10	145	0	145	0.14	
+7.05.26	report_week	foh	COPS	0	1278	0	1278	1.27	
+7.05.26	report_week	foh	FOH TOTAL	1141	8733	45	8778	8.74	
+7.05.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+7.05.26	last_year	mgmt	Comp	0	1128	0	1128	0.79	
+7.05.26	last_year	mgmt	Salary	0	6210		6210	4.37	
+7.05.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	5.16	
+7.05.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+7.05.26	report_week	mgmt	Comp		1200	0	1200	1.19	
+7.05.26	report_week	mgmt	Salary	0	5834		5834	5.81	
+7.05.26	report_week	mgmt	MGMT TOTAL	0	7034	0	7034	7.00	
+7.12.26	last_year	exec	BOH	685	9240	0	9240	5.47	9.90
+7.12.26	last_year	exec	FOH	1392	9097	109	9206	5.45	
+7.12.26	last_year	exec	Training	46	492	0	492	0.29	
+7.12.26	last_year	exec	FOH Salary	0	7338	0	7338	4.35	
+7.12.26	last_year	exec	BOH Salary	0	12615	0	12615	7.47	13.52
+7.12.26	last_year	exec	OTHER	0	1548	0	1548	0.92	
+7.12.26	last_year	exec	SUBTOTAL	2123	40330	109	40439	23.95	23.42
+7.12.26	last_year	exec	PAYROLL TAX		8066	22	8088	4.79	
+7.12.26	last_year	exec	TOTAL LABOR		48395	131	48526	28.74	
+7.12.26	report_week	exec	BOH	647	11102	0	11102	8.32	15.11
+7.12.26	report_week	exec	FOH	1140	6755	77	6832	5.12	
+7.12.26	report_week	exec	Training	190	1987	142	2129	1.59	
+7.12.26	report_week	exec	FOH Salary	0	6225	0	6225	4.66	
+7.12.26	report_week	exec	BOH Salary	0	12615	0	12615	9.45	17.17
+7.12.26	report_week	exec	OTHER	0	852	0	852	0.64	
+7.12.26	report_week	exec	SUBTOTAL	1977	39536	219	39755	29.78	32.28
+7.12.26	report_week	exec	PAYROLL TAX		7907	44	7951	5.96	
+7.12.26	report_week	exec	TOTAL LABOR		47443	263	47705	35.74	
+7.12.26	last_year	boh	Cook	452	6105	0	6105	3.62	6.54
+7.12.26	last_year	boh	Prep	80	1639	0	1639	0.97	1.76
+7.12.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+7.12.26	last_year	boh	Dish	153	1496	0	1496	0.89	1.60
+7.12.26	last_year	boh	Salary	0	12615	0	12615	7.47	13.52
+7.12.26	last_year	boh	BOH TOTAL	685	21855	0	21855	12.94	23.42
+7.12.26	report_week	boh	Cook	360	6417	109	6526	4.89	8.88
+7.12.26	report_week	boh	Prep	80	1556	0	1556	1.17	2.12
+7.12.26	report_week	boh	Expo	80	1759	0	1759	1.32	2.39
+7.12.26	report_week	boh	Dish	127	1370	8	1378	1.03	1.88
+7.12.26	report_week	boh	Salary	0	12615	0	12615	9.45	17.17
+7.12.26	report_week	boh	BOH TOTAL	647	23717	117	23834	17.85	32.44
+7.12.26	last_year	foh	Security	66	1368	0	1368	0.81	
+7.12.26	last_year	foh	Bar Back	226	1320	65	1385	0.82	
+7.12.26	last_year	foh	Bartender	193	929	20	949	0.56	
+7.12.26	last_year	foh	Crepe	0	300	0	300	0.18	
+7.12.26	last_year	foh	Cafe	142	851	2	853	0.51	
+7.12.26	last_year	foh	Hostess	205	1230	0	1230	0.73	
+7.12.26	last_year	foh	Runner	13	69	0	69	0.04	
+7.12.26	last_year	foh	Server	539	2873	22	2895	1.71	
+7.12.26	last_year	foh	Training	46	492	0	492	0.29	
+7.12.26	last_year	foh	Maintenance	8	157	0	157	0.09	
+7.12.26	last_year	foh	COPS	0	1548		1548	0.50	
+7.12.26	last_year	foh	FOH TOTAL	1438	11137	109	11246	6.66	
+7.12.26	report_week	foh	Security	18	351	0	351	0.26	
+7.12.26	report_week	foh	Bar Back	187	980	77	1057	0.79	
+7.12.26	report_week	foh	Bartender	164	810	140	950	0.71	
+7.12.26	report_week	foh	Crepe	0	0	0	0	0.00	
+7.12.26	report_week	foh	Cafe	215	1290	0	1290	0.97	
+7.12.26	report_week	foh	Hostess	142	853	0	853	0.64	
+7.12.26	report_week	foh	Runner	17	93	0	93	0.07	
+7.12.26	report_week	foh	Server	382	2078	30	2108	1.58	
+7.12.26	report_week	foh	Training	190	1987	142	2129	1.59	
+7.12.26	report_week	foh	Maintenance	15	300	0	300	0.22	
+7.12.26	report_week	foh	COPS	0	852	0	852	0.64	
+7.12.26	report_week	foh	FOH TOTAL	1330	9594	389	9983	7.48	
+7.12.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+7.12.26	last_year	mgmt	Comp	0	1128	0	1128	0.67	
+7.12.26	last_year	mgmt	Salary	0	6210		6210	3.68	
+7.12.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.35	
+7.12.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+7.12.26	report_week	mgmt	Comp		1200	0	1200	0.90	
+7.12.26	report_week	mgmt	Salary	0	5025		5025	3.76	
+7.12.26	report_week	mgmt	MGMT TOTAL	0	6225	0	6225	4.66	
+7.19.26	last_year	exec	BOH	680	9163	0	9163	4.90	9.07
+7.19.26	last_year	exec	FOH	1451	9379	207	9586	5.13	
+7.19.26	last_year	exec	Training	39	414	0	414	0.22	
+7.19.26	last_year	exec	FOH Salary	0	7338	0	7338	3.92	
+7.19.26	last_year	exec	BOH Salary	0	12615	0	12615	6.75	12.49
+7.19.26	last_year	exec	OTHER	0	1548	0	1548	0.83	
+7.19.26	last_year	exec	SUBTOTAL	2170	40457	207	40664	21.75	21.56
+7.19.26	last_year	exec	PAYROLL TAX		8091	41	8133	4.35	
+7.19.26	last_year	exec	TOTAL LABOR		48548	248	48796	26.10	
+7.19.26	report_week	exec	BOH	619	10010	0	10010	7.54	13.62
+7.19.26	report_week	exec	FOH	1023	6637	77	6714	5.06	
+7.19.26	report_week	exec	Training	113	1244	0	1244	0.94	
+7.19.26	report_week	exec	FOH Salary	0	6225	0	6225	4.69	
+7.19.26	report_week	exec	BOH Salary	0	12615	0	12615	9.50	17.17
+7.19.26	report_week	exec	OTHER	0	426	0	426	0.32	
+7.19.26	report_week	exec	SUBTOTAL	1755	37157	77	37234	28.05	30.79
+7.19.26	report_week	exec	PAYROLL TAX		7431	15	7447	5.61	
+7.19.26	report_week	exec	TOTAL LABOR		44588	92	44680	33.66	
+7.19.26	last_year	boh	Cook	440	5894	0	5894	3.15	5.84
+7.19.26	last_year	boh	Prep	80	1636	0	1636	0.87	1.62
+7.19.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+7.19.26	last_year	boh	Dish	160	1633	0	1633	0.87	1.62
+7.19.26	last_year	boh	Salary	0	12615	0	12615	6.75	12.49
+7.19.26	last_year	boh	BOH TOTAL	680	21778	0	21778	11.65	21.56
+7.19.26	report_week	boh	Cook	365	5988	354	6342	4.78	8.63
+7.19.26	report_week	boh	Prep	82	1560	71	1631	1.23	2.22
+7.19.26	report_week	boh	Expo	79	1749	0	1749	1.32	2.38
+7.19.26	report_week	boh	Dish	93	713	0	713	0.54	0.97
+7.19.26	report_week	boh	Salary	0	12615	0	12615	9.50	17.17
+7.19.26	report_week	boh	BOH TOTAL	619	22625	425	23050	17.36	31.37
+7.19.26	last_year	foh	Security	44	929	0	929	0.50	
+7.19.26	last_year	foh	Bar Back	215	1289	26	1315	0.70	
+7.19.26	last_year	foh	Bartender	201	992	30	1022	0.55	
+7.19.26	last_year	foh	Crepe	0	300	0	300	0.16	
+7.19.26	last_year	foh	Cafe	160	1110	47	1157	0.62	
+7.19.26	last_year	foh	Hostess	160	1110	0	1110	0.59	
+7.19.26	last_year	foh	Runner	47	252	0	252	0.13	
+7.19.26	last_year	foh	Server	610	3194	104	3298	1.76	
+7.19.26	last_year	foh	Training	39	414	0	414	0.22	
+7.19.26	last_year	foh	Maintenance	14	203	0	203	0.11	
+7.19.26	last_year	foh	COPS	0	1548		1548	0.23	
+7.19.26	last_year	foh	FOH TOTAL	1490	11341	207	11548	6.18	
+7.19.26	report_week	foh	Security	12	249	0	249	0.19	
+7.19.26	report_week	foh	Bar Back	175	961	5	966	0.73	
+7.19.26	report_week	foh	Bartender	141	774	0	774	0.58	
+7.19.26	report_week	foh	Crepe	7	300	0	300	0.23	
+7.19.26	report_week	foh	Cafe	187	1122	0	1122	0.85	
+7.19.26	report_week	foh	Hostess	128	1107	0	1107	0.83	
+7.19.26	report_week	foh	Runner	20	112	0	112	0.08	
+7.19.26	report_week	foh	Server	348	1912	0	1912	1.44	
+7.19.26	report_week	foh	Training	113	1244	0	1244	0.94	
+7.19.26	report_week	foh	Maintenance	5	100	0	100	0.08	
+7.19.26	report_week	foh	COPS	0	426	0	426	0.32	
+7.19.26	report_week	foh	FOH TOTAL	1136	8307	5	8312	6.26	
+7.19.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+7.19.26	last_year	mgmt	Comp	0	1128	0	1128	0.60	
+7.19.26	last_year	mgmt	Salary	0	6210		6210	3.32	
+7.19.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	3.92	
+7.19.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+7.19.26	report_week	mgmt	Comp		1200	0	1200	0.90	
+7.19.26	report_week	mgmt	Salary	0	5025		5025	3.79	
+7.19.26	report_week	mgmt	MGMT TOTAL	0	6225	0	6225	4.69	
+7.26.26	last_year	exec	BOH	736	10315	0	10315	5.87	11.01
+7.26.26	last_year	exec	FOH	1393	9120	339	9459	5.38	
+7.26.26	last_year	exec	Training	30	323	0	323	0.18	
+7.26.26	last_year	exec	FOH Salary	0	7338	0	7338	4.18	
+7.26.26	last_year	exec	BOH Salary	0	12383	0	12383	7.05	13.22
+7.26.26	last_year	exec	OTHER	0	1548	0	1548	0.88	
+7.26.26	last_year	exec	SUBTOTAL	2159	41027	339	41366	23.54	24.23
+7.26.26	last_year	exec	PAYROLL TAX		8205	68	8273	4.71	
+7.26.26	last_year	exec	TOTAL LABOR		49232	407	49639	28.25	
+7.26.26	report_week	exec	BOH	720	12536	0	12536	8.05	15.98
+7.26.26	report_week	exec	FOH	1269	8043	77	8120	5.22	
+7.26.26	report_week	exec	Training	77	852	0	852	0.55	
+7.26.26	report_week	exec	FOH Salary	0	7034	0	7034	4.52	
+7.26.26	report_week	exec	BOH Salary	0	12383	0	12383	7.95	15.78
+7.26.26	report_week	exec	OTHER	0	426	0	426	0.27	
+7.26.26	report_week	exec	SUBTOTAL	2066	41274	77	41351	26.56	31.77
+7.26.26	report_week	exec	PAYROLL TAX		8255	15	8270	5.31	
+7.26.26	report_week	exec	TOTAL LABOR		49528	92	49621	31.87	
+7.26.26	last_year	boh	Cook	464	6504	0	6504	3.70	6.94
+7.26.26	last_year	boh	Prep	79	1626	0	1626	0.93	1.74
+7.26.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+7.26.26	last_year	boh	Dish	193	2185	0	2185	1.24	2.33
+7.26.26	last_year	boh	Salary	0	12383	0	12383	7.05	13.22
+7.26.26	last_year	boh	BOH TOTAL	736	22698	0	22698	12.92	24.23
+7.26.26	report_week	boh	Cook	466	8502	0	8502	5.46	10.84
+7.26.26	report_week	boh	Prep	80	1556	0	1556	1.00	1.98
+7.26.26	report_week	boh	Expo	80	1758	0	1758	1.13	2.24
+7.26.26	report_week	boh	Dish	94	720	93	813	0.52	1.04
+7.26.26	report_week	boh	Salary	0	12383	0	12383	7.95	15.78
+7.26.26	report_week	boh	BOH TOTAL	720	24919	93	25012	16.06	31.88
+7.26.26	last_year	foh	Security	37	779	0	779	0.44	
+7.26.26	last_year	foh	Bar Back	110	1092	163	1255	0.71	
+7.26.26	last_year	foh	Bartender	223	1127	98	1225	0.70	
+7.26.26	last_year	foh	Crepe	0	300	0	300	0.17	
+7.26.26	last_year	foh	Cafe	181	1085	6	1091	0.62	
+7.26.26	last_year	foh	Hostess	181	1088	0	1088	0.62	
+7.26.26	last_year	foh	Runner	37	207	0	207	0.12	
+7.26.26	last_year	foh	Server	612	3229	72	3301	1.88	
+7.26.26	last_year	foh	Training	30	323	0	323	0.18	
+7.26.26	last_year	foh	Maintenance	12	213	0	213	0.12	
+7.26.26	last_year	foh	COPS	0	1548		1548	0.24	
+7.26.26	last_year	foh	FOH TOTAL	1423	10991	339	11330	6.45	
+7.26.26	report_week	foh	Security	12	238	0	238	0.15	
+7.26.26	report_week	foh	Bar Back	188	1000	49	1049	0.67	
+7.26.26	report_week	foh	Bartender	203	1110	11	1121	0.72	
+7.26.26	report_week	foh	Crepe	0	225	0	225	0.14	
+7.26.26	report_week	foh	Cafe	217	1305	0	1305	0.84	
+7.26.26	report_week	foh	Hostess	162	1396	0	1396	0.90	
+7.26.26	report_week	foh	Runner	38	209	0	209	0.13	
+7.26.26	report_week	foh	Server	439	2353	93	2446	1.57	
+7.26.26	report_week	foh	Training	77	852	0	852	0.55	
+7.26.26	report_week	foh	Maintenance	10	207	0	207	0.13	
+7.26.26	report_week	foh	COPS	0	426	0	426	0.27	
+7.26.26	report_week	foh	FOH TOTAL	1346	9321	153	9474	6.08	
+7.26.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+7.26.26	last_year	mgmt	Comp	0	1128	0	1128	0.64	
+7.26.26	last_year	mgmt	Salary	0	6210		6210	3.53	
+7.26.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.18	
+7.26.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+7.26.26	report_week	mgmt	Comp		1200	0	1200	0.77	
+7.26.26	report_week	mgmt	Salary	0	5834		5834	3.75	
+7.26.26	report_week	mgmt	MGMT TOTAL	0	7034	0	7034	4.52	
+8.2.26	last_year	exec	BOH	769	9972	1462	11434	7.23	13.13
+8.2.26	last_year	exec	FOH	1434	8960	179	9139	5.78	
+8.2.26	last_year	exec	Training	130	1391	0	1391	0.88	
+8.2.26	last_year	exec	FOH Salary	0	7338	0	7338	4.64	
+8.2.26	last_year	exec	BOH Salary	0	11272	0	11272	7.13	12.94
+8.2.26	last_year	exec	OTHER	0	1548	0	1548	0.98	
+8.2.26	last_year	exec	SUBTOTAL	2333	40481	1641	42122	26.65	26.08
+8.2.26	last_year	exec	PAYROLL TAX		8096	328	8424	5.33	
+8.2.26	last_year	exec	TOTAL LABOR		48577	1969	50546	31.98	
+8.2.26	report_week	exec	BOH	672	11848	0	11848	10.07	18.03
+8.2.26	report_week	exec	FOH	1002	6442	77	6519	5.54	
+8.2.26	report_week	exec	Training	42	464	0	464	0.39	
+8.2.26	report_week	exec	FOH Salary	0	6120	0	6120	5.20	
+8.2.26	report_week	exec	BOH Salary	0	11272	0	11272	9.58	17.15
+8.2.26	report_week	exec	OTHER	0	852	0	852	0.72	
+8.2.26	report_week	exec	SUBTOTAL	1716	36998	77	37075	31.52	35.18
+8.2.26	report_week	exec	PAYROLL TAX		7400	15	7415	6.30	
+8.2.26	report_week	exec	TOTAL LABOR		44397	92	44489	37.82	
+8.2.26	last_year	boh	Cook	513	6508	1238	7746	4.90	8.90
+8.2.26	last_year	boh	Prep	79	1625	0	1625	1.03	1.87
+8.2.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+8.2.26	last_year	boh	Dish	177	1839	224	2063	1.31	2.37
+8.2.26	last_year	boh	Salary	0	11272	0	11272	7.13	12.94
+8.2.26	last_year	boh	BOH TOTAL	769	21244	1462	22706	14.36	26.08
+8.2.26	report_week	boh	Cook	437	7190	244	7434	6.32	11.31
+8.2.26	report_week	boh	Prep	80	1555	0	1555	1.32	2.37
+8.2.26	report_week	boh	Expo	80	1758	0	1758	1.49	2.68
+8.2.26	report_week	boh	Dish	75	1345	0	1345	1.14	2.05
+8.2.26	report_week	boh	Salary	0	11272	0	11272	9.58	17.15
+8.2.26	report_week	boh	BOH TOTAL	672	23120	244	23364	19.86	35.55
+8.2.26	last_year	foh	Security	43	926	0	926	0.59	
+8.2.26	last_year	foh	Bar Back	185	1100	60	1160	0.73	
+8.2.26	last_year	foh	Bartender	201	964	64	1028	0.65	
+8.2.26	last_year	foh	Crepe	0	300	0	300	0.19	
+8.2.26	last_year	foh	Cafe	148	877	15	892	0.56	
+8.2.26	last_year	foh	Hostess	210	1258	0	1258	0.80	
+8.2.26	last_year	foh	Runner	40	215	0	215	0.14	
+8.2.26	last_year	foh	Server	600	3182	40	3222	2.04	
+8.2.26	last_year	foh	Training	130	1391	0	1391	0.88	
+8.2.26	last_year	foh	Maintenance	7	138	0	138	0.09	
+8.2.26	last_year	foh	COPS	0	1548		1548	0.54	
+8.2.26	last_year	foh	FOH TOTAL	1564	11899	179	12078	7.64	
+8.2.26	report_week	foh	Security	7	140	0	140	0.12	
+8.2.26	report_week	foh	Bar Back	158	866	0	866	0.74	
+8.2.26	report_week	foh	Bartender	168	926	0	926	0.79	
+8.2.26	report_week	foh	Crepe	0	225	0	225	0.19	
+8.2.26	report_week	foh	Cafe	166	994	0	994	0.85	
+8.2.26	report_week	foh	Hostess	122	1081	0	1081	0.92	
+8.2.26	report_week	foh	Runner	21	118	0	118	0.10	
+8.2.26	report_week	foh	Server	350	1888	65	1953	1.66	
+8.2.26	report_week	foh	Training	42	464	0	464	0.39	
+8.2.26	report_week	foh	Maintenance	10	204	0	204	0.17	
+8.2.26	report_week	foh	COPS	0	852	0	852	0.72	
+8.2.26	report_week	foh	FOH TOTAL	1044	7758	65	7823	6.65	
+8.2.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+8.2.26	last_year	mgmt	Comp	0	1128	0	1128	0.71	
+8.2.26	last_year	mgmt	Salary	0	6210		6210	3.93	
+8.2.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.64	
+8.2.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+8.2.26	report_week	mgmt	Comp		1200	0	1200	1.02	
+8.2.26	report_week	mgmt	Salary	0	4920		4920	4.18	
+8.2.26	report_week	mgmt	MGMT TOTAL	0	6120	0	6120	5.20	
+8.9.26	last_year	exec	BOH	736	10315	0	10315	5.87	11.01
+8.9.26	last_year	exec	FOH	1393	9120	339	9459	5.38	
+8.9.26	last_year	exec	Training	30	323	0	323	0.18	
+8.9.26	last_year	exec	FOH Salary	0	7338	0	7338	4.18	
+8.9.26	last_year	exec	BOH Salary	0	12383	0	12383	7.05	13.22
+8.9.26	last_year	exec	OTHER	0	1548	0	1548	0.88	
+8.9.26	last_year	exec	SUBTOTAL	2159	41027	339	41366	23.54	24.23
+8.9.26	last_year	exec	PAYROLL TAX		8205	68	8273	4.71	
+8.9.26	last_year	exec	TOTAL LABOR		49232	407	49639	28.25	
+8.9.26	report_week	exec	BOH	666	11442	0	11442	7.35	14.59
+8.9.26	report_week	exec	FOH	1270	8057	77	8134	5.22	
+8.9.26	report_week	exec	Training	77	852	0	852	0.55	
+8.9.26	report_week	exec	FOH Salary	0	7034	0	7034	4.52	
+8.9.26	report_week	exec	BOH Salary	0	12383	0	12383	7.95	15.78
+8.9.26	report_week	exec	OTHER	0	426	0	426	0.27	
+8.9.26	report_week	exec	SUBTOTAL	2013	40194	77	40271	25.86	30.37
+8.9.26	report_week	exec	PAYROLL TAX		8039	15	8054	5.17	
+8.9.26	report_week	exec	TOTAL LABOR		48232	92	48325	31.04	
+8.9.26	last_year	boh	Cook	464	6504	0	6504	3.70	6.94
+8.9.26	last_year	boh	Prep	79	1626	0	1626	0.93	1.74
+8.9.26	last_year	boh	Expo	0	0	0	0	0.00	0.00
+8.9.26	last_year	boh	Dish	193	2185	0	2185	1.24	2.33
+8.9.26	last_year	boh	Salary	0	12383	0	12383	7.05	13.22
+8.9.26	last_year	boh	BOH TOTAL	736	22698	0	22698	12.92	24.23
+8.9.26	report_week	boh	Cook	413	7445	50	7495	4.81	9.55
+8.9.26	report_week	boh	Prep	40	800	0	800	0.51	1.02
+8.9.26	report_week	boh	Expo	80	1757	0	1757	1.13	2.24
+8.9.26	report_week	boh	Dish	133	1440	53	1493	0.96	1.90
+8.9.26	report_week	boh	Salary	0	12383	0	12383	7.95	15.78
+8.9.26	report_week	boh	BOH TOTAL	666	23825	103	23928	15.37	30.50
+8.9.26	last_year	foh	Security	37	779	0	779	0.44	
+8.9.26	last_year	foh	Bar Back	110	1092	163	1255	0.71	
+8.9.26	last_year	foh	Bartender	223	1127	98	1225	0.70	
+8.9.26	last_year	foh	Crepe	0	300	0	300	0.17	
+8.9.26	last_year	foh	Cafe	181	1085	6	1091	0.62	
+8.9.26	last_year	foh	Hostess	181	1088	0	1088	0.62	
+8.9.26	last_year	foh	Runner	37	207	0	207	0.12	
+8.9.26	last_year	foh	Server	612	3229	72	3301	1.88	
+8.9.26	last_year	foh	Training	30	323	0	323	0.18	
+8.9.26	last_year	foh	Maintenance	12	213	0	213	0.12	
+8.9.26	last_year	foh	COPS	0	1548		1548	0.24	
+8.9.26	last_year	foh	FOH TOTAL	1423	10991	339	11330	6.45	
+8.9.26	report_week	foh	Security	13	252	0	252	0.16	
+8.9.26	report_week	foh	Bar Back	188	1000	49	1049	0.67	
+8.9.26	report_week	foh	Bartender	203	1110	11	1121	0.72	
+8.9.26	report_week	foh	Crepe	0	225	0	225	0.14	
+8.9.26	report_week	foh	Cafe	217	1305	0	1305	0.84	
+8.9.26	report_week	foh	Hostess	162	1396	0	1396	0.90	
+8.9.26	report_week	foh	Runner	38	209	0	209	0.13	
+8.9.26	report_week	foh	Server	439	2353	93	2446	1.57	
+8.9.26	report_week	foh	Training	77	852	0	852	0.55	
+8.9.26	report_week	foh	Maintenance	10	207	0	207	0.13	
+8.9.26	report_week	foh	COPS	0	426	0	426	0.27	
+8.9.26	report_week	foh	FOH TOTAL	1347	9335	153	9488	6.09	
+8.9.26	last_year	mgmt	Bonuses	0	0	0	0	0.00	
+8.9.26	last_year	mgmt	Comp	0	1128	0	1128	0.64	
+8.9.26	last_year	mgmt	Salary	0	6210		6210	3.53	
+8.9.26	last_year	mgmt	MGMT TOTAL	0	7338	0	7338	4.18	
+8.9.26	report_week	mgmt	Bonuses	0	0	0	0	0.00	
+8.9.26	report_week	mgmt	Comp		1200	0	1200	0.77	
+8.9.26	report_week	mgmt	Salary	0	5834		5834	3.75	
+8.9.26	report_week	mgmt	MGMT TOTAL	0	7034	0	7034	4.52	
