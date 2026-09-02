@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TownHall CLE — Distributor Order Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1B16; --muted: #6B6B60; --faint: #9C9C90; --line: #E7E3D6;
+    --bg: #FBFAF6; --card: #FFFFFF; --accent: #33593F; --accent-dark: #23402C;
+    --accent-soft: #EAF1EA; --warn: #9A5B12; --warn-soft: #FBF0DE;
+    --danger: #A32B2B; --danger-soft: #FBEAEA;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; }
+  button, input, select, textarea { font: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  #topbar { position: sticky; top: 0; z-index: 30; background: rgba(251,250,246,.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  #topbar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  #brand .name { font-size: 19px; font-weight: 600; }
+  #brand .loc { font-size: 11px; color: var(--muted); }
+  .spacer { flex: 1; }
+  .btn { border-radius: 7px; border: 1px solid var(--line); background: var(--card); padding: 9px 14px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-dark); }
+  .btn.ghost { border: none; background: none; color: var(--muted); }
+  .btn.ghost:hover { color: var(--accent-dark); }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 22px 24px 140px; }
+  .banner { display: flex; gap: 10px; background: var(--warn-soft); border: 1px solid #EAD4A6; color: #6B4A10; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.55; margin-bottom: 20px; }
+  .banner b { color: #5A3D0C; }
+
+  .sheet-head { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 18px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .field input, .field select { border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; background: var(--card); font-size: 13.5px; color: var(--ink); }
+  h1 { margin: 0 0 4px; font-size: 27px; }
+  .sub { color: var(--muted); font-size: 13.5px; margin: 0 0 20px; }
+
+  #vendornav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+  .v-pill { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-size: 12.5px; font-weight: 600; color: var(--muted); }
+  .v-pill.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .v-pill .n { opacity: .65; margin-left: 5px; font-variant-numeric: tabular-nums; }
+
+  .vendor { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 22px; overflow: hidden; }
+  .vendor-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--accent-soft); flex-wrap: wrap; }
+  .vendor-head h2 { margin: 0; font-size: 18px; }
+  .vendor-head .cut { font-size: 12px; color: var(--accent-dark); opacity: .8; }
+  .vendor-head .count { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th { text-align: left; font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 9px 10px; border-bottom: 1px solid var(--line); background: #fff; }
+  thead th.num, td.num { text-align: center; width: 74px; }
+  tbody tr { border-bottom: 1px solid #F2EFE6; }
+  tbody tr:hover { background: #FCFBF7; }
+  tbody tr.ordering { background: var(--accent-soft); }
+  tbody tr.ordering:hover { background: #E1EDE2; }
+  td { padding: 8px 10px; vertical-align: middle; }
+  .grp-row td { background: #F6F4EC; font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 700; padding: 7px 10px; }
+  .grp-row:hover td { background: #F6F4EC; }
+  .item-name { font-weight: 600; }
+  .used { display: block; font-size: 11.5px; color: var(--faint); margin-top: 2px; line-height: 1.4; }
+  .unit { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  input.qty { width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 6px 4px; text-align: center; font-size: 13.5px; font-variant-numeric: tabular-nums; background: #fff; }
+  input.qty:focus { border-color: var(--accent); }
+  .order-cell { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent-dark); }
+  .order-cell.zero { color: var(--faint); font-weight: 400; }
+  input.note { width: 100%; border: 1px solid transparent; border-radius: 6px; padding: 6px 8px; font-size: 12.5px; background: transparent; color: var(--muted); }
+  input.note:hover { border-color: var(--line); }
+  input.note:focus { border-color: var(--accent); background: #fff; color: var(--ink); }
+
+  #footbar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(251,250,246,.96); backdrop-filter: blur(8px); border-top: 1px solid var(--line); z-index: 30; }
+  #footbar-inner { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  #summary { font-size: 13px; color: var(--muted); }
+  #summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  dialog { border: 1px solid var(--line); border-radius: 12px; padding: 0; max-width: 700px; width: calc(100% - 32px); background: var(--card); color: var(--ink); }
+  dialog::backdrop { background: rgba(27,27,22,.42); }
+  .dlg-head { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .dlg-head h3 { margin: 0; font-size: 18px; }
+  .dlg-body { padding: 16px 20px; }
+  .dlg-foot { display: flex; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--line); }
+  textarea#exp { width: 100%; height: 320px; border: 1px solid var(--line); border-radius: 8px; padding: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; line-height: 1.55; resize: vertical; }
+
+  @media (max-width: 720px) {
+    .used { display: none; }
+    thead th.num, td.num { width: 58px; }
+    td.note-cell, th.note-cell { display: none; }
+  }
+  @media print {
+    #topbar, #footbar, #vendornav, .banner, .no-print { display: none !important; }
+    body, html { background: #fff; }
+    main { padding: 0; max-width: none; }
+    .vendor { break-inside: auto; border-color: #ccc; box-shadow: none; }
+    .vendor-head { background: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tbody tr.ordering { background: #fff; }
+    input.qty, input.note { border: 1px solid #ccc; }
+    thead { display: table-header-group; }
+    tr { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div id="topbar"><div id="topbar-inner">
+  <div id="brand">
+    <div class="name">TownHall</div>
+    <div class="loc">Cleveland (Ohio City) — Distributor Order Sheet</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn ghost" id="btn-clear">Clear sheet</button>
+  <button class="btn" id="btn-print">Print</button>
+  <button class="btn primary" id="btn-export">Export order</button>
+</div></div>
+
+<main>
+  <h1>Order list — for delivery <span id="h-date">tomorrow</span></h1>
+  <p class="sub">Every purchasable line the CLE dinner menu depends on, grouped by distributor lane. Enter <b>Par</b> and <b>On&nbsp;Hand</b>; the order quantity fills itself in. Anything you already know you need, type straight into <b>Order</b>.</p>
+
+  <div class="banner">
+    <div><b>Read before you send.</b> This sheet was built from the menu in this repo (<code>townhall-order.html</code> / CLE dinner menu 5.1.26). It is a complete <i>coverage</i> list, not a usage forecast — there are no real par levels, on-hand counts, sales history, or vendor item numbers in it, because none exist in this project. Set your own pars, and check every line against the vendor's actual order guide and cutoff time before submitting.</div>
+  </div>
+
+  <div class="sheet-head">
+    <div class="field">
+      <label for="f-date">Delivery date</label>
+      <input type="date" id="f-date">
+    </div>
+    <div class="field">
+      <label for="f-ordered">Ordered by</label>
+      <input type="text" id="f-ordered" placeholder="Name" size="16">
+    </div>
+    <div class="field">
+      <label for="f-cover">Covers through</label>
+      <input type="text" id="f-cover" placeholder="e.g. Sun dinner" size="16">
+    </div>
+    <div class="field">
+      <label for="f-filter">Show</label>
+      <select id="f-filter">
+        <option value="all">All lines</option>
+        <option value="ordering">Only lines with an order qty</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="vendornav"></div>
+  <div id="sheet"></div>
+</main>
+
+<div id="footbar"><div id="footbar-inner">
+  <div id="summary">No lines flagged to order yet.</div>
+  <div class="spacer"></div>
+  <button class="btn" id="btn-print2">Print</button>
+  <button class="btn primary" id="btn-export2">Export order</button>
+</div></div>
+
+<dialog id="dlg">
+  <div class="dlg-head"><h3 id="dlg-title">Order</h3></div>
+  <div class="dlg-body"><textarea id="exp" readonly></textarea></div>
+  <div class="dlg-foot">
+    <button class="btn primary" id="btn-copy">Copy to clipboard</button>
+    <button class="btn" id="btn-close">Close</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Each line: [name, unit, used-in note]
+     Lanes are generic on purpose — rename them to your actual vendors. */
+  var VENDORS = [
+    { id: 'protein', name: 'Protein + Seafood', cut: 'Center-of-plate — order to the day, not the week', groups: [
+      { g: 'Beef', items: [
+        ['Grass-fed + finished Australian wagyu picanha', 'lb', 'Wagyu Steak main'],
+        ['Grass-fed + finished filet (steak bite cut)', 'lb', 'Steak Bites by Stano; Steak Bites side; steak protein upgrade; BYO bowl steak'],
+        ['Grass-fed + finished chuck / braising beef', 'lb', 'Braised beef on nachos, quesabirria upgrade, BYO bowl'],
+        ['Grass-fed + finished burger patties (6 oz)', 'ea', 'Cheeseburger; Smashburger; burger patty side; BYO bowl burger'],
+        ['Beef bones — collagen bone broth', 'lb', 'Beef bone broth (12/32 oz), BYO bowl base, jalapeño mushroom soup, quesabirria consommé']
+      ]},
+      { g: 'Poultry', items: [
+        ['Pasture-raised chicken breast', 'lb', 'Chicken breast side; salads; Bangkok Bazaar; flatbread topping'],
+        ['Pasture-raised chicken thigh', 'lb', 'Chicken thigh side; keto fried chicken; Nashville sandwich; quesabirria; BYO bowl'],
+        ['Pasture-raised chicken wings', 'lb', 'Keto Chicken Wings (72-hr dry rub)'],
+        ['Chicken tenders — keto/cashew breaded', 'lb', 'Keto Baked Buffalo Tenders'],
+        ['Chicken bones / organic chicken broth', 'lb / qt', 'Chicken bone broth, spicy chicken noodle soup, BYO bowl base']
+      ]},
+      { g: 'Pork', items: [
+        ['Pasture-raised pork belly', 'lb', 'SP Skins 2.0; quesabirria; BYO bowl; bone broth add-on'],
+        ['Pasture-raised bacon', 'lb', 'Chopped + Harvest salads; Korean BBQ flatbread; grilled cheese add-on; bacon jam'],
+        ['Italian sausage — flatbread', 'lb', 'BYO Flatbread topping'],
+        ['Pepperoni', 'lb', 'BYO Flatbread topping']
+      ]},
+      { g: 'Seafood', items: [
+        ['Wild tuna — sashimi grade', 'lb', 'Wild Poke 2.0'],
+        ['Wild salmon', 'lb', 'Wild Salmon main; salmon side; poke; protein upgrade; BYO bowl'],
+        ['Wild shrimp (16/20)', 'lb', 'Bangkok Bazaar; shrimp side; wagyu + salmon add-on; quesabirria upgrade; BYO bowl']
+      ]},
+      { g: 'Plant protein', items: [
+        ['Vegan chicken', 'lb', 'Flatbread topping; protein upgrade; quesabirria; BYO bowl'],
+        ['Organic tofu', 'lb', 'Hoisin tofu (BYO bowl); quesabirria; flatbread topping']
+      ]}
+    ]},
+
+    { id: 'produce', name: 'Produce', cut: 'Daily — order tight, this is the spoilage lane', groups: [
+      { g: 'Greens + lettuce', items: [
+        ['Romaine hearts', 'cs', 'Buffalo cauliflower wraps; cheeseburger; lettuce bun'],
+        ['Field greens', 'lb', 'Harvest Salad; Keto Mediterranean Salad'],
+        ['Kale + radicchio blend', 'lb', 'Chopped Salad; spicy chicken noodle soup'],
+        ['Organic baby arugula', 'lb', 'Green Envy flatbread; grilled cheese; flatbread topping'],
+        ['Spinach', 'lb', 'Being Brigid smoothie'],
+        ['Kimchi microgreens', 'cs', 'Sweet Potato Skins 2.0'],
+        ['Organic sprouts', 'cs', 'Bangkok Bazaar']
+      ]},
+      { g: 'Vegetables', items: [
+        ['Brussels sprouts', 'lb', 'Roasted brussels side; wagyu; keto fried chicken; Nashville slaw'],
+        ['Broccoli crowns', 'lb', 'Spicy Garlic Broccoli side'],
+        ['Cauliflower — whole head', 'cs', 'Truffle cauliflower mash; buffalo cauliflower wraps; Green Envy; cauliflower rice'],
+        ['Asparagus', 'lb', 'Wild Salmon main'],
+        ['Mushrooms — button/cremini', 'lb', 'Jalapeño garlic + mushroom soup; wagyu; flatbread topping; broth add-on'],
+        ['Sweet potatoes', 'cs', 'SP fries; SP fingerlings; SP casserole; SP skins; harvest salad'],
+        ['Russet potatoes (or frozen tallow-cut fries)', 'cs', 'Tallow fries; truffle fries'],
+        ['Cucumbers', 'cs', 'Poke; Thai peanut; med salad; buffalo wraps; Being Brigid'],
+        ['Heirloom tomatoes', 'lb', 'Keto Mediterranean Salad'],
+        ['Roma / roasting tomatoes', 'cs', 'Classico flatbread; grilled cheese; tomato bisque'],
+        ['Carrots', 'lb', 'Thai peanut; buffalo cauliflower wraps'],
+        ['Red onion', 'lb', 'Korean BBQ flatbread; med salad; BYO garnish; pickled onion'],
+        ['White / yellow onion', 'lb', 'Cheeseburger; quesabirria; chili; broth add-on'],
+        ['Scallions', 'bu', 'Wings; poke; soup; garlic broccoli; BYO garnish; broth add-on'],
+        ['Jalapeños', 'lb', 'Nachos; poke; soup; quesabirria; flatbread; BYO garnish'],
+        ['Anaheim peppers', 'lb', 'Korean BBQ flatbread; Bangkok Bazaar'],
+        ['Bell peppers', 'lb', 'Keto Mediterranean Salad; flatbread topping'],
+        ['Shredded cabbage / slaw mix', 'cs', 'Kimchi slaw (skins, poke, Thai peanut, wraps); Nashville slaw'],
+        ['Garlic — peeled', 'lb', 'Jalapeño garlic soup; garlic broccoli; toum aioli'],
+        ['Ginger root', 'lb', 'Being Brigid; wellness shot'],
+        ['Turmeric root', 'lb', 'Wellness shot'],
+        ['Seasonal crudité vegetables', 'cs', 'Organic Hummus']
+      ]},
+      { g: 'Fruit', items: [
+        ['Avocado — Hass', 'cs', 'Dip trilogy; poke; salads; keto avo bun; smoothies; add-on'],
+        ['Lemons', 'cs', 'Wellness shot; lemonades; vinaigrettes'],
+        ['Limes', 'cs', 'Hibiscus limeade'],
+        ['Oranges — juicing', 'cs', 'Fresh orange juice'],
+        ['Grapefruit — juicing', 'cs', 'Fresh grapefruit juice'],
+        ['Pineapple', 'cs', 'Steak bites; Being Brigid; pineapple juice'],
+        ['Bananas', 'cs', 'Matcha Glow; Strawberry Skin Renewal; Longevity'],
+        ['Green apples', 'cs', 'Being Brigid; chopped salad'],
+        ['Strawberries', 'flat', 'Strawberry Skin Renewal; shakes; butter cake'],
+        ['Blueberries', 'flat', 'Longevity; energy bites; harvest salad; blueberry catsup'],
+        ['Blackberries', 'flat', 'TownHall Butter Cake'],
+        ['Mixed berries', 'flat', 'Açaí bowl; keto berry coulis'],
+        ['Wheatgrass', 'tray', 'Wheatgrass shot'],
+        ['Fresh mint', 'bu', 'Being Brigid; nootropic coffee'],
+        ['Cilantro', 'bu', 'Steak bites; Thai peanut; Korean BBQ flatbread; BYO garnish'],
+        ['Basil', 'bu', 'Classico flatbread; flatbread topping'],
+        ['Rosemary + parsley + fresh herbs', 'bu', 'Truffle fries; rosemary aioli; salmon; truffle mash']
+      ]}
+    ]},
+
+    { id: 'dairy', name: 'Dairy + Eggs', cut: 'Every delivery day — short shelf life', groups: [
+      { g: 'Milk + cream', items: [
+        ['Local pasture-raised whole milk', 'gal', 'All lattes, matcha, shakes, protein swirl, smoothies'],
+        ['Heavy cream', 'qt', 'Bisque; shakes; cold foam'],
+        ['Grass-fed butter', 'lb', 'Bulletproof coffee; salmon; cowboy butter; truffle mash; butter cake; cookie dough'],
+        ['Crème fraîche', 'qt', 'Loaded nachos; quesabirria'],
+        ['Plain yogurt', 'qt', 'Strawberry Skin Renewal smoothie'],
+        ['Cream cheese', 'lb', 'Keto energy bites; keto cheesecake']
+      ]},
+      { g: 'Cheese', items: [
+        ['White cheddar', 'lb', 'Cheeseburger; smashburger; veggie burger; truffle mash'],
+        ['Organic cheese blend — shredded', 'lb', 'All flatbreads; quesabirria; grilled cheese'],
+        ['Queso blanco', 'lb', 'Dip Trilogy'],
+        ['Queso fresco', 'lb', 'Loaded nachos; quesabirria'],
+        ['Feta', 'lb', 'Organic hummus; Keto Mediterranean Salad'],
+        ['Goat cheese', 'lb', 'Green Envy flatbread; harvest salad; flatbread topping'],
+        ['Gorgonzola', 'lb', 'Chopped Salad'],
+        ['Grana padano / parmesan', 'lb', 'Truffle fries; classico; truffle mash; BYO garnish'],
+        ['Vegan cheese', 'lb', 'BYO Flatbread topping']
+      ]},
+      { g: 'Eggs + frozen dairy', items: [
+        ['Organic eggs', 'cs', 'Bangkok Bazaar; aiolis'],
+        ['Organic vanilla ice cream', 'gal', 'Skillet cookies; sundaes; shakes'],
+        ['Vegan ice cream', 'gal', 'Chocolate Brownie Sundae']
+      ]}
+    ]},
+
+    { id: 'bakery', name: 'Bakery + Buns', cut: 'Daily bake — confirm quantities the night before', groups: [
+      { g: 'Buns + breads', items: [
+        ['Brioche buns', 'dz', 'Grass-Fed Cheeseburger'],
+        ['House buns', 'dz', 'Nashville chicken; veggie burger'],
+        ['Vegan buns', 'dz', 'Bun upgrade (+$2)'],
+        ['Gluten-free buns', 'dz', 'GFA handhelds'],
+        ['Sweet potato protein waffle buns', 'dz', 'Smashburger; bun upgrade (+$4)'],
+        ['Sourdough loaf', 'ea', 'Grilled Cheese Bars'],
+        ['House-made naan', 'ea', 'Organic Hummus']
+      ]},
+      { g: 'Doughs + shells', items: [
+        ['House flatbread dough', 'ea', 'Classico; Korean BBQ; Green Envy; BYO flatbread'],
+        ['Gluten-free paleo flatbread crust', 'ea', 'Crust sub (+$3)'],
+        ['Flour tortillas — griddle', 'dz', 'Quesabirria Tacos'],
+        ['Siete keto tortillas', 'pk', 'Quesabirria sub (+$2)']
+      ]},
+      { g: 'Sweets', items: [
+        ['Chocolate chip cookie dough', 'lb', 'Skillet cookie; CCC 2.0'],
+        ['Paleo / GF cookie dough', 'lb', 'GF paleo skillet cookie; paleo CCC 2.0'],
+        ['Chocolate fudge brownies', 'ea', 'Brownie sundae; fudge brownie'],
+        ['TownHall butter cake', 'ea', 'Butter cake dessert'],
+        ['Keto chocolate cheesecake', 'ea', 'Keto Chocolate Cheesecake'],
+        ['Keto buckeye bites', 'ea', 'Buckeye bites; protein swirl flavor'],
+        ['Keto energy bites', 'ea', 'Energy bites (3 ct)'],
+        ['Vegan dessert of the week', 'ea', 'Rotating — confirm the item before ordering']
+      ]}
+    ]},
+
+    { id: 'dry', name: 'Dry Goods + Pantry', cut: 'Broadline — weekly, but check the fast movers now', groups: [
+      { g: 'Starch + noodle', items: [
+        ['Sushi rice', 'lb', 'Poke; steak bites'],
+        ['White rice — jasmine', 'lb', 'Thai peanut; BYO base + side'],
+        ['Rice noodles', 'lb', 'Bangkok Bazaar; BYO base + side'],
+        ['Crispy rice noodles', 'lb', 'Poke; Thai peanut; BYO garnish'],
+        ['Miracle (konjac) noodles', 'cs', 'Noodle upgrade; chicken noodle soup; BYO; broth add-on'],
+        ['Cauliflower rice — frozen', 'cs', 'Base/side upgrade (+$2); noodle upgrade'],
+        ['Almond flour', 'lb', 'Keto protein cookie dough; keto breading'],
+        ['Lupin flakes', 'lb', 'Keto energy bites']
+      ]},
+      { g: 'Fats + oils', items: [
+        ['Beef tallow — fry', 'cs', 'Tallow fries; truffle fries; keto fried chicken; Nashville'],
+        ['Avocado oil', 'gal', 'Organic hummus; general line'],
+        ['Algae oil', 'gal', 'Spicy garlic broccoli'],
+        ['White truffle oil', 'btl', 'Tallow Truffle Fries'],
+        ['Chili oil', 'btl', 'Green Envy flatbread'],
+        ['Olive oil', 'gal', 'Vinaigrettes; line']
+      ]},
+      { g: 'Chips + crunch', items: [
+        ['Tallow corn chips', 'cs', 'Dip Trilogy; loaded nachos'],
+        ['Siete keto chips', 'cs', 'Chip sub (+$5); chopped salad; med salad'],
+        ['Grain-free granola', 'lb', 'Harvest salad; açaí bowl'],
+        ['Spiced almonds', 'lb', 'Chopped Salad'],
+        ['Cashews — raw + crumbled', 'lb', 'SP fingerlings; keto tender breading'],
+        ['Calabrian chili nut mix', 'lb', 'Roasted Brussels Sprouts'],
+        ['Sesame seeds', 'lb', 'Poke; steak bites; garlic broccoli; BYO garnish'],
+        ['Chia seeds', 'lb', 'Smoothies'],
+        ['Hemp hearts', 'lb', 'Keto Protein Powerhouse'],
+        ['Nori / seaweed', 'cs', 'Wild Poke 2.0']
+      ]},
+      { g: 'Sauces + condiments', items: [
+        ['ReBOL Hot sauce', 'cs', 'Wings; soup; keto fried chicken; Nashville; BYO sauce; broth add-on'],
+        ['Aji sauce', 'qt', 'Wings; Green Envy; BYO sauce'],
+        ['Korean BBQ sauce', 'qt', 'BYO sauce; Korean BBQ flatbread'],
+        ['White BBQ + BBQ scallion sauce', 'qt', 'Buffalo tenders; wings'],
+        ['House buffalo sauce', 'qt', 'Buffalo tenders; cauliflower wraps'],
+        ['Bang bang sauce', 'qt', 'Cauliflower wraps; BYO sauce'],
+        ['Togarashi aioli', 'qt', 'SP skins; Thai peanut; BYO sauce'],
+        ['Rosemary aioli', 'qt', 'Truffle fries; keto fried chicken; BYO sauce'],
+        ['Toum aioli', 'qt', 'Smashburger; veggie burger'],
+        ['Spicy mayo', 'qt', 'Wild Poke 2.0'],
+        ['Pub sauce', 'qt', 'Grass-Fed Cheeseburger'],
+        ['Peanut sauce', 'qt', 'Thai Peanut bowl'],
+        ['Salsa roja', 'qt', 'Dip trilogy; loaded nachos'],
+        ['Flatbread red sauce', 'qt', 'Classico'],
+        ['Hoisin sauce', 'qt', 'Hoisin tofu'],
+        ['Fish sauce', 'btl', 'Bangkok Bazaar'],
+        ['Mirin', 'btl', 'Steak Bites by Stano'],
+        ['Coconut aminos', 'btl', 'Spicy Garlic Broccoli'],
+        ['Rice wine vinegar', 'gal', 'Roasted brussels; marinades'],
+        ['Balsamic reduction / glaze', 'btl', 'Classico; wild salmon'],
+        ['Champagne vinaigrette', 'qt', 'Chopped Salad'],
+        ['Preserved cherry vinaigrette', 'qt', 'Harvest Salad'],
+        ['Herb vinaigrette', 'qt', 'Keto Mediterranean Salad'],
+        ['Sunshine vin', 'qt', 'BYO sauce; wild salmon'],
+        ['Blueberry catsup', 'qt', 'TownHall Veggie Burger'],
+        ['Bacon jam', 'qt', 'Paleo Carnivore Smashburger'],
+        ['Dill pickles', 'gal', 'Keto Fried Chicken main'],
+        ['Kalamata / mixed olives', 'lb', 'Keto Mediterranean Salad']
+      ]},
+      { g: 'Spice + baking', items: [
+        ['Za’atar', 'lb', 'Organic hummus; Keto Mediterranean Salad'],
+        ['Sumac', 'lb', 'Organic hummus; Keto Mediterranean Salad'],
+        ['Togarashi', 'lb', 'Togarashi aioli'],
+        ['Aleppo pepper', 'lb', 'Spicy Garlic Broccoli'],
+        ['Cayenne', 'lb', 'Wellness shot'],
+        ['Cinnamon', 'lb', 'Honeybun latte; golden turmeric; hibiscus limeade; Longevity'],
+        ['Nutmeg', 'lb', 'Protein bulletproof coffee'],
+        ['Wing dry rub', 'lb', '72-hour dry-rub wings'],
+        ['Nutritional yeast', 'lb', 'Roasted Brussels Sprouts'],
+        ['Black truffle', 'oz', 'Keto black truffle cauliflower mash'],
+        ['Honey', 'gal', 'Honeybun latte; golden turmeric; chai; SP fingerlings; house shake'],
+        ['Maple syrup', 'gal', 'Matcha Glow'],
+        ['Coconut sugar — unrefined', 'lb', 'Iced salted coconut caramel latte'],
+        ['Allulose', 'lb', 'Strawberry matcha; lavender lemonade; hibiscus limeade'],
+        ['Stevia', 'cs', 'Turmeric lemonade'],
+        ['Medjool dates', 'lb', 'Strawberry Skin Renewal'],
+        ['Cacao powder', 'lb', 'Açaí bowl; Keto Protein Powerhouse; add-on'],
+        ['Keto chocolate + chips', 'lb', 'Buckeye bites; cheesecake glaze; keto cookie dough'],
+        ['Dark chocolate', 'lb', 'Keto energy bites'],
+        ['Vanilla extract', 'btl', 'Longevity; bakery'],
+        ['Tahini', 'lb', 'Honey-tahini truffle butter (SP fingerlings)'],
+        ['Peanut butter', 'lb', 'Keto Protein Powerhouse; açaí add-on; buckeye; house shake'],
+        ['Almond butter', 'lb', 'Açaí add-on; buckeye bites; energy bites'],
+        ['Raw cashew butter', 'lb', 'Longevity smoothie; functional add-on'],
+        ['Chickpeas — house hummus', 'cs', 'Organic Hummus'],
+        ['Black beans + beets — veggie patty', 'cs', 'TownHall Veggie Burger'],
+        ['Vegan chili base', 'cs / qt', 'Vegan chili; loaded nachos'],
+        ['Tomato bisque base', 'cs / qt', 'Tomato bisque; grilled cheese bars'],
+        ['Coconut cream / coconut milk', 'cs', 'Longevity; Being Brigid; nootropic coffee; keto coconut milk'],
+        ['Shredded coconut + coconut glaze', 'lb', 'Matcha Glow; Longevity; açaí bowl'],
+        ['Açaí packs — frozen', 'cs', 'Açaí Bowl'],
+        ['Blackberry sauce', 'qt', 'TownHall Butter Cake']
+      ]}
+    ]},
+
+    { id: 'bev', name: 'Beverage + Coffee', cut: 'Weekly — plus nitro keg swap', groups: [
+      { g: 'Coffee + tea', items: [
+        ['Organic zero-toxin drip coffee', 'lb', 'Drip coffee; bulletproof; nootropic'],
+        ['Espresso beans', 'lb', 'Espresso; all lattes; mocha'],
+        ['Nitro cold brew keg', 'keg', 'Nature’s Adderall'],
+        ['Organic ceremonial matcha', 'tin', 'Matcha; matcha latte; keto protein matcha; strawberry matcha; Being Brigid'],
+        ['Organic chai concentrate', 'btl', 'Chai Latte'],
+        ['Organic hot tea selection', 'cs', 'Hot teas — confirm today’s selection'],
+        ['Black tea + mango tea', 'cs', 'Organic iced teas'],
+        ['Hibiscus tea', 'lb', 'Hibiscus Limeade'],
+        ['Butterfly pea tea + lavender', 'lb', 'Keto Lavender Lemonade']
+      ]},
+      { g: 'Alt milk + syrup', items: [
+        ['JOI oat milk', 'cs', 'Milk sub (+$1.50)'],
+        ['Mooala almond milk', 'cs', 'Milk sub (+$1.50)'],
+        ['Keto coconut milk', 'cs', 'Milk sub (+$1); coconut cold foam'],
+        ['Vanilla syrup', 'btl', 'Latte flavor (+$0.75)'],
+        ['Caramel syrup', 'btl', 'Latte flavor (+$0.75)'],
+        ['Strawberry allulose syrup', 'btl', 'Iced Strawberry Matcha Latte']
+      ]},
+      { g: 'Water + juice', items: [
+        ['Mountain Valley spring water — still', 'cs', 'Bottled water'],
+        ['Mountain Valley spring water — sparkling', 'cs', 'Bottled water'],
+        ['Hydrogen (H₂) tabs', 'cs', 'Hydrogen Water'],
+        ['RO filters / CO₂ for structured water', 'ea', 'Complimentary RO still + sparkling']
+      ]}
+    ]},
+
+    { id: 'supp', name: 'Supplements + Functional', cut: 'Direct vendors — longer lead time, order before you are out', groups: [
+      { g: 'Branded add-ons', items: [
+        ['Kion Colostrum', 'tub', 'Add-on (+$2); Longevity smoothie'],
+        ['Equip Prime Protein — chocolate', 'tub', 'Add-on (+$4); protein bulletproof'],
+        ['Equip Prime Protein — vanilla', 'tub', 'Add-on (+$4); keto vanilla latte/matcha'],
+        ['Vital Proteins Keto Collagen Creamer', 'tub', 'Add-on (+$3); Strawberry Skin Renewal'],
+        ['Perfect Aminos Greens', 'tub', 'Add-on (+$3); Being Brigid'],
+        ['Perfect Keto Chocolate Nootropic', 'tub', 'Add-on (+$3); nootropic coffee; buckeye bites'],
+        ['Thorne Creatine', 'tub', 'Add-on (+$3); smoothies'],
+        ['Perfect Keto Base Ketones', 'tub', 'Add-on (+$3); Keto Protein Powerhouse'],
+        ['Orgain Vegan Protein', 'tub', 'Add-on (+$3)'],
+        ['CBD oil', 'btl', 'Add-on (+$2)']
+      ]},
+      { g: 'Bulk functional', items: [
+        ['MCT oil', 'gal', 'Bulletproof; nootropic; golden turmeric; smoothies; add-on'],
+        ['Organic vanilla collagen', 'tub', 'Keto Protein Swirl; smoothies'],
+        ['Keto chocolate collagen', 'tub', 'Longevity smoothie'],
+        ['Grass-fed vanilla protein', 'tub', 'Matcha Glow; cold foam'],
+        ['Irish sea moss', 'jar', 'Matcha Glow; Strawberry Skin Renewal; add-on'],
+        ['Pitaya powder', 'lb', 'Matcha Glow; Strawberry Skin Renewal'],
+        ['Spirulina', 'lb', 'Matcha Glow'],
+        ['Hyaluronic acid', 'jar', 'Strawberry Skin Renewal'],
+        ['Bee pollen', 'jar', 'Keto Protein Powerhouse'],
+        ['Green coffee extract', 'jar', 'Keto energy bites'],
+        ['Maca', 'lb', 'Add-on (+$1)'],
+        ['Ghee', 'jar', 'Add-on (+$1)'],
+        ['Caffeine powder', 'jar', 'Add-on (+$1)'],
+        ['Trace minerals', 'btl', 'Keto Lavender Lemonade']
+      ]}
+    ]},
+
+    { id: 'paper', name: 'Paper + Disposables', cut: 'Weekly — scale to online/to-go volume', groups: [
+      { g: 'To-go packaging', items: [
+        ['Bowl containers + lids (32 oz)', 'cs', 'Bowls, salads, poke, BYO bowl'],
+        ['Clamshells — handhelds + fries', 'cs', 'Burgers, sandwiches, tacos'],
+        ['Soup / broth cups + lids (12 + 32 oz)', 'cs', 'Soups, bone broths'],
+        ['Hot cups + lids + sleeves', 'cs', 'Coffee, lattes, hot tea'],
+        ['Cold cups + lids', 'cs', 'Iced drinks, smoothies, juice, shakes'],
+        ['Portion cups + lids — sauces', 'cs', 'Every modified/side sauce on a to-go ticket'],
+        ['Flatbread boxes', 'cs', 'Flatbreads'],
+        ['To-go bags', 'cs', 'All pickup orders'],
+        ['Tamper-evident seals', 'cs', 'Pickup/delivery integrity'],
+        ['Ticket + item labels', 'roll', 'Modifier-level labeling for online orders'],
+        ['Cutlery kits + straws', 'cs', 'To-go'],
+        ['Napkins', 'cs', 'Dine-in + to-go']
+      ]}
+    ]}
+  ];
+
+  var KEY = 'townhall-distributor-sheet-v1';
+  var state = { date: '', orderedBy: '', cover: '', rows: {} };
+
+  function rowKey(v, i) { return v + '::' + i; }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        state.date = s.date || '';
+        state.orderedBy = s.orderedBy || '';
+        state.cover = s.cover || '';
+        state.rows = s.rows && typeof s.rows === 'object' ? s.rows : {};
+      }
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function tomorrowISO() {
+    var d = new Date();
+    d.setDate(d.getDate() + 1);
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return d.getFullYear() + '-' + m + '-' + day;
+  }
+  function prettyDate(iso) {
+    if (!iso) return 'tomorrow';
+    var p = iso.split('-');
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  function row(v, i) {
+    var k = rowKey(v, i);
+    if (!state.rows[k]) state.rows[k] = { par: '', onhand: '', order: '', note: '' };
+    return state.rows[k];
+  }
+  /* Order qty: an explicit entry always wins; otherwise par minus on-hand, floored at 0. */
+  function orderQty(r) {
+    if (r.order !== '' && r.order != null) return Number(r.order) || 0;
+    if (r.par === '' || r.par == null) return 0;
+    var par = Number(r.par) || 0;
+    var oh = r.onhand === '' || r.onhand == null ? 0 : (Number(r.onhand) || 0);
+    return Math.max(0, Math.round((par - oh) * 100) / 100);
+  }
+
+  var activeVendor = 'all';
+  var filterMode = 'all';
+
+  function vendorOrderCount(v) {
+    var n = 0;
+    v.groups.forEach(function (g, gi) {
+      g.items.forEach(function (it, ii) {
+        if (orderQty(row(v.id, gi + '.' + ii)) > 0) n++;
+      });
+    });
+    return n;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function renderNav() {
+    var nav = document.getElementById('vendornav');
+    var html = '<button class="v-pill' + (activeVendor === 'all' ? ' active' : '') + '" data-v="all">All lanes</button>';
+    VENDORS.forEach(function (v) {
+      var n = vendorOrderCount(v);
+      html += '<button class="v-pill' + (activeVendor === v.id ? ' active' : '') + '" data-v="' + v.id + '">' +
+        esc(v.name) + (n ? '<span class="n">' + n + '</span>' : '') + '</button>';
+    });
+    nav.innerHTML = html;
+  }
+
+  function renderSheet() {
+    var out = '';
+    VENDORS.forEach(function (v) {
+      if (activeVendor !== 'all' && activeVendor !== v.id) return;
+      var body = '';
+      var shown = 0;
+      v.groups.forEach(function (g, gi) {
+        var rows = '';
+        g.items.forEach(function (it, ii) {
+          var idx = gi + '.' + ii;
+          var r = row(v.id, idx);
+          var q = orderQty(r);
+          if (filterMode === 'ordering' && q <= 0) return;
+          shown++;
+          rows += '<tr class="' + (q > 0 ? 'ordering' : '') + '" data-v="' + v.id + '" data-i="' + idx + '">' +
+            '<td><span class="item-name">' + esc(it[0]) + '</span><span class="used">' + esc(it[2]) + '</span></td>' +
+            '<td class="unit">' + esc(it[1]) + '</td>' +
+            '<td class="num"><input class="qty" type="number" min="0" step="any" data-f="par" value="' + esc(r.par) + '" aria-label="Par"></td>' +
+            '<td class="num"><input class="qty" type="number" min="0" step="any" data-f="onhand" value="' + esc(r.onhand) + '" aria-label="On hand"></td>' +
+            '<td class="num"><input class="qty" type="number" min="0" step="any" data-f="order" value="' + esc(r.order) + '" placeholder="' + (q > 0 ? q : '') + '" aria-label="Order"></td>' +
+            '<td class="note-cell"><input class="note" type="text" data-f="note" value="' + esc(r.note) + '" placeholder="brand, pack size, sub…" aria-label="Note"></td>' +
+            '</tr>';
+        });
+        if (rows) body += '<tr class="grp-row"><td colspan="6">' + esc(g.g) + '</td></tr>' + rows;
+      });
+      if (!shown) return;
+      var n = vendorOrderCount(v);
+      out += '<section class="vendor" id="v-' + v.id + '">' +
+        '<div class="vendor-head"><h2>' + esc(v.name) + '</h2><span class="cut">' + esc(v.cut) + '</span>' +
+        '<span class="count">' + n + ' line' + (n === 1 ? '' : 's') + ' to order</span>' +
+        '<button class="btn no-print" data-export="' + v.id + '">Export lane</button></div>' +
+        '<table><thead><tr>' +
+        '<th>Item</th><th>Unit</th><th class="num">Par</th><th class="num">On hand</th><th class="num">Order</th><th class="note-cell">Note</th>' +
+        '</tr></thead><tbody>' + body + '</tbody></table></section>';
+    });
+    document.getElementById('sheet').innerHTML = out ||
+      '<p class="sub">Nothing matches this filter yet — set a par or an order quantity on some lines.</p>';
+  }
+
+  function renderSummary() {
+    var lines = 0, lanes = 0;
+    VENDORS.forEach(function (v) {
+      var n = vendorOrderCount(v);
+      if (n) { lanes++; lines += n; }
+    });
+    document.getElementById('summary').innerHTML = lines
+      ? '<b>' + lines + '</b> line' + (lines === 1 ? '' : 's') + ' to order across <b>' + lanes + '</b> lane' + (lanes === 1 ? '' : 's') + '.'
+      : 'No lines flagged to order yet.';
+  }
+
+  function renderAll() { renderNav(); renderSheet(); renderSummary(); }
+
+  function buildExport(vendorId) {
+    var head = 'TOWNHALL CLE — DISTRIBUTOR ORDER\n' +
+      'Delivery date: ' + prettyDate(state.date) + '\n' +
+      (state.orderedBy ? 'Ordered by: ' + state.orderedBy + '\n' : '') +
+      (state.cover ? 'Covers through: ' + state.cover + '\n' : '') +
+      '\n';
+    var body = '';
+    VENDORS.forEach(function (v) {
+      if (vendorId && v.id !== vendorId) return;
+      var lines = '';
+      v.groups.forEach(function (g, gi) {
+        g.items.forEach(function (it, ii) {
+          var r = row(v.id, gi + '.' + ii);
+          var q = orderQty(r);
+          if (q > 0) lines += '  ' + String(q).padStart(6) + '  ' + it[1].padEnd(6) + '  ' + it[0] +
+            (r.note ? '   (' + r.note + ')' : '') + '\n';
+        });
+      });
+      if (lines) body += v.name.toUpperCase() + '\n' + lines + '\n';
+    });
+    return head + (body || 'No lines flagged to order.\n');
+  }
+
+  function openExport(vendorId) {
+    var v = vendorId ? VENDORS.filter(function (x) { return x.id === vendorId; })[0] : null;
+    document.getElementById('dlg-title').textContent = v ? v.name + ' — order' : 'Full order';
+    document.getElementById('exp').value = buildExport(vendorId);
+    document.getElementById('dlg').showModal();
+  }
+
+  /* ---- wiring ---- */
+  load();
+  if (!state.date) state.date = tomorrowISO();
+  document.getElementById('f-date').value = state.date;
+  document.getElementById('f-ordered').value = state.orderedBy;
+  document.getElementById('f-cover').value = state.cover;
+  document.getElementById('h-date').textContent = prettyDate(state.date);
+
+  document.getElementById('f-date').addEventListener('change', function (e) {
+    state.date = e.target.value;
+    document.getElementById('h-date').textContent = prettyDate(state.date);
+    save();
+  });
+  document.getElementById('f-ordered').addEventListener('input', function (e) { state.orderedBy = e.target.value; save(); });
+  document.getElementById('f-cover').addEventListener('input', function (e) { state.cover = e.target.value; save(); });
+  document.getElementById('f-filter').addEventListener('change', function (e) { filterMode = e.target.value; renderSheet(); });
+
+  document.getElementById('vendornav').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-v]');
+    if (!b) return;
+    activeVendor = b.getAttribute('data-v');
+    renderAll();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('sheet').addEventListener('input', function (e) {
+    var inp = e.target.closest('input[data-f]');
+    if (!inp) return;
+    var tr = inp.closest('tr');
+    var r = row(tr.getAttribute('data-v'), tr.getAttribute('data-i'));
+    r[inp.getAttribute('data-f')] = inp.value;
+    save();
+    var q = orderQty(r);
+    tr.classList.toggle('ordering', q > 0);
+    var ord = tr.querySelector('input[data-f="order"]');
+    if (ord && ord !== inp) ord.placeholder = q > 0 ? String(q) : '';
+    renderNav();
+    renderSummary();
+    var head = tr.closest('.vendor').querySelector('.count');
+    var vid = tr.getAttribute('data-v');
+    var vend = VENDORS.filter(function (x) { return x.id === vid; })[0];
+    var n = vendorOrderCount(vend);
+    head.textContent = n + ' line' + (n === 1 ? '' : 's') + ' to order';
+  });
+
+  document.getElementById('sheet').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-export]');
+    if (b) openExport(b.getAttribute('data-export'));
+  });
+
+  document.getElementById('btn-export').addEventListener('click', function () { openExport(null); });
+  document.getElementById('btn-export2').addEventListener('click', function () { openExport(null); });
+  document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
+  document.getElementById('btn-print2').addEventListener('click', function () { window.print(); });
+  document.getElementById('btn-close').addEventListener('click', function () { document.getElementById('dlg').close(); });
+  document.getElementById('btn-copy').addEventListener('click', function () {
+    var ta = document.getElementById('exp');
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    if (navigator.clipboard) { navigator.clipboard.writeText(ta.value).catch(function () {}); }
+    this.textContent = 'Copied';
+    var self = this;
+    setTimeout(function () { self.textContent = 'Copy to clipboard'; }, 1600);
+  });
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    if (!window.confirm('Clear every par, on-hand, order quantity and note on this sheet?')) return;
+    state.rows = {};
+    save();
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
