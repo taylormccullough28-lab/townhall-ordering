@@ -127,7 +127,7 @@
   <p class="sub">Every purchasable line the CLE dinner menu depends on, grouped by distributor lane. Enter <b>Par</b> and <b>On&nbsp;Hand</b>; the order quantity fills itself in. Anything you already know you need, type straight into <b>Order</b>.</p>
 
   <div class="banner">
-    <div><b>Read before you send.</b> This sheet was built from the menu in this repo (<code>townhall-order.html</code> / CLE dinner menu 5.1.26). It is a complete <i>coverage</i> list, not a usage forecast — there are no real par levels, on-hand counts, sales history, or vendor item numbers in it, because none exist in this project. Set your own pars, and check every line against the vendor's actual order guide and cutoff time before submitting.</div>
+    <div><b>Read before you send.</b> The food lanes were built from the menu in this repo (<code>townhall-order.html</code> / CLE dinner menu 5.1.26) — they are a complete <i>coverage</i> list, not a usage forecast, with no real pars, on-hand counts, sales history or vendor item numbers behind them. The <b>Superior Beverage</b> lane is the exception: it is seeded from your last Sunday order, so those pars are a real starting point but still need a count against them. Wine and spirits are not on this sheet — no source for them yet. Check every line against the vendor's order guide and cutoff before submitting.</div>
   </div>
 
   <div class="sheet-head">
@@ -179,6 +179,25 @@
   /* Each line: [name, unit, used-in note]
      Lanes are generic on purpose — rename them to your actual vendors. */
   var VENDORS = [
+    { id: 'superior', name: 'Superior Beverage — Beer + Kegs', cut: 'Sunday order — quantities below are your last Sunday order, not a counted par', groups: [
+      { g: 'Cases', items: [
+        ['Miller Lite', 'cs', 'Last Sunday order: 15 cases', 15],
+        ['Sun Cruiser', 'cs', 'Last Sunday order: 5 cases', 5],
+        ['Coors Banquet', 'cs', 'Last Sunday order: 5 cases', 5]
+      ]},
+      { g: 'Kegs', items: [
+        ['Miller High Life', 'keg', 'Last Sunday order: 4 kegs', 4],
+        ['Downeast Cider OG', 'keg', 'Last Sunday order: 4 kegs', 4],
+        ['Garage Beer w/ Lime', 'keg', 'Last Sunday order: 3 kegs', 3],
+        ['Cincy Light', 'keg', 'Last Sunday order: 2 kegs', 2],
+        ['BrewDog NA', 'keg', 'Last Sunday order: 1 keg', 1],
+        ['Elvis Juice', 'keg', 'Last Sunday order: 1 keg', 1],
+        ['Bodhi', 'keg', 'Last Sunday order: 1 keg', 1],
+        ['Dogfish 30 Min', 'keg', 'Last Sunday order: 1 keg — transcribed as written', 1],
+        ['Sierra Nevada Hazy Little', 'keg', 'Last Sunday order: 1 keg', 1]
+      ]}
+    ]},
+
     { id: 'protein', name: 'Protein + Seafood', cut: 'Center-of-plate — order to the day, not the week', groups: [
       { g: 'Beef', items: [
         ['Grass-fed + finished Australian wagyu picanha', 'lb', 'Wagyu Steak main'],
@@ -530,9 +549,22 @@
     return d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
   }
 
+  /* Lines that ship with a starting par (seeded from a known last order). */
+  var DEFAULT_PAR = {};
+  VENDORS.forEach(function (v) {
+    v.groups.forEach(function (g, gi) {
+      g.items.forEach(function (it, ii) {
+        if (it[3] != null) DEFAULT_PAR[rowKey(v.id, gi + '.' + ii)] = it[3];
+      });
+    });
+  });
+
   function row(v, i) {
     var k = rowKey(v, i);
-    if (!state.rows[k]) state.rows[k] = { par: '', onhand: '', order: '', note: '' };
+    if (!state.rows[k]) {
+      var d = DEFAULT_PAR[k];
+      state.rows[k] = { par: d != null ? String(d) : '', onhand: '', order: '', note: '' };
+    }
     return state.rows[k];
   }
   /* Order qty: an explicit entry always wins; otherwise par minus on-hand, floored at 0. */
