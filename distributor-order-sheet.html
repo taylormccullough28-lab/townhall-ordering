@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TownHall CLE — Distributor Order Sheet</title>
+<title>TownHall — Distributor Order Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
@@ -55,6 +55,7 @@
   .vendor-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--accent-soft); flex-wrap: wrap; }
   .vendor-head h2 { margin: 0; font-size: 18px; }
   .vendor-head .cut { font-size: 12px; color: var(--accent-dark); opacity: .8; }
+  .vendor-head .venue { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; padding: 3px 7px; border-radius: 4px; background: var(--ink); color: #fff; }
   .vendor-head .count { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
 
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -114,7 +115,7 @@
 <div id="topbar"><div id="topbar-inner">
   <div id="brand">
     <div class="name">TownHall</div>
-    <div class="loc">Cleveland (Ohio City) — Distributor Order Sheet</div>
+    <div class="loc">Distributor Order Sheet — Ohio City + Columbus</div>
   </div>
   <div class="spacer"></div>
   <button class="btn ghost" id="btn-clear">Clear sheet</button>
@@ -124,10 +125,13 @@
 
 <main>
   <h1>Order list — for delivery <span id="h-date">tomorrow</span></h1>
-  <p class="sub">Every purchasable line the CLE dinner menu depends on, grouped by distributor lane. Enter <b>Par</b> and <b>On&nbsp;Hand</b>; the order quantity fills itself in. Anything you already know you need, type straight into <b>Order</b>.</p>
+  <p class="sub">Purchasable lines grouped by distributor lane, split by venue. Enter <b>Par</b> and <b>On&nbsp;Hand</b>; the order quantity fills itself in. Anything you already know you need, type straight into <b>Order</b>.</p>
 
   <div class="banner">
-    <div><b>Read before you send.</b> The food lanes were built from the menu in this repo (<code>townhall-order.html</code> / CLE dinner menu 5.1.26) — they are a complete <i>coverage</i> list, not a usage forecast, with no real pars, on-hand counts, sales history or vendor item numbers behind them. The <b>Superior Beverage</b> lane is the exception: it is seeded from your last Sunday order, so those pars are a real starting point but still need a count against them. Wine and spirits are not on this sheet — no source for them yet. Check every line against the vendor's order guide and cutoff before submitting.</div>
+    <div><b>Read before you send — two venues, two different sources.</b><br>
+      <b>CLE (Ohio City)</b> — eight food lanes built from the CLE dinner menu 5.1.26 (<code>townhall-order.html</code>). Complete <i>coverage</i>, not a usage forecast: no real pars, on-hand counts, sales history or vendor item numbers behind them. Quantify these from a Toast product-mix export and MarginEdge invoices.<br>
+      <b>CBUS (Columbus)</b> — Superior Beverage only, seeded from the last Sunday order, so those pars are real but still need a count against them. CBUS food lanes do not exist here; the Columbus menus were never loaded into this project. Wine and spirits have no lane at either venue.<br>
+      CLE and CBUS carry different drafts by design — never carry a line from one venue to the other. Check every line against the vendor's order guide and cutoff before submitting.</div>
   </div>
 
   <div class="sheet-head">
@@ -142,6 +146,14 @@
     <div class="field">
       <label for="f-cover">Covers through</label>
       <input type="text" id="f-cover" placeholder="e.g. Sun dinner" size="16">
+    </div>
+    <div class="field">
+      <label for="f-venue">Venue</label>
+      <select id="f-venue">
+        <option value="all">Both venues</option>
+        <option value="CLE">TownHall Ohio City (CLE)</option>
+        <option value="CBUS">TownHall Columbus (CBUS)</option>
+      </select>
     </div>
     <div class="field">
       <label for="f-filter">Show</label>
@@ -179,7 +191,7 @@
   /* Each line: [name, unit, used-in note]
      Lanes are generic on purpose — rename them to your actual vendors. */
   var VENDORS = [
-    { id: 'superior', name: 'Superior Beverage — Beer + Kegs', cut: 'Sunday order — quantities below are your last Sunday order, not a counted par', groups: [
+    { id: 'superior', venue: 'CBUS', name: 'Superior Beverage — Beer + Kegs', cut: 'Sunday order — quantities below are your last Sunday order, not a counted par', groups: [
       { g: 'Cases', items: [
         ['Miller Lite', 'cs', 'Last Sunday order: 15 cases', 15],
         ['Sun Cruiser', 'cs', 'Last Sunday order: 5 cases', 5],
@@ -198,7 +210,7 @@
       ]}
     ]},
 
-    { id: 'protein', name: 'Protein + Seafood', cut: 'Center-of-plate — order to the day, not the week', groups: [
+    { id: 'protein', venue: 'CLE', name: 'Protein + Seafood', cut: 'Center-of-plate — order to the day, not the week', groups: [
       { g: 'Beef', items: [
         ['Grass-fed + finished Australian wagyu picanha', 'lb', 'Wagyu Steak main'],
         ['Grass-fed + finished filet (steak bite cut)', 'lb', 'Steak Bites by Stano; Steak Bites side; steak protein upgrade; BYO bowl steak'],
@@ -230,7 +242,7 @@
       ]}
     ]},
 
-    { id: 'produce', name: 'Produce', cut: 'Daily — order tight, this is the spoilage lane', groups: [
+    { id: 'produce', venue: 'CLE', name: 'Produce', cut: 'Daily — order tight, this is the spoilage lane', groups: [
       { g: 'Greens + lettuce', items: [
         ['Romaine hearts', 'cs', 'Buffalo cauliflower wraps; cheeseburger; lettuce bun'],
         ['Field greens', 'lb', 'Harvest Salad; Keto Mediterranean Salad'],
@@ -285,7 +297,7 @@
       ]}
     ]},
 
-    { id: 'dairy', name: 'Dairy + Eggs', cut: 'Every delivery day — short shelf life', groups: [
+    { id: 'dairy', venue: 'CLE', name: 'Dairy + Eggs', cut: 'Every delivery day — short shelf life', groups: [
       { g: 'Milk + cream', items: [
         ['Local pasture-raised whole milk', 'gal', 'All lattes, matcha, shakes, protein swirl, smoothies'],
         ['Heavy cream', 'qt', 'Bisque; shakes; cold foam'],
@@ -312,7 +324,7 @@
       ]}
     ]},
 
-    { id: 'bakery', name: 'Bakery + Buns', cut: 'Daily bake — confirm quantities the night before', groups: [
+    { id: 'bakery', venue: 'CLE', name: 'Bakery + Buns', cut: 'Daily bake — confirm quantities the night before', groups: [
       { g: 'Buns + breads', items: [
         ['Brioche buns', 'dz', 'Grass-Fed Cheeseburger'],
         ['House buns', 'dz', 'Nashville chicken; veggie burger'],
@@ -340,7 +352,7 @@
       ]}
     ]},
 
-    { id: 'dry', name: 'Dry Goods + Pantry', cut: 'Broadline — weekly, but check the fast movers now', groups: [
+    { id: 'dry', venue: 'CLE', name: 'Dry Goods + Pantry', cut: 'Broadline — weekly, but check the fast movers now', groups: [
       { g: 'Starch + noodle', items: [
         ['Sushi rice', 'lb', 'Poke; steak bites'],
         ['White rice — jasmine', 'lb', 'Thai peanut; BYO base + side'],
@@ -437,7 +449,7 @@
       ]}
     ]},
 
-    { id: 'bev', name: 'Beverage + Coffee', cut: 'Weekly — plus nitro keg swap', groups: [
+    { id: 'bev', venue: 'CLE', name: 'Beverage + Coffee', cut: 'Weekly — plus nitro keg swap', groups: [
       { g: 'Coffee + tea', items: [
         ['Organic zero-toxin drip coffee', 'lb', 'Drip coffee; bulletproof; nootropic'],
         ['Espresso beans', 'lb', 'Espresso; all lattes; mocha'],
@@ -465,7 +477,7 @@
       ]}
     ]},
 
-    { id: 'supp', name: 'Supplements + Functional', cut: 'Direct vendors — longer lead time, order before you are out', groups: [
+    { id: 'supp', venue: 'CLE', name: 'Supplements + Functional', cut: 'Direct vendors — longer lead time, order before you are out', groups: [
       { g: 'Branded add-ons', items: [
         ['Kion Colostrum', 'tub', 'Add-on (+$2); Longevity smoothie'],
         ['Equip Prime Protein — chocolate', 'tub', 'Add-on (+$4); protein bulletproof'],
@@ -496,7 +508,7 @@
       ]}
     ]},
 
-    { id: 'paper', name: 'Paper + Disposables', cut: 'Weekly — scale to online/to-go volume', groups: [
+    { id: 'paper', venue: 'CLE', name: 'Paper + Disposables', cut: 'Weekly — scale to online/to-go volume', groups: [
       { g: 'To-go packaging', items: [
         ['Bowl containers + lids (32 oz)', 'cs', 'Bowls, salads, poke, BYO bowl'],
         ['Clamshells — handhelds + fries', 'cs', 'Burgers, sandwiches, tacos'],
@@ -578,6 +590,9 @@
 
   var activeVendor = 'all';
   var filterMode = 'all';
+  var venueFilter = 'all';
+
+  function inVenue(v) { return venueFilter === 'all' || v.venue === venueFilter; }
 
   function vendorOrderCount(v) {
     var n = 0;
@@ -598,6 +613,7 @@
     var nav = document.getElementById('vendornav');
     var html = '<button class="v-pill' + (activeVendor === 'all' ? ' active' : '') + '" data-v="all">All lanes</button>';
     VENDORS.forEach(function (v) {
+      if (!inVenue(v)) return;
       var n = vendorOrderCount(v);
       html += '<button class="v-pill' + (activeVendor === v.id ? ' active' : '') + '" data-v="' + v.id + '">' +
         esc(v.name) + (n ? '<span class="n">' + n + '</span>' : '') + '</button>';
@@ -608,6 +624,7 @@
   function renderSheet() {
     var out = '';
     VENDORS.forEach(function (v) {
+      if (!inVenue(v)) return;
       if (activeVendor !== 'all' && activeVendor !== v.id) return;
       var body = '';
       var shown = 0;
@@ -633,7 +650,7 @@
       if (!shown) return;
       var n = vendorOrderCount(v);
       out += '<section class="vendor" id="v-' + v.id + '">' +
-        '<div class="vendor-head"><h2>' + esc(v.name) + '</h2><span class="cut">' + esc(v.cut) + '</span>' +
+        '<div class="vendor-head"><span class="venue">' + esc(v.venue) + '</span><h2>' + esc(v.name) + '</h2><span class="cut">' + esc(v.cut) + '</span>' +
         '<span class="count">' + n + ' line' + (n === 1 ? '' : 's') + ' to order</span>' +
         '<button class="btn no-print" data-export="' + v.id + '">Export lane</button></div>' +
         '<table><thead><tr>' +
@@ -647,25 +664,29 @@
   function renderSummary() {
     var lines = 0, lanes = 0;
     VENDORS.forEach(function (v) {
+      if (!inVenue(v)) return;
       var n = vendorOrderCount(v);
       if (n) { lanes++; lines += n; }
     });
+    var scope = venueFilter === 'all' ? '' : ' at ' + venueFilter;
     document.getElementById('summary').innerHTML = lines
-      ? '<b>' + lines + '</b> line' + (lines === 1 ? '' : 's') + ' to order across <b>' + lanes + '</b> lane' + (lanes === 1 ? '' : 's') + '.'
-      : 'No lines flagged to order yet.';
+      ? '<b>' + lines + '</b> line' + (lines === 1 ? '' : 's') + ' to order across <b>' + lanes + '</b> lane' + (lanes === 1 ? '' : 's') + scope + '.'
+      : 'No lines flagged to order yet' + scope + '.';
   }
 
   function renderAll() { renderNav(); renderSheet(); renderSummary(); }
 
   function buildExport(vendorId) {
-    var head = 'TOWNHALL CLE — DISTRIBUTOR ORDER\n' +
+    var head = 'TOWNHALL — DISTRIBUTOR ORDER\n' +
+      'Venue: ' + (vendorId ? (VENDORS.filter(function (x) { return x.id === vendorId; })[0] || {}).venue
+                            : (venueFilter === 'all' ? 'CLE + CBUS' : venueFilter)) + '\n' +
       'Delivery date: ' + prettyDate(state.date) + '\n' +
       (state.orderedBy ? 'Ordered by: ' + state.orderedBy + '\n' : '') +
       (state.cover ? 'Covers through: ' + state.cover + '\n' : '') +
       '\n';
     var body = '';
     VENDORS.forEach(function (v) {
-      if (vendorId && v.id !== vendorId) return;
+      if (vendorId ? v.id !== vendorId : !inVenue(v)) return;
       var lines = '';
       v.groups.forEach(function (g, gi) {
         g.items.forEach(function (it, ii) {
@@ -703,6 +724,11 @@
   document.getElementById('f-ordered').addEventListener('input', function (e) { state.orderedBy = e.target.value; save(); });
   document.getElementById('f-cover').addEventListener('input', function (e) { state.cover = e.target.value; save(); });
   document.getElementById('f-filter').addEventListener('change', function (e) { filterMode = e.target.value; renderSheet(); });
+  document.getElementById('f-venue').addEventListener('change', function (e) {
+    venueFilter = e.target.value;
+    activeVendor = 'all';
+    renderAll();
+  });
 
   document.getElementById('vendornav').addEventListener('click', function (e) {
     var b = e.target.closest('[data-v]');
