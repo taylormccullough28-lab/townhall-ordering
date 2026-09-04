@@ -134,7 +134,9 @@ Run it twice. Game day turns over mid-shift, and the PM crew walks into a differ
 
 ## Station assignments
 
-A name on every line before doors. An unassigned station is an unowned station.
+A name on every line before doors, for both crews. An unassigned station is an unowned station.
+
+**AM crew** and **PM crew** each get all seven:
 
 **Host** — Lead · Runner · Waters · Bathrooms
 
@@ -146,9 +148,9 @@ A name on every line before doors. An unassigned station is an unowned station.
 
 **Shot girl** — on tonight
 
-**Social media** — on tonight · backup for the 2nd half
-
 **Taste plate** — running it
+
+**Social media** — on tonight · backup for the 2nd half
 
 ---
 

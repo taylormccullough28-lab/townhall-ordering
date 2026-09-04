@@ -167,33 +167,28 @@ for daypart in ("AM", "PM"):
     r = max(ends) + 1
     r = stack_group(r, 1, "7SHIFTS COMPLETION", COMPLETIONS) + 1
 
-band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, fill=GREY, height=18); r += 1
+band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, fill=GREY, height=18)
+r += 1
 
-def group(top, col, title, slots):
-    """One position group: bold title, then a named line per station."""
-    lab(top, col, title, B11)
-    for i, s in enumerate(slots):
-        lab(top + 1 + i, col, s, R11)
-        end = 7 if col == 5 else col + 1
-        rule(top + 1 + i, col + 1, end)
-        ws.row_dimensions[top + 1 + i].height = 18
-    return top + 1 + len(slots)
+STATIONS = [
+    ("HOST", ["Lead:", "Runner:", "Waters:", "Bathrooms:"]),
+    ("RUNNERS", ["Bar 100:", "Bar 200:", "Food:"]),
+    ("BAR", ["100:", "105:", "110:", "200:", "Patio:"]),
+    ("BARBACKS", ["Main Bar:", "Patio Bar:", "Main Floor:", "Café:", "Front Patio:"]),
+    ("SHOT GIRL", ["On tonight:"]),
+    ("TASTE PLATE", ["Running it:"]),
+    ("SOCIAL MEDIA", ["On tonight:", "Backup / 2nd half:"]),
+]
 
-band1 = r
-e1 = group(band1, 1, "HOST", ["Lead:", "Runner:", "Waters:", "Bathrooms:"])
-e2 = group(band1, 3, "RUNNERS", ["Bar 100:", "Bar 200:", "Food:"])
-e3 = group(band1, 5, "BAR", ["100:", "105:", "110:", "200:", "Patio:"])
-r = max(e1, e2, e3) + 1
-
-band2 = r
-e4 = group(band2, 1, "BARBACKS", ["Main Bar:", "Patio Bar:", "Main Floor:", "Café:", "Front Patio:"])
-e5 = group(band2, 3, "SHOT GIRL", ["On tonight:"])
-e6 = group(band2, 5, "TASTE PLATE", ["Running it:"])
-r = max(e4, e5, e6) + 1
-
-band3 = r
-e7 = group(band3, 1, "SOCIAL MEDIA", ["On tonight:", "Backup / 2nd half:"])
-r = e7 + 1
+for daypart in ("AM", "PM"):
+    band(r, 1, 7, daypart + " CREW", B11, LEFT, height=17)
+    r += 1
+    for i in range(0, len(STATIONS), 3):     # three groups fit across columns A, C and E
+        top = r
+        ends = [stack_group(top, 1 + 2 * j, title, items)
+                for j, (title, items) in enumerate(STATIONS[i:i + 3])]
+        r = max(ends) + 1
+    r += 1
 
 lab(r, 1, "PARTIES / EVENTS:"); r += 1
 box(r, r + 1, 1, 7); r += 3
