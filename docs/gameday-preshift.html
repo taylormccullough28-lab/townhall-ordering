@@ -1,0 +1,1153 @@
+<title>TownHall Game Day Pre-Shift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+
+<style>
+  :root {
+    --paper: #F5F1F0;
+    --card: #FFFFFF;
+    --ink: #191412;
+    --ink-soft: #5F5450;
+    --ink-faint: #8B807B;
+    --rule: #DED5D2;
+    --rule-soft: #EAE3E1;
+    --stop: #A4211B;
+    --stop-wash: #F7E9E7;
+    --field: #2C574A;
+    --field-wash: #E7EDEA;
+    --write: #1B3A8A;
+    --shadow: 0 1px 2px rgba(25, 20, 18, .06), 0 8px 24px -16px rgba(25, 20, 18, .28);
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --util: "Oswald", "Archivo", Arial Narrow, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17130F; --card: #211C19; --ink: #EEE7E3; --ink-soft: #ADA29C;
+      --ink-faint: #837873; --rule: #362E2A; --rule-soft: #2A2320;
+      --stop: #E0574C; --stop-wash: #33201E; --field: #7BAE9C; --field-wash: #1D2926;
+      --write: #8FB4FF;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #17130F; --card: #211C19; --ink: #EEE7E3; --ink-soft: #ADA29C;
+    --ink-faint: #837873; --rule: #362E2A; --rule-soft: #2A2320;
+    --stop: #E0574C; --stop-wash: #33201E; --field: #7BAE9C; --field-wash: #1D2926;
+    --write: #8FB4FF;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet { max-width: 50rem; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+  /* ---------- masthead ---------- */
+  .masthead { border-bottom: 3px solid var(--ink); padding-bottom: 1.4rem; }
+
+  .eyebrow {
+    font-family: var(--util); font-size: .74rem; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--field); margin: 0 0 .8rem;
+  }
+
+  h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.2rem, 7.5vw, 3.5rem); line-height: .95;
+    letter-spacing: -.025em; text-wrap: balance; margin: 0 0 .6rem;
+  }
+
+  .standfirst { font-size: 1.05rem; color: var(--ink-soft); max-width: 34rem; margin: 0; }
+
+  /* ---------- form fields ---------- */
+  .grid { display: grid; gap: .1rem 2rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+
+  .f { display: grid; grid-template-columns: minmax(7.5rem, auto) 1fr; align-items: baseline; gap: .6rem; padding: .35rem 0; }
+
+  .f > span {
+    font-family: var(--util); font-size: .74rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  input.w, textarea.w {
+    font-family: var(--display); font-size: .95rem; font-weight: 600;
+    color: var(--write); background: transparent;
+    border: none; border-bottom: 1px solid var(--rule);
+    padding: .18rem .25rem; width: 100%; min-width: 0;
+  }
+
+  input.w:focus, textarea.w:focus { outline: none; border-bottom-color: var(--field); background: var(--field-wash); }
+
+  textarea.w {
+    border: 1px solid var(--rule); resize: vertical; min-height: 4.2rem;
+    line-height: 1.5; padding: .5rem .6rem; font-weight: 400; font-family: var(--body); font-size: .95rem;
+  }
+
+  .stack { display: flex; flex-direction: column; gap: .4rem; margin-top: .2rem; }
+
+  .stack > span {
+    font-family: var(--util); font-size: .74rem; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 2.75rem; }
+
+  h2 {
+    font-family: var(--display); font-weight: 700; font-size: 1.5rem;
+    letter-spacing: -.015em; line-height: 1.15; text-wrap: balance; margin: 0 0 .4rem;
+  }
+
+  .section-head { border-bottom: 1px solid var(--rule); padding-bottom: .8rem; margin-bottom: 1.35rem; }
+  .section-head p { margin: .35rem 0 0; color: var(--ink-soft); font-size: .98rem; }
+
+  h3 { font-family: var(--display); font-weight: 700; font-size: 1.02rem; letter-spacing: -.005em; margin: 0 0 .45rem; }
+
+  p { margin: 0 0 .9rem; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 600; }
+
+  /* ---------- windows ---------- */
+  .windows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+
+  .window {
+    background: var(--card); border: 1px solid var(--rule); border-top: 3px solid var(--field);
+    padding: 1rem 1.05rem 1.15rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .4rem;
+  }
+
+  .window-seq { font-family: var(--util); font-size: .72rem; font-weight: 600; letter-spacing: .16em; color: var(--field); }
+  .window h3 { margin: 0; font-size: 1.1rem; }
+  .window p { font-size: .92rem; line-height: 1.45; color: var(--ink-soft); margin: 0; }
+  .window .f { padding: .1rem 0 0; grid-template-columns: minmax(4rem, auto) 1fr; }
+
+  /* ---------- hard lines / id'ing ---------- */
+  .hardlines .section-head, .iding .section-head { border-bottom-color: var(--stop); border-bottom-width: 3px; }
+  .hardlines h2, .iding h2 { color: var(--stop); }
+
+  .rules { display: flex; flex-direction: column; gap: .9rem; }
+
+  .rule-card { background: var(--stop-wash); border-left: 5px solid var(--stop); padding: 1.1rem 1.25rem 1.2rem; }
+
+  .rule-name {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem); letter-spacing: -.02em; line-height: 1;
+    text-transform: uppercase; color: var(--stop); margin: 0 0 .6rem;
+  }
+
+  .rule-card p { font-size: .98rem; line-height: 1.55; }
+
+  .escape { margin-top: 1.1rem; background: var(--card); border: 1px solid var(--rule); padding: 1.1rem 1.25rem; }
+  .escape h3 { margin-bottom: .45rem; }
+
+  .pull {
+    font-family: var(--display); font-weight: 700; font-size: 1.1rem; line-height: 1.35;
+    letter-spacing: -.01em; text-wrap: balance; margin: 0 0 .8rem;
+  }
+
+  .iding .rule-card { background: var(--stop-wash); }
+  .iding .rule-card p:last-child { margin-bottom: 0; }
+
+  /* ---------- assignment groups ---------- */
+  .groups { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); align-items: start; }
+
+  .group { background: var(--card); border: 1px solid var(--rule); padding: .95rem 1.05rem 1.05rem; }
+
+  .group h3 {
+    font-family: var(--util); font-weight: 600; font-size: .8rem;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--field);
+    padding-bottom: .5rem; margin-bottom: .55rem; border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .group .f { grid-template-columns: minmax(5.5rem, auto) 1fr; padding: .25rem 0; }
+
+  .counts .f3 {
+    display: grid; grid-template-columns: minmax(4.6rem, auto) 1fr 1fr;
+    gap: .55rem; align-items: baseline; padding: .25rem 0;
+  }
+
+  .counts .f3 > span:first-child {
+    font-family: var(--util); font-size: .74rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  .counts-head {
+    display: grid; grid-template-columns: minmax(4.6rem, auto) 1fr 1fr;
+    gap: .55rem; padding-bottom: .3rem; margin-bottom: .2rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .counts-head span + span {
+    font-family: var(--util); font-size: .66rem; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--field);
+  }
+
+  .counts-total {
+    display: grid; grid-template-columns: minmax(4.6rem, auto) 1fr 1fr;
+    gap: .55rem; align-items: baseline;
+    margin-top: .45rem; padding-top: .45rem; border-top: 1px solid var(--rule);
+  }
+
+  .counts-total > span {
+    font-family: var(--util); font-size: .7rem; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
+  }
+
+  .counts-total output {
+    font-family: var(--display); font-weight: 700; font-size: 1rem;
+    font-variant-numeric: tabular-nums; color: var(--field);
+  }
+
+  .counts-total.all { border-top: none; margin-top: .15rem; padding-top: 0; }
+  .counts-total.all > span { color: var(--stop); }
+  .counts-total.all output { grid-column: 2 / -1; color: var(--stop); font-size: 1.25rem; }
+
+  .daypart {
+    font-family: var(--util); font-weight: 600; font-size: .82rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--stop);
+    margin: 1.6rem 0 .7rem; padding-bottom: .4rem; border-bottom: 2px solid var(--stop);
+  }
+
+  .groups + .daypart { margin-top: 2rem; }
+  .section-head + .daypart { margin-top: 0; }
+
+  /* ---------- promos ---------- */
+  .promo-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .6rem; }
+
+  .promo-list li {
+    display: grid; grid-template-columns: 1fr auto; gap: .15rem .9rem; align-items: baseline;
+    background: var(--card); border: 1px solid var(--rule);
+    border-left: 5px solid var(--field); padding: .85rem 1rem .9rem;
+  }
+
+  .promo-name { font-family: var(--display); font-weight: 700; font-size: 1.08rem; letter-spacing: -.01em; }
+
+  .promo-price {
+    font-family: var(--util); font-weight: 600; font-size: .95rem;
+    letter-spacing: .06em; color: var(--field); font-variant-numeric: tabular-nums;
+    white-space: nowrap; text-transform: uppercase;
+  }
+
+  .promo-note { grid-column: 1 / -1; font-size: .94rem; line-height: 1.45; color: var(--ink-soft); }
+
+  .promo-push { border-left-color: var(--stop); background: var(--stop-wash); }
+  .promo-push .promo-price { color: var(--stop); }
+
+  /* ---------- checklists ---------- */
+  .list-bar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: .7rem; }
+
+  .counter {
+    font-family: var(--util); font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+  }
+
+  .checks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-soft); }
+  .checks li { border-bottom: 1px solid var(--rule-soft); }
+
+  .checks label { display: grid; grid-template-columns: 1.6rem 1fr; gap: .8rem; align-items: start; padding: .7rem .25rem .75rem; cursor: pointer; }
+
+  .checks input {
+    appearance: none; -webkit-appearance: none; width: 1.15rem; height: 1.15rem;
+    margin: .2rem 0 0; border: 2px solid var(--ink-faint); background: var(--card);
+    display: grid; place-content: center; cursor: pointer; flex: none;
+  }
+
+  .checks input::after {
+    content: ""; width: .6rem; height: .32rem;
+    border-left: 2.5px solid var(--card); border-bottom: 2.5px solid var(--card);
+    transform: rotate(-45deg) scale(0); transition: transform .12s ease-out;
+  }
+
+  .checks input:checked { background: var(--field); border-color: var(--field); }
+  .checks input:checked::after { transform: rotate(-45deg) scale(1); }
+  .checks input:focus-visible, .yn input:focus-visible { outline: 2px solid var(--stop); outline-offset: 2px; }
+
+  .checks .item-title { font-family: var(--display); font-weight: 600; font-size: .96rem; display: block; }
+  .checks .item-note { color: var(--ink-soft); font-size: .93rem; display: block; margin-top: .1rem; }
+  .checks input:checked ~ .item-body .item-title { color: var(--ink-faint); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+  .checks input:checked ~ .item-body .item-note { color: var(--ink-faint); }
+
+  .reset {
+    font-family: var(--util); font-size: .72rem; font-weight: 500; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--ink-soft); background: transparent;
+    border: 1px solid var(--rule); padding: .38rem .75rem; cursor: pointer;
+  }
+
+  .reset:hover { color: var(--stop); border-color: var(--stop); }
+  .reset:focus-visible { outline: 2px solid var(--stop); outline-offset: 2px; }
+
+  /* ---------- yes/no banners ---------- */
+  .yn { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin-top: 1rem; }
+
+  .yn label {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    border: 2px solid var(--ink); padding: .7rem .9rem; cursor: pointer;
+    font-family: var(--display); font-weight: 700; font-size: .9rem; line-height: 1.25;
+  }
+
+  .yn input { appearance: none; -webkit-appearance: none; margin: 0; flex: none; width: 3.4rem; height: 1.6rem; position: relative; cursor: pointer; }
+
+  .yn input::before {
+    content: "NO"; position: absolute; inset: 0;
+    display: grid; place-content: center;
+    font-family: var(--util); font-size: .76rem; font-weight: 600; letter-spacing: .1em;
+    border: 2px solid var(--stop); color: var(--stop); background: var(--card);
+  }
+
+  .yn input:checked::before { content: "YES"; border-color: var(--field); color: var(--card); background: var(--field); }
+
+  .banner {
+    margin-top: 1rem; border: 2px solid var(--ink); padding: .85rem;
+    text-align: center; font-family: var(--display); font-weight: 800;
+    font-size: 1rem; letter-spacing: .01em;
+  }
+
+  /* ---------- positions ---------- */
+  .positions { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .position { background: var(--card); border: 1px solid var(--rule); padding: 1rem 1.1rem 1.15rem; }
+
+  .position h3 {
+    font-family: var(--util); font-weight: 600; font-size: .8rem;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--field);
+    padding-bottom: .55rem; margin-bottom: .65rem; border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .position ul { margin: 0; padding-left: 1rem; display: flex; flex-direction: column; gap: .45rem; }
+  .position li { font-size: .93rem; line-height: 1.45; }
+  .position li::marker { color: var(--ink-faint); }
+
+  .plain { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .6rem; }
+  .plain li { line-height: 1.5; }
+  .plain li::marker { color: var(--field); }
+
+  /* ---------- closer ---------- */
+  .closer { margin-top: 3rem; border-top: 3px solid var(--ink); padding-top: 1.6rem; }
+
+  .closer .big {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.08;
+    letter-spacing: -.02em; text-wrap: balance; margin: 0 0 .9rem;
+  }
+
+  .closer p { color: var(--ink-soft); }
+  .closer .last { color: var(--ink); font-weight: 600; }
+
+  .hint { font-size: .82rem; color: var(--ink-faint); align-self: center; max-width: 26rem; }
+  .hint b { color: var(--ink-soft); font-weight: 600; }
+
+  .toolbar { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); }
+
+  /* ---------- print ---------- */
+  @media print {
+    body { background: #fff; color: #000; font-size: 10.5pt; }
+    .sheet { max-width: none; padding: 0; }
+    .reset, .counter, .toolbar { display: none; }
+    section, .rule-card, .position, .window, .group { break-inside: avoid; }
+    .window, .position, .escape, .group { box-shadow: none; }
+    .checks input, .yn label { border-color: #000; }
+    input.w, textarea.w { color: #000; border-color: #999; }
+    .yn input::before { content: "YES  /  NO"; width: 5.5rem; }
+    .yn input:checked::before { content: "YES  /  NO"; background: #fff; color: #000; border-color: #000; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">TownHall Columbus · Floor Operations</p>
+    <h1>Game Day Pre-Shift</h1>
+    <p class="standfirst">Every Ohio State home game, and anything else that turns the block into a two-hour wait. Fill this in before doors, then read it out loud. Do not summarize it.</p>
+  </header>
+
+  <section>
+    <div class="grid" style="margin-top:1.4rem">
+      <label class="f"><span>Date</span><input class="w" data-key="date" type="text"></label>
+      <label class="f"><span>Matchup</span><input class="w" data-key="matchup" type="text"></label>
+      <label class="f"><span>Day</span><input class="w" data-key="day" type="text"></label>
+      <label class="f"><span>Expected volume</span><input class="w" data-key="volume" type="text"></label>
+      <label class="f"><span>Shift AM / PM</span><input class="w" data-key="shift" type="text"></label>
+      <label class="f"><span>Manager on duty</span><input class="w" data-key="mod" type="text"></label>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Game day is not a busy night</h2>
+      <p>A busy night builds. Game day arrives all at once, twice, with a dead hour in the middle that makes people forget the second wave is coming. Write these times on the board.</p>
+    </div>
+    <div class="windows">
+      <article class="window">
+        <span class="window-seq">WINDOW 01</span>
+        <h3>Pre-game</h3>
+        <p>Volume, speed, turn-and-burn. Guests have a hard out. If you are slow, they leave and eat somewhere else.</p>
+        <label class="f"><span>Time</span><input class="w" data-key="w1" type="text"></label>
+      </article>
+      <article class="window">
+        <span class="window-seq">WINDOW 02</span>
+        <h3>Game window</h3>
+        <p>The floor thins and the bar fills. Standards slip here because it feels slow. It is not slow. It is the setup.</p>
+        <label class="f"><span>Time</span><input class="w" data-key="w2" type="text"></label>
+      </article>
+      <article class="window">
+        <span class="window-seq">WINDOW 03</span>
+        <h3>Post-game</h3>
+        <p>The hardest 90 minutes of your week. Everyone arrives at once and half of them have already been drinking.</p>
+        <label class="f"><span>Time</span><input class="w" data-key="w3" type="text"></label>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>National anthem</h2>
+      <p><strong>When the anthem starts, the staff lines up behind the bar and faces the projector screen. All of you.</strong></p>
+      <p>Everything stops. No pouring, no running food, no ringing tickets, no side conversations. Hands empty, hats off, eyes on the screen.</p>
+      <p>It is ninety seconds. In a room full of people who have never been here, it is the ninety seconds they remember. Get the floor ready before it starts, not during it.</p>
+    </div>
+    <div class="grid">
+      <label class="f"><span>Anthem time</span><input class="w" data-key="anthemTime" type="text"></label>
+      <label class="f"><span>Who calls the floor to stop</span><input class="w" data-key="anthemWho" type="text"></label>
+    </div>
+  </section>
+
+  <section class="hardlines">
+    <div class="section-head">
+      <h2>The three hard lines</h2>
+      <p>Say all three out loud, every game day. Zero tolerance. Nothing follows them.</p>
+    </div>
+    <div class="rules">
+      <article class="rule-card">
+        <h3 class="rule-name">No drinking</h3>
+        <p>You do not drink before your shift. You do not drink on your shift. You do not drink on the clock in any capacity.</p>
+        <p>Not a shift beer. Not a taste. Not a sip to describe it to a table. Not because a guest bought it, not because it was going to get dumped, not because the game went into overtime.</p>
+        <p>If you smell like it when you walk in, you are going home. We are serving alcohol to a full building of people who are drinking hard — the person pouring it has to be the most sober one in the room.</p>
+      </article>
+      <article class="rule-card">
+        <h3 class="rule-name">No promo bottles</h3>
+        <p>No bottle leaves the bar as a promo, a comp, a gift, or a bucket for a table. Every bottle gets rung in and gets paid for. Every single one.</p>
+        <p>A promo bottle is not generosity. It is inventory walking out the door with no ticket behind it, and on game day it is the easiest thing in the building to hide.</p>
+        <p><strong>This is not the same thing as bottle service.</strong> Bottle service is a product we sell and ring at full price — sell it hard. A promo bottle is one that leaves without a ticket. Sell every bottle. Give away none.</p>
+      </article>
+      <article class="rule-card">
+        <h3 class="rule-name">No discounts</h3>
+        <p>Every check rings at full price. No employee rate for a friend. No "take care of them." No comping the round because the kitchen was slow — that is a manager's call and a manager's ring.</p>
+        <p>You do not have discount authority. Not on game day, not ever.</p>
+      </article>
+    </div>
+    <div class="escape">
+      <h3>What you do instead</h3>
+      <p>If a guest needs to be taken care of, get a manager. That is the entire process.</p>
+      <p class="pull">You will never get in trouble for getting a manager. You will get in trouble for making the call yourself.</p>
+      <p>That is not a threat. That is the basis of the relationship. Every one of these lines exists because the only way we can trust the floor with a full building is if nobody is making financial decisions alone.</p>
+    </div>
+  </section>
+
+  <section class="iding">
+    <div class="section-head">
+      <h2>ID'ing — no exceptions, not on game day</h2>
+      <p>The liquor license is the entire business. Game day is the night we get tested on it.</p>
+    </div>
+    <div class="rules">
+      <article class="rule-card">
+        <p><strong>Every guest who looks under 40 gets carded. Every time.</strong> At the bar, at the table, and again if someone hands them a drink they did not order. A busy bar is not a reason to skip it — it is the reason someone tries it.</p>
+        <p><strong>Physical ID only.</strong> Expired is not an ID. A vertical license means look twice and do the math out loud.</p>
+        <p><strong>If you are not sure, you do not pour.</strong> Hand it to a manager. Nobody gets second-guessed for using that door, and nobody gets a pass for skipping it.</p>
+        <p>One bad pour costs more than the whole night made.</p>
+      </article>
+    </div>
+    <div class="grid" style="margin-top:1rem">
+      <label class="f"><span>Carding at door</span><input class="w" data-key="idDoor" type="text"></label>
+      <label class="f"><span>Carding at bar</span><input class="w" data-key="idBar" type="text"></label>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>The board</h2></div>
+    <div class="grid" style="margin-bottom:1.2rem">
+      <label class="f"><span>Game time</span><input class="w" data-key="kickoff" type="text"></label>
+      <label class="f"><span>Doors</span><input class="w" data-key="doors" type="text"></label>
+    </div>
+    <div class="grid" style="gap:1.1rem 2rem">
+      <label class="stack"><span>Goal / contest for the day</span><textarea class="w" data-key="goal" rows="3"></textarea></label>
+      <label class="stack"><span>New beers / new items</span><textarea class="w" data-key="beers" rows="3"></textarea></label>
+      <label class="stack"><span>86</span><textarea class="w" data-key="eightysix" rows="3"></textarea></label>
+      <label class="stack"><span>Parties / events</span><textarea class="w" data-key="parties" rows="3"></textarea></label>
+      <label class="stack"><span>Other important notes</span><textarea class="w" data-key="notes" rows="3"></textarea></label>
+    </div>
+  </section>
+
+  <section class="promos">
+    <div class="section-head">
+      <h2>Promos for the day</h2>
+      <p>Everybody knows all three before doors. If a guest has to ask what the special is, we missed it.</p>
+    </div>
+    <ul class="promo-list">
+      <li>
+        <span class="promo-name">Suncruiser buckets</span>
+        <span class="promo-price">6 / 30</span>
+        <span class="promo-note">Lead with this at every table in the pre-game window. It is the fastest ticket in the building.</span>
+      </li>
+      <li>
+        <span class="promo-name">Lucky One Lemonade</span>
+        <span class="promo-price">6 / 24</span>
+        <span class="promo-note">Same play. Buckets land on the table before the first food order goes in.</span>
+      </li>
+      <li class="promo-push">
+        <span class="promo-name">Tito's bottle service</span>
+        <span class="promo-price">Push hard</span>
+        <span class="promo-note">This is the one we are chasing tonight. Offer it to every large party, every booth, every group that walks in already celebrating. It rings at full price like everything else — bottle service is sold, never comped.</span>
+      </li>
+    </ul>
+    <div class="grid" style="margin-top:1.1rem">
+      <label class="stack"><span>Other promos / anything added today</span><textarea class="w" data-key="promosExtra" rows="2"></textarea></label>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Staff counts &amp; completions</h2>
+      <p>Run it twice. Game day turns over mid-shift, and the PM crew walks into a different building than the AM crew opened.</p>
+    </div>
+    <h3 class="daypart">AM crew</h3>
+    <div class="groups">
+      <div class="group counts">
+        <h3>Staff #'s</h3>
+        <div class="counts-head"><span></span><span>On</span><span>Training</span></div>
+        <label class="f3"><span>Servers</span><input class="w" data-key="amNServers" type="text"><input class="w" data-key="amTServers" type="text"></label>
+        <label class="f3"><span>Bartenders</span><input class="w" data-key="amNBartenders" type="text"><input class="w" data-key="amTBartenders" type="text"></label>
+        <label class="f3"><span>Café</span><input class="w" data-key="amNCafe" type="text"><input class="w" data-key="amTCafe" type="text"></label>
+        <label class="f3"><span>Hosts</span><input class="w" data-key="amNHosts" type="text"><input class="w" data-key="amTHosts" type="text"></label>
+        <label class="f3"><span>Runners</span><input class="w" data-key="amNRunners" type="text"><input class="w" data-key="amTRunners" type="text"></label>
+        <label class="f3"><span>Barbacks</span><input class="w" data-key="amNBarbacks" type="text"><input class="w" data-key="amTBarbacks" type="text"></label>
+        <label class="f3"><span>Shot girl</span><input class="w" data-key="amNShot" type="text"><input class="w" data-key="amTShot" type="text"></label>
+        <label class="f3"><span>Managers</span><input class="w" data-key="amNManagers" type="text"><input class="w" data-key="amTManagers" type="text"></label>
+        <div class="counts-total">
+          <span>Scheduled</span>
+          <output data-total="on">0</output>
+          <output data-total="train">0</output>
+        </div>
+        <div class="counts-total all">
+          <span>On shift</span>
+          <output data-total="all">0</output>
+        </div>
+      </div>
+      <div class="group">
+        <h3>Shift leads</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="amLServer" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="amLCafe" type="text"></label>
+        <label class="f"><span>Bartender</span><input class="w" data-key="amLBartender" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="amLHost" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="amLBar" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="amLBarback" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Staff to coach · 1 Huddl</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="amHuddlServer" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="amHuddlBar" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="amHuddlCafe" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="amHuddlHost" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="amHuddlBarback" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>7shifts completion</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="amShiftsServer" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="amShiftsBar" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="amShiftsCafe" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="amShiftsHost" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="amShiftsBarback" type="text"></label>
+      </div>
+    </div>
+    <h3 class="daypart">PM crew</h3>
+    <div class="groups">
+      <div class="group counts">
+        <h3>Staff #'s</h3>
+        <div class="counts-head"><span></span><span>On</span><span>Training</span></div>
+        <label class="f3"><span>Servers</span><input class="w" data-key="pmNServers" type="text"><input class="w" data-key="pmTServers" type="text"></label>
+        <label class="f3"><span>Bartenders</span><input class="w" data-key="pmNBartenders" type="text"><input class="w" data-key="pmTBartenders" type="text"></label>
+        <label class="f3"><span>Café</span><input class="w" data-key="pmNCafe" type="text"><input class="w" data-key="pmTCafe" type="text"></label>
+        <label class="f3"><span>Hosts</span><input class="w" data-key="pmNHosts" type="text"><input class="w" data-key="pmTHosts" type="text"></label>
+        <label class="f3"><span>Runners</span><input class="w" data-key="pmNRunners" type="text"><input class="w" data-key="pmTRunners" type="text"></label>
+        <label class="f3"><span>Barbacks</span><input class="w" data-key="pmNBarbacks" type="text"><input class="w" data-key="pmTBarbacks" type="text"></label>
+        <label class="f3"><span>Shot girl</span><input class="w" data-key="pmNShot" type="text"><input class="w" data-key="pmTShot" type="text"></label>
+        <label class="f3"><span>Managers</span><input class="w" data-key="pmNManagers" type="text"><input class="w" data-key="pmTManagers" type="text"></label>
+        <div class="counts-total">
+          <span>Scheduled</span>
+          <output data-total="on">0</output>
+          <output data-total="train">0</output>
+        </div>
+        <div class="counts-total all">
+          <span>On shift</span>
+          <output data-total="all">0</output>
+        </div>
+      </div>
+      <div class="group">
+        <h3>Shift leads</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="pmLServer" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="pmLCafe" type="text"></label>
+        <label class="f"><span>Bartender</span><input class="w" data-key="pmLBartender" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="pmLHost" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="pmLBar" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="pmLBarback" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Staff to coach · 1 Huddl</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="pmHuddlServer" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="pmHuddlBar" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="pmHuddlCafe" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="pmHuddlHost" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="pmHuddlBarback" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>7shifts completion</h3>
+        <label class="f"><span>Server</span><input class="w" data-key="pmShiftsServer" type="text"></label>
+        <label class="f"><span>Bar</span><input class="w" data-key="pmShiftsBar" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="pmShiftsCafe" type="text"></label>
+        <label class="f"><span>Host</span><input class="w" data-key="pmShiftsHost" type="text"></label>
+        <label class="f"><span>Barback</span><input class="w" data-key="pmShiftsBarback" type="text"></label>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Station assignments</h2>
+      <p>A name on every line before doors, for both crews. An unassigned station is an unowned station.</p>
+    </div>
+    <h3 class="daypart">AM crew</h3>
+    <div class="groups">
+      <div class="group">
+        <h3>Host</h3>
+        <label class="f"><span>First in command</span><input class="w" data-key="amFirst" type="text"></label>
+        <label class="f"><span>Second in command</span><input class="w" data-key="amSecond" type="text"></label>
+        <label class="f"><span>Runner</span><input class="w" data-key="amRunner" type="text"></label>
+        <label class="f"><span>Waters</span><input class="w" data-key="amWaters" type="text"></label>
+        <label class="f"><span>Bathrooms</span><input class="w" data-key="amBath" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Runners</h3>
+        <label class="f"><span>Bar 100</span><input class="w" data-key="amRun100" type="text"></label>
+        <label class="f"><span>Bar 200</span><input class="w" data-key="amRun200" type="text"></label>
+        <label class="f"><span>Food</span><input class="w" data-key="amRunFood" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Bar</h3>
+        <label class="f"><span>100</span><input class="w" data-key="amBar100" type="text"></label>
+        <label class="f"><span>105</span><input class="w" data-key="amBar105" type="text"></label>
+        <label class="f"><span>110</span><input class="w" data-key="amBar110" type="text"></label>
+        <label class="f"><span>200</span><input class="w" data-key="amBar200" type="text"></label>
+        <label class="f"><span>Patio</span><input class="w" data-key="amBarPatio" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Barista</h3>
+        <label class="f"><span>POS 1</span><input class="w" data-key="amPos1" type="text"></label>
+        <label class="f"><span>POS 2</span><input class="w" data-key="amPos2" type="text"></label>
+        <label class="f"><span>Cocktail 1</span><input class="w" data-key="amCocktail1" type="text"></label>
+        <label class="f"><span>Cocktail 2</span><input class="w" data-key="amCocktail2" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Barbacks</h3>
+        <label class="f"><span>Main bar</span><input class="w" data-key="amBbMain" type="text"></label>
+        <label class="f"><span>Patio bar</span><input class="w" data-key="amBbPatio" type="text"></label>
+        <label class="f"><span>Main floor</span><input class="w" data-key="amBbFloor" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="amBbCafe" type="text"></label>
+        <label class="f"><span>Front patio</span><input class="w" data-key="amBbFront" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Shot girl</h3>
+        <label class="f"><span>On tonight</span><input class="w" data-key="amShotGirl" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Taste plate</h3>
+        <label class="f"><span>Running it</span><input class="w" data-key="amTastePlate" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Social media</h3>
+        <label class="f"><span>On tonight</span><input class="w" data-key="amSocialLead" type="text"></label>
+        <label class="f"><span>Backup / 2nd half</span><input class="w" data-key="amSocialBackup" type="text"></label>
+      </div>
+    </div>
+    <h3 class="daypart">PM crew</h3>
+    <div class="groups">
+      <div class="group">
+        <h3>Host</h3>
+        <label class="f"><span>First in command</span><input class="w" data-key="pmFirst" type="text"></label>
+        <label class="f"><span>Second in command</span><input class="w" data-key="pmSecond" type="text"></label>
+        <label class="f"><span>Runner</span><input class="w" data-key="pmRunner" type="text"></label>
+        <label class="f"><span>Waters</span><input class="w" data-key="pmWaters" type="text"></label>
+        <label class="f"><span>Bathrooms</span><input class="w" data-key="pmBath" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Runners</h3>
+        <label class="f"><span>Bar 100</span><input class="w" data-key="pmRun100" type="text"></label>
+        <label class="f"><span>Bar 200</span><input class="w" data-key="pmRun200" type="text"></label>
+        <label class="f"><span>Food</span><input class="w" data-key="pmRunFood" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Bar</h3>
+        <label class="f"><span>100</span><input class="w" data-key="pmBar100" type="text"></label>
+        <label class="f"><span>105</span><input class="w" data-key="pmBar105" type="text"></label>
+        <label class="f"><span>110</span><input class="w" data-key="pmBar110" type="text"></label>
+        <label class="f"><span>200</span><input class="w" data-key="pmBar200" type="text"></label>
+        <label class="f"><span>Patio</span><input class="w" data-key="pmBarPatio" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Barista</h3>
+        <label class="f"><span>POS 1</span><input class="w" data-key="pmPos1" type="text"></label>
+        <label class="f"><span>POS 2</span><input class="w" data-key="pmPos2" type="text"></label>
+        <label class="f"><span>Cocktail 1</span><input class="w" data-key="pmCocktail1" type="text"></label>
+        <label class="f"><span>Cocktail 2</span><input class="w" data-key="pmCocktail2" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Barbacks</h3>
+        <label class="f"><span>Main bar</span><input class="w" data-key="pmBbMain" type="text"></label>
+        <label class="f"><span>Patio bar</span><input class="w" data-key="pmBbPatio" type="text"></label>
+        <label class="f"><span>Main floor</span><input class="w" data-key="pmBbFloor" type="text"></label>
+        <label class="f"><span>Café</span><input class="w" data-key="pmBbCafe" type="text"></label>
+        <label class="f"><span>Front patio</span><input class="w" data-key="pmBbFront" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Shot girl</h3>
+        <label class="f"><span>On tonight</span><input class="w" data-key="pmShotGirl" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Taste plate</h3>
+        <label class="f"><span>Running it</span><input class="w" data-key="pmTastePlate" type="text"></label>
+      </div>
+      <div class="group">
+        <h3>Social media</h3>
+        <label class="f"><span>On tonight</span><input class="w" data-key="pmSocialLead" type="text"></label>
+        <label class="f"><span>Backup / 2nd half</span><input class="w" data-key="pmSocialBackup" type="text"></label>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Game day open — 90 minutes before doors</h2>
+      <p>Work this in order. Do not delegate the first two.</p>
+    </div>
+    <div class="list-bar">
+      <span class="counter" data-counter="open">0 of 15 done</span>
+      <button class="reset" type="button" data-reset="open">Reset this list</button>
+    </div>
+    <ul class="checks" data-list="open">
+      <li><label><input type="checkbox" data-key="o1"><span class="item-body"><span class="item-title">Know the game</span><span class="item-note">Kickoff, expected attendance, national TV or not, weather. Write the times on the board.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o2"><span class="item-body"><span class="item-title">Build the three windows on paper</span><span class="item-note">Cut times, breaks, and the post-game all-hands are decided now — not at 9pm when you are underwater.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o3"><span class="item-body"><span class="item-title">Staffing confirmed against 7shifts</span><span class="item-note">One no-show on a Tuesday is an inconvenience. One no-show on game day is a two-hour wait.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o4"><span class="item-body"><span class="item-title">A name on every station above</span><span class="item-note">Host, runners, bar, barbacks, shot girl, taste plate. An unassigned station is an unowned station.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o14"><span class="item-body"><span class="item-title">Every staff member can name all three promos</span><span class="item-note">Suncruiser buckets, Lucky One Lemonade, Tito's bottle service. Ask two people at random before you let pre-shift end.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o15"><span class="item-body"><span class="item-title">Anthem time on the board</span><span class="item-note">Every staff member knows to line up behind the bar and face the screen when it starts.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o16"><span class="item-body"><span class="item-title">Social media assigned, phone charged, shot list known</span><span class="item-note">They know what they are capturing tonight before they walk the floor.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o5"><span class="item-body"><span class="item-title">Every station walked, front and back</span><span class="item-note">The 3 Rules on all of them. A station that starts wrong will not fix itself at volume.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o6"><span class="item-body"><span class="item-title">Bar par doubled</span><span class="item-note">Ice, kegs, backups, garnish, glassware, batch. Run out at 7pm and you are done for the night.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o7"><span class="item-body"><span class="item-title">86 board walked with the kitchen</span><span class="item-note">Current and visible. Nothing gets sold that we cannot make.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o9"><span class="item-body"><span class="item-title">TVs, sound and the game feed tested</span><span class="item-note">Every screen, game up, before a single guest sits down.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o10"><span class="item-body"><span class="item-title">ID check covered</span><span class="item-note">Door and bar both know who is carding, and the light works.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o11"><span class="item-body"><span class="item-title">Restrooms stocked and clean before doors</span><span class="item-note">Walk them yourself. It is the first thing a full building destroys.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o12"><span class="item-body"><span class="item-title">POS, printers and card processing tested</span><span class="item-note">Fire a live ticket. A processor going down at post-game is a night-ender.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="o13"><span class="item-body"><span class="item-title">Door, patio and line plan</span><span class="item-note">Where the wait forms, who holds it, and how they are talking to it.</span></span></label></li>
+    </ul>
+
+    <div class="yn">
+      <label>Is staff in uniform?<input type="checkbox" data-key="yn1"></label>
+      <label>Servers have wine key &amp; lighter?<input type="checkbox" data-key="yn2"></label>
+      <label>ID'ing everyone under 40?<input type="checkbox" data-key="yn3"></label>
+      <label>Bar par doubled for post-game?<input type="checkbox" data-key="yn4"></label>
+    </div>
+
+    <p class="banner">**REMIND STAFF TO TEXT FRIENDS TO COME VISIT**</p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>By position</h2>
+      <p>Read the block that belongs to each group. Everyone hears the bar block.</p>
+    </div>
+    <div class="positions">
+      <article class="position">
+        <h3>Bar</h3>
+        <ul>
+          <li>ID before you pour. Every time, no exceptions, however deep the rail is stacked.</li>
+          <li>Every drink rings before it pours. The bar is the highest-volume, lowest-visibility station in the building — that discipline is the whole ballgame.</li>
+          <li>No promo bottles. No comps. Full price, every ticket.</li>
+          <li>Cut people early and tell a manager immediately. You will over-serve someone tonight if you are not deliberate about it.</li>
+          <li>Backups get stocked during the game window, not after it. The lull is prep for the post-game wave.</li>
+        </ul>
+      </article>
+      <article class="position">
+        <h3>Host</h3>
+        <ul>
+          <li>Own the door and own the wait. An accurate quote is worth more than a short one — give a real number, then beat it.</li>
+          <li>Card at the door when the room is young. It is far easier there than at the bar with a drink already poured.</li>
+          <li>First in command runs the book. Second in command steps in the moment first gets pulled — the door never goes unowned. Runner, waters and bathrooms all have a name on them before doors.</li>
+          <li>Keep the line moving off the sidewalk and out of the entry. Feed the wait to the bar so they can pick up bodies.</li>
+        </ul>
+      </article>
+      <article class="position">
+        <h3>Servers</h3>
+        <ul>
+          <li>Greet inside 30 seconds. Guests are on a clock and they know it.</li>
+          <li>Ask the timing question first — "are you trying to be out by kickoff?" — then fire the ticket accordingly.</li>
+          <li>Card every table before the first round lands. Not after.</li>
+          <li>Full hands in, full hands out. Every trip.</li>
+          <li>Primary job is your guests. Secondary is finding work: run food, run drinks, bus tables. Tertiary is helping the person next to you.</li>
+          <li>No discount authority. A guest issue goes to a manager immediately, not at the end of the rush.</li>
+        </ul>
+      </article>
+      <article class="position">
+        <h3>Social media</h3>
+        <ul>
+          <li>Work the room all night, not just the first hour. The best footage is the post-game room, and that is when most people have already put the phone away.</li>
+          <li>The shot list: the staff lined up behind the bar during the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt.</li>
+          <li>Shoot people who want to be shot. Ask first. Never a minor, never a check, never a POS screen.</li>
+          <li>Post in the game window, not in the crush. You are on the floor to capture it, not to stand in it.</li>
+        </ul>
+      </article>
+      <article class="position">
+        <h3>Runners &amp; barbacks</h3>
+        <ul>
+          <li>You set the pace of the whole building. Tables turning is the only thing standing between us and a 90-minute wait.</li>
+          <li>Bar 100 and Bar 200 stay on their own bar — you do not both drift to whichever one is loudest.</li>
+          <li>Run food. Every one of you. Full hands in, full hands out.</li>
+        </ul>
+      </article>
+      <article class="position">
+        <h3>Kitchen</h3>
+        <ul>
+          <li>Prep to game-day pars, not weeknight pars. Confirm with the manager before service, not during it.</li>
+          <li>86 goes to the manager the moment you see it coming — not when you hit zero.</li>
+          <li>Ticket times get called every window. Pre-game and post-game are two different fights.</li>
+          <li>Original position, original condition on every station at every changeover.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Manager floor discipline</h2></div>
+    <ul class="plain">
+      <li><strong>Be on the floor.</strong> Not in the office. Game day is not a paperwork night.</li>
+      <li><strong>Touch tables before the rush and after it.</strong> During the crush you are expediting, not visiting.</li>
+      <li><strong>Watch the bar specifically.</strong> Volume, comps, voids, ID checks and over-service all live in the same place.</li>
+      <li><strong>Every void and comp goes through you, and you ring it.</strong> If a number moves on a check, your name is on it.</li>
+      <li><strong>Back every refusal.</strong> If a bartender or host turns someone away on an ID, they are right until proven otherwise, in front of the guest.</li>
+      <li><strong>Model the standard.</strong> If you want your staff to smile at tables, you must smile at tables. If you want them to have a sense of urgency, you must always have a sense of urgency.</li>
+      <li><strong>Correct in the moment, quietly, and move on.</strong> Correction on a game day is normal. Public correction is not.</li>
+      <li><strong>Feed your people.</strong> Breaks happen in the game window. Put them on the board and hold to it.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Post-game &amp; close</h2>
+      <p>The night is not over when the building empties.</p>
+    </div>
+    <div class="list-bar">
+      <span class="counter" data-counter="close">0 of 6 done</span>
+      <button class="reset" type="button" data-reset="close">Reset this list</button>
+    </div>
+    <ul class="checks" data-list="close">
+      <li><label><input type="checkbox" data-key="c1"><span class="item-body"><span class="item-title">All hands on the floor before the final whistle</span><span class="item-note">Not after. If you are still cutting staff when post-game hits, you are already behind.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="c2"><span class="item-body"><span class="item-title">Full bottle count and bar inventory tonight</span><span class="item-note">Not tomorrow. Game day is the night the numbers matter most.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="c3"><span class="item-body"><span class="item-title">Every void, comp and discount reconciled to a manager name</span><span class="item-note">If one does not have a name on it, find out why before you leave.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="c4"><span class="item-body"><span class="item-title">Every refusal and cut-off logged</span><span class="item-note">What happened, who made the call, what time. This is the record that protects the license.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="c5"><span class="item-body"><span class="item-title">Every station back to original position, original condition</span><span class="item-note">The 3 Rules do not get suspended because it was busy.</span></span></label></li>
+      <li><label><input type="checkbox" data-key="c6"><span class="item-body"><span class="item-title">Shift notes written before you leave</span><span class="item-note">What we ran out of, where the wait broke down, what the next game day needs to be different.</span></span></label></li>
+    </ul>
+    <div class="grid" style="margin-top:1.2rem; gap:1.1rem 2rem">
+      <label class="stack"><span>Marketing</span><textarea class="w" data-key="marketing" rows="3"></textarea></label>
+    </div>
+  </section>
+
+  <div class="closer">
+    <p class="big">The standard does not move because the building is full.</p>
+    <p>Game day is the night we get judged by the most people at once. Half that building has never been to TownHall before and will decide what we are in the first ten minutes.</p>
+    <p>100% of our standards, 100% of the time, at 100% volume. A full house is not an excuse to run at 80% — it is the reason we hold the line.</p>
+    <p class="last">If at any time you feel like you cannot execute your job and our standard, tell a manager. That door is open all night.</p>
+    <div class="toolbar">
+      <button class="reset" type="button" data-print>Print this sheet</button>
+      <button class="reset" type="button" data-clear>Clear the whole sheet</button>
+      <button class="reset" type="button" data-save hidden>Save filled copy to print</button>
+      <span class="hint" data-hint>Printing from inside this frame is blocked by the viewer. <b>Save filled copy to print</b> hands you a file with everything you have typed — open it and print normally.</span>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* Paper layout — mirrors the PDF build in docs/GameDay_PreShift.pdf */
+@page { size: Letter portrait; margin: 0.42in 0.45in; }
+
+@media print {
+  /* let long sections flow across pages; keep only cards and rows intact */
+  section { break-inside: auto; }
+  .section-head { break-after: avoid; }
+  h2, h3, .daypart { break-after: avoid; }
+  .checks li, .counts-total { break-inside: avoid; }
+  .sheet { max-width: none; padding: 0; }
+  body { font-size: 9pt; line-height: 1.34; }
+
+  h1 { font-size: 21pt; margin-bottom: 3pt; }
+  h2 { font-size: 12.5pt; }
+  h3 { font-size: 9.5pt; }
+  .standfirst { font-size: 9pt; max-width: none; }
+  .eyebrow { font-size: 7pt; margin-bottom: 4pt; }
+  .masthead { padding-bottom: 7pt; }
+
+  section { margin-top: 13pt; }
+  .section-head { padding-bottom: 5pt; margin-bottom: 7pt; }
+  .section-head p { font-size: 8.5pt; margin-top: 2pt; }
+  p { margin-bottom: 5pt; }
+
+  .grid { gap: 0 14pt; grid-template-columns: repeat(4, 1fr); }
+  .f { padding: 1.5pt 0; grid-template-columns: minmax(3.4rem, auto) 1fr; gap: 4pt; }
+  .f > span, .stack > span, .counts .f3 > span:first-child { font-size: 6.6pt; letter-spacing: .06em; }
+  input.w { font-size: 8.5pt; padding: 0 2pt; }
+  textarea.w { min-height: 34pt; font-size: 8.5pt; padding: 3pt 4pt; }
+  .stack { gap: 2pt; }
+
+  .windows, .positions { grid-template-columns: repeat(3, 1fr); gap: 7pt; }
+  .window { padding: 6pt 7pt 7pt; gap: 2pt; }
+  .window h3 { font-size: 9.5pt; }
+  .window p { font-size: 8pt; line-height: 1.3; }
+  .window-seq { font-size: 6.6pt; }
+
+  .rules { gap: 5pt; }
+  .rule-card { padding: 7pt 9pt; border-left-width: 3pt; }
+  .rule-name { font-size: 13pt; margin-bottom: 4pt; }
+  .rule-card p, .escape p { font-size: 8.4pt; line-height: 1.33; margin-bottom: 4pt; }
+  .escape { padding: 7pt 9pt; margin-top: 6pt; }
+  .pull { font-size: 9.2pt; margin-bottom: 4pt; }
+
+  .groups { grid-template-columns: repeat(4, 1fr); gap: 7pt; }
+  .group { padding: 6pt 7pt 7pt; }
+  .group h3 { font-size: 7pt; padding-bottom: 3pt; margin-bottom: 3pt; }
+  .group .f { grid-template-columns: minmax(3.2rem, auto) 1fr; padding: 1.5pt 0; }
+  .counts .f3, .counts-head, .counts-total { grid-template-columns: minmax(3.2rem, auto) 1fr 1fr; gap: 4pt; padding: 1.5pt 0; }
+  .counts-total { margin-top: 3pt; padding-top: 3pt; }
+  .counts-total output { font-size: 9pt; }
+  .counts-total.all output { font-size: 10.5pt; }
+  .daypart { font-size: 7.4pt; margin: 9pt 0 5pt; padding-bottom: 2pt; }
+  .groups + .daypart, .section-head + .daypart { margin-top: 9pt; }
+
+  .promo-list { gap: 4pt; }
+  .promo-list li { padding: 5pt 7pt; border-left-width: 3pt; }
+  .promo-name { font-size: 9.5pt; }
+  .promo-price { font-size: 8pt; }
+  .promo-note { font-size: 8pt; line-height: 1.3; }
+
+  .checks label { padding: 3pt 2pt; grid-template-columns: 12pt 1fr; gap: 5pt; }
+  .checks input { width: 9pt; height: 9pt; margin-top: 1.5pt; }
+  .checks .item-title { font-size: 8.6pt; }
+  .checks .item-note { font-size: 8pt; }
+  .list-bar { margin-bottom: 4pt; }
+
+  .yn { gap: 4pt; grid-template-columns: repeat(2, 1fr); margin-top: 7pt; }
+  .yn label { padding: 4pt 6pt; font-size: 8pt; border-width: 1pt; gap: 7pt; }
+  /* the printed pill reads "YES / NO", which is wider than the on-screen toggle */
+  .yn input { width: 5.6rem; height: 13pt; }
+  .yn input::before, .yn input:checked::before { width: 100%; font-size: 7pt; border-width: 1pt; }
+  .banner { padding: 5pt; font-size: 9pt; margin-top: 6pt; border-width: 1pt; }
+
+  .position { padding: 6pt 7pt 7pt; }
+  .position h3 { font-size: 7pt; }
+  .position li, .plain li { font-size: 8.2pt; line-height: 1.32; }
+  .position ul { gap: 2.5pt; padding-left: 9pt; }
+  .plain { gap: 3pt; }
+
+  .closer { margin-top: 14pt; padding-top: 8pt; }
+  .closer .big { font-size: 13pt; margin-bottom: 5pt; }
+  .closer p { font-size: 8.5pt; }
+}
+</style>
+
+<script>
+  (function () {
+    var STORE = "th-gameday-preshift-v2";
+    var refreshers = [];
+
+    function read() {
+      try {
+        var raw = window.localStorage.getItem(STORE);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+
+    function write(state) {
+      try { window.localStorage.setItem(STORE, JSON.stringify(state)); }
+      catch (e) { /* storage unavailable — the sheet still works, it just won't remember */ }
+    }
+
+    var state = read();
+
+    document.querySelectorAll("input.w, textarea.w").forEach(function (el) {
+      var key = el.getAttribute("data-key");
+      if (typeof state[key] === "string") el.value = state[key];
+      el.addEventListener("input", function () {
+        state[key] = el.value;
+        write(state);
+      });
+    });
+
+    document.querySelectorAll('input[type=checkbox][data-key]').forEach(function (box) {
+      var key = box.getAttribute("data-key");
+      if (state[key]) box.checked = true;
+      box.addEventListener("change", function () {
+        state[key] = box.checked;
+        write(state);
+        var list = box.closest("[data-list]");
+        if (list) count(list);
+      });
+    });
+
+    function count(list) {
+      var name = list.getAttribute("data-list");
+      var total = list.querySelectorAll("input[type=checkbox]").length;
+      var done = list.querySelectorAll("input[type=checkbox]:checked").length;
+      var el = document.querySelector('[data-counter="' + name + '"]');
+      if (el) el.textContent = done + " of " + total + " done";
+    }
+
+    document.querySelectorAll("[data-list]").forEach(count);
+
+    document.querySelectorAll("[data-reset]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var list = document.querySelector('[data-list="' + btn.getAttribute("data-reset") + '"]');
+        if (!list) return;
+        list.querySelectorAll("input[type=checkbox]").forEach(function (box) {
+          box.checked = false;
+          state[box.getAttribute("data-key")] = false;
+        });
+        write(state);
+        count(list);
+      });
+    });
+
+    // staff-count totals: scheduled, in training, and everyone on shift
+    function num(v) {
+      var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
+      return isNaN(n) ? 0 : n;
+    }
+
+    document.querySelectorAll(".group.counts").forEach(function (group) {
+      var rows = group.querySelectorAll(".f3");
+      var onOut = group.querySelector('[data-total="on"]');
+      var trOut = group.querySelector('[data-total="train"]');
+      var allOut = group.querySelector('[data-total="all"]');
+      if (!onOut || !trOut || !allOut) return;
+
+      function total() {
+        var on = 0, training = 0;
+        rows.forEach(function (row) {
+          var boxes = row.querySelectorAll("input");
+          on += num(boxes[0] && boxes[0].value);
+          training += num(boxes[1] && boxes[1].value);
+        });
+        onOut.textContent = on;
+        trOut.textContent = training;
+        allOut.textContent = on + training;
+      }
+
+      group.addEventListener("input", total);
+      refreshers.push(total);
+      total();
+    });
+
+    var printBtn = document.querySelector("[data-print]");
+    if (printBtn) printBtn.addEventListener("click", function () {
+      // sandboxed frames can block printing outright; the save button below is the way out
+      try { window.print(); } catch (e) { /* the viewer blocked it */ }
+    });
+
+    var clearBtn = document.querySelector("[data-clear]");
+    if (clearBtn) clearBtn.addEventListener("click", function () {
+      if (!window.confirm("Clear every name, note and check on this sheet?")) return;
+      state = {};
+      write(state);
+      document.querySelectorAll("input.w, textarea.w").forEach(function (el) { el.value = ""; });
+      document.querySelectorAll('input[type=checkbox][data-key]').forEach(function (b) { b.checked = false; });
+      document.querySelectorAll("[data-list]").forEach(count);
+      refreshers.forEach(function (fn) { fn(); });
+    });
+
+    /* ---- save a standalone copy carrying what has been typed ----
+       Values live in the DOM as properties, not attributes, so a plain clone
+       comes out blank. Copy each one onto the clone as an attribute. */
+    function buildStandalone() {
+      var sheet = document.querySelector(".sheet").cloneNode(true);
+      var live = document.querySelectorAll(".sheet input, .sheet textarea, .sheet output");
+      var copy = sheet.querySelectorAll("input, textarea, output");
+
+      live.forEach(function (el, i) {
+        var to = copy[i];
+        if (!to) return;
+        if (el.type === "checkbox") {
+          if (el.checked) to.setAttribute("checked", "checked");
+          else to.removeAttribute("checked");
+        } else if (el.tagName === "TEXTAREA") {
+          to.textContent = el.value;
+        } else if (el.tagName === "OUTPUT") {
+          to.textContent = el.textContent;
+        } else {
+          to.setAttribute("value", el.value);
+        }
+      });
+
+      var toolbar = sheet.querySelector(".toolbar");
+      if (toolbar) toolbar.remove();
+
+      var head = "";
+      document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) { head += l.outerHTML + "\n"; });
+      document.querySelectorAll("style").forEach(function (st) { head += st.outerHTML + "\n"; });
+
+      var title = (document.title || "Game Day Pre-Shift");
+      return "<!doctype html>\n<html lang=\"en\" data-theme=\"light\">\n<head>\n" +
+        '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+        "<title>" + title + "</title>\n" + head +
+        '<style>html{color-scheme:light}body{margin:0;background:#F5F1F0}img{max-width:100%}</style>\n' +
+        "</head>\n<body>\n" + sheet.outerHTML + "\n</body>\n</html>\n";
+    }
+
+    function stamp() {
+      var d = new Date();
+      function two(n) { return (n < 10 ? "0" : "") + n; }
+      return d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate());
+    }
+
+    var saveBtn = document.querySelector("[data-save]");
+    var hint = document.querySelector("[data-hint]");
+
+    if (window.claude && typeof window.claude.use === "function") {
+      window.claude.use("downloads").then(function (downloads) {
+        if (!downloads || !saveBtn) return;
+        saveBtn.hidden = false;
+        saveBtn.addEventListener("click", function () {
+          saveBtn.disabled = true;
+          downloads.save({
+            filename: "GameDay-PreShift-" + stamp() + ".html",
+            data: buildStandalone()
+          }).then(function () {
+            if (hint) hint.textContent = "Saved. Open that file and print it — everything you typed is in it.";
+          }).catch(function (err) {
+            if (hint && err && err.code !== "declined") {
+              hint.textContent = "Could not save the file here. Use \u2318P / Ctrl+P, or open this page in its own browser tab.";
+            }
+          }).then(function () { saveBtn.disabled = false; });
+        });
+      }).catch(function () { /* capability unavailable — the hint already covers printing */ });
+    }
+  })();
+</script>
