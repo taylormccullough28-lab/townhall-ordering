@@ -161,11 +161,25 @@ for daypart in ("AM", "PM"):
     band(r, 1, 7, daypart + " CREW — STAFF #'S & COMPLETIONS", B12, LEFT, fill=GREY, height=18)
     r += 1
     top = r
-    ends = [stack_group(top, 1, "STAFF #'S", STAFF_COUNTS),
-            stack_group(top, 3, "SHIFT LEADS", SHIFT_LEADS),
-            stack_group(top, 5, "STAFF TO COACH — 1 HUDDL", COMPLETIONS)]
+    # staff counts carry two write lines: how many are on, and how many are training
+    lab(top, 1, "STAFF #'S", B11)
+    lab(top, 2, "ON", B11)
+    lab(top, 3, "IN TRAINING", B11)
+    lab(top, 5, "SHIFT LEADS", B11)
+    for i, role in enumerate(STAFF_COUNTS):
+        rr = top + 1 + i
+        lab(rr, 1, role, R12)
+        rule(rr, 2, 2)
+        rule(rr, 3, 4)
+        ws.row_dimensions[rr].height = 18
+    for i, s in enumerate(SHIFT_LEADS):
+        rr = top + 1 + i
+        lab(rr, 5, s, R12)
+        rule(rr, 6, 7)
+    r = top + 1 + max(len(STAFF_COUNTS), len(SHIFT_LEADS)) + 1
+    ends = [stack_group(r, 1, "STAFF TO COACH — 1 HUDDL", COMPLETIONS),
+            stack_group(r, 3, "7SHIFTS COMPLETION", COMPLETIONS)]
     r = max(ends) + 1
-    r = stack_group(r, 1, "7SHIFTS COMPLETION", COMPLETIONS) + 1
 
 band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, fill=GREY, height=18)
 r += 1

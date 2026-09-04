@@ -117,9 +117,9 @@ Everybody knows all three before doors. If a guest has to ask what the special i
 
 Run it twice. Game day turns over mid-shift, and the PM crew walks into a different building than the AM crew opened.
 
-**AM crew** and **PM crew** each get all four:
+**AM crew** and **PM crew** each get all four. Staff #'s carries two numbers per role — how many are on, and how many are training.
 
-| Staff #'s | Shift leads | Staff to coach (1 Huddl) | 7shifts completion |
+| Staff #'s (on / in training) | Shift leads | Staff to coach (1 Huddl) | 7shifts completion |
 |---|---|---|---|
 | Servers | Server | Server | Server |
 | Bartenders | Café | Bar | Bar |
