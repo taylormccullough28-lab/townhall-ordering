@@ -100,6 +100,8 @@
   #hatch line { stroke: var(--hatch); }
   .item .shape { fill: var(--table-fill); stroke: var(--table-line); stroke-width: 5; }
   .item .lbl { font-size: 32px; font-weight: 500; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .sec-dot { stroke: #FFFFFF; stroke-width: 3; pointer-events: none; }
+  .sec-let { font-size: 19px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
   .item .seats { font-size: 19px; fill: var(--faint); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
   .item.object .shape { fill: url(#hatch); stroke: var(--wall); stroke-width: 6; pointer-events: all; }
   .item.fixture .shape { fill: none; stroke: var(--table-line); stroke-width: 4; stroke-dasharray: 7 6; pointer-events: all; }
@@ -205,7 +207,8 @@
     .print-page svg.plan { flex: 1; width: 100%; height: auto; min-height: 0; }
     .print-legend { border-top: .6pt solid #999; margin-top: 5pt; padding-top: 4pt; font-size: 8pt; color: #333; line-height: 1.5; }
     .print-legend b { color: #000; }
-    .print-legend .cols { column-count: 4; column-gap: 14pt; margin-top: 3pt; }
+    .print-legend .cols { column-count: 5; column-gap: 12pt; margin-top: 3pt; font-size: 7.5pt; }
+    .print-legend .cols.secs { column-count: 6; column-gap: 10pt; line-height: 1.5; }
     .print-staff { border-bottom: 1pt solid #000; padding-bottom: 5pt; margin-bottom: 6pt; }
     .print-staff .cols { display: flex; gap: 26pt; }
     .print-staff .ln { font-size: 8.5pt; line-height: 1.85; font-weight: 700; border-bottom: .5pt dotted #666; min-width: 92pt; }
@@ -243,6 +246,7 @@
     <span class="divider"></span>
     <button class="tool" id="editToggle" type="button" aria-pressed="false" title="Toggle edit mode (E)">✎ Edit</button>
     <button class="tool" id="drawToggle" type="button" aria-pressed="false" title="Draw walls and notes (D)">✏ Draw</button>
+    <button class="tool" id="secToggle" type="button" aria-pressed="true" title="Colour tables by server section (S)">◫ Sections</button>
     <button class="tool" id="staffToggle" type="button" aria-pressed="false" title="Show the staffing sheet">☰ Staff</button>
     <button class="tool icon" id="undoBtn" type="button" title="Undo (Ctrl+Z)" disabled>↺</button>
     <button class="tool icon" id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)" disabled>↻</button>
@@ -449,6 +453,40 @@
     };
   }
 
+  /* Seat capacity by table, and the server sections built from it.
+     A section holding an 8-10 top is capped at two tables; sections of
+     2-tops can run to three. Groupings follow the floor, so a section is
+     always a contiguous run a server can actually walk. */
+  var LARGE_TOPS = ['15', '21', '31', '24', '25', '81'];          /* 8-10 guests */
+  var TWO_TOPS = ['11', '16', '51', '52', '53', '84', '85'];      /* 2 guests   */
+  var SECTION_MAP = {
+    A: ['C1', 'C2', 'C3'],   B: ['C4', 'C5', 'C6'],   C: ['C20', 'C21', 'C10'],
+    D: ['C7', 'C8', 'C9'],   E: ['15', '16'],         F: ['14', '13'],
+    G: ['12', '11'],         H: ['21', '22'],         I: ['31', '32'],
+    J: ['33', '34', '35'],   K: ['24', '23'],         L: ['25', '26'],
+    M: ['41', '42', '43'],   N: ['44', '45'],         O: ['81', '82'],
+    P: ['61', '62'],         Q: ['63', '64', '65'],   R: ['66', '51', '52'],
+    S: ['53', '67', '68'],   T: ['71', '72', '73'],   U: ['83', '84', '85']
+  };
+
+  function applySections(plan) {
+    var of = {};
+    Object.keys(SECTION_MAP).forEach(function (sid) {
+      SECTION_MAP[sid].forEach(function (t) { of[t] = sid; });
+    });
+    plan.sections = Object.keys(SECTION_MAP).sort();
+    plan.zones.forEach(function (z) {
+      z.items.forEach(function (it) {
+        if (it.kind !== 'table') return;
+        if (LARGE_TOPS.indexOf(it.id) >= 0) { it.smin = 8; it.smax = 10; }
+        else if (TWO_TOPS.indexOf(it.id) >= 0) { it.smin = 2; it.smax = 2; }
+        else { it.smin = 4; it.smax = 6; }
+        if (of[it.id]) it.sec = of[it.id];
+      });
+    });
+    return plan;
+  }
+
   /* Walls paint first, so tables sitting on them stay clickable. */
   function wallsUnder(plan) {
     plan.zones.forEach(function (z) {
@@ -459,7 +497,7 @@
     return plan;
   }
 
-  var DEFAULT_PLAN = wallsUnder(buildDefaultPlan());
+  var DEFAULT_PLAN = applySections(wallsUnder(buildDefaultPlan()));
 
   /* ------------------------------- state ------------------------------- */
 
@@ -491,6 +529,7 @@
     sel: [],             // uids of every selected item
     selectedZone: null,  // zone id
     snap: 10,
+    sections: true,      // colour tables by server section
     draw: null,          // null | 'wall' | 'pen'
     drawW: 18,
     history: [],
@@ -600,12 +639,17 @@
     return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
   }
 
+  function itemCanvasMid(z, it) {
+    var b = itemBBox(it), p = zonePivot(z);
+    var t = rotPt(b.x + b.w / 2, b.y + b.h / 2, p.x, p.y, z.rot || 0);
+    return { x: z.ox + t.x, y: z.oy + t.y };
+  }
   function itemsInBox(x, y, w, h) {
     var out = [];
     state.plan.zones.forEach(function (z) {
       if (state.activeZone !== 'all' && state.activeZone !== z.id) return;
       z.items.forEach(function (it) {
-        var c = itemCanvasCenter(z, it);
+        var c = itemCanvasMid(z, it);
         if (c.x >= x && c.x <= x + w && c.y >= y && c.y <= y + h) out.push(it.uid);
       });
     });
@@ -623,6 +667,40 @@
     }
     return null;
   }
+  function sectionIds() {
+    var out = [];
+    state.plan.zones.forEach(function (z) {
+      z.items.forEach(function (it) {
+        if (it.kind === 'table' && it.sec && out.indexOf(it.sec) < 0) out.push(it.sec);
+      });
+    });
+    return out.sort();
+  }
+  function sectionTables(sid) {
+    var out = [];
+    state.plan.zones.forEach(function (z) {
+      z.items.forEach(function (it) { if (it.kind === 'table' && it.sec === sid) out.push(it); });
+    });
+    return out;
+  }
+  /* Golden-angle stepping, so consecutive letters — which tend to sit next
+     to each other on the floor — land far apart on the colour wheel. */
+  function secHue(sid) {
+    var ids = sectionIds(), i = ids.indexOf(sid);
+    if (i < 0) return 0;
+    return Math.round((i * 137.5 + 20) % 360);
+  }
+  function sectionSummary(sid) {
+    var ts = sectionTables(sid);
+    return {
+      id: sid, n: ts.length,
+      lo: ts.reduce(function (a, t) { return a + (t.smin || 0); }, 0),
+      hi: ts.reduce(function (a, t) { return a + (t.smax || 0); }, 0),
+      ids: ts.map(function (t) { return t.id; }),
+      big: ts.some(function (t) { return (t.smax || 0) >= 8; })
+    };
+  }
+
   function tableCount(z) { return z.items.filter(function (i) { return i.kind === 'table'; }).length; }
   function tablesOf(z) {
     return z.items.filter(function (i) { return i.kind === 'table' && i.id; })
@@ -755,6 +833,7 @@
 
   /* ------------------------------- drawing ------------------------------- */
 
+  var opts_sections = false;
   function drawItem(it, g, zrot) {
     /* Labels stay upright however the area is turned. */
     var up = zrot ? 'rotate(' + (-zrot) + ',' + it.cx + ',' + it.cy + ')' : null;
@@ -794,6 +873,18 @@
           rx: 2, class: 'inner'
         }, ig);
       }
+    }
+
+    if (opts_sections && it.kind === 'table' && it.sec) {
+      var sh = secHue(it.sec);
+      var sk = ig.querySelector('.shape');
+      if (sk && !isSel(it.uid)) sk.setAttribute('style', 'fill:hsl(' + sh + ',68%,90%)');
+      var bb = itemBBox(it);
+      var bx = bb.x + bb.w - 4, by = bb.y + 4;
+      el('circle', { cx: bx, cy: by, r: 17, class: 'sec-dot',
+                     style: 'fill:hsl(' + sh + ',52%,34%)', transform: up }, ig);
+      var st = el('text', { x: bx, y: by + 1, class: 'sec-let', transform: up }, ig);
+      st.textContent = it.sec;
     }
 
     var text = it.kind === 'table' ? it.id : (it.kind === 'fixture' ? it.name : '');
@@ -898,6 +989,7 @@
   function renderInto(svgEl, zones, opts) {
     while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
     var root = el('g', { 'data-root': '1' }, svgEl);
+    opts_sections = !!opts.sections;
     zones.forEach(function (z) {
       var g = drawZone(z, root, opts);
       if (opts.dimOthers && opts.dimOthers !== z.id) g.classList.add('zone-dim');
@@ -1035,6 +1127,7 @@
     renderInto(svg, state.plan.zones, {
       titles: true,
       editing: state.editing,
+      sections: state.sections,
       dimOthers: state.activeZone === 'all' ? null : state.activeZone
     });
     bindItemEvents();
@@ -1237,6 +1330,13 @@
           '<label class="field"><span>Height</span><input id="fH" type="number" min="10" step="1" value="' + Math.round(it2.h) + '"></label></div>' +
           '<div class="grid2"><label class="field"><span>Rotation°</span><input id="fRot" type="number" step="5" value="' + (it2.rot || 0) + '"></label>' +
           '<label class="field"><span>Seats</span><input id="fSeats" type="number" min="0" step="1" value="' + (it2.seats || '') + '"' + (isTable ? '' : ' disabled') + '></label></div>') +
+      (isTable
+        ? '<div class="grid2">' +
+            '<label class="field"><span>Seats min</span><input id="fSMin" type="number" min="0" step="1" value="' + (it2.smin || '') + '"></label>' +
+            '<label class="field"><span>Seats max</span><input id="fSMax" type="number" min="0" step="1" value="' + (it2.smax || '') + '"></label>' +
+          '</div>' +
+          '<label class="field"><span>Server section</span><select id="fSec">' + secOptions(it2.sec) + '</select></label>'
+        : '') +
       '<label class="field"><span>Area</span><select id="fZone">' +
         state.plan.zones.map(function (z) {
           return '<option value="' + z.id + '"' + (z.id === f.zone.id ? ' selected' : '') + '>' + esc(z.name) + '</option>';
@@ -1247,6 +1347,35 @@
         '<button class="tool danger" id="delBtn" type="button">Delete</button>' +
       '</div>';
     bindPanel();
+  }
+
+  function secOptions(cur) {
+    var ids = sectionIds();
+    if (cur && ids.indexOf(cur) < 0) ids = ids.concat([cur]).sort();
+    return '<option value=""' + (cur ? '' : ' selected') + '>— none —</option>' +
+      ids.map(function (id) {
+        var q = sectionSummary(id);
+        return '<option value="' + id + '"' + (id === cur ? ' selected' : '') + '>' +
+          id + ' (' + q.n + ' tables)</option>';
+      }).join('') + '<option value="+">New section…</option>';
+  }
+
+  function assignSection(uids, val) {
+    if (val === '+') {
+      var used = sectionIds(), next = 'A';
+      for (var c = 65; c < 91 + 26; c++) {
+        var cand = c < 91 ? String.fromCharCode(c) : 'A' + String.fromCharCode(c - 26);
+        if (used.indexOf(cand) < 0) { next = cand; break; }
+      }
+      val = next;
+    }
+    pushHistory();
+    uids.forEach(function (uid) {
+      var f = findItem(uid);
+      if (f && f.item.kind === 'table') { if (val) f.item.sec = val; else delete f.item.sec; }
+    });
+    afterMutate(true);
+    if (val) toast('Assigned to section ' + val);
   }
 
   function renderDrawPanel() {
@@ -1285,12 +1414,14 @@
       '<div class="big">' + picked.length + ' selected</div>' +
       '<div class="meta">' + tables.length + (tables.length === 1 ? ' table' : ' tables') +
         (other ? ' · ' + other + ' other' : '') +
-        (seats ? ' · ' + seats + ' seats' : ' · no seat counts set') + '<br>' +
+        ' · ' + tables.reduce(function (n, f) { return n + (f.item.smin || 0); }, 0) + '\u2013' +
+        tables.reduce(function (n, f) { return n + (f.item.smax || 0); }, 0) + ' guests<br>' +
         areas.map(function (z) {
           return '<span class="zbadge" style="margin-right:8px"><span class="dot" style="background:' +
             z.color + '"></span>' + esc(z.name) + '</span>';
         }).join('') +
       '</div>' +
+      '<label class="field"><span>Assign all to section</span><select id="gSec">' + secOptions('') + '</select></label>' +
       '<div class="row">' +
         '<button class="tool" id="gL" type="button" title="Turn the section 90° left">⟲ 90°</button>' +
         '<button class="tool" id="gR" type="button" title="Turn the section 90° right">⟳ 90°</button>' +
@@ -1304,6 +1435,10 @@
       'Drag the ↻ handle above the box to turn the section. Arrow keys nudge, Shift+click adds or ' +
       'removes one, Alt while dragging ignores the grid.</div>';
 
+    var gs = document.getElementById('gSec');
+    if (gs) gs.addEventListener('change', function () {
+      if (gs.value) assignSection(state.sel.slice(), gs.value);
+    });
     function turnSel(by) { pushHistory(); rotateSelection(by); afterMutate(true); }
     document.getElementById('gL').addEventListener('click', function () { turnSel(-90); });
     document.getElementById('gR').addEventListener('click', function () { turnSel(90); });
@@ -1434,6 +1569,10 @@
     if (mst) mst.addEventListener('change', function () {
       commit(function () { it.style = mst.value; it.sw = mst.value === 'pen' ? 8 : 18; });
     });
+    onNum('fSMin', function (v) { if (v > 0) it.smin = Math.round(v); else delete it.smin; });
+    onNum('fSMax', function (v) { if (v > 0) it.smax = Math.round(v); else delete it.smax; });
+    var secSel = document.getElementById('fSec');
+    if (secSel) secSel.addEventListener('change', function () { assignSection([it.uid], secSel.value); });
     onNum('mSw', function (v) { it.sw = Math.max(2, Math.min(60, v)); });
     onNum('mRot', function (v) { it.rot = ((v % 360) + 360) % 360; });
 
@@ -1520,7 +1659,8 @@
     Array.prototype.forEach.call(svg.querySelectorAll('.item'), function (node) {
       var uid = node.dataset.uid;
       node.addEventListener('pointerdown', function (e) {
-        if (!state.editing || state.draw) return;   // while drawing, let the canvas take it
+        /* drawing, space-panning and middle-drag all belong to the canvas */
+        if (!state.editing || state.draw || spaceDown || e.button === 1) return;
         e.stopPropagation();
         startItemDrag(e, uid, node);
       });
@@ -1812,6 +1952,15 @@
       }).join('') + '</div></div>';
   }
 
+  var secToggle = document.getElementById('secToggle');
+  function setSections(on) {
+    state.sections = on;
+    secToggle.setAttribute('aria-pressed', String(on));
+    render();
+    renderPanel();
+  }
+  secToggle.addEventListener('click', function () { setSections(!state.sections); });
+
   var staffToggle = document.getElementById('staffToggle');
   staffToggle.addEventListener('click', function () {
     var on = !staffEl.classList.contains('on');
@@ -1837,12 +1986,32 @@
       '<span class="print-swatch hatched"></span>Pillar / object &nbsp; ' +
       '<span class="print-swatch dashed"></span>Fixture &nbsp; ' +
       '<span class="print-swatch" style="border:0;border-top:2pt solid #000;height:0"></span>Drawn wall &nbsp; ' +
+      (state.sections ? '<b>A</b> section letter &nbsp; ' : '') +
       '&mdash;&mdash; Wall &nbsp; - - - Room edge continues past the source plan';
     if (!withList) return '<div class="print-legend">' + key + '</div>';
+
+    if (state.sections) {
+      /* One line per server section: its tables and what it can seat. */
+      var here = {};
+      zones.forEach(function (z) {
+        z.items.forEach(function (it) { if (it.kind === 'table' && it.sec) here[it.sec] = 1; });
+      });
+      var rows = Object.keys(here).sort().map(function (sid) {
+        var q = sectionSummary(sid);
+        return '<div style="break-inside:avoid"><b>' + esc(sid) + '</b>&nbsp; ' + q.ids.map(esc).join(', ') +
+               '&nbsp;<span style="color:#555">' + q.lo + '\u2013' + q.hi + (q.big ? '*' : '') +
+               '</span></div>';
+      }).join('');
+      return '<div class="print-legend">' + key +
+             '<div style="margin-top:4pt"><b>Server sections</b> ' +
+             '<span style="color:#555">— tables, then guests the section seats; * holds an 8-10 top</span></div>' +
+             '<div class="cols secs">' + rows + '</div></div>';
+    }
+
     var cols = zones.map(function (z) {
       var ts = tablesOf(z);
       return '<div style="break-inside:avoid"><b>' + esc(z.name) + '</b> (' + ts.length + ')<br>' +
-        ts.map(function (t) { return esc(t.id) + (t.seats ? '&nbsp;·&nbsp;' + t.seats + 'p' : ''); }).join(', ') + '</div>';
+        ts.map(function (t) { return esc(t.id) + (t.smax ? '&nbsp;·&nbsp;' + t.smax + 'p' : ''); }).join(', ') + '</div>';
     }).join('');
     return '<div class="print-legend">' + key + '<div class="cols">' + cols + '</div></div>';
   }
@@ -1859,7 +2028,7 @@
     s.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     var box = unionBox(zones, titles, 40);
     s.setAttribute('viewBox', box.x + ' ' + box.y + ' ' + box.w + ' ' + box.h);
-    renderInto(s, zones, { titles: titles });
+    renderInto(s, zones, { titles: titles, sections: state.sections });
     Array.prototype.forEach.call(s.querySelectorAll('.item'), function (n) { n.classList.remove('sel'); });
     sec.appendChild(s);
     sec.insertAdjacentHTML('beforeend', legendHTML(zones, withList));
@@ -1951,12 +2120,26 @@
       document.getElementById(p[0]).setAttribute('aria-expanded', 'false');
     });
   }
+  /* The toolbar wraps on narrower screens, which can push a right-anchored
+     menu off the edge; nudge it back into view once it is shown. */
+  function fitMenu(m) {
+    m.style.right = ''; m.style.left = '';       /* back to the default anchor first */
+    var r = m.getBoundingClientRect(), dx = 0;
+    if (r.left < 8) dx = 8 - r.left;
+    else if (r.right > window.innerWidth - 8) dx = window.innerWidth - 8 - r.right;
+    if (!dx || !m.offsetParent) return;
+    /* it is anchored by `right`, so nudging means switching to an explicit `left` */
+    var host = m.offsetParent.getBoundingClientRect();
+    m.style.right = 'auto';
+    m.style.left = Math.round(r.left - host.left + dx) + 'px';
+  }
   function toggleMenu(btnId, menuId) {
     var m = document.getElementById(menuId);
     var open = m.hidden;
     closeMenus(open ? menuId : null);
     m.hidden = !open;
     document.getElementById(btnId).setAttribute('aria-expanded', String(open));
+    if (open) fitMenu(m);
   }
   document.getElementById('printBtn').addEventListener('click', function () { toggleMenu('printBtn', 'printMenu'); });
   document.getElementById('fileBtn').addEventListener('click', function () { toggleMenu('fileBtn', 'fileMenu'); });
@@ -2098,6 +2281,7 @@
     if (typing) return;
     if (e.key === 'e' || e.key === 'E') { setEditing(!state.editing); return; }
     if (e.key === 'd' || e.key === 'D') { setDraw(state.draw ? null : 'wall'); return; }
+    if (e.key === 's' || e.key === 'S') { setSections(!state.sections); return; }
     if (e.key === 'Escape') { if (state.draw) { setDraw(null); return; } select(null, false); selectZone(null); closeMenus(null); return; }
     if (state.editing && state.sel.length) {
       var step = e.shiftKey ? state.snap * 5 : state.snap;
