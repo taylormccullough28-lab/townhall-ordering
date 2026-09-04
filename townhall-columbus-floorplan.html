@@ -118,6 +118,15 @@
   .rot-icon { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
   .rot-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
   .move-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: move; }
+  .item.draw .shape { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .item.draw .draw-wall { stroke: var(--wall); }
+  .item.draw .draw-pen { stroke: #B4532A; }
+  .item.draw .draw-hit { fill: none; stroke: transparent; stroke-width: 46; }
+  .item.draw.sel .shape { stroke: var(--accent); }
+  .grp-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
+  .grp-stem { stroke: var(--accent); stroke-width: 4; pointer-events: none; }
+  .grp-box { fill: none; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 8 7; opacity: .55; pointer-events: none; }
+  .stage.drawing, .stage.drawing .zone-hit, .stage.drawing .item { cursor: crosshair; }
   .marquee { fill: var(--accent); fill-opacity: .07; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 14 9; pointer-events: none; }
   .stage.editing .zone-hit { cursor: crosshair; }
 
@@ -213,6 +222,7 @@
     <input class="search" id="search" type="search" placeholder="Find a table (e.g. 63, C4)" aria-label="Find a table">
     <span class="divider"></span>
     <button class="tool" id="editToggle" type="button" aria-pressed="false" title="Toggle edit mode (E)">✎ Edit</button>
+    <button class="tool" id="drawToggle" type="button" aria-pressed="false" title="Draw walls and notes (D)">✏ Draw</button>
     <button class="tool icon" id="undoBtn" type="button" title="Undo (Ctrl+Z)" disabled>↺</button>
     <button class="tool icon" id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)" disabled>↻</button>
     <span class="divider"></span>
@@ -408,6 +418,8 @@
     sel: [],             // uids of every selected item
     selectedZone: null,  // zone id
     snap: 10,
+    draw: null,          // null | 'wall' | 'pen'
+    drawW: 18,
     history: [],
     future: []
   };
@@ -478,6 +490,42 @@
     var p = zonePivot(z), t = rotPt(it.cx, it.cy, p.x, p.y, z.rot || 0);
     return { x: z.ox + t.x, y: z.oy + t.y };
   }
+  /* Canvas point -> that area's local coordinates (inverse of itemCanvasCenter). */
+  function fromCanvas(z, x, y) {
+    var p = zonePivot(z);
+    return rotPt(x - z.ox, y - z.oy, p.x, p.y, -(z.rot || 0));
+  }
+  function zoneAtCanvas(pt) {
+    var hit = null;
+    state.plan.zones.forEach(function (z) {
+      if (state.activeZone !== 'all' && state.activeZone !== z.id) return;
+      var b = zoneBox(z, false);
+      if (pt.x >= b.x && pt.x <= b.x + b.w && pt.y >= b.y && pt.y <= b.y + b.h) hit = z;
+    });
+    return hit;
+  }
+  function drawPathD(cx, cy, pts) {
+    if (!pts || !pts.length) return '';
+    return pts.map(function (q, i) { return (i ? 'L' : 'M') + (cx + q[0]) + ',' + (cy + q[1]); }).join(' ');
+  }
+  /* Bounding box of the whole selection, in canvas space. */
+  function selBoxCanvas() {
+    var xs = [], ys = [];
+    state.sel.forEach(function (uid) {
+      var f = findItem(uid);
+      if (!f) return;
+      var b = itemBBox(f.item), p = zonePivot(f.zone), r = f.zone.rot || 0;
+      [[b.x, b.y], [b.x + b.w, b.y], [b.x + b.w, b.y + b.h], [b.x, b.y + b.h]].forEach(function (q) {
+        var t = rotPt(q[0], q[1], p.x, p.y, r);
+        xs.push(f.zone.ox + t.x); ys.push(f.zone.oy + t.y);
+      });
+    });
+    if (!xs.length) return null;
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+  }
+
   function itemsInBox(x, y, w, h) {
     var out = [];
     state.plan.zones.forEach(function (z) {
@@ -552,6 +600,13 @@
     return n;
   }
   function itemBBox(it) {
+    if (it.pts && it.pts.length) {
+      var xs = it.pts.map(function (q) { return it.cx + q[0]; });
+      var ys = it.pts.map(function (q) { return it.cy + q[1]; });
+      var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+      var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+      return { x: x0, y: y0, w: Math.max(x1 - x0, 1), h: Math.max(y1 - y0, 1) };
+    }
     if (it.shape === 'circle') return { x: it.cx - it.r, y: it.cy - it.r, w: it.r * 2, h: it.r * 2 };
     if (it.rot) {
       var a = Math.abs(it.rot) * Math.PI / 180;
@@ -575,7 +630,13 @@
       'aria-label': it.kind === 'table' ? ('Table ' + it.id) : (it.name || it.kind)
     }, g);
 
-    if (it.shape === 'circle') {
+    if (it.kind === 'draw') {
+      var d = drawPathD(it.cx, it.cy, it.pts);
+      var rot = it.rot ? 'rotate(' + it.rot + ',' + it.cx + ',' + it.cy + ')' : null;
+      el('path', { d: d, class: 'shape draw-' + (it.style || 'wall'),
+                   style: 'stroke-width:' + (it.sw || 18), transform: rot }, ig);
+      el('path', { d: d, class: 'draw-hit', transform: rot }, ig);
+    } else if (it.shape === 'circle') {
       el('circle', { cx: it.cx, cy: it.cy, r: it.r, class: 'shape' }, ig);
     } else {
       el('rect', {
@@ -591,6 +652,7 @@
     }
 
     var text = it.kind === 'table' ? it.id : (it.kind === 'fixture' ? it.name : '');
+    if (it.kind === 'draw') text = '';
     if (text) {
       var hasSeats = it.kind === 'table' && it.seats > 0;
       var t = el('text', { x: it.cx, y: it.cy + (hasSeats ? -13 : 0), class: 'lbl', transform: up }, ig);
@@ -673,7 +735,120 @@
       var g = drawZone(z, root, opts);
       if (opts.dimOthers && opts.dimOthers !== z.id) g.classList.add('zone-dim');
     });
+    if (opts.editing && !state.draw && state.sel.length) drawSelHandle(root);
     return root;
+  }
+
+  /* One handle above the whole selection: turns the section as a unit. */
+  function drawSelHandle(root) {
+    var b = selBoxCanvas();
+    if (!b) return;
+    var cx = b.x + b.w / 2, hy = b.y - 64;
+    if (state.sel.length > 1) {
+      el('rect', { x: b.x - 22, y: b.y - 22, width: b.w + 44, height: b.h + 44, rx: 10, class: 'grp-box' }, root);
+    }
+    el('line', { x1: cx, y1: b.y, x2: cx, y2: hy, class: 'grp-stem' }, root);
+    el('circle', { cx: cx, cy: hy, r: 25, class: 'grp-handle', 'data-grp': '1' }, root);
+    el('path', { d: 'M' + (cx - 10) + ',' + (hy + 4) + ' a10,10 0 1,1 7,6', class: 'rot-icon' }, root);
+  }
+
+  /* Turn the selection about its own centre: each item swings around the
+     centre and spins on its own axis by the same angle. */
+  function rotateSelection(deg, pivot, from) {
+    var c = pivot || (function () { var b = selBoxCanvas(); return b && { x: b.x + b.w / 2, y: b.y + b.h / 2 }; })();
+    if (!c) return;
+    state.sel.forEach(function (uid, i) {
+      var f = findItem(uid);
+      if (!f) return;
+      var start = from ? from[i] : { c: itemCanvasCenter(f.zone, f.item), rot: f.item.rot || 0 };
+      var n = rotPt(start.c.x, start.c.y, c.x, c.y, deg);
+      var l = fromCanvas(f.zone, n.x, n.y);
+      f.item.cx = l.x; f.item.cy = l.y;
+      if (f.item.shape !== 'circle') f.item.rot = (((start.rot + deg) % 360) + 360) % 360;
+    });
+  }
+
+  function startSelRotate(e) {
+    var b = selBoxCanvas();
+    if (!b) return;
+    var c = { x: b.x + b.w / 2, y: b.y + b.h / 2 };
+    var snapshot = JSON.stringify(state.plan);
+    var from = state.sel.map(function (uid) {
+      var f = findItem(uid);
+      return f ? { c: itemCanvasCenter(f.zone, f.item), rot: f.item.rot || 0 } : { c: c, rot: 0 };
+    });
+    var p0 = toPlan(e.clientX, e.clientY);
+    var a0 = Math.atan2(p0.y - c.y, p0.x - c.x) * 180 / Math.PI;
+    var applied = 0, moved = false;
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      var a = Math.atan2(p.y - c.y, p.x - c.x) * 180 / Math.PI;
+      var th = a - a0;
+      if (!ev.altKey) th = Math.round(th / 15) * 15;
+      if (th !== applied) { applied = th; moved = true; rotateSelection(th, c, from); render(); }
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      if (!moved || !applied) {
+        state.plan = stampUids(JSON.parse(snapshot));
+        render();
+        return;
+      }
+      state.history.push(snapshot);
+      if (state.history.length > 60) state.history.shift();
+      state.future.length = 0;
+      afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
+  /* Freehand pen / straight wall, drawn into whichever area is under the cursor
+     so the mark travels with that room. */
+  function startDraw(e) {
+    var p0 = toPlan(e.clientX, e.clientY);
+    var z = zoneAtCanvas(p0) || targetZone();
+    if (!z) return;
+    var o = fromCanvas(z, p0.x, p0.y);
+    var pts = [[0, 0]];
+    var mode = state.draw, sw = state.drawW;
+    var body = svg.querySelector('g[data-zone="' + z.id + '"] > g[data-body]');
+    var live = el('path', { class: 'shape draw-' + mode, style: 'stroke-width:' + sw + ';fill:none;stroke-linecap:round;stroke-linejoin:round' }, body);
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      var l = fromCanvas(z, p.x, p.y);
+      var dx = l.x - o.x, dy = l.y - o.y;
+      if (mode === 'wall') {
+        if (!ev.altKey) {                       // straight walls snap to 15°
+          var ang = Math.atan2(dy, dx), len = Math.sqrt(dx * dx + dy * dy);
+          ang = Math.round(ang / (Math.PI / 12)) * (Math.PI / 12);
+          dx = Math.cos(ang) * len; dy = Math.sin(ang) * len;
+        }
+        pts.length = 1;
+        pts.push([dx, dy]);
+      } else {
+        var last = pts[pts.length - 1];
+        if (Math.abs(dx - last[0]) + Math.abs(dy - last[1]) > 7) pts.push([dx, dy]);
+      }
+      live.setAttribute('d', drawPathD(o.x, o.y, pts));
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      live.remove();
+      if (pts.length < 2) return;
+      pushHistory();
+      var it = { uid: 'i' + (uidSeq++), kind: 'draw', style: mode, shape: 'path',
+                 cx: o.x, cy: o.y, pts: pts, sw: sw };
+      z.items.push(it);
+      setSel([it.uid]);
+      afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
   }
 
   /* ---------------------------- interactive view ---------------------------- */
@@ -791,6 +966,7 @@
     if (!f && !state.editing) { panel.hidden = true; return; }
     panel.hidden = false;
 
+    if (state.draw) { renderDrawPanel(); return; }
     if (state.editing && state.selectedZone) { renderZonePanel(zoneById(state.selectedZone)); return; }
     if (state.editing && state.sel.length > 1) { renderGroupPanel(); return; }
 
@@ -798,11 +974,13 @@
       var it = f.item;
       panel.innerHTML =
         '<div class="zbadge"><span class="dot" style="background:' + f.zone.color + '"></span>' + esc(f.zone.name) + '</div>' +
-        '<div class="big">' + esc(it.kind === 'table' ? 'Table ' + it.id : (it.name || 'Object')) + '</div>' +
+        '<div class="big">' + esc(it.kind === 'table' ? 'Table ' + it.id
+          : (it.kind === 'draw' ? (it.style === 'pen' ? 'Freehand mark' : 'Drawn wall') : (it.name || 'Object'))) + '</div>' +
         '<div class="meta">' +
           (it.kind === 'table'
             ? shapeWord(it) + ' top' + (it.seats ? ' · seats ' + it.seats : '') + '.'
-            : (it.kind === 'object' ? 'Pillar / structural object — not seating.' : 'Fixture — not seating.')) +
+            : (it.kind === 'object' ? 'Pillar / structural object — not seating.'
+              : (it.kind === 'draw' ? 'Drawn on the plan — not seating.' : 'Fixture — not seating.'))) +
         '</div>' +
         '<div class="hint">Turn on <b>Edit</b> to move it, rename it, or set a seat count.</div>';
       return;
@@ -828,6 +1006,33 @@
     }
 
     var it2 = f.item;
+
+    if (it2.kind === 'draw') {
+      panel.innerHTML = head +
+        '<hr style="border:0;border-top:1px solid var(--line);margin:12px 0">' +
+        '<div class="zbadge"><span class="dot" style="background:' + f.zone.color + '"></span>' + esc(f.zone.name) + '</div>' +
+        '<div class="big">' + (it2.style === 'pen' ? 'Freehand mark' : 'Drawn wall') + '</div>' +
+        '<div class="grid2">' +
+          '<label class="field"><span>Type</span><select id="mStyle">' +
+            '<option value="wall"' + (it2.style !== 'pen' ? ' selected' : '') + '>Wall</option>' +
+            '<option value="pen"' + (it2.style === 'pen' ? ' selected' : '') + '>Pen</option>' +
+          '</select></label>' +
+          '<label class="field"><span>Thickness</span><input id="mSw" type="number" min="2" max="60" step="2" value="' + (it2.sw || 18) + '"></label>' +
+        '</div>' +
+        '<label class="field"><span>Rotation°</span><input id="mRot" type="number" step="5" value="' + (it2.rot || 0) + '"></label>' +
+        '<label class="field"><span>Area</span><select id="fZone">' +
+          state.plan.zones.map(function (z) {
+            return '<option value="' + z.id + '"' + (z.id === f.zone.id ? ' selected' : '') + '>' + esc(z.name) + '</option>';
+          }).join('') +
+        '</select></label>' +
+        '<div class="row">' +
+          '<button class="tool" id="dupBtn" type="button">Duplicate</button>' +
+          '<button class="tool danger" id="delBtn" type="button">Delete</button>' +
+        '</div>';
+      bindPanel();
+      return;
+    }
+
     var isTable = it2.kind === 'table';
     var isCircle = it2.shape === 'circle';
     panel.innerHTML = head +
@@ -864,6 +1069,28 @@
     bindPanel();
   }
 
+  function renderDrawPanel() {
+    panel.innerHTML =
+      '<div class="zbadge">Drawing</div>' +
+      '<div class="big">Draw on the plan</div>' +
+      '<div class="row">' +
+        '<button class="tool" id="dWall" type="button" aria-pressed="' + (state.draw === 'wall') + '">Wall</button>' +
+        '<button class="tool" id="dPen" type="button" aria-pressed="' + (state.draw === 'pen') + '">Pen</button>' +
+      '</div>' +
+      '<label class="field"><span>Thickness</span><input id="dW" type="number" min="2" max="60" step="2" value="' + state.drawW + '"></label>' +
+      '<div class="row"><button class="tool" id="dDone" type="button">Done drawing</button></div>' +
+      '<div class="hint"><b>Wall</b> drags a straight line, snapped to 15° (Alt for any angle). <b>Pen</b> draws freehand. ' +
+      'Each mark belongs to the area you drew it in, so it moves and turns with that room. Click a mark to select it, ' +
+      'Delete to remove it.</div>';
+    document.getElementById('dWall').addEventListener('click', function () { state.draw = 'wall'; state.drawW = 18; renderPanel(); });
+    document.getElementById('dPen').addEventListener('click', function () { state.draw = 'pen'; state.drawW = 8; renderPanel(); });
+    document.getElementById('dW').addEventListener('change', function () {
+      var v = parseFloat(this.value);
+      if (!isNaN(v)) state.drawW = Math.max(2, Math.min(60, v));
+    });
+    document.getElementById('dDone').addEventListener('click', function () { setDraw(null); });
+  }
+
   /* Several tables picked at once — a seating section, moved as one. */
   function renderGroupPanel() {
     var picked = state.sel.map(findItem).filter(Boolean);
@@ -885,12 +1112,21 @@
         }).join('') +
       '</div>' +
       '<div class="row">' +
+        '<button class="tool" id="gL" type="button" title="Turn the section 90° left">⟲ 90°</button>' +
+        '<button class="tool" id="gR" type="button" title="Turn the section 90° right">⟳ 90°</button>' +
+      '</div>' +
+      '<div class="row">' +
         '<button class="tool" id="gDup" type="button">Duplicate</button>' +
         '<button class="tool danger" id="gDel" type="button">Delete</button>' +
       '</div>' +
       '<div class="row"><button class="tool" id="gClear" type="button">Clear selection</button></div>' +
       '<div class="hint">Drag any one of them to move the whole group — spacing is kept exactly. ' +
-      'Arrow keys nudge, Shift+click adds or removes one, Alt while dragging ignores the grid.</div>';
+      'Drag the ↻ handle above the box to turn the section. Arrow keys nudge, Shift+click adds or ' +
+      'removes one, Alt while dragging ignores the grid.</div>';
+
+    function turnSel(by) { pushHistory(); rotateSelection(by); afterMutate(true); }
+    document.getElementById('gL').addEventListener('click', function () { turnSel(-90); });
+    document.getElementById('gR').addEventListener('click', function () { turnSel(90); });
 
     document.getElementById('gDup').addEventListener('click', duplicateSelection);
     document.getElementById('gDel').addEventListener('click', deleteSelection);
@@ -992,6 +1228,13 @@
     onNum('fRot', function (v) { it.rot = ((v % 360) + 360) % 360 > 180 ? v % 360 : v % 360; });
     onNum('fSeats', function (v) { if (v > 0) it.seats = Math.round(v); else delete it.seats; });
 
+    var mst = document.getElementById('mStyle');
+    if (mst) mst.addEventListener('change', function () {
+      commit(function () { it.style = mst.value; it.sw = mst.value === 'pen' ? 8 : 18; });
+    });
+    onNum('mSw', function (v) { it.sw = Math.max(2, Math.min(60, v)); });
+    onNum('mRot', function (v) { it.rot = ((v % 360) + 360) % 360; });
+
     var zsel = document.getElementById('fZone');
     if (zsel) zsel.addEventListener('change', function () {
       var target = zoneById(zsel.value);
@@ -1075,7 +1318,7 @@
     Array.prototype.forEach.call(svg.querySelectorAll('.item'), function (node) {
       var uid = node.dataset.uid;
       node.addEventListener('pointerdown', function (e) {
-        if (!state.editing) return;
+        if (!state.editing || state.draw) return;   // while drawing, let the canvas take it
         e.stopPropagation();
         startItemDrag(e, uid, node);
       });
@@ -1307,6 +1550,7 @@
       '<span class="print-swatch"></span>Table &nbsp; ' +
       '<span class="print-swatch hatched"></span>Pillar / object &nbsp; ' +
       '<span class="print-swatch dashed"></span>Fixture &nbsp; ' +
+      '<span class="print-swatch" style="border:0;border-top:2pt solid #000;height:0"></span>Drawn wall &nbsp; ' +
       '&mdash;&mdash; Wall &nbsp; - - - Room edge continues past the source plan';
     if (!withList) return '<div class="print-legend">' + key + '</div>';
     var cols = zones.map(function (z) {
@@ -1451,7 +1695,7 @@
   var editToggle = document.getElementById('editToggle');
   function setEditing(on) {
     state.editing = on;
-    if (!on) state.selectedZone = null;
+    if (!on) { state.selectedZone = null; if (state.draw) setDraw(null); }
     editToggle.setAttribute('aria-pressed', String(on));
     editToggle.textContent = on ? '✓ Editing' : '✎ Edit';
     stage.classList.toggle('editing', on);
@@ -1459,6 +1703,18 @@
     renderPanel();
   }
   editToggle.addEventListener('click', function () { setEditing(!state.editing); });
+
+  var drawToggle = document.getElementById('drawToggle');
+  function setDraw(mode) {
+    state.draw = mode;
+    drawToggle.setAttribute('aria-pressed', String(!!mode));
+    drawToggle.textContent = mode ? '✓ Drawing' : '✏ Draw';
+    stage.classList.toggle('drawing', !!mode);
+    if (mode && !state.editing) { setEditing(true); return; }
+    render();
+    renderPanel();
+  }
+  drawToggle.addEventListener('click', function () { setDraw(state.draw ? null : 'wall'); });
   document.getElementById('undoBtn').addEventListener('click', undo);
   document.getElementById('redoBtn').addEventListener('click', redo);
 
@@ -1494,7 +1750,10 @@
   stage.addEventListener('pointerdown', function (e) {
     if (e.target.closest('.panel') || e.target.closest('.note')) return;
 
+    if (state.draw && e.button !== 1 && !spaceDown) { startDraw(e); return; }
+
     if (state.editing && e.button !== 1 && !spaceDown) {
+      if (e.target.closest('.grp-handle')) { startSelRotate(e); return; }
       var handle = e.target.closest('.zone-handle');
       if (handle) {
         var hz = handle.getAttribute('data-zid');
@@ -1547,7 +1806,8 @@
     }
     if (typing) return;
     if (e.key === 'e' || e.key === 'E') { setEditing(!state.editing); return; }
-    if (e.key === 'Escape') { select(null, false); selectZone(null); closeMenus(null); return; }
+    if (e.key === 'd' || e.key === 'D') { setDraw(state.draw ? null : 'wall'); return; }
+    if (e.key === 'Escape') { if (state.draw) { setDraw(null); return; } select(null, false); selectZone(null); closeMenus(null); return; }
     if (state.editing && state.sel.length) {
       var step = e.shiftKey ? state.snap * 5 : state.snap;
       if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-step, 0); }
