@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TownHall CLE — Combined Floor Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1B16;
+    --muted: #6B6B60;
+    --faint: #9C9C90;
+    --line: #E7E3D6;
+    --bg: #FBFAF6;
+    --card: #FFFFFF;
+    --accent: #33593F;
+    --accent-dark: #23402C;
+    --accent-soft: #EAF1EA;
+    --warn: #9A5B12;
+    --warn-soft: #FBF0DE;
+
+    --floor: #D9D9E0;
+    --wall: #333333;
+    --table-fill: #FFFFFF;
+    --table-line: #6E6E6E;
+
+    --z-patio: #33593F;
+    --z-cafe: #9A5B12;
+    --z-main: #3B5470;
+  }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  * { box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; margin: 0; font-weight: 600; }
+  button, input { font-family: inherit; font: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  header {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px 26px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { font-size: 21px; line-height: 1.2; }
+  header .sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-left: auto; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    border-radius: 999px; padding: 6px 13px; font-size: 12.5px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-dark); }
+  .chip .dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+  .chip .n { font-size: 11px; color: var(--faint); font-weight: 500; }
+  .chip[aria-pressed="true"] .n { color: var(--accent-dark); opacity: .8; }
+
+  .search { border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; font-size: 13px; width: 190px; background: var(--card); }
+  .zoombtn { border: 1px solid var(--line); background: var(--card); border-radius: 8px; width: 32px; height: 32px; font-size: 15px; color: var(--muted); line-height: 1; }
+
+  .stage { position: relative; height: calc(100vh - 78px); min-height: 460px; overflow: hidden; background: var(--bg); cursor: grab; }
+  .stage.dragging { cursor: grabbing; }
+  svg { display: block; width: 100%; height: 100%; touch-action: none; }
+
+  .zone-fill { fill: var(--floor); }
+  .wall { fill: var(--wall); }
+  .wall-line { stroke: var(--wall); stroke-width: 6; fill: none; }
+  .edge-open { fill: none; stroke: var(--wall); stroke-width: 5; stroke-dasharray: 16 12; opacity: .45; }
+
+  .zone-title { font-family: 'Fraunces', Georgia, serif; font-size: 40px; font-weight: 600; }
+  .zone-sub { font-size: 19px; fill: var(--faint); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+
+  .table-shape { fill: var(--table-fill); stroke: var(--table-line); stroke-width: 5; }
+  .table-label { font-size: 32px; font-weight: 500; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .tbl { cursor: pointer; }
+  .tbl:hover .table-shape { stroke-width: 8; }
+  .tbl.sel .table-shape { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 9; }
+  .tbl.dim { opacity: .18; }
+  .tbl.unlabeled .table-shape { stroke-width: 8; stroke: #3A3A3A; fill: #CFCFD6; }
+
+  .fixture rect { fill: none; stroke: var(--table-line); stroke-width: 4; stroke-dasharray: 7 6; }
+  .fixture.solid rect { stroke-dasharray: none; stroke-width: 8; stroke: var(--wall); }
+  .fixture text { font-size: 28px; fill: #3A3A34; text-anchor: middle; dominant-baseline: central; }
+
+  .zone-dim { opacity: .12; pointer-events: none; }
+
+  .detail {
+    position: absolute; left: 18px; bottom: 18px; width: 244px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 15px; box-shadow: 0 6px 22px rgba(27,27,22,.09);
+  }
+  .detail .big { font-family: 'Fraunces', Georgia, serif; font-size: 26px; font-weight: 600; margin: 3px 0 5px; }
+  .detail .meta { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+  .detail .zbadge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .detail .zbadge .dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  .note {
+    position: absolute; right: 18px; top: 18px; max-width: 320px;
+    background: var(--warn-soft); border: 1px solid #EBD9B6; color: #6D461A;
+    border-radius: 10px; padding: 11px 13px; font-size: 11.5px; line-height: 1.55;
+  }
+  .note b { color: var(--warn); }
+  .note button { background: none; border: 0; color: #6D461A; text-decoration: underline; padding: 0; font-size: 11.5px; margin-top: 5px; }
+
+  @media (max-width: 760px) {
+    .controls { margin-left: 0; width: 100%; }
+    .search { flex: 1; width: auto; }
+    .note { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="eyebrow">TownHall CLE</div>
+    <h1>Combined Floor Plan</h1>
+    <div class="sub">Patio · Cafe · Main Dining Room — merged into one plan</div>
+  </div>
+  <div class="controls" id="controls">
+    <input class="search" id="search" type="search" placeholder="Find a table (e.g. 63, C4)" aria-label="Find a table">
+    <button class="zoombtn" id="zoomOut" title="Zoom out" aria-label="Zoom out">−</button>
+    <button class="zoombtn" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+    <button class="zoombtn" id="zoomFit" title="Fit to screen" aria-label="Fit to screen">⤢</button>
+  </div>
+</header>
+
+<div class="stage" id="stage">
+  <svg id="plan" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Combined floor plan of the patio, cafe and main dining room">
+    <g id="viewport"></g>
+  </svg>
+
+  <div class="detail" id="detail" hidden>
+    <div class="zbadge" id="dZone"><span class="dot"></span><span></span></div>
+    <div class="big" id="dName">—</div>
+    <div class="meta" id="dMeta"></div>
+  </div>
+
+  <div class="note" id="note">
+    <b>Schematic, not to scale.</b> The three plans were traced from separate screenshots that share no common
+    dimension, so each area keeps its own internal layout and they are positioned by adjacency (bar/cafe side of the
+    patio), not by surveyed measurements. Dashed room edges continue past the source image — the cafe screenshot was
+    cropped on the right, so any cafe seating east of C20/C21 is not represented. No seat counts were in the sources.
+    <br><button id="noteClose">Dismiss</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  /* ------------------------------------------------------------------
+     Plan data.
+     Each zone holds geometry in the coordinate space of its own source
+     screenshot; `ox`/`oy` place that space on the shared canvas.
+     ------------------------------------------------------------------ */
+  var ZONES = [
+    {
+      id: 'patio', name: 'Patio', color: 'var(--z-patio)', ox: 60, oy: 110,
+      title: { x: 85, y: -76 },
+      /* L-shaped room: wide north band + west column down to the patio bar */
+      room: 'M85,70 H1815 V700 H655 V1130 H85 Z',
+      walls: [
+        { x: 600, y: 105, w: 28, h: 332 },
+        { x: 982, y: 105, w: 28, h: 332 },
+        { x: 1477, y: 105, w: 28, h: 332 }
+      ],
+      wallLines: [
+        'M640,108 H980', 'M1012,108 H1475', 'M1515,108 H1810'
+      ],
+      fixtures: [
+        { label: 'Fireplace', x: 128, y: 800, w: 218, h: 88, solid: true },
+        { label: 'Patio Bar', x: 128, y: 1015, w: 240, h: 78, solid: true }
+      ],
+      tables: [
+        { id: '73', shape: 'circle', cx: 211, cy: 176, r: 58 },
+        { id: '72', shape: 'circle', cx: 369, cy: 176, r: 58 },
+        { id: '71', shape: 'circle', cx: 527, cy: 176, r: 57 },
+        { id: '68', shape: 'rect', x: 695, y: 118, w: 113, h: 113 },
+        { id: '67', shape: 'rect', x: 826, y: 118, w: 120, h: 115 },
+        { id: '66', shape: 'rect', x: 1015, y: 113, w: 110, h: 120 },
+        { id: '65', shape: 'rect', x: 1141, y: 116, w: 118, h: 118 },
+        { id: '64', shape: 'rect', x: 1259, y: 116, w: 110, h: 118 },
+        { id: '63', shape: 'rect', x: 1369, y: 116, w: 108, h: 118 },
+        { id: '62', shape: 'rect', x: 1547, y: 116, w: 118, h: 118 },
+        { id: '61', shape: 'rect', x: 1682, y: 116, w: 118, h: 118 },
+        { id: '53', shape: 'rect', x: 1119, y: 565, w: 120, h: 120 },
+        { id: '52', shape: 'rect', x: 1276, y: 565, w: 120, h: 120 },
+        { id: '51', shape: 'rect', x: 1616, y: 565, w: 120, h: 120 },
+        { id: '85', shape: 'rect', x: 131, y: 679, w: 72, h: 72 },
+        { id: '84', shape: 'rect', x: 220, y: 679, w: 72, h: 72 },
+        { id: '81', shape: 'rect', x: 487, y: 700, w: 123, h: 208 },
+        { id: '82', shape: 'rect', x: 488, y: 913, w: 100, h: 100, rot: 45 },
+        { id: '83', shape: 'rect', x: 398, y: 980, w: 100, h: 100, rot: 45 }
+      ]
+    },
+
+    {
+      id: 'main', name: 'Main Dining Room', color: 'var(--z-main)', ox: 700, oy: 1330,
+      title: { x: 40, y: -76 },
+      /* Source screenshot is cropped on all four sides — boundary is approximate */
+      room: 'M40,20 H1860 V1200 H40 Z',
+      roomApprox: true,
+      walls: [
+        { x: 167, y: 240, w: 1225, h: 33 }
+      ],
+      wallLines: [],
+      fixtures: [
+        { label: 'Bar', x: 730, y: 155, w: 230, h: 65 },
+        { label: 'Door', x: 935, y: 1120, w: 120, h: 50 },
+        { label: 'Host', x: 1068, y: 1075, w: 147, h: 95, solid: true }
+      ],
+      tables: [
+        { id: '15', shape: 'rect', x: 168, y: 468, w: 120, h: 387 },
+        { id: '31', shape: 'rect', x: 348, y: 490, w: 279, h: 118 },
+        { id: '21', shape: 'rect', x: 348, y: 692, w: 279, h: 118 },
+        { id: '32', shape: 'circle', cx: 791, cy: 543, r: 57 },
+        { id: '33', shape: 'circle', cx: 969, cy: 543, r: 57 },
+        { id: '34', shape: 'circle', cx: 1150, cy: 543, r: 57 },
+        { id: '35', shape: 'circle', cx: 1330, cy: 543, r: 57 },
+        { id: '22', shape: 'circle', cx: 768, cy: 752, r: 58 },
+        { id: '23', shape: 'circle', cx: 1060, cy: 752, r: 58 },
+        { id: '24', shape: 'rect', x: 1260, y: 722, w: 230, h: 105, rot: -40 },
+        { id: '25', shape: 'rect', x: 1395, y: 822, w: 230, h: 105, rot: -40 },
+        { id: '45', shape: 'rect', x: 1720, y: 62, w: 120, h: 96 },
+        { id: '44', shape: 'rect', x: 1720, y: 175, w: 120, h: 96 },
+        { id: '43', shape: 'rect', x: 1720, y: 378, w: 120, h: 96 },
+        { id: '42', shape: 'rect', x: 1720, y: 490, w: 120, h: 97 },
+        { id: '41', shape: 'rect', x: 1720, y: 602, w: 120, h: 96 },
+        { id: '16', shape: 'rect', x: 56, y: 1008, w: 121, h: 115 },
+        { id: '14', shape: 'rect', x: 212, y: 1008, w: 122, h: 115 },
+        { id: '13', shape: 'rect', x: 371, y: 1008, w: 186, h: 115 },
+        { id: '12', shape: 'rect', x: 596, y: 1008, w: 120, h: 115 },
+        { id: '11', shape: 'rect', x: 752, y: 1005, w: 166, h: 123 },
+        { id: '26', shape: 'rect', x: 1315, y: 1075, w: 122, h: 115 },
+        /* Unnumbered in the source plan — kept so the layout stays honest */
+        { shape: 'rect', x: 57,  y: 445, w: 56,  h: 460, unlabeled: true, note: 'Unnumbered divider / rail' },
+        { shape: 'rect', x: 865, y: 715, w: 102, h: 100, unlabeled: true, note: 'Unnumbered square' },
+        { shape: 'rect', x: 1718, y: 290, w: 127, h: 70, unlabeled: true, note: 'Unnumbered square' }
+      ]
+    },
+
+    {
+      id: 'cafe', name: 'Cafe', color: 'var(--z-cafe)', ox: 2620, oy: 1230,
+      title: { x: 85, y: -76 },
+      /* Source screenshot is cropped on the right — east edge is open */
+      room: 'M80,15 H790 V1195 H80 Z',
+      openEdges: ['M790,15 V1195'],
+      walls: [
+        { x: 95, y: 1005, w: 142, h: 47 },
+        { x: 700, y: 645, w: 90, h: 275 }
+      ],
+      wallPaths: [ 'M408,30 H575 V250 H790 V380 H408 Z' ],
+      wallLines: [],
+      fixtures: [],
+      tables: [
+        { id: 'C1', shape: 'rect', x: 95, y: 35, w: 142, h: 142 },
+        { id: 'C2', shape: 'rect', x: 95, y: 215, w: 142, h: 145 },
+        { id: 'C3', shape: 'rect', x: 95, y: 375, w: 142, h: 140 },
+        { id: 'C4', shape: 'rect', x: 95, y: 530, w: 142, h: 142 },
+        { id: 'C5', shape: 'rect', x: 95, y: 685, w: 142, h: 143 },
+        { id: 'C6', shape: 'rect', x: 95, y: 845, w: 142, h: 140 },
+        { id: 'C7', shape: 'rect', x: 95, y: 1070, w: 97, h: 100 },
+        { id: 'C20', shape: 'circle', cx: 490, cy: 568, r: 82 },
+        { id: 'C21', shape: 'circle', cx: 603, cy: 748, r: 82 },
+        { id: 'C10', shape: 'circle', cx: 558, cy: 973, r: 58 },
+        { id: 'C8', shape: 'circle', cx: 334, cy: 1108, r: 58 },
+        { id: 'C9', shape: 'circle', cx: 490, cy: 1108, r: 58 }
+      ]
+    }
+  ];
+
+  var CANVAS = { w: 3520, h: 2620 };
+
+  /* ---------------------------------- render ---------------------------------- */
+
+  function el(name, attrs, parent) {
+    var n = document.createElementNS(SVG_NS, name);
+    for (var k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+
+  var svg = document.getElementById('plan');
+  var viewport = document.getElementById('viewport');
+  var index = {};      // searchable id -> { zone, table, node }
+  var zoneNodes = {};
+
+  function tableCenter(t) {
+    if (t.shape === 'circle') return { x: t.cx, y: t.cy };
+    return { x: t.x + t.w / 2, y: t.y + t.h / 2 };
+  }
+
+  function drawZone(zone) {
+    var g = el('g', { transform: 'translate(' + zone.ox + ',' + zone.oy + ')', 'data-zone': zone.id }, viewport);
+    zoneNodes[zone.id] = g;
+
+    el('path', { d: zone.room, class: 'zone-fill' }, g);
+    if (zone.roomApprox) {
+      el('path', { d: zone.room, class: 'edge-open' }, g);
+    } else {
+      el('path', { d: zone.room, fill: 'none', stroke: 'var(--wall)', 'stroke-width': 28, 'stroke-linejoin': 'miter' }, g);
+    }
+
+    (zone.openEdges || []).forEach(function (d) {
+      el('path', { d: d, fill: 'none', style: 'stroke:var(--bg);stroke-width:34' }, g);
+      el('path', { d: d, class: 'edge-open' }, g);
+    });
+
+    (zone.wallPaths || []).forEach(function (d) { el('path', { d: d, class: 'wall' }, g); });
+    (zone.walls || []).forEach(function (w) { el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, class: 'wall' }, g); });
+    (zone.wallLines || []).forEach(function (d) { el('path', { d: d, class: 'wall-line' }, g); });
+
+    (zone.fixtures || []).forEach(function (f) {
+      var fg = el('g', { class: 'fixture' + (f.solid ? ' solid' : '') }, g);
+      el('rect', { x: f.x, y: f.y, width: f.w, height: f.h, rx: 3 }, fg);
+      if (f.solid) {
+        el('rect', { x: f.x + 12, y: f.y + 12, width: f.w - 24, height: f.h - 24, rx: 2,
+                     stroke: 'var(--table-line)', 'stroke-width': 3, 'stroke-dasharray': '7 6', fill: 'none' }, fg);
+      }
+      var t = el('text', { x: f.x + f.w / 2, y: f.y + f.h / 2 }, fg);
+      t.textContent = f.label;
+    });
+
+    zone.tables.forEach(function (t) {
+      var c = tableCenter(t);
+      var key = t.id ? t.id.toUpperCase() : null;
+      var tg = el('g', {
+        class: 'tbl' + (t.unlabeled ? ' unlabeled' : ''),
+        role: 'button',
+        tabindex: t.unlabeled ? null : 0,
+        'aria-label': t.id ? (zone.name + ', table ' + t.id) : (zone.name + ', ' + (t.note || 'unlabeled element'))
+      }, g);
+
+      if (t.shape === 'circle') {
+        el('circle', { cx: t.cx, cy: t.cy, r: t.r, class: 'table-shape' }, tg);
+      } else {
+        el('rect', {
+          x: t.x, y: t.y, width: t.w, height: t.h, rx: 4, class: 'table-shape',
+          transform: t.rot ? 'rotate(' + t.rot + ',' + c.x + ',' + c.y + ')' : null
+        }, tg);
+      }
+
+      if (t.id) {
+        var lbl = el('text', { x: c.x, y: c.y, class: 'table-label' }, tg);
+        lbl.textContent = t.id;
+      }
+
+      if (key) index[key] = { zone: zone, table: t, node: tg, center: { x: c.x + zone.ox, y: c.y + zone.oy } };
+      tg.addEventListener('click', function () { select(key, false); });
+      tg.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(key, false); }
+      });
+    });
+
+    var ttl = el('text', { x: zone.title.x, y: zone.title.y, class: 'zone-title', fill: zone.color }, g);
+    ttl.textContent = zone.name;
+    var sub = el('text', { x: zone.title.x, y: zone.title.y + 36, class: 'zone-sub' }, g);
+    var n = zone.tables.filter(function (t) { return !!t.id; }).length;
+    sub.textContent = n + (n === 1 ? ' table' : ' tables');
+  }
+
+  svg.setAttribute('viewBox', '0 0 ' + CANVAS.w + ' ' + CANVAS.h);
+  ZONES.forEach(drawZone);
+
+  /* ---------------------------------- zone filter ---------------------------------- */
+
+  var activeZone = 'all';
+  var controls = document.getElementById('controls');
+  var search = document.getElementById('search');
+
+  function makeChip(id, label, count, color) {
+    var b = document.createElement('button');
+    b.className = 'chip';
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(activeZone === id));
+    b.dataset.zone = id;
+    b.innerHTML = (color ? '<span class="dot" style="background:' + color + '"></span>' : '') +
+                  '<span>' + label + '</span><span class="n">' + count + '</span>';
+    b.addEventListener('click', function () { setZone(id); });
+    controls.insertBefore(b, search);
+    return b;
+  }
+
+  var totalTables = ZONES.reduce(function (s, z) {
+    return s + z.tables.filter(function (t) { return !!t.id; }).length;
+  }, 0);
+  makeChip('all', 'All areas', totalTables, null);
+  ZONES.forEach(function (z) {
+    makeChip(z.id, z.name, z.tables.filter(function (t) { return !!t.id; }).length, z.color);
+  });
+
+  function setZone(id) {
+    activeZone = id;
+    Array.prototype.forEach.call(controls.querySelectorAll('.chip'), function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.zone === id));
+    });
+    ZONES.forEach(function (z) {
+      zoneNodes[z.id].classList.toggle('zone-dim', id !== 'all' && id !== z.id);
+    });
+    if (id !== 'all') { fitTo(ZONES.filter(function (z) { return z.id === id; })[0]); }
+    else { fitAll(); }
+  }
+
+  /* ---------------------------------- selection ---------------------------------- */
+
+  var selected = null;
+  var detail = document.getElementById('detail');
+
+  function select(key, centerOn) {
+    if (selected && index[selected]) index[selected].node.classList.remove('sel');
+    if (!key || !index[key]) { selected = null; detail.hidden = true; return; }
+    selected = key;
+    var rec = index[key];
+    rec.node.classList.add('sel');
+
+    document.getElementById('dName').textContent = 'Table ' + rec.table.id;
+    var zb = document.getElementById('dZone');
+    zb.querySelector('.dot').style.background = rec.zone.color;
+    zb.querySelector('span:last-child').textContent = rec.zone.name;
+
+    var t = rec.table;
+    var shape = t.shape === 'circle' ? 'Round' : (t.rot === 45 ? 'Square (on point)' : (t.rot ? 'Angled rectangle' : (Math.abs(t.w - t.h) < 12 ? 'Square' : 'Rectangle')));
+    document.getElementById('dMeta').textContent = shape + ' top. Position traced from the ' + rec.zone.name.toLowerCase() + ' plan.';
+    detail.hidden = false;
+
+    if (centerOn !== false) centerView(rec.center);
+  }
+
+  search.addEventListener('input', function () {
+    var q = search.value.trim().toUpperCase();
+    if (!q) { select(null); return; }
+    if (index[q]) { select(q, true); return; }
+    var hit = Object.keys(index).filter(function (k) { return k.indexOf(q) === 0; })[0];
+    if (hit) select(hit, true); else select(null);
+  });
+
+  /* ---------------------------------- pan & zoom ---------------------------------- */
+
+  var view = { x: 0, y: 0, w: CANVAS.w, h: CANVAS.h };
+  var stage = document.getElementById('stage');
+
+  function applyView() {
+    svg.setAttribute('viewBox', view.x + ' ' + view.y + ' ' + view.w + ' ' + view.h);
+  }
+
+  function frame(x, y, w, h, pad) {
+    pad = pad || 0.06;
+    var r = stage.clientWidth / stage.clientHeight;
+    var px = w * pad, py = h * pad;
+    x -= px; y -= py; w += px * 2; h += py * 2;
+    if (w / h < r) { var nw = h * r; x -= (nw - w) / 2; w = nw; }
+    else { var nh = w / r; y -= (nh - h) / 2; h = nh; }
+    view = { x: x, y: y, w: w, h: h };
+    applyView();
+  }
+
+  function zoneBounds(z) {
+    var b = zoneNodes[z.id].getBBox();
+    return { x: b.x + z.ox, y: b.y + z.oy, w: b.width, h: b.height };
+  }
+  function fitTo(z) { var b = zoneBounds(z); frame(b.x, b.y, b.w, b.h, 0.08); }
+  function fitAll() { frame(0, 0, CANVAS.w, CANVAS.h, 0.02); }
+
+  function centerView(pt) {
+    view.x = pt.x - view.w / 2;
+    view.y = pt.y - view.h / 2;
+    applyView();
+  }
+
+  function zoomBy(factor, cx, cy) {
+    var nw = Math.min(CANVAS.w * 2.2, Math.max(CANVAS.w * 0.06, view.w * factor));
+    var scale = nw / view.w;
+    var nh = view.h * scale;
+    view.x = cx - (cx - view.x) * scale;
+    view.y = cy - (cy - view.y) * scale;
+    view.w = nw; view.h = nh;
+    applyView();
+  }
+
+  function toPlan(clientX, clientY) {
+    var r = stage.getBoundingClientRect();
+    return {
+      x: view.x + (clientX - r.left) / r.width * view.w,
+      y: view.y + (clientY - r.top) / r.height * view.h
+    };
+  }
+
+  stage.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    var p = toPlan(e.clientX, e.clientY);
+    zoomBy(e.deltaY > 0 ? 1.14 : 1 / 1.14, p.x, p.y);
+  }, { passive: false });
+
+  var drag = null;
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.detail') || e.target.closest('.note')) return;
+    drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
+    stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var r = stage.getBoundingClientRect();
+    view.x = drag.vx - (e.clientX - drag.x) / r.width * view.w;
+    view.y = drag.vy - (e.clientY - drag.y) / r.height * view.h;
+    applyView();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    stage.addEventListener(ev, function () { drag = null; stage.classList.remove('dragging'); });
+  });
+
+  document.getElementById('zoomIn').addEventListener('click', function () { zoomBy(1 / 1.3, view.x + view.w / 2, view.y + view.h / 2); });
+  document.getElementById('zoomOut').addEventListener('click', function () { zoomBy(1.3, view.x + view.w / 2, view.y + view.h / 2); });
+  document.getElementById('zoomFit').addEventListener('click', function () { setZone('all'); });
+  document.getElementById('noteClose').addEventListener('click', function () { document.getElementById('note').remove(); });
+
+  window.addEventListener('resize', function () {
+    if (activeZone === 'all') fitAll();
+    else fitTo(ZONES.filter(function (z) { return z.id === activeZone; })[0]);
+  });
+
+  fitAll();
+})();
+</script>
+</body>
+</html>
