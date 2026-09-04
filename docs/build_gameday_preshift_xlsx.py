@@ -247,8 +247,13 @@ r = checks(r, [
 ])
 r += 1
 
-for l, rt in [("IS STAFF IN UNIFORM?   YES / NO", "SERVERS HAVE WINE KEY & LIGHTER?   YES / NO"),
-              ("ID'ING EVERYONE UNDER 40?   YES / NO", "TVs & GAME FEED TESTED?   YES / NO")]:
+band(r, 1, 7, "UNIFORM CHECK", B12, LEFT, fill=GREY, height=18)
+r += 1
+r = checks(r, ["OSU body suit and / or polo", "Eye black", "Glitter", "Ribbon", "Hair", "Makeup done", "Hair done", "Gentlemen have a belt on"])
+r += 1
+
+for l, rt in [("SERVERS HAVE WINE KEY & LIGHTER?   YES / NO", "ID'ING EVERYONE UNDER 40?   YES / NO"),
+              ("TVs & GAME FEED TESTED?   YES / NO", "BAR PAR DOUBLED FOR POST-GAME?   YES / NO")]:
     band(r, 1, 3, l, B12, CEN, border=BOX, height=20)
     band(r, 4, 7, rt, B12, CEN, border=BOX)
     r += 1

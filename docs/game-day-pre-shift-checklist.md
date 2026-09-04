@@ -177,7 +177,18 @@ Work this in order. Do not delegate the first two.
 - [ ] **Cash on hand** for a bar that will run cash all night.
 - [ ] **Door, patio and line plan.** Where the wait forms, who holds it, and how they are talking to it.
 
-**Yes / No before doors:** Is staff in uniform? · Servers have wine key & lighter? · ID'ing everyone under 40? · Bar par doubled for post-game?
+### Uniform check
+
+- [ ] OSU body suit and / or polo
+- [ ] Eye black
+- [ ] Glitter
+- [ ] Ribbon
+- [ ] Hair
+- [ ] Makeup done
+- [ ] Hair done
+- [ ] Gentlemen have a belt on
+
+**Yes / No before doors:** Servers have wine key & lighter? · ID'ing everyone under 40? · TVs & game feed tested? · Bar par doubled for post-game?
 
 **\*\*REMIND STAFF TO TEXT FRIENDS TO COME VISIT\*\***
 
