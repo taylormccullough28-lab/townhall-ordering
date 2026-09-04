@@ -22,7 +22,7 @@
     --warn-soft: #FBF0DE;
     --danger: #A32B2B;
 
-    --floor: #D9D9E0;
+    --floor: #F1F1F5;
     --wall: #333333;
     --table-fill: #FFFFFF;
     --table-line: #6E6E6E;
@@ -89,6 +89,7 @@
   svg.plan { display: block; width: 100%; height: 100%; touch-action: none; }
 
   .zone-fill { fill: var(--floor); }
+  .zone-fill.plain { fill: transparent; pointer-events: all; }
   .wall { fill: var(--wall); }
   .wall-line { stroke: var(--wall); stroke-width: 6; fill: none; }
   .edge-open { fill: none; stroke: var(--wall); stroke-width: 5; stroke-dasharray: 16 12; opacity: .45; }
@@ -122,7 +123,7 @@
   .item.draw .shape { fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .item.draw .draw-wall { stroke: var(--wall); }
   .item.draw .draw-pen { stroke: #B4532A; }
-  .item.draw .draw-hit { fill: none; stroke: transparent; stroke-width: 46; }
+  .item.draw .draw-hit { fill: none; stroke: transparent; }
   .item.draw.sel .shape { stroke: var(--accent); }
   .grp-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
   .grp-stem { stroke: var(--accent); stroke-width: 4; pointer-events: none; }
@@ -169,6 +170,20 @@
   /* -------------------------------- print -------------------------------- */
   #printRoot { display: none; }
 
+  .staff {
+    border-bottom: 1px solid var(--line); background: var(--card);
+    padding: 10px 20px 12px; display: none;
+  }
+  .staff.on { display: block; }
+  .staff .cols { display: flex; flex-wrap: wrap; gap: 6px 34px; }
+  .staff .col { min-width: 128px; }
+  .staff .ln {
+    font-size: 12px; line-height: 1.75; color: var(--ink); font-weight: 600;
+    border-bottom: 1px dotted var(--line); min-width: 118px; outline: none;
+  }
+  .staff .ln:focus { background: var(--accent-soft); }
+  .staff .cap { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: 4px; }
+
   @media print {
     :root {
       --floor: #FFFFFF; --wall: #000000; --table-fill: #FFFFFF; --table-line: #000000;
@@ -191,6 +206,10 @@
     .print-legend { border-top: .6pt solid #999; margin-top: 5pt; padding-top: 4pt; font-size: 8pt; color: #333; line-height: 1.5; }
     .print-legend b { color: #000; }
     .print-legend .cols { column-count: 4; column-gap: 14pt; margin-top: 3pt; }
+    .print-staff { border-bottom: 1pt solid #000; padding-bottom: 5pt; margin-bottom: 6pt; }
+    .print-staff .cols { display: flex; gap: 26pt; }
+    .print-staff .ln { font-size: 8.5pt; line-height: 1.85; font-weight: 700; border-bottom: .5pt dotted #666; min-width: 92pt; }
+    .print-page.has-staff { height: 168mm; }
     .print-swatch { display: inline-block; width: 9pt; height: 9pt; border: .8pt solid #000; vertical-align: -1pt; margin-right: 3pt; }
     .print-swatch.hatched { background: repeating-linear-gradient(45deg,#000,#000 .7pt,#fff .7pt,#fff 2.4pt); }
     .print-swatch.dashed { border-style: dashed; }
@@ -217,13 +236,14 @@
   <div>
     <div class="eyebrow">TownHall Columbus</div>
     <h1>Combined Floor Plan</h1>
-    <div class="sub">Patio · Cafe · Main Dining Room — one editable, printable plan</div>
+    <div class="sub">Cafe · Dining Room · Patio — rebuilt from the 8.8.26 plan</div>
   </div>
   <div class="controls" id="controls">
     <input class="search" id="search" type="search" placeholder="Find a table (e.g. 63, C4)" aria-label="Find a table">
     <span class="divider"></span>
     <button class="tool" id="editToggle" type="button" aria-pressed="false" title="Toggle edit mode (E)">✎ Edit</button>
     <button class="tool" id="drawToggle" type="button" aria-pressed="false" title="Draw walls and notes (D)">✏ Draw</button>
+    <button class="tool" id="staffToggle" type="button" aria-pressed="false" title="Show the staffing sheet">☰ Staff</button>
     <button class="tool icon" id="undoBtn" type="button" title="Undo (Ctrl+Z)" disabled>↺</button>
     <button class="tool icon" id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)" disabled>↻</button>
     <span class="divider"></span>
@@ -239,6 +259,7 @@
         <label><input type="radio" name="pscope" value="current"><span>Current selection<small>Just the area filtered on screen</small></span></label>
         <hr>
         <label><input type="checkbox" id="pList" checked><span>Include table list &amp; key</span></label>
+        <label><input type="checkbox" id="pStaff" checked><span>Include pre-shift assignments</span></label>
         <div class="row">
           <button class="tool" id="printCancel" type="button">Cancel</button>
           <button class="tool primary" id="printGo" type="button">Print</button>
@@ -259,14 +280,16 @@
   </div>
 </header>
 
+<div class="staff" id="staff"></div>
+
 <div class="stage" id="stage">
   <svg class="plan" id="plan" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Combined floor plan of the patio, cafe and main dining room"></svg>
   <aside class="panel" id="panel" hidden></aside>
   <div class="note" id="note">
-    <b>Schematic, not to scale.</b> The three plans were traced from separate screenshots that share no common
-    dimension, so each area keeps its own internal layout and they are positioned by adjacency, not by surveyed
-    measurements. Dashed room edges continue past the source image — the cafe screenshot was cropped on the right,
-    so any cafe seating east of C20/C21 is not represented.
+    <b>Rebuilt from “Floor Plan Main &amp; Patio 8.8.26”.</b> Every table, wall, door and fixture is traced from
+    that sheet at its own proportions — the sheet carries no dimensions, so this is not survey-accurate.
+    <b>Tables 51, 52 and 53 are new</b>: they are not on the 8.8.26 sheet, so I placed them in the open run
+    between 66 and 67. Drag them wherever they actually sit.
     <br><button id="noteClose" type="button">Dismiss</button>
   </div>
   <div class="toast" id="toast"></div>
@@ -279,7 +302,7 @@
   'use strict';
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
-  var STORE_KEY = 'townhall-floorplan-v1';
+  var STORE_KEY = 'townhall-floorplan-v2';
 
   /* ==================================================================
      Plan data.
@@ -292,117 +315,151 @@
            'object'  pillar / structural object, hatched, not counted
            'fixture' labelled feature (bar, fireplace, host stand, door)
      ================================================================== */
-  var DEFAULT_PLAN = {
-    version: 1,
-    zones: [
-      {
-        id: 'patio', name: 'Patio', color: '#33593F', ox: 60, oy: 110,
-        bounds: { x: 71, y: 56, w: 1758, h: 1088 },
-        rot: 0,
-        ext: { n: 0, s: 0, e: 0, w: 0 },
-        room: 'M85,70 L1815,70 L1815,700 L655,700 L655,1130 L85,1130 Z',
-        walls: [
-          { x: 600, y: 105, w: 28, h: 332 },
-          { x: 982, y: 105, w: 28, h: 332 },
-          { x: 1477, y: 105, w: 28, h: 332 }
-        ],
-        wallLines: ['M640,108 L980,108', 'M1012,108 L1475,108', 'M1515,108 L1810,108'],
-        items: [
-          { kind: 'table', id: '73', shape: 'circle', cx: 211, cy: 176, r: 58 },
-          { kind: 'table', id: '72', shape: 'circle', cx: 369, cy: 176, r: 58 },
-          { kind: 'table', id: '71', shape: 'circle', cx: 527, cy: 176, r: 57 },
-          { kind: 'table', id: '68', shape: 'rect', cx: 752, cy: 175, w: 113, h: 113 },
-          { kind: 'table', id: '67', shape: 'rect', cx: 886, cy: 176, w: 120, h: 115 },
-          { kind: 'table', id: '66', shape: 'rect', cx: 1070, cy: 173, w: 110, h: 120 },
-          { kind: 'table', id: '65', shape: 'rect', cx: 1200, cy: 175, w: 118, h: 118 },
-          { kind: 'table', id: '64', shape: 'rect', cx: 1314, cy: 175, w: 110, h: 118 },
-          { kind: 'table', id: '63', shape: 'rect', cx: 1423, cy: 175, w: 108, h: 118 },
-          { kind: 'table', id: '62', shape: 'rect', cx: 1606, cy: 175, w: 118, h: 118 },
-          { kind: 'table', id: '61', shape: 'rect', cx: 1741, cy: 175, w: 118, h: 118 },
-          { kind: 'table', id: '53', shape: 'rect', cx: 1179, cy: 625, w: 120, h: 120 },
-          { kind: 'table', id: '52', shape: 'rect', cx: 1336, cy: 625, w: 120, h: 120 },
-          { kind: 'table', id: '51', shape: 'rect', cx: 1676, cy: 625, w: 120, h: 120 },
-          { kind: 'table', id: '85', shape: 'rect', cx: 167, cy: 715, w: 72, h: 72 },
-          { kind: 'table', id: '84', shape: 'rect', cx: 256, cy: 715, w: 72, h: 72 },
-          { kind: 'table', id: '81', shape: 'rect', cx: 549, cy: 804, w: 123, h: 208 },
-          { kind: 'table', id: '82', shape: 'rect', cx: 538, cy: 963, w: 100, h: 100, rot: 45 },
-          { kind: 'table', id: '83', shape: 'rect', cx: 448, cy: 1030, w: 100, h: 100, rot: 45 },
-          { kind: 'fixture', name: 'Fireplace', shape: 'rect', cx: 237, cy: 844, w: 218, h: 88, style: 'solid' },
-          { kind: 'fixture', name: 'Patio Bar', shape: 'rect', cx: 248, cy: 1054, w: 240, h: 78, style: 'solid' }
-        ]
-      },
+  /* ==================================================================
+     Plan data, transcribed from "Floor Plan Main & Patio 8.8.26.docx".
 
-      {
-        id: 'main', name: 'Main Dining Room', color: '#3B5470', ox: 700, oy: 1330,
-        bounds: { x: 33, y: 13, w: 1834, h: 1194 },
-        rot: 0,
-        ext: { n: 0, s: 0, e: 0, w: 0 },
-        room: 'M40,20 L1860,20 L1860,1200 L40,1200 Z',
-        roomApprox: true,
-        walls: [{ x: 167, y: 240, w: 1225, h: 33 }],
-        wallLines: [],
-        items: [
-          { kind: 'table', id: '15', shape: 'rect', cx: 228, cy: 662, w: 120, h: 387 },
-          { kind: 'table', id: '31', shape: 'rect', cx: 488, cy: 549, w: 279, h: 118 },
-          { kind: 'table', id: '21', shape: 'rect', cx: 488, cy: 751, w: 279, h: 118 },
-          { kind: 'table', id: '32', shape: 'circle', cx: 791, cy: 543, r: 57 },
-          { kind: 'table', id: '33', shape: 'circle', cx: 969, cy: 543, r: 57 },
-          { kind: 'table', id: '34', shape: 'circle', cx: 1150, cy: 543, r: 57 },
-          { kind: 'table', id: '35', shape: 'circle', cx: 1330, cy: 543, r: 57 },
-          { kind: 'table', id: '22', shape: 'circle', cx: 768, cy: 752, r: 58 },
-          { kind: 'table', id: '23', shape: 'circle', cx: 1060, cy: 752, r: 58 },
-          { kind: 'table', id: '24', shape: 'rect', cx: 1375, cy: 775, w: 230, h: 105, rot: -40 },
-          { kind: 'table', id: '25', shape: 'rect', cx: 1510, cy: 875, w: 230, h: 105, rot: -40 },
-          { kind: 'table', id: '45', shape: 'rect', cx: 1780, cy: 110, w: 120, h: 96 },
-          { kind: 'table', id: '44', shape: 'rect', cx: 1780, cy: 223, w: 120, h: 96 },
-          { kind: 'table', id: '43', shape: 'rect', cx: 1780, cy: 426, w: 120, h: 96 },
-          { kind: 'table', id: '42', shape: 'rect', cx: 1780, cy: 539, w: 120, h: 97 },
-          { kind: 'table', id: '41', shape: 'rect', cx: 1780, cy: 650, w: 120, h: 96 },
-          { kind: 'table', id: '16', shape: 'rect', cx: 117, cy: 1066, w: 121, h: 115 },
-          { kind: 'table', id: '14', shape: 'rect', cx: 273, cy: 1066, w: 122, h: 115 },
-          { kind: 'table', id: '13', shape: 'rect', cx: 464, cy: 1066, w: 186, h: 115 },
-          { kind: 'table', id: '12', shape: 'rect', cx: 656, cy: 1066, w: 120, h: 115 },
-          { kind: 'table', id: '11', shape: 'rect', cx: 835, cy: 1067, w: 166, h: 123 },
-          { kind: 'table', id: '26', shape: 'rect', cx: 1376, cy: 1133, w: 122, h: 115 },
-          { kind: 'object', name: 'Column', shape: 'rect', cx: 85, cy: 675, w: 56, h: 460 },
-          { kind: 'object', name: 'Pillar', shape: 'rect', cx: 916, cy: 765, w: 102, h: 100 },
-          { kind: 'object', name: 'Pillar', shape: 'rect', cx: 1782, cy: 325, w: 127, h: 70 },
-          { kind: 'fixture', name: 'Bar', shape: 'rect', cx: 845, cy: 188, w: 230, h: 65 },
-          { kind: 'fixture', name: 'Door', shape: 'rect', cx: 995, cy: 1145, w: 120, h: 50 },
-          { kind: 'fixture', name: 'Host', shape: 'rect', cx: 1142, cy: 1123, w: 147, h: 95, style: 'solid' }
-        ]
-      },
+     One sheet, in the source drawing's own pixel coordinates. The three
+     areas are logical groupings that share those coordinates (ox/oy 0),
+     so an item's area is what it belongs to operationally, not merely
+     where it sits.
 
-      {
-        id: 'cafe', name: 'Cafe', color: '#9A5B12', ox: 2620, oy: 1230,
-        bounds: { x: 66, y: 1, w: 738, h: 1208 },
-        rot: 0,
-        ext: { n: 0, s: 0, e: 0, w: 0 },
-        room: 'M80,15 L790,15 L790,1195 L80,1195 Z',
-        openEdges: ['M790,15 L790,1195'],
-        wallPaths: ['M408,30 L575,30 L575,250 L790,250 L790,380 L408,380 Z'],
-        walls: [
-          { x: 95, y: 1005, w: 142, h: 47 },
-          { x: 700, y: 645, w: 90, h: 275 }
-        ],
-        wallLines: [],
-        items: [
-          { kind: 'table', id: 'C1', shape: 'rect', cx: 166, cy: 106, w: 142, h: 142 },
-          { kind: 'table', id: 'C2', shape: 'rect', cx: 166, cy: 288, w: 142, h: 145 },
-          { kind: 'table', id: 'C3', shape: 'rect', cx: 166, cy: 445, w: 142, h: 140 },
-          { kind: 'table', id: 'C4', shape: 'rect', cx: 166, cy: 601, w: 142, h: 142 },
-          { kind: 'table', id: 'C5', shape: 'rect', cx: 166, cy: 757, w: 142, h: 143 },
-          { kind: 'table', id: 'C6', shape: 'rect', cx: 166, cy: 915, w: 142, h: 140 },
-          { kind: 'table', id: 'C7', shape: 'rect', cx: 144, cy: 1120, w: 97, h: 100 },
-          { kind: 'table', id: 'C20', shape: 'circle', cx: 490, cy: 568, r: 82 },
-          { kind: 'table', id: 'C21', shape: 'circle', cx: 603, cy: 748, r: 82 },
-          { kind: 'table', id: 'C10', shape: 'circle', cx: 558, cy: 973, r: 58 },
-          { kind: 'table', id: 'C8', shape: 'circle', cx: 334, cy: 1108, r: 58 },
-          { kind: 'table', id: 'C9', shape: 'circle', cx: 490, cy: 1108, r: 58 }
-        ]
-      }
-    ]
-  };
+     kind: 'table'   numbered seating, counted and searchable
+           'object'  pillar / structural block, hatched, not counted
+           'fixture' labelled feature (bar, host stand, door, fireplace)
+           'draw'    a wall or freehand mark
+     ================================================================== */
+  function T(id, cx, cy, w, h, rot) {
+    return { kind: 'table', id: id, shape: 'rect', cx: cx, cy: cy, w: w, h: h, rot: rot || 0 };
+  }
+  function R(id, cx, cy, rx, ry) {            /* round / oval top */
+    return { kind: 'table', id: id, shape: 'circle', cx: cx, cy: cy, rx: rx, ry: ry };
+  }
+  function HALF(id, cx, cy, rx, ry) {         /* half-round against a rail */
+    return { kind: 'table', id: id, shape: 'semi', cx: cx, cy: cy, rx: rx, ry: ry };
+  }
+  function FIX(name, cx, cy, w, h, style) {
+    return { kind: 'fixture', name: name, shape: 'rect', cx: cx, cy: cy, w: w, h: h, style: style };
+  }
+  function OBJ(name, cx, cy, w, h) {
+    return { kind: 'object', name: name, shape: 'rect', cx: cx, cy: cy, w: w, h: h };
+  }
+  function WALL(pts, sw) {                    /* absolute points -> a wall */
+    var o = pts[0];
+    return { kind: 'draw', style: 'wall', shape: 'path', cx: o[0], cy: o[1], sw: sw || 5,
+             pts: pts.map(function (q) { return [q[0] - o[0], q[1] - o[1]]; }) };
+  }
+
+  function buildDefaultPlan() {
+    return {
+      version: 2,
+      sheet: { w: 1844, h: 1074 },
+      staffing: [
+        ['Barbacks:', 'Main Bar:', 'Dining Room:', 'Café:', 'Patio:', 'Patio Bar:', 'Restrooms:'],
+        ['Hosts:', 'Lead:', 'Runner:', 'Water/RR:'],
+        ['Baristas:', 'Lead:', 'Registers:', 'Coffee:', 'Smoothies:', 'Carryout:'],
+        ['Runners:', 'Food:', '100:', '200:']
+      ],
+      zones: [
+        {
+          id: 'cafe', name: 'Cafe', color: '#9A5B12', ox: 0, oy: 0, rot: 0,
+          ext: { n: 0, s: 0, e: 0, w: 0 },
+          bounds: { x: 0, y: 186, w: 306, h: 690 },
+          room: 'M8,190 L300,190 L300,876 L8,876 Z',
+          roomPlain: true,
+          titleAt: { x: 120, y: 372 },
+          walls: [], wallLines: [], wallPaths: [],
+          items: [
+            T('C1', 50, 251, 52, 53), T('C2', 50, 313, 52, 53), T('C3', 52, 375, 52, 53),
+            T('C4', 52, 441, 52, 53), T('C5', 50, 505, 52, 53), T('C6', 50, 573, 52, 53),
+            T('C7', 34, 756, 43, 74),
+            R('C8', 82, 831, 28, 21), R('C9', 151, 831, 27, 27), R('C10', 173, 757, 23, 27),
+            R('C20', 272, 486, 30, 28), R('C21', 248, 628, 30, 28),
+            FIX('Door', 251, 824, 108, 60),
+            FIX('', 31, 671, 54, 125),
+            WALL([[14, 190], [14, 607]], 5),
+            WALL([[6, 855], [300, 855]], 5)
+          ]
+        },
+
+        {
+          id: 'main', name: 'Dining Room', color: '#3B5470', ox: 0, oy: 0, rot: 0,
+          ext: { n: 0, s: 0, e: 0, w: 0 },
+          bounds: { x: 300, y: 4, w: 1086, h: 878 },
+          room: 'M300,290 L1205,290 L1205,8 L1382,8 L1382,880 L300,880 Z',
+          roomPlain: true,
+          titleAt: { x: 640, y: 372 },
+          walls: [], wallLines: [], wallPaths: [],
+          items: [
+            T('15', 471, 585, 76, 256),
+            T('31', 658, 487, 192, 60), T('21', 658, 649, 192, 60),
+            R('32', 858, 463, 32, 28), R('33', 973, 464, 32, 28),
+            R('34', 1092, 461, 32, 28), R('35', 1182, 457, 32, 28),
+            R('22', 852, 650, 32, 28), R('23', 1035, 643, 32, 28),
+            T('24', 1150, 661, 77, 170, 16),
+            T('25', 1283, 719, 77, 136, 29),
+            T('26', 1267, 845, 65, 52),
+            T('11', 886, 770, 78, 51), T('12', 730, 839, 71, 40),
+            T('13', 574, 837, 150, 40), T('14', 352, 831, 71, 41),
+            T('16', 267, 769, 77, 49),
+            T('41', 1350, 528, 52, 71), T('42', 1347, 396, 52, 65),
+            T('43', 1346, 287, 52, 61), T('44', 1345, 143, 53, 53),
+            T('45', 1346, 53, 52, 53),
+            OBJ('Column', 369, 585, 123, 256),
+            OBJ('Pillar', 946, 623, 102, 99),
+            OBJ('Pillar', 1347, 214, 52, 38),
+            FIX('Bar', 820, 175, 220, 60),
+            FIX('Door', 949, 827, 200, 60),
+            FIX('Host', 1100, 828, 101, 62, 'solid'),
+            WALL([[528, 287], [1138, 287], [1175, 274], [1194, 236], [1197, 20]], 5),
+            WALL([[1375, 20], [1375, 567]], 5),
+            WALL([[300, 855], [800, 855], [848, 800]], 5),
+            WALL([[1096, 873], [1304, 873]], 5)
+          ]
+        },
+
+        {
+          id: 'patio', name: 'Patio', color: '#33593F', ox: 0, oy: 0, rot: 0,
+          ext: { n: 0, s: 0, e: 0, w: 0 },
+          bounds: { x: 4, y: 466, w: 1840, h: 596 },
+          room: 'M1385,470 L1840,470 L1840,1058 L8,1058 L8,878 L1385,878 Z',
+          roomPlain: true,
+          titleAt: { x: 1400, y: 905 },
+          walls: [], wallLines: [], wallPaths: [],
+          items: [
+            T('61', 53, 970, 55, 102), T('62', 155, 970, 55, 102),
+            T('63', 402, 962, 58, 106), T('64', 563, 962, 56, 107),
+            T('65', 689, 962, 56, 106), T('66', 807, 960, 55, 102),
+            /* 51-53 carried over from the original patio plan */
+            T('51', 900, 962, 56, 104), T('52', 1000, 962, 56, 104), T('53', 1100, 962, 56, 104),
+            T('67', 1201, 970, 55, 102), T('68', 1293, 970, 55, 102),
+            HALF('71', 1501, 1006, 43, 35), HALF('72', 1631, 1006, 43, 35),
+            HALF('73', 1755, 1008, 43, 35),
+            T('81', 1391, 788, 61, 135, 12),
+            T('82', 1446, 633, 52, 52, 45), T('83', 1507, 572, 54, 54, 45),
+            T('84', 1634, 830, 53, 66), T('85', 1716, 828, 51, 65),
+            FIX('Patio bar', 1668, 534, 187, 64, 'solid'),
+            FIX('Drink Rail', 1667, 690, 169, 55, 'solid'),
+            FIX('fireplace', 1666, 756, 153, 66, 'solid'),
+            WALL([[7, 1032], [203, 1032]], 5),
+            WALL([[291, 1032], [966, 1032]], 5),
+            WALL([[1166, 1030], [1832, 1030]], 5)
+          ]
+        }
+      ]
+    };
+  }
+
+  /* Walls paint first, so tables sitting on them stay clickable. */
+  function wallsUnder(plan) {
+    plan.zones.forEach(function (z) {
+      var walls = z.items.filter(function (i) { return i.kind === 'draw'; });
+      var rest = z.items.filter(function (i) { return i.kind !== 'draw'; });
+      z.items = walls.concat(rest);
+    });
+    return plan;
+  }
+
+  var DEFAULT_PLAN = wallsUnder(buildDefaultPlan());
 
   /* ------------------------------- state ------------------------------- */
 
@@ -417,7 +474,12 @@
       if (z.wallPaths) z.wallPaths = z.wallPaths.map(function (d) { return polyToPath(parsePoly(d), true); });
       if (z.wallLines) z.wallLines = z.wallLines.map(function (d) { return polyToPath(parsePoly(d), false); });
       if (z.openEdges) z.openEdges = z.openEdges.map(function (d) { return polyToPath(parsePoly(d), false); });
-      z.items.forEach(function (it) { if (!it.uid) it.uid = 'i' + (uidSeq++); });
+      z.items.forEach(function (it) {
+        if (!it.uid) it.uid = 'i' + (uidSeq++);
+        if ((it.shape === 'circle' || it.shape === 'semi') && it.rx == null && it.r != null) {
+          it.rx = it.r; it.ry = it.r;
+        }
+      });
     });
     return plan;
   }
@@ -479,6 +541,7 @@
   function afterMutate(keepView) {
     save();
     syncHistoryButtons();
+    renderStaff();
     render();
     if (!keepView) applyView();
     renderPanel();
@@ -645,7 +708,7 @@
     var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
     var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
     var box = { x: z.ox + x0, y: z.oy + y0, w: x1 - x0, h: y1 - y0 };
-    if (withTitle) { box.y -= 96; box.h += 96; }
+    if (withTitle && !z.titleAt) { box.y -= 96; box.h += 96; }
     return box;
   }
   function unionBox(zones, withTitle, pad) {
@@ -673,7 +736,14 @@
       var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
       return { x: x0, y: y0, w: Math.max(x1 - x0, 1), h: Math.max(y1 - y0, 1) };
     }
-    if (it.shape === 'circle') return { x: it.cx - it.r, y: it.cy - it.r, w: it.r * 2, h: it.r * 2 };
+    if (it.shape === 'circle') {
+      var cr = it.rx || it.r, cq = it.ry || it.r;
+      return { x: it.cx - cr, y: it.cy - cq, w: cr * 2, h: cq * 2 };
+    }
+    if (it.shape === 'semi') {
+      var sr = it.rx || it.r, sq = it.ry || it.r;
+      return { x: it.cx - sr, y: it.cy, w: sr * 2, h: sq };
+    }
     if (it.rot) {
       var a = Math.abs(it.rot) * Math.PI / 180;
       var w = Math.abs(it.w * Math.cos(a)) + Math.abs(it.h * Math.sin(a));
@@ -701,9 +771,18 @@
       var rot = it.rot ? 'rotate(' + it.rot + ',' + it.cx + ',' + it.cy + ')' : null;
       el('path', { d: d, class: 'shape draw-' + (it.style || 'wall'),
                    style: 'stroke-width:' + (it.sw || 18), transform: rot }, ig);
-      el('path', { d: d, class: 'draw-hit', transform: rot }, ig);
+      el('path', { d: d, class: 'draw-hit', transform: rot,
+                   style: 'stroke-width:' + Math.max((it.sw || 18) * 2.2, 14) }, ig);
     } else if (it.shape === 'circle') {
-      el('circle', { cx: it.cx, cy: it.cy, r: it.r, class: 'shape' }, ig);
+      el('ellipse', { cx: it.cx, cy: it.cy, rx: it.rx || it.r, ry: it.ry || it.r, class: 'shape' }, ig);
+    } else if (it.shape === 'semi') {
+      var hx = it.rx || it.r, hy = it.ry || it.r;
+      el('path', {
+        d: 'M' + (it.cx - hx) + ',' + it.cy + ' L' + (it.cx + hx) + ',' + it.cy +
+           ' A' + hx + ',' + hy + ' 0 0 1 ' + (it.cx - hx) + ',' + it.cy + ' Z',
+        class: 'shape',
+        transform: it.rot ? 'rotate(' + it.rot + ',' + it.cx + ',' + it.cy + ')' : null
+      }, ig);
     } else {
       el('rect', {
         x: it.cx - it.w / 2, y: it.cy - it.h / 2, width: it.w, height: it.h, rx: 4, class: 'shape',
@@ -721,7 +800,8 @@
     if (it.kind === 'draw') text = '';
     if (text) {
       var hasSeats = it.kind === 'table' && it.seats > 0;
-      var t = el('text', { x: it.cx, y: it.cy + (hasSeats ? -13 : 0), class: 'lbl', transform: up }, ig);
+      var ly = it.shape === 'semi' ? it.cy - 20 : it.cy + (hasSeats ? -13 : 0);
+      var t = el('text', { x: it.cx, y: ly, class: 'lbl', transform: up }, ig);
       t.textContent = text;
       if (hasSeats) {
         var s = el('text', { x: it.cx, y: it.cy + 17, class: 'seats', transform: up }, ig);
@@ -741,8 +821,10 @@
     var g = el('g', { transform: zoneTransform(z), 'data-body': '1' }, outer);
 
     var roomD = stretchPath(z, z.room, true);
-    el('path', { d: roomD, class: 'zone-fill zone-hit' }, g);
-    if (z.roomApprox) {
+    el('path', { d: roomD, class: 'zone-fill zone-hit' + (z.roomPlain ? ' plain' : '') }, g);
+    if (z.roomPlain) {
+      /* nothing: this sheet's walls are real wall items, not a room outline */
+    } else if (z.roomApprox) {
       el('path', { d: roomD, class: 'edge-open' }, g);
     } else {
       el('path', { d: roomD, fill: 'none', stroke: 'var(--wall)', 'stroke-width': 28, 'stroke-linejoin': 'miter' }, g);
@@ -782,10 +864,12 @@
     /* Titles sit upright in canvas space, above the area's rotated footprint. */
     if (opts.titles) {
       var box = zoneBox(z, false);
+      var tx = z.titleAt ? z.titleAt.x : box.x;
+      var ty = z.titleAt ? z.titleAt.y : box.y - 46;
       var tg = el('g', null, outer);
-      var ttl = el('text', { x: box.x, y: box.y - 46, class: 'zone-title', fill: z.color }, tg);
+      var ttl = el('text', { x: tx, y: ty, class: 'zone-title', fill: z.color }, tg);
       ttl.textContent = z.name;
-      var sub = el('text', { x: box.x, y: box.y - 10, class: 'zone-sub' }, tg);
+      var sub = el('text', { x: tx, y: ty + 36, class: 'zone-sub' }, tg);
       var n = tableCount(z);
       sub.textContent = n + (n === 1 ? ' table' : ' tables') + ((z.rot || 0) ? ' · turned ' + Math.round(z.rot) + '°' : '');
     }
@@ -1046,7 +1130,8 @@
   }
 
   function shapeWord(it) {
-    if (it.shape === 'circle') return 'Round';
+    if (it.shape === 'semi') return 'Half-round';
+    if (it.shape === 'circle') return (it.rx === it.ry) ? 'Round' : 'Oval';
     if (it.rot === 45) return 'Square (on point)';
     if (it.rot) return 'Angled rectangle';
     return Math.abs(it.w - it.h) < 12 ? 'Square' : 'Rectangle';
@@ -1126,7 +1211,7 @@
     }
 
     var isTable = it2.kind === 'table';
-    var isCircle = it2.shape === 'circle';
+    var isCircle = it2.shape === 'circle' || it2.shape === 'semi';
     panel.innerHTML = head +
       '<hr style="border:0;border-top:1px solid var(--line);margin:12px 0">' +
       '<label class="field"><span>' + (isTable ? 'Table number' : 'Name') + '</span>' +
@@ -1138,12 +1223,15 @@
           '<option value="fixture"' + (it2.kind === 'fixture' ? ' selected' : '') + '>Label / fixture</option>' +
         '</select></label>' +
         '<label class="field"><span>Shape</span><select id="fShape">' +
-          '<option value="rect"' + (!isCircle ? ' selected' : '') + '>Rectangle</option>' +
-          '<option value="circle"' + (isCircle ? ' selected' : '') + '>Round</option>' +
+          '<option value="rect"' + (it2.shape === 'rect' ? ' selected' : '') + '>Rectangle</option>' +
+          '<option value="circle"' + (it2.shape === 'circle' ? ' selected' : '') + '>Round / oval</option>' +
+          '<option value="semi"' + (it2.shape === 'semi' ? ' selected' : '') + '>Half-round</option>' +
         '</select></label>' +
       '</div>' +
       (isCircle
-        ? '<div class="grid2"><label class="field"><span>Radius</span><input id="fR" type="number" min="8" step="1" value="' + Math.round(it2.r) + '"></label>' +
+        ? '<div class="grid2"><label class="field"><span>Width</span><input id="fRX" type="number" min="6" step="1" value="' + Math.round((it2.rx || it2.r) * 2) + '"></label>' +
+          '<label class="field"><span>Depth</span><input id="fRY" type="number" min="6" step="1" value="' + Math.round((it2.ry || it2.r) * 2) + '"></label></div>' +
+          '<div class="grid2"><label class="field"><span>Rotation°</span><input id="fRot" type="number" step="5" value="' + (it2.rot || 0) + '"></label>' +
           '<label class="field"><span>Seats</span><input id="fSeats" type="number" min="0" step="1" value="' + (it2.seats || '') + '"' + (isTable ? '' : ' disabled') + '></label></div>'
         : '<div class="grid2"><label class="field"><span>Width</span><input id="fW" type="number" min="10" step="1" value="' + Math.round(it2.w) + '"></label>' +
           '<label class="field"><span>Height</span><input id="fH" type="number" min="10" step="1" value="' + Math.round(it2.h) + '"></label></div>' +
@@ -1321,19 +1409,22 @@
     var shape = document.getElementById('fShape');
     if (shape) shape.addEventListener('change', function () {
       commit(function () {
-        if (shape.value === 'circle' && it.shape !== 'circle') {
-          it.r = Math.round(Math.min(it.w, it.h) / 2) || 58;
-          delete it.w; delete it.h; delete it.rot;
-          it.shape = 'circle';
-        } else if (shape.value === 'rect' && it.shape === 'circle') {
-          it.w = it.h = Math.round(it.r * 2) || 116;
-          delete it.r;
-          it.shape = 'rect';
+        var round = shape.value === 'circle' || shape.value === 'semi';
+        var wasRound = it.shape === 'circle' || it.shape === 'semi';
+        if (round && !wasRound) {
+          it.rx = Math.round(it.w / 2) || 30; it.ry = Math.round(it.h / 2) || 28;
+          delete it.w; delete it.h; delete it.r;
+        } else if (!round && wasRound) {
+          it.w = Math.round((it.rx || it.r) * 2) || 60;
+          it.h = Math.round((it.ry || it.r) * 2) || 56;
+          delete it.rx; delete it.ry; delete it.r;
         }
+        it.shape = shape.value;
       });
     });
 
-    onNum('fR', function (v) { it.r = Math.max(8, v); });
+    onNum('fRX', function (v) { it.rx = Math.max(3, v / 2); });
+    onNum('fRY', function (v) { it.ry = Math.max(3, v / 2); });
     onNum('fW', function (v) { it.w = Math.max(10, v); });
     onNum('fH', function (v) { it.h = Math.max(10, v); });
     onNum('fRot', function (v) { it.rot = ((v % 360) + 360) % 360 > 180 ? v % 360 : v % 360; });
@@ -1681,6 +1772,54 @@
     afterMutate(true);
   }
 
+  /* ------------------------- staffing sheet (prints) ------------------------- */
+
+  var staffEl = document.getElementById('staff');
+
+  function staffCols() {
+    return (state.plan.staffing && state.plan.staffing.length)
+      ? state.plan.staffing
+      : (DEFAULT_PLAN.staffing || []);
+  }
+
+  function renderStaff() {
+    staffEl.innerHTML = '<div class="cap">Pre-shift assignments</div><div class="cols">' +
+      staffCols().map(function (col, ci) {
+        return '<div class="col">' + col.map(function (line, li) {
+          return '<div class="ln" contenteditable="true" data-c="' + ci + '" data-l="' + li + '">' + esc(line) + '</div>';
+        }).join('') + '</div>';
+      }).join('') + '</div>';
+
+    Array.prototype.forEach.call(staffEl.querySelectorAll('.ln'), function (n) {
+      n.addEventListener('blur', function () {
+        var c = +n.getAttribute('data-c'), l = +n.getAttribute('data-l');
+        if (!state.plan.staffing) state.plan.staffing = staffCols().map(function (x) { return x.slice(); });
+        if (state.plan.staffing[c] && state.plan.staffing[c][l] !== n.textContent) {
+          state.plan.staffing[c][l] = n.textContent;
+          save();
+        }
+      });
+      n.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { ev.preventDefault(); n.blur(); } });
+    });
+  }
+
+  function staffHTML() {
+    return '<div class="print-staff"><div class="cols">' +
+      staffCols().map(function (col) {
+        return '<div>' + col.map(function (line) {
+          return '<div class="ln">' + esc(line) + '</div>';
+        }).join('') + '</div>';
+      }).join('') + '</div></div>';
+  }
+
+  var staffToggle = document.getElementById('staffToggle');
+  staffToggle.addEventListener('click', function () {
+    var on = !staffEl.classList.contains('on');
+    staffEl.classList.toggle('on', on);
+    staffToggle.setAttribute('aria-pressed', String(on));
+    fitCurrent();
+  });
+
   /* -------------------------------- printing -------------------------------- */
 
   var printRoot = document.getElementById('printRoot');
@@ -1708,10 +1847,10 @@
     return '<div class="print-legend">' + key + '<div class="cols">' + cols + '</div></div>';
   }
 
-  function makePage(zones, heading, count, withList, titles) {
+  function makePage(zones, heading, count, withList, titles, withStaff) {
     var sec = document.createElement('section');
-    sec.className = 'print-page';
-    sec.innerHTML =
+    sec.className = 'print-page' + (withStaff ? ' has-staff' : '');
+    sec.innerHTML = (withStaff ? staffHTML() : '') +
       '<div class="print-head"><h2>' + esc(heading) + '</h2>' +
       '<span class="pcount">' + count + (count === 1 ? ' table' : ' tables') + '</span>' +
       '<span class="pstamp">TownHall Columbus · Combined Floor Plan · ' + stamp() + '</span></div>';
@@ -1730,14 +1869,17 @@
   function buildPrint(scope, withList) {
     printRoot.innerHTML = '';
     var zones = state.plan.zones;
+    var staff = document.getElementById('pStaff').checked;
     if (scope === 'areas') {
-      zones.forEach(function (z) { printRoot.appendChild(makePage([z], z.name, tableCount(z), withList, false)); });
+      zones.forEach(function (z, i) {
+        printRoot.appendChild(makePage([z], z.name, tableCount(z), withList, false, staff && i === 0));
+      });
     } else if (scope === 'current' && state.activeZone !== 'all') {
       var z2 = zoneById(state.activeZone);
-      printRoot.appendChild(makePage([z2], z2.name, tableCount(z2), withList, false));
+      printRoot.appendChild(makePage([z2], z2.name, tableCount(z2), withList, false, staff));
     } else {
       var total = zones.reduce(function (s2, z3) { return s2 + tableCount(z3); }, 0);
-      printRoot.appendChild(makePage(zones, 'All areas', total, withList, true));
+      printRoot.appendChild(makePage(zones, 'All areas', total, withList, true, staff));
     }
     printed = true;
   }
@@ -1974,6 +2116,7 @@
 
   /* --------------------------------- init --------------------------------- */
   renderChips();
+  renderStaff();
   render();
   fitAll();
   syncHistoryButtons();
