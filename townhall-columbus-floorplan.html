@@ -100,8 +100,8 @@
   .item .shape { fill: var(--table-fill); stroke: var(--table-line); stroke-width: 5; }
   .item .lbl { font-size: 32px; font-weight: 500; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
   .item .seats { font-size: 19px; fill: var(--faint); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
-  .item.object .shape { fill: url(#hatch); stroke: var(--wall); stroke-width: 6; }
-  .item.fixture .shape { fill: none; stroke: var(--table-line); stroke-width: 4; stroke-dasharray: 7 6; }
+  .item.object .shape { fill: url(#hatch); stroke: var(--wall); stroke-width: 6; pointer-events: all; }
+  .item.fixture .shape { fill: none; stroke: var(--table-line); stroke-width: 4; stroke-dasharray: 7 6; pointer-events: all; }
   .item.fixture.solid .shape { stroke: var(--wall); stroke-width: 8; stroke-dasharray: none; }
   .item.fixture .inner { fill: none; stroke: var(--table-line); stroke-width: 3; stroke-dasharray: 7 6; }
   .item.fixture .lbl { font-size: 28px; fill: #3A3A34; }
@@ -412,6 +412,11 @@
     plan.zones.forEach(function (z) {
       if (typeof z.rot !== 'number') z.rot = 0;
       if (!z.ext) z.ext = { n: 0, s: 0, e: 0, w: 0 };
+      delete z._re;
+      if (z.room) z.room = polyToPath(parsePoly(z.room), true);
+      if (z.wallPaths) z.wallPaths = z.wallPaths.map(function (d) { return polyToPath(parsePoly(d), true); });
+      if (z.wallLines) z.wallLines = z.wallLines.map(function (d) { return polyToPath(parsePoly(d), false); });
+      if (z.openEdges) z.openEdges = z.openEdges.map(function (d) { return polyToPath(parsePoly(d), false); });
       z.items.forEach(function (it) { if (!it.uid) it.uid = 'i' + (uidSeq++); });
     });
     return plan;
@@ -567,10 +572,22 @@
   var EDGE_TOL = 30;
   function extOf(z) { return z.ext || (z.ext = { n: 0, s: 0, e: 0, w: 0 }); }
   function parsePoly(d) {
-    return (d.match(/-?[\d.]+\s*,\s*-?[\d.]+/g) || []).map(function (q) {
-      var n = q.split(',');
-      return [parseFloat(n[0]), parseFloat(n[1])];
-    });
+    var pts = [], cur = [0, 0], cmd = 'M';
+    var toks = String(d || '').match(/[MmLlHhVvZz]|-?[\d.]+/g) || [];
+    for (var i = 0; i < toks.length; i++) {
+      var t = toks[i];
+      if (/^[MmLlHhVvZz]$/.test(t)) { cmd = t; continue; }
+      var n = parseFloat(t);
+      if (cmd === 'M' || cmd === 'L') { cur = [n, parseFloat(toks[++i])]; }
+      else if (cmd === 'm' || cmd === 'l') { cur = [cur[0] + n, cur[1] + parseFloat(toks[++i])]; }
+      else if (cmd === 'H') { cur = [n, cur[1]]; }
+      else if (cmd === 'h') { cur = [cur[0] + n, cur[1]]; }
+      else if (cmd === 'V') { cur = [cur[0], n]; }
+      else if (cmd === 'v') { cur = [cur[0], cur[1] + n]; }
+      else continue;
+      pts.push(cur);
+    }
+    return pts;
   }
   function polyToPath(pts, closed) {
     return pts.map(function (q, i) { return (i ? 'L' : 'M') + q[0] + ',' + q[1]; }).join(' ') + (closed ? ' Z' : '');
@@ -578,12 +595,11 @@
   /* Extremes of the room as originally drawn — the reference for which points
      belong to which outside wall. */
   function roomEdges(z) {
-    if (z._re) return z._re;
     var pts = parsePoly(z.room);
+    if (!pts.length) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     var xs = pts.map(function (q) { return q[0]; }), ys = pts.map(function (q) { return q[1]; });
-    z._re = { minX: Math.min.apply(null, xs), maxX: Math.max.apply(null, xs),
-              minY: Math.min.apply(null, ys), maxY: Math.max.apply(null, ys) };
-    return z._re;
+    return { minX: Math.min.apply(null, xs), maxX: Math.max.apply(null, xs),
+             minY: Math.min.apply(null, ys), maxY: Math.max.apply(null, ys) };
   }
   function stretchPt(z, x, y) {
     var e = extOf(z), R = roomEdges(z), nx = x, ny = y;
