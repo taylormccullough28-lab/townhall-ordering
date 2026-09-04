@@ -143,28 +143,29 @@ for name, price, note in [
 lab(r, 1, "Other promos:", R11); rule(r, 2, 7); ws.row_dimensions[r].height = 18
 r += 2
 
-# ---- staff grid ----
-head = r
-lab(head, 1, "STAFF #'S"); lab(head, 3, "SHIFT LEADS:"); lab(head, 5, "STAFF TO COACH:")
-r += 1
-staff = ["SERVERS:", "BARTENDERS:", "CAFÉ:", "HOSTS:", "RUNNERS:", "BARBACKS:", "SHOT GIRL:", "MANAGERS:"]
-leads = ["SERVER:", "CAFÉ:", "BARTENDER:", "HOST:", "BAR:", "BARBACK:"]
-for i, s in enumerate(staff):
-    lab(r + i, 1, s, R12); rule(r + i, 2, 2)
-    ws.row_dimensions[r + i].height = 19
-for i, s in enumerate(leads):
-    lab(r + i, 3, s, R12); rule(r + i, 4, 4)
+# ---- staff counts & completions, AM and PM ----
+STAFF_COUNTS = ["SERVERS:", "BARTENDERS:", "CAFÉ:", "HOSTS:", "RUNNERS:", "BARBACKS:", "SHOT GIRL:", "MANAGERS:"]
+SHIFT_LEADS  = ["SERVER:", "CAFÉ:", "BARTENDER:", "HOST:", "BAR:", "BARBACK:"]
+COMPLETIONS  = ["SERVER:", "BAR:", "CAFÉ:", "HOST:", "BARBACK:"]
 
-lab(r, 5, "1 HUDDL COMPLETION")
-for i, s in enumerate(["SERVER:", "BAR:", "CAFÉ:", "HOST:", "BARBACK:"]):
-    lab(r + 1 + i, 5, s, R12); rule(r + 1 + i, 6, 6)
-r = max(r + len(staff), r + len(leads), r + 6) + 1
+def stack_group(top, col, title, items):
+    """Bold group title with a named, ruled line per row. Returns the row after the last item."""
+    lab(top, col, title, B11)
+    for i, s in enumerate(items):
+        lab(top + 1 + i, col, s, R12)
+        rule(top + 1 + i, col + 1, 7 if col == 5 else col + 1)
+        ws.row_dimensions[top + 1 + i].height = 18
+    return top + 1 + len(items)
 
-lab(r, 5, "7SHIFTS COMPLETION")
-for i, s in enumerate(["SERVER:", "BAR:", "CAFÉ:", "HOST:", "BARBACK:"]):
-    lab(r + 1 + i, 5, s, R12); rule(r + 1 + i, 6, 6)
-
-r += 7   # clear the 7shifts column on the right before starting a full-width block
+for daypart in ("AM", "PM"):
+    band(r, 1, 7, daypart + " CREW — STAFF #'S & COMPLETIONS", B12, LEFT, fill=GREY, height=18)
+    r += 1
+    top = r
+    ends = [stack_group(top, 1, "STAFF #'S", STAFF_COUNTS),
+            stack_group(top, 3, "SHIFT LEADS", SHIFT_LEADS),
+            stack_group(top, 5, "STAFF TO COACH — 1 HUDDL", COMPLETIONS)]
+    r = max(ends) + 1
+    r = stack_group(r, 1, "7SHIFTS COMPLETION", COMPLETIONS) + 1
 
 band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, fill=GREY, height=18); r += 1
 
