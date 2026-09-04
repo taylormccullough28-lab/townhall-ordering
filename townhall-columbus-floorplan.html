@@ -117,7 +117,9 @@
   .rot-stem { stroke: var(--accent); stroke-width: 4; pointer-events: none; }
   .rot-icon { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
   .rot-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
-  .stage.editing .zone-hit { cursor: move; }
+  .move-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: move; }
+  .marquee { fill: var(--accent); fill-opacity: .07; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 14 9; pointer-events: none; }
+  .stage.editing .zone-hit { cursor: crosshair; }
 
   /* -------------------------------- panel -------------------------------- */
   .panel {
@@ -403,7 +405,7 @@
     plan: null,
     editing: false,
     activeZone: 'all',
-    selected: null,      // uid
+    sel: [],             // uids of every selected item
     selectedZone: null,  // zone id
     snap: 10,
     history: [],
@@ -461,6 +463,32 @@
   }
 
   /* ------------------------------- helpers ------------------------------- */
+
+  /* The selection is a set; `selectedItem` is the single item a form can edit. */
+  function isSel(uid) { return state.sel.indexOf(uid) >= 0; }
+  function selectedItem() { return state.sel.length === 1 ? state.sel[0] : null; }
+  function setSel(uids) { state.sel = uids.slice(); if (state.sel.length) state.selectedZone = null; }
+
+  /* A canvas-space movement, expressed in one area's own (possibly turned) frame. */
+  function toZoneFrame(z, dx, dy) {
+    var r = -(z.rot || 0) * Math.PI / 180, c = Math.cos(r), s2 = Math.sin(r);
+    return { x: dx * c - dy * s2, y: dx * s2 + dy * c };
+  }
+  function itemCanvasCenter(z, it) {
+    var p = zonePivot(z), t = rotPt(it.cx, it.cy, p.x, p.y, z.rot || 0);
+    return { x: z.ox + t.x, y: z.oy + t.y };
+  }
+  function itemsInBox(x, y, w, h) {
+    var out = [];
+    state.plan.zones.forEach(function (z) {
+      if (state.activeZone !== 'all' && state.activeZone !== z.id) return;
+      z.items.forEach(function (it) {
+        var c = itemCanvasCenter(z, it);
+        if (c.x >= x && c.x <= x + w && c.y >= y && c.y <= y + h) out.push(it.uid);
+      });
+    });
+    return out;
+  }
 
   function zoneById(id) {
     for (var i = 0; i < state.plan.zones.length; i++) if (state.plan.zones[i].id === id) return state.plan.zones[i];
@@ -539,7 +567,7 @@
   function drawItem(it, g, zrot) {
     /* Labels stay upright however the area is turned. */
     var up = zrot ? 'rotate(' + (-zrot) + ',' + it.cx + ',' + it.cy + ')' : null;
-    var cls = 'item ' + it.kind + (it.style === 'solid' ? ' solid' : '') + (state.selected === it.uid ? ' sel' : '');
+    var cls = 'item ' + it.kind + (it.style === 'solid' ? ' solid' : '') + (isSel(it.uid) ? ' sel' : '');
     var ig = el('g', {
       class: cls, 'data-uid': it.uid,
       role: it.kind === 'table' ? 'button' : null,
@@ -573,7 +601,7 @@
       }
     }
 
-    if (state.selected === it.uid && state.editing) {
+    if (isSel(it.uid) && state.editing) {
       var b = itemBBox(it);
       el('rect', { x: b.x - 14, y: b.y - 14, width: b.w + 28, height: b.h + 28, class: 'selbox', rx: 6 }, ig);
     }
@@ -618,9 +646,21 @@
     }
 
     if (picked) {
-      var fb = zoneBox(z, false), pc = zonePivotCanvas(z), hy = fb.y - 70;
-      el('line', { x1: pc.x, y1: fb.y, x2: pc.x, y2: hy, class: 'rot-stem' }, outer);
-      el('circle', { cx: pc.x, cy: hy, r: 27, class: 'rot-handle', 'data-rot': z.id }, outer);
+      var fb = zoneBox(z, false), pc = zonePivotCanvas(z), hy = fb.y - 70, mx = pc.x - 84;
+      el('line', { x1: mx, y1: fb.y, x2: pc.x, y2: hy, class: 'rot-stem' }, outer);
+      el('line', { x1: mx, y1: hy, x2: pc.x, y2: hy, class: 'rot-stem' }, outer);
+
+      el('circle', { cx: mx, cy: hy, r: 27, class: 'zone-handle move-handle', 'data-zh': 'move', 'data-zid': z.id }, outer);
+      el('path', {
+        d: 'M' + (mx - 13) + ',' + hy + ' H' + (mx + 13) + ' M' + mx + ',' + (hy - 13) + ' V' + (hy + 13) +
+           ' M' + (mx - 13) + ',' + hy + ' l6,-5 M' + (mx - 13) + ',' + hy + ' l6,5' +
+           ' M' + (mx + 13) + ',' + hy + ' l-6,-5 M' + (mx + 13) + ',' + hy + ' l-6,5' +
+           ' M' + mx + ',' + (hy - 13) + ' l-5,6 M' + mx + ',' + (hy - 13) + ' l5,6' +
+           ' M' + mx + ',' + (hy + 13) + ' l-5,-6 M' + mx + ',' + (hy + 13) + ' l5,-6',
+        class: 'rot-icon'
+      }, outer);
+
+      el('circle', { cx: pc.x, cy: hy, r: 27, class: 'zone-handle rot-handle', 'data-zh': 'rot', 'data-zid': z.id }, outer);
       el('path', { d: 'M' + (pc.x - 11) + ',' + (hy + 4) + ' a11,11 0 1,1 8,7', class: 'rot-icon' }, outer);
     }
     return outer;
@@ -719,14 +759,13 @@
 
   function selectZone(id) {
     state.selectedZone = id;
-    if (id) state.selected = null;
+    if (id) state.sel = [];
     render();
     renderPanel();
   }
 
   function select(uid, centerOn) {
-    state.selected = uid;
-    if (uid) state.selectedZone = null;
+    setSel(uid ? [uid] : []);
     render();
     renderPanel();
     if (centerOn && uid) {
@@ -748,11 +787,12 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
 
   function renderPanel() {
-    var f = state.selected ? findItem(state.selected) : null;
+    var f = selectedItem() ? findItem(selectedItem()) : null;
     if (!f && !state.editing) { panel.hidden = true; return; }
     panel.hidden = false;
 
     if (state.editing && state.selectedZone) { renderZonePanel(zoneById(state.selectedZone)); return; }
+    if (state.editing && state.sel.length > 1) { renderGroupPanel(); return; }
 
     if (!state.editing) {
       var it = f.item;
@@ -779,9 +819,10 @@
 
     if (!f) {
       panel.innerHTML = head +
-        '<div class="hint">Click a table to edit it, or click an area\u2019s floor to move and turn the whole area. ' +
-        'Drag to move, arrow keys nudge, Shift+arrows nudge further. Hold Shift while dragging to ignore the ' +
-        state.snap + '-unit grid.</div>';
+        '<div class="hint"><b>Move one section:</b> drag a box around the tables you want, then drag any one of ' +
+        'them \u2014 they all move together, keeping their spacing. Shift+click adds or removes a table.<br><br>' +
+        'Click a table to edit it. Click an area\u2019s floor to pick the whole room. Arrow keys nudge, ' +
+        'Alt while dragging ignores the grid, hold Space to pan.</div>';
       bindPanel();
       return;
     }
@@ -823,6 +864,39 @@
     bindPanel();
   }
 
+  /* Several tables picked at once — a seating section, moved as one. */
+  function renderGroupPanel() {
+    var picked = state.sel.map(findItem).filter(Boolean);
+    var tables = picked.filter(function (f) { return f.item.kind === 'table'; });
+    var seats = tables.reduce(function (n, f) { return n + (f.item.seats || 0); }, 0);
+    var areas = [];
+    picked.forEach(function (f) { if (areas.indexOf(f.zone) < 0) areas.push(f.zone); });
+    var other = picked.length - tables.length;
+
+    panel.innerHTML =
+      '<div class="zbadge">Selection</div>' +
+      '<div class="big">' + picked.length + ' selected</div>' +
+      '<div class="meta">' + tables.length + (tables.length === 1 ? ' table' : ' tables') +
+        (other ? ' · ' + other + ' other' : '') +
+        (seats ? ' · ' + seats + ' seats' : ' · no seat counts set') + '<br>' +
+        areas.map(function (z) {
+          return '<span class="zbadge" style="margin-right:8px"><span class="dot" style="background:' +
+            z.color + '"></span>' + esc(z.name) + '</span>';
+        }).join('') +
+      '</div>' +
+      '<div class="row">' +
+        '<button class="tool" id="gDup" type="button">Duplicate</button>' +
+        '<button class="tool danger" id="gDel" type="button">Delete</button>' +
+      '</div>' +
+      '<div class="row"><button class="tool" id="gClear" type="button">Clear selection</button></div>' +
+      '<div class="hint">Drag any one of them to move the whole group — spacing is kept exactly. ' +
+      'Arrow keys nudge, Shift+click adds or removes one, Alt while dragging ignores the grid.</div>';
+
+    document.getElementById('gDup').addEventListener('click', duplicateSelection);
+    document.getElementById('gDel').addEventListener('click', deleteSelection);
+    document.getElementById('gClear').addEventListener('click', function () { select(null, false); });
+  }
+
   function renderZonePanel(z) {
     if (!z) { state.selectedZone = null; renderPanel(); return; }
     panel.innerHTML =
@@ -835,9 +909,11 @@
         '<button class="tool" id="zR" type="button" title="Turn 90° right">⟳ 90°</button>' +
         '<button class="tool" id="zZero" type="button" title="Back to square">0°</button>' +
       '</div>' +
+      '<div class="row"><button class="tool" id="zAll" type="button">Select all tables here</button></div>' +
       '<div class="row"><button class="tool" id="zDone" type="button">Done with area</button></div>' +
-      '<div class="hint">Drag the floor to move the whole area. Drag the handle above it to turn it — 15° steps, ' +
-      'hold Shift to turn freely. Tables travel with the area. Pan the plan from the empty canvas around it.</div>';
+      '<div class="hint">Use the two handles above the area: ✛ moves the whole room, ↻ turns it (15° steps, ' +
+      'Alt to turn freely). Dragging the floor itself lassoes tables instead, so you can move one seating ' +
+      'section on its own.</div>';
 
     function commit(fn) { pushHistory(); fn(); afterMutate(true); }
     document.getElementById('zName').addEventListener('change', function () {
@@ -851,6 +927,11 @@
     document.getElementById('zL').addEventListener('click', function () { turn(-90); });
     document.getElementById('zR').addEventListener('click', function () { turn(90); });
     document.getElementById('zZero').addEventListener('click', function () { commit(function () { z.rot = 0; }); });
+    document.getElementById('zAll').addEventListener('click', function () {
+      setSel(z.items.filter(function (i) { return i.kind === 'table'; }).map(function (i) { return i.uid; }));
+      state.selectedZone = null;
+      render(); renderPanel();
+    });
     document.getElementById('zDone').addEventListener('click', function () { selectZone(null); });
   }
 
@@ -859,7 +940,7 @@
       b.addEventListener('click', function () { addItem(b.dataset.add); });
     });
 
-    var f = state.selected ? findItem(state.selected) : null;
+    var f = selectedItem() ? findItem(selectedItem()) : null;
     if (!f) return;
     var it = f.item;
 
@@ -931,7 +1012,7 @@
       copy.cx += 40; copy.cy += 40;
       if (copy.kind === 'table') copy.id = String(copy.id) + 'a';
       f.zone.items.push(copy);
-      state.selected = copy.uid;
+      setSel([copy.uid]);
       afterMutate(true);
     });
 
@@ -939,7 +1020,7 @@
     if (del) del.addEventListener('click', function () {
       pushHistory();
       f.zone.items.splice(f.idx, 1);
-      state.selected = null;
+      state.sel = [];
       afterMutate(true);
       toast('Deleted — Ctrl+Z to undo');
     });
@@ -983,7 +1064,7 @@
       it.name = 'Label'; it.w = 220; it.h = 70;
     }
     z.items.push(it);
-    state.selected = it.uid;
+    setSel([it.uid]);
     afterMutate(true);
     toast('Added to ' + z.name);
   }
@@ -1000,6 +1081,7 @@
       });
       node.addEventListener('click', function (e) {
         e.stopPropagation();
+        if (state.editing) return;                    // pointerdown already selected / toggled
         select(uid, false);
       });
       node.addEventListener('keydown', function (e) {
@@ -1009,41 +1091,127 @@
   }
 
   function startItemDrag(e, uid, node) {
-    var f = findItem(uid);
-    if (!f) return;
-    if (state.selected !== uid) select(uid, false);
-    var it = findItem(uid).item;
-    var start = toPlan(e.clientX, e.clientY);
-    var origin = { cx: it.cx, cy: it.cy };
-    var moved = false;
-    var live = svg.querySelector('.item[data-uid="' + uid + '"]') || node;
+    if (!findItem(uid)) return;
+    var withShift = e.shiftKey, wasSel = isSel(uid);
+    if (!wasSel) { if (withShift) toggleSel(uid); else select(uid, false); }
+    if (!isSel(uid)) return;
 
-    var zr = -(f.zone.rot || 0) * Math.PI / 180, zc = Math.cos(zr), zs = Math.sin(zr);
+    var group = state.sel.map(findItem).filter(Boolean);
+    if (!group.length) return;
+    var single = group.length === 1;
+    var start = toPlan(e.clientX, e.clientY);
+    var origin = group.map(function (g) { return { cx: g.item.cx, cy: g.item.cy }; });
+    var nodes = group.map(function (g) { return svg.querySelector('.item[data-uid="' + g.item.uid + '"]'); });
+    var d = group.map(function () { return { x: 0, y: 0 }; });
+    var moved = false;
 
     function move(ev) {
       var p = toPlan(ev.clientX, ev.clientY);
-      /* Pointer movement is in canvas space; the item lives in the area's rotated frame. */
       var cdx = p.x - start.x, cdy = p.y - start.y;
-      var nx = origin.cx + (cdx * zc - cdy * zs), ny = origin.cy + (cdx * zs + cdy * zc);
-      if (!ev.shiftKey && state.snap) {
-        nx = Math.round(nx / state.snap) * state.snap;
-        ny = Math.round(ny / state.snap) * state.snap;
+      /* A group snaps its movement, so the tables keep their spacing exactly;
+         a lone table snaps its own position to the grid. */
+      if (!single && !ev.altKey && state.snap) {
+        cdx = Math.round(cdx / state.snap) * state.snap;
+        cdy = Math.round(cdy / state.snap) * state.snap;
       }
-      if (Math.abs(nx - origin.cx) > 1 || Math.abs(ny - origin.cy) > 1) moved = true;
-      live.setAttribute('transform', 'translate(' + (nx - origin.cx) + ',' + (ny - origin.cy) + ')');
-      live.dataset.dx = nx - origin.cx;
-      live.dataset.dy = ny - origin.cy;
+      group.forEach(function (g, i) {
+        var l = toZoneFrame(g.zone, cdx, cdy);
+        var nx = origin[i].cx + l.x, ny = origin[i].cy + l.y;
+        if (single && !ev.altKey && state.snap) {
+          nx = Math.round(nx / state.snap) * state.snap;
+          ny = Math.round(ny / state.snap) * state.snap;
+        }
+        d[i] = { x: nx - origin[i].cx, y: ny - origin[i].cy };
+        if (Math.abs(d[i].x) > 1 || Math.abs(d[i].y) > 1) moved = true;
+        if (nodes[i]) nodes[i].setAttribute('transform', 'translate(' + d[i].x + ',' + d[i].y + ')');
+      });
     }
     function up() {
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerup', up);
-      var dx = parseFloat(live.dataset.dx || 0), dy = parseFloat(live.dataset.dy || 0);
-      live.removeAttribute('transform');
-      if (!moved || (!dx && !dy)) return;
+      nodes.forEach(function (n) { if (n) n.removeAttribute('transform'); });
+      if (!moved) {
+        /* A press that never moved is a click on something already selected:
+           Shift drops it from the group, a plain click narrows down to it. */
+        if (wasSel && withShift) toggleSel(uid);
+        else if (wasSel && !withShift && state.sel.length > 1) select(uid, false);
+        return;
+      }
       pushHistory();
-      it.cx = origin.cx + dx;
-      it.cy = origin.cy + dy;
+      group.forEach(function (g, i) { g.item.cx = origin[i].cx + d[i].x; g.item.cy = origin[i].cy + d[i].y; });
       afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
+  function toggleSel(uid) {
+    var i = state.sel.indexOf(uid);
+    if (i >= 0) state.sel.splice(i, 1); else state.sel.push(uid);
+    if (state.sel.length) state.selectedZone = null;
+    render();
+    renderPanel();
+  }
+
+  function deleteSelection() {
+    if (!state.sel.length) return;
+    var n = state.sel.length;
+    pushHistory();
+    state.sel.forEach(function (uid) { var f = findItem(uid); if (f) f.zone.items.splice(f.idx, 1); });
+    state.sel = [];
+    afterMutate(true);
+    toast('Deleted ' + n + ' — Ctrl+Z to undo');
+  }
+
+  function duplicateSelection() {
+    if (!state.sel.length) return;
+    pushHistory();
+    var made = [];
+    state.sel.forEach(function (uid) {
+      var f = findItem(uid);
+      if (!f) return;
+      var copy = clone(f.item);
+      copy.uid = 'i' + (uidSeq++);
+      copy.cx += 40; copy.cy += 40;
+      if (copy.kind === 'table') copy.id = String(copy.id) + 'a';
+      f.zone.items.push(copy);
+      made.push(copy.uid);
+    });
+    setSel(made);
+    afterMutate(true);
+  }
+
+  /* Lasso on the floor or the open canvas. A press that never moves is a click,
+     handed back to onClick instead. */
+  function startMarquee(e, additive, onClick) {
+    var start = toPlan(e.clientX, e.clientY);
+    var root = svg.querySelector('g[data-root]') || svg;
+    var box = el('rect', { class: 'marquee' }, root);
+    var base = additive ? state.sel.slice() : [];
+    var live = base.slice();
+    var moved = false;
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      var x = Math.min(start.x, p.x), y = Math.min(start.y, p.y);
+      var w = Math.abs(p.x - start.x), h = Math.abs(p.y - start.y);
+      if (w > 6 || h > 6) moved = true;
+      box.setAttribute('x', x); box.setAttribute('y', y);
+      box.setAttribute('width', w); box.setAttribute('height', h);
+      live = base.slice();
+      itemsInBox(x, y, w, h).forEach(function (u) { if (live.indexOf(u) < 0) live.push(u); });
+      Array.prototype.forEach.call(svg.querySelectorAll('.item'), function (n) {
+        n.classList.toggle('sel', live.indexOf(n.getAttribute('data-uid')) >= 0);
+      });
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      box.remove();
+      if (!moved) { if (onClick) onClick(); return; }
+      setSel(live);
+      render();
+      renderPanel();
     }
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
@@ -1060,7 +1228,7 @@
     function move(ev) {
       var p = toPlan(ev.clientX, ev.clientY);
       dx = p.x - start.x; dy = p.y - start.y;
-      if (!ev.shiftKey && state.snap) {
+      if (!ev.altKey && state.snap) {
         dx = Math.round(dx / state.snap) * state.snap;
         dy = Math.round(dy / state.snap) * state.snap;
       }
@@ -1093,7 +1261,7 @@
       var p = toPlan(ev.clientX, ev.clientY);
       var a = Math.atan2(p.y - pc.y, p.x - pc.x) * 180 / Math.PI;
       var r = r0 + (a - a0);
-      if (!ev.shiftKey) r = Math.round(r / 15) * 15;
+      if (!ev.altKey) r = Math.round(r / 15) * 15;
       cur = ((r % 360) + 360) % 360;
       moved = true;
       body.setAttribute('transform',
@@ -1112,11 +1280,14 @@
   }
 
   function nudge(dx, dy) {
-    if (!state.editing || !state.selected) return;
-    var f = findItem(state.selected);
-    if (!f) return;
+    if (!state.editing || !state.sel.length) return;
     pushHistory();
-    f.item.cx += dx; f.item.cy += dy;
+    state.sel.forEach(function (uid) {
+      var f = findItem(uid);
+      if (!f) return;
+      var l = toZoneFrame(f.zone, dx, dy);
+      f.item.cx += l.x; f.item.cy += l.y;
+    });
     afterMutate(true);
   }
 
@@ -1216,7 +1387,7 @@
         if (!p || !p.zones || !p.zones.length) throw new Error('not a plan file');
         pushHistory();
         state.plan = stampUids(p);
-        state.selected = null;
+        state.sel = [];
         state.activeZone = 'all';
         afterMutate();
         fitAll();
@@ -1232,7 +1403,7 @@
     if (!window.confirm('Discard your edits and restore the original traced plan?')) return;
     pushHistory();
     state.plan = stampUids(clone(DEFAULT_PLAN));
-    state.selected = null;
+    state.sel = [];
     afterMutate();
     fitCurrent();
     toast('Reset to the original plan');
@@ -1319,18 +1490,28 @@
   }, { passive: false });
 
   var pan = null;
+  var spaceDown = false;
   stage.addEventListener('pointerdown', function (e) {
     if (e.target.closest('.panel') || e.target.closest('.note')) return;
 
-    if (state.editing) {
-      var handle = e.target.closest('.rot-handle');
-      if (handle) { startZoneRotate(e, handle.getAttribute('data-rot')); return; }
-      var zg = e.target.closest('g[data-zone]');
-      if (zg && e.target.classList.contains('zone-hit')) {
-        if (state.selectedZone !== zg.getAttribute('data-zone')) selectZone(zg.getAttribute('data-zone'));
-        startZoneDrag(e, zg.getAttribute('data-zone'));
+    if (state.editing && e.button !== 1 && !spaceDown) {
+      var handle = e.target.closest('.zone-handle');
+      if (handle) {
+        var hz = handle.getAttribute('data-zid');
+        if (handle.getAttribute('data-zh') === 'rot') startZoneRotate(e, hz); else startZoneDrag(e, hz);
         return;
       }
+      if (e.target.closest('.item')) return;          // the item's own handler takes it
+
+      /* On an area's floor: drag lassoes the tables, a plain click picks the area. */
+      var zg = e.target.closest('g[data-zone]');
+      if (zg && e.target.classList.contains('zone-hit')) {
+        var zid = zg.getAttribute('data-zone');
+        startMarquee(e, e.shiftKey, function () { selectZone(zid); });
+        return;
+      }
+      startMarquee(e, e.shiftKey, function () { select(null, false); selectZone(null); });
+      return;
     }
 
     if (!e.target.closest('.item')) {
@@ -1349,7 +1530,9 @@
   });
   window.addEventListener('pointerup', function () { pan = null; stage.classList.remove('dragging'); });
 
+  document.addEventListener('keyup', function (e) { if (e.code === 'Space') spaceDown = false; });
   document.addEventListener('keydown', function (e) {
+    if (e.code === 'Space' && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { spaceDown = true; e.preventDefault(); }
     var typing = /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName);
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
       e.preventDefault();
@@ -1365,7 +1548,7 @@
     if (typing) return;
     if (e.key === 'e' || e.key === 'E') { setEditing(!state.editing); return; }
     if (e.key === 'Escape') { select(null, false); selectZone(null); closeMenus(null); return; }
-    if (state.editing && state.selected) {
+    if (state.editing && state.sel.length) {
       var step = e.shiftKey ? state.snap * 5 : state.snap;
       if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-step, 0); }
       else if (e.key === 'ArrowRight') { e.preventDefault(); nudge(step, 0); }
@@ -1373,8 +1556,7 @@
       else if (e.key === 'ArrowDown') { e.preventDefault(); nudge(0, step); }
       else if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault();
-        var f = findItem(state.selected);
-        if (f) { pushHistory(); f.zone.items.splice(f.idx, 1); state.selected = null; afterMutate(true); toast('Deleted — Ctrl+Z to undo'); }
+        deleteSelection();
       }
     }
   });
