@@ -1,0 +1,1111 @@
+{
+  "version": 2,
+  "sheet": {
+    "w": 1844,
+    "h": 1074
+  },
+  "staffing": [
+    [
+      "Barbacks:",
+      "Main Bar:",
+      "Dining Room:",
+      "Caf\u00e9:",
+      "Patio:",
+      "Patio Bar:",
+      "Restrooms:"
+    ],
+    [
+      "Hosts:",
+      "Lead:",
+      "Runner:",
+      "Water/RR:"
+    ],
+    [
+      "Baristas:",
+      "Lead:",
+      "Registers:",
+      "Coffee:",
+      "Smoothies:",
+      "Carryout:"
+    ],
+    [
+      "Runners:",
+      "Food:",
+      "100:",
+      "200:"
+    ]
+  ],
+  "zones": [
+    {
+      "id": "cafe",
+      "name": "Cafe",
+      "color": "#9A5B12",
+      "ox": 0,
+      "oy": 0,
+      "rot": 0,
+      "ext": {
+        "n": 0,
+        "s": 0,
+        "e": 0,
+        "w": 0
+      },
+      "bounds": {
+        "x": 0,
+        "y": 186,
+        "w": 306,
+        "h": 690
+      },
+      "room": "M8,190 L300,190 L300,876 L8,876 Z",
+      "roomPlain": true,
+      "titleAt": {
+        "x": 120,
+        "y": 372
+      },
+      "walls": [],
+      "wallLines": [],
+      "wallPaths": [],
+      "items": [
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 14,
+          "cy": 190,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              417
+            ]
+          ],
+          "uid": "i1"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 6,
+          "cy": 875,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              294,
+              0
+            ]
+          ],
+          "uid": "i2"
+        },
+        {
+          "kind": "table",
+          "id": "C1",
+          "shape": "rect",
+          "cx": 50,
+          "cy": 251,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i3"
+        },
+        {
+          "kind": "table",
+          "id": "C2",
+          "shape": "rect",
+          "cx": 50,
+          "cy": 313,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i4"
+        },
+        {
+          "kind": "table",
+          "id": "C3",
+          "shape": "rect",
+          "cx": 52,
+          "cy": 375,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i5"
+        },
+        {
+          "kind": "table",
+          "id": "C4",
+          "shape": "rect",
+          "cx": 52,
+          "cy": 441,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i6"
+        },
+        {
+          "kind": "table",
+          "id": "C5",
+          "shape": "rect",
+          "cx": 50,
+          "cy": 505,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i7"
+        },
+        {
+          "kind": "table",
+          "id": "C6",
+          "shape": "rect",
+          "cx": 50,
+          "cy": 573,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i8"
+        },
+        {
+          "kind": "table",
+          "id": "C7",
+          "shape": "rect",
+          "cx": 34,
+          "cy": 756,
+          "w": 43,
+          "h": 74,
+          "rot": 0,
+          "uid": "i9"
+        },
+        {
+          "kind": "table",
+          "id": "C8",
+          "shape": "circle",
+          "cx": 82,
+          "cy": 831,
+          "rx": 28,
+          "ry": 21,
+          "uid": "i10"
+        },
+        {
+          "kind": "table",
+          "id": "C9",
+          "shape": "circle",
+          "cx": 151,
+          "cy": 831,
+          "rx": 27,
+          "ry": 27,
+          "uid": "i11"
+        },
+        {
+          "kind": "table",
+          "id": "C10",
+          "shape": "circle",
+          "cx": 173,
+          "cy": 757,
+          "rx": 23,
+          "ry": 27,
+          "uid": "i12"
+        },
+        {
+          "kind": "table",
+          "id": "C20",
+          "shape": "circle",
+          "cx": 272,
+          "cy": 486,
+          "rx": 30,
+          "ry": 28,
+          "uid": "i13"
+        },
+        {
+          "kind": "table",
+          "id": "C21",
+          "shape": "circle",
+          "cx": 248,
+          "cy": 628,
+          "rx": 30,
+          "ry": 28,
+          "uid": "i14"
+        },
+        {
+          "kind": "fixture",
+          "name": "Door",
+          "shape": "rect",
+          "cx": 251,
+          "cy": 824,
+          "w": 108,
+          "h": 60,
+          "uid": "i15"
+        },
+        {
+          "kind": "fixture",
+          "name": "",
+          "shape": "rect",
+          "cx": 31,
+          "cy": 671,
+          "w": 54,
+          "h": 125,
+          "uid": "i16"
+        }
+      ]
+    },
+    {
+      "id": "main",
+      "name": "Dining Room",
+      "color": "#3B5470",
+      "ox": 0,
+      "oy": 0,
+      "rot": 0,
+      "ext": {
+        "n": 0,
+        "s": 0,
+        "e": 0,
+        "w": 0
+      },
+      "bounds": {
+        "x": 300,
+        "y": 4,
+        "w": 1086,
+        "h": 878
+      },
+      "room": "M300,290 L1205,290 L1205,8 L1382,8 L1382,880 L300,880 Z",
+      "roomPlain": true,
+      "titleAt": {
+        "x": 640,
+        "y": 372
+      },
+      "walls": [],
+      "wallLines": [],
+      "wallPaths": [],
+      "items": [
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 528,
+          "cy": 287,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              610,
+              0
+            ],
+            [
+              647,
+              -13
+            ],
+            [
+              666,
+              -51
+            ],
+            [
+              669,
+              -267
+            ]
+          ],
+          "uid": "i17"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 1375,
+          "cy": 20,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              547
+            ]
+          ],
+          "uid": "i18"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 300,
+          "cy": 875,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              500,
+              0
+            ],
+            [
+              548,
+              -55
+            ]
+          ],
+          "uid": "i19"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 1096,
+          "cy": 873,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              208,
+              0
+            ]
+          ],
+          "uid": "i20"
+        },
+        {
+          "kind": "table",
+          "id": "15",
+          "shape": "rect",
+          "cx": 471,
+          "cy": 585,
+          "w": 76,
+          "h": 256,
+          "rot": 0,
+          "uid": "i21",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "31",
+          "shape": "rect",
+          "cx": 658,
+          "cy": 487,
+          "w": 192,
+          "h": 60,
+          "rot": 0,
+          "uid": "i22",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "21",
+          "shape": "rect",
+          "cx": 658,
+          "cy": 649,
+          "w": 192,
+          "h": 60,
+          "rot": 0,
+          "uid": "i23",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "32",
+          "shape": "circle",
+          "cx": 858,
+          "cy": 463,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i24",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "33",
+          "shape": "circle",
+          "cx": 973,
+          "cy": 464,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i25",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "34",
+          "shape": "circle",
+          "cx": 1092,
+          "cy": 461,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i26",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "35",
+          "shape": "circle",
+          "cx": 1182,
+          "cy": 457,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i27",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "22",
+          "shape": "circle",
+          "cx": 852,
+          "cy": 650,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i28",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "23",
+          "shape": "circle",
+          "cx": 1035,
+          "cy": 643,
+          "rx": 32,
+          "ry": 28,
+          "uid": "i29",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "24",
+          "shape": "rect",
+          "cx": 1150,
+          "cy": 661,
+          "w": 77,
+          "h": 170,
+          "rot": 16,
+          "uid": "i30",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "25",
+          "shape": "rect",
+          "cx": 1283,
+          "cy": 719,
+          "w": 77,
+          "h": 136,
+          "rot": 29,
+          "uid": "i31",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "26",
+          "shape": "rect",
+          "cx": 1267,
+          "cy": 845,
+          "w": 65,
+          "h": 52,
+          "rot": 0,
+          "uid": "i32",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "11",
+          "shape": "rect",
+          "cx": 886,
+          "cy": 770,
+          "w": 78,
+          "h": 51,
+          "rot": 0,
+          "uid": "i33",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "12",
+          "shape": "rect",
+          "cx": 730,
+          "cy": 839,
+          "w": 71,
+          "h": 40,
+          "rot": 0,
+          "uid": "i34",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "13",
+          "shape": "rect",
+          "cx": 574,
+          "cy": 837,
+          "w": 150,
+          "h": 40,
+          "rot": 0,
+          "uid": "i35",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "14",
+          "shape": "rect",
+          "cx": 352,
+          "cy": 831,
+          "w": 71,
+          "h": 41,
+          "rot": 0,
+          "uid": "i36",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "16",
+          "shape": "rect",
+          "cx": 267,
+          "cy": 769,
+          "w": 77,
+          "h": 49,
+          "rot": 0,
+          "uid": "i37",
+          "section": "s2"
+        },
+        {
+          "kind": "table",
+          "id": "41",
+          "shape": "rect",
+          "cx": 1350,
+          "cy": 528,
+          "w": 52,
+          "h": 71,
+          "rot": 0,
+          "uid": "i38",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "42",
+          "shape": "rect",
+          "cx": 1347,
+          "cy": 396,
+          "w": 52,
+          "h": 65,
+          "rot": 0,
+          "uid": "i39",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "43",
+          "shape": "rect",
+          "cx": 1346,
+          "cy": 287,
+          "w": 52,
+          "h": 61,
+          "rot": 0,
+          "uid": "i40",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "44",
+          "shape": "rect",
+          "cx": 1345,
+          "cy": 143,
+          "w": 53,
+          "h": 53,
+          "rot": 0,
+          "uid": "i41",
+          "section": "s1"
+        },
+        {
+          "kind": "table",
+          "id": "45",
+          "shape": "rect",
+          "cx": 1346,
+          "cy": 53,
+          "w": 52,
+          "h": 53,
+          "rot": 0,
+          "uid": "i42",
+          "section": "s1"
+        },
+        {
+          "kind": "object",
+          "name": "Column",
+          "shape": "rect",
+          "cx": 369,
+          "cy": 585,
+          "w": 123,
+          "h": 256,
+          "uid": "i43"
+        },
+        {
+          "kind": "object",
+          "name": "Pillar",
+          "shape": "rect",
+          "cx": 946,
+          "cy": 623,
+          "w": 102,
+          "h": 99,
+          "uid": "i44"
+        },
+        {
+          "kind": "object",
+          "name": "Pillar",
+          "shape": "rect",
+          "cx": 1347,
+          "cy": 214,
+          "w": 52,
+          "h": 38,
+          "uid": "i45"
+        },
+        {
+          "kind": "fixture",
+          "name": "Bar",
+          "shape": "rect",
+          "cx": 820,
+          "cy": 175,
+          "w": 220,
+          "h": 60,
+          "uid": "i46"
+        },
+        {
+          "kind": "fixture",
+          "name": "Door",
+          "shape": "rect",
+          "cx": 949,
+          "cy": 827,
+          "w": 200,
+          "h": 60,
+          "uid": "i47"
+        },
+        {
+          "kind": "fixture",
+          "name": "Host",
+          "shape": "rect",
+          "cx": 1100,
+          "cy": 828,
+          "w": 101,
+          "h": 62,
+          "style": "solid",
+          "uid": "i48"
+        }
+      ]
+    },
+    {
+      "id": "patio",
+      "name": "Patio",
+      "color": "#33593F",
+      "ox": 0,
+      "oy": 0,
+      "rot": 0,
+      "ext": {
+        "n": 0,
+        "s": 60,
+        "e": 0,
+        "w": 0
+      },
+      "bounds": {
+        "x": 4,
+        "y": 466,
+        "w": 1840,
+        "h": 596
+      },
+      "room": "M1385,470 L1840,470 L1840,1058 L8,1058 L8,878 L1385,878 Z",
+      "roomPlain": true,
+      "titleAt": {
+        "x": 1400,
+        "y": 905
+      },
+      "walls": [],
+      "wallLines": [],
+      "wallPaths": [],
+      "items": [
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 7,
+          "cy": 1082,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              196,
+              0
+            ]
+          ],
+          "uid": "i49"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 291,
+          "cy": 1082,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              675,
+              0
+            ]
+          ],
+          "uid": "i50"
+        },
+        {
+          "kind": "draw",
+          "style": "wall",
+          "shape": "path",
+          "cx": 1166,
+          "cy": 1080,
+          "sw": 5,
+          "pts": [
+            [
+              0,
+              0
+            ],
+            [
+              666,
+              0
+            ]
+          ],
+          "uid": "i51"
+        },
+        {
+          "kind": "table",
+          "id": "61",
+          "shape": "rect",
+          "cx": 53,
+          "cy": 1020,
+          "w": 55,
+          "h": 102,
+          "rot": 0,
+          "uid": "i52",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "62",
+          "shape": "rect",
+          "cx": 155,
+          "cy": 1020,
+          "w": 55,
+          "h": 102,
+          "rot": 0,
+          "uid": "i53",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "63",
+          "shape": "rect",
+          "cx": 402,
+          "cy": 1022,
+          "w": 58,
+          "h": 106,
+          "rot": 0,
+          "uid": "i54",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "64",
+          "shape": "rect",
+          "cx": 530,
+          "cy": 1020,
+          "w": 56,
+          "h": 107,
+          "rot": 0,
+          "uid": "i55",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "65",
+          "shape": "rect",
+          "cx": 659,
+          "cy": 1022,
+          "w": 56,
+          "h": 106,
+          "rot": 0,
+          "uid": "i56",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "66",
+          "shape": "rect",
+          "cx": 797,
+          "cy": 1020,
+          "w": 55,
+          "h": 102,
+          "rot": 0,
+          "uid": "i57",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "51",
+          "shape": "rect",
+          "cx": 100,
+          "cy": 920,
+          "rot": 0,
+          "uid": "i58",
+          "w": 56,
+          "h": 59,
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "52",
+          "shape": "rect",
+          "cx": 460,
+          "cy": 920,
+          "w": 56,
+          "h": 55,
+          "rot": 0,
+          "uid": "i59",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "53",
+          "shape": "rect",
+          "cx": 600,
+          "cy": 920,
+          "w": 56,
+          "h": 55,
+          "rot": 0,
+          "uid": "i60",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "67",
+          "shape": "rect",
+          "cx": 1201,
+          "cy": 1010,
+          "w": 55,
+          "h": 102,
+          "rot": 0,
+          "uid": "i61",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "68",
+          "shape": "rect",
+          "cx": 1323,
+          "cy": 1010,
+          "w": 55,
+          "h": 102,
+          "rot": 0,
+          "uid": "i62",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "71",
+          "shape": "semi",
+          "cx": 1501,
+          "cy": 1006,
+          "rx": 43,
+          "ry": 35,
+          "uid": "i63",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "72",
+          "shape": "semi",
+          "cx": 1631,
+          "cy": 1006,
+          "rx": 43,
+          "ry": 35,
+          "uid": "i64",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "73",
+          "shape": "semi",
+          "cx": 1755,
+          "cy": 1008,
+          "rx": 43,
+          "ry": 35,
+          "uid": "i65",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "81",
+          "shape": "rect",
+          "cx": 1391,
+          "cy": 788,
+          "w": 61,
+          "h": 135,
+          "rot": 12,
+          "uid": "i66",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "82",
+          "shape": "rect",
+          "cx": 1446,
+          "cy": 633,
+          "w": 52,
+          "h": 52,
+          "rot": 45,
+          "uid": "i67",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "83",
+          "shape": "rect",
+          "cx": 1507,
+          "cy": 572,
+          "w": 54,
+          "h": 54,
+          "rot": 45,
+          "uid": "i68",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "84",
+          "shape": "rect",
+          "cx": 1634,
+          "cy": 830,
+          "w": 53,
+          "h": 66,
+          "rot": 0,
+          "uid": "i69",
+          "section": "s3"
+        },
+        {
+          "kind": "table",
+          "id": "85",
+          "shape": "rect",
+          "cx": 1716,
+          "cy": 828,
+          "w": 51,
+          "h": 65,
+          "rot": 0,
+          "uid": "i70",
+          "section": "s3"
+        },
+        {
+          "kind": "fixture",
+          "name": "Patio bar",
+          "shape": "rect",
+          "cx": 1668,
+          "cy": 534,
+          "w": 187,
+          "h": 64,
+          "style": "solid",
+          "uid": "i71"
+        },
+        {
+          "kind": "fixture",
+          "name": "Drink Rail",
+          "shape": "rect",
+          "cx": 1667,
+          "cy": 690,
+          "w": 169,
+          "h": 55,
+          "style": "solid",
+          "uid": "i72"
+        },
+        {
+          "kind": "fixture",
+          "name": "fireplace",
+          "shape": "rect",
+          "cx": 1666,
+          "cy": 756,
+          "w": 153,
+          "h": 66,
+          "style": "solid",
+          "uid": "i73"
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "s1",
+      "name": "Section 1 - Bar Side",
+      "color": "#C25A3C",
+      "zone": "main",
+      "tables": [
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Section 2 - Dining / Entry",
+      "color": "#3D6E9C",
+      "zone": "main",
+      "tables": [
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26"
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "Section 3 - Patio",
+      "color": "#6E8F3A",
+      "zone": "patio",
+      "tables": [
+        "51",
+        "52",
+        "53",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "71",
+        "72",
+        "73",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85"
+      ]
+    }
+  ]
+}
