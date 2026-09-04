@@ -64,8 +64,8 @@ r = 1
 band(r, 1, 7, "TOWNHALL COLUMBUS  —  OSU GAME DAY PRE-SHIFT", B14, CEN, fill=DARK, height=24); r += 1
 band(r, 1, 7, "Read this at pre-shift. Do not summarize it.", I10, CEN); r += 2
 
-for left, right in [("DATE:", "MATCHUP:"), ("DAY:", "KICKOFF:"),
-                    ("SHIFT:  AM / PM", "DOORS:"), ("MANAGER ON DUTY:", "EXPECTED VOLUME:")]:
+for left, right in [("DATE:", "MATCHUP:"), ("DAY:", "EXPECTED VOLUME:"),
+                    ("SHIFT:  AM / PM", "MANAGER ON DUTY:")]:
     lab(r, 1, left);  rule(r, 2, 3)
     lab(r, 4, right); rule(r, 6, 7)
     r += 1
@@ -112,6 +112,12 @@ for line in [
     band(r, 1, 7, line, R11, LEFT, border=BOX, height=28); r += 1
 r += 1
 
+band(r, 1, 7, "THE BOARD", B12, LEFT, fill=GREY, height=18); r += 1
+lab(r, 1, "GAME TIME:", B11); rule(r, 2, 3)
+lab(r, 4, "DOORS:", B11); rule(r, 6, 7)
+ws.row_dimensions[r].height = 19
+r += 2
+
 lab(r, 1, "GOAL / CONTEST FOR THE DAY:"); r += 1
 box(r, r + 1, 1, 7, 20); r += 3
 
@@ -119,6 +125,9 @@ lab(r, 1, "NEW BEERS / NEW ITEMS:"); r += 1
 box(r, r + 1, 1, 7); r += 3
 
 lab(r, 1, "86:"); r += 1
+box(r, r + 1, 1, 7); r += 3
+
+lab(r, 1, "OTHER IMPORTANT NOTES:"); r += 1
 box(r, r + 1, 1, 7); r += 3
 
 band(r, 1, 7, "PROMOS FOR THE DAY — EVERYBODY KNOWS ALL THREE BEFORE DOORS", B12, LEFT, fill=GREY, height=18); r += 1
@@ -242,8 +251,6 @@ r += 1
 lab(r, 1, "MARKETING:"); r += 1
 box(r, r + 1, 1, 7); r += 3
 
-lab(r, 1, "OTHER IMPORTANT NOTES:"); r += 1
-box(r, r + 2, 1, 7); r += 4
 
 band(r, 1, 7, "100% of our standards, 100% of the time, at 100% volume. A full house is not an excuse to run at 80% — it is the reason we hold the line.",
      BI11, CEN, height=28)

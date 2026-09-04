@@ -13,9 +13,8 @@
 | | |
 |---|---|
 | Date | Matchup |
-| Day | Kickoff |
-| Shift AM/PM | Doors |
-| Manager on duty | Expected volume |
+| Day | Expected volume |
+| Shift AM/PM | Manager on duty |
 
 ---
 
@@ -105,10 +104,12 @@ Everybody knows all three before doors. If a guest has to ask what the special i
 
 ## The board
 
+- **Game time** · **Doors**
 - **Goal / contest for the day**
 - **New beers / new items**
 - **86**
 - **Parties / events**
+- **Other important notes**
 
 ---
 
@@ -257,7 +258,7 @@ Close it the same way every time: **You will never get in trouble for asking for
 - [ ] Every station back to original position, original condition.
 - [ ] Shift notes written: what we ran out of, where the wait broke down, what the next game day needs to be different.
 
-Plus: marketing, and other important notes.
+Plus: marketing.
 
 ---
 
