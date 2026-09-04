@@ -862,9 +862,10 @@
     });
     var p0 = toPlan(e.clientX, e.clientY);
     var a0 = Math.atan2(p0.y - c.y, p0.x - c.x) * 180 / Math.PI;
-    var applied = 0, moved = false;
+    var applied = 0, moved = false, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
       var p = toPlan(ev.clientX, ev.clientY);
       var a = Math.atan2(p.y - c.y, p.x - c.x) * 180 / Math.PI;
       var th = a - a0;
@@ -897,10 +898,13 @@
     var o = fromCanvas(z, p0.x, p0.y);
     var pts = [[0, 0]];
     var mode = state.draw, sw = state.drawW;
+    var sx0 = e.clientX, sy0 = e.clientY, drawn = false;
     var body = svg.querySelector('g[data-zone="' + z.id + '"] > g[data-body]');
     var live = el('path', { class: 'shape draw-' + mode, style: 'stroke-width:' + sw + ';fill:none;stroke-linecap:round;stroke-linejoin:round' }, body);
 
     function move(ev) {
+      if (!drawn && !pastDrag(ev, sx0, sy0)) return;
+      drawn = true;
       var p = toPlan(ev.clientX, ev.clientY);
       var l = fromCanvas(z, p.x, p.y);
       var dx = l.x - o.x, dy = l.y - o.y;
@@ -967,6 +971,11 @@
   function fitCurrent() {
     if (state.activeZone === 'all') fitAll();
     else { var z = zoneById(state.activeZone); if (z) fitZone(z); else fitAll(); }
+  }
+
+  var DRAG_PX = 5;
+  function pastDrag(ev, sx, sy) {
+    return Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) > DRAG_PX;
   }
 
   function toPlan(clientX, clientY) {
@@ -1448,9 +1457,10 @@
     var origin = group.map(function (g) { return { cx: g.item.cx, cy: g.item.cy }; });
     var nodes = group.map(function (g) { return svg.querySelector('.item[data-uid="' + g.item.uid + '"]'); });
     var d = group.map(function () { return { x: 0, y: 0 }; });
-    var moved = false;
+    var moved = false, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
       var p = toPlan(ev.clientX, ev.clientY);
       var cdx = p.x - start.x, cdy = p.y - start.y;
       /* A group snaps its movement, so the tables keep their spacing exactly;
@@ -1467,7 +1477,7 @@
           ny = Math.round(ny / state.snap) * state.snap;
         }
         d[i] = { x: nx - origin[i].cx, y: ny - origin[i].cy };
-        if (Math.abs(d[i].x) > 1 || Math.abs(d[i].y) > 1) moved = true;
+        moved = true;
         if (nodes[i]) nodes[i].setAttribute('transform', 'translate(' + d[i].x + ',' + d[i].y + ')');
       });
     }
@@ -1534,13 +1544,14 @@
     var box = el('rect', { class: 'marquee' }, root);
     var base = additive ? state.sel.slice() : [];
     var live = base.slice();
-    var moved = false;
+    var moved = false, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
+      moved = true;
       var p = toPlan(ev.clientX, ev.clientY);
       var x = Math.min(start.x, p.x), y = Math.min(start.y, p.y);
       var w = Math.abs(p.x - start.x), h = Math.abs(p.y - start.y);
-      if (w > 6 || h > 6) moved = true;
       box.setAttribute('x', x); box.setAttribute('y', y);
       box.setAttribute('width', w); box.setAttribute('height', h);
       live = base.slice();
@@ -1568,16 +1579,17 @@
     var node = svg.querySelector('g[data-zone="' + zid + '"]');
     var start = toPlan(e.clientX, e.clientY);
     var origin = { ox: z.ox, oy: z.oy };
-    var moved = false, dx = 0, dy = 0;
+    var moved = false, dx = 0, dy = 0, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
       var p = toPlan(ev.clientX, ev.clientY);
       dx = p.x - start.x; dy = p.y - start.y;
       if (!ev.altKey && state.snap) {
         dx = Math.round(dx / state.snap) * state.snap;
         dy = Math.round(dy / state.snap) * state.snap;
       }
-      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) moved = true;
+      moved = true;
       node.setAttribute('transform', 'translate(' + dx + ',' + dy + ')');
     }
     function up() {
@@ -1601,9 +1613,10 @@
     var start = toPlan(e.clientX, e.clientY);
     var span = (side === 'e' || side === 'w') ? z.bounds.w : z.bounds.h;
     var floor = -(span - 260);                    // never collapse the room away
-    var moved = false;
+    var moved = false, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
       var p = toPlan(ev.clientX, ev.clientY);
       var l = toZoneFrame(z, p.x - start.x, p.y - start.y);
       var d = side === 'e' ? l.x : side === 'w' ? -l.x : side === 's' ? l.y : -l.y;
@@ -1631,9 +1644,10 @@
     var pc = zonePivotCanvas(z), pv = zonePivot(z);
     var p0 = toPlan(e.clientX, e.clientY);
     var a0 = Math.atan2(p0.y - pc.y, p0.x - pc.x) * 180 / Math.PI;
-    var r0 = z.rot || 0, cur = r0, moved = false;
+    var r0 = z.rot || 0, cur = r0, moved = false, sx = e.clientX, sy = e.clientY;
 
     function move(ev) {
+      if (!moved && !pastDrag(ev, sx, sy)) return;
       var p = toPlan(ev.clientX, ev.clientY);
       var a = Math.atan2(p.y - pc.y, p.x - pc.x) * 180 / Math.PI;
       var r = r0 + (a - a0);
