@@ -13,7 +13,7 @@
 | | |
 |---|---|
 | Date | Matchup |
-| Day | Kickoff / 1st pitch |
+| Day | Kickoff |
 | Shift AM/PM | Doors |
 | Manager on duty | Expected volume |
 

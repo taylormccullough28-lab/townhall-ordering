@@ -64,7 +64,7 @@ r = 1
 band(r, 1, 7, "TOWNHALL CLE  —  GAME DAY PRE-SHIFT", B14, CEN, fill=DARK, height=24); r += 1
 band(r, 1, 7, "Read this at pre-shift. Do not summarize it.", I10, CEN); r += 2
 
-for left, right in [("DATE:", "MATCHUP:"), ("DAY:", "KICKOFF / 1ST PITCH:"),
+for left, right in [("DATE:", "MATCHUP:"), ("DAY:", "KICKOFF:"),
                     ("SHIFT:  AM / PM", "DOORS:"), ("MANAGER ON DUTY:", "EXPECTED VOLUME:")]:
     lab(r, 1, left);  rule(r, 2, 3)
     lab(r, 4, right); rule(r, 6, 7)
