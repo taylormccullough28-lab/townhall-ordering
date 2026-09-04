@@ -176,7 +176,26 @@ for daypart in ("AM", "PM"):
         rr = top + 1 + i
         lab(rr, 5, s, R12)
         rule(rr, 6, 7)
-    r = top + 1 + max(len(STAFF_COUNTS), len(SHIFT_LEADS)) + 1
+    first, last = top + 1, top + len(STAFF_COUNTS)
+    tr = max(last, top + len(SHIFT_LEADS)) + 1
+    lab(tr, 1, "TOTAL SCHEDULED:", B11)
+    for col, letter in ((2, "B"), (3, "C")):
+        cell = ws.cell(row=tr, column=col)
+        cell.value = "=SUM({0}{1}:{0}{2})".format(letter, first, last)
+        cell.font, cell.alignment = B12, LEFT
+        cell.border = Border(top=thin)
+    ws.cell(row=tr, column=4).border = Border(top=thin)
+    ws.row_dimensions[tr].height = 19
+
+    tr2 = tr + 1
+    lab(tr2, 1, "TOTAL STAFF ON SHIFT:", B11)
+    total = ws.cell(row=tr2, column=2)
+    total.value = "=B{0}+C{0}".format(tr)
+    total.font, total.alignment = B12, LEFT
+    lab(tr2, 3, "(scheduled + in training)", F(10, False, True, "595959"))
+    ws.row_dimensions[tr2].height = 19
+
+    r = tr2 + 2
     ends = [stack_group(r, 1, "STAFF TO COACH — 1 HUDDL", COMPLETIONS),
             stack_group(r, 3, "7SHIFTS COMPLETION", COMPLETIONS)]
     r = max(ends) + 1

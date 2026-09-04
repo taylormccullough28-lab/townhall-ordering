@@ -117,7 +117,7 @@ Everybody knows all three before doors. If a guest has to ask what the special i
 
 Run it twice. Game day turns over mid-shift, and the PM crew walks into a different building than the AM crew opened.
 
-**AM crew** and **PM crew** each get all four. Staff #'s carries two numbers per role — how many are on, and how many are training.
+**AM crew** and **PM crew** each get all four. Staff #'s carries two numbers per role — how many are scheduled, and how many are training — and totals at the bottom of each block: scheduled, in training, and **total staff on shift** (scheduled + in training). The workbook calculates these; so does the web version.
 
 | Staff #'s (on / in training) | Shift leads | Staff to coach (1 Huddl) | 7shifts completion |
 |---|---|---|---|
