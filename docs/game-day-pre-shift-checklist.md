@@ -1,27 +1,37 @@
 # Game Day Pre-Shift — TownHall CLE
 
-**For:** Manager on duty. Read this out loud at pre-shift. Do not summarize it.
+**For:** Manager on duty. Fill this in before doors, then read it out loud at pre-shift. Do not summarize it.
 **When:** Every home game. Browns, Guardians, Cavs, and anything else that fills West 25th.
+
+> Companion files: `GameDay_PreShift_Template.xlsx` (printable fill-in form, built on the existing
+> TownHall pre-shift template) and the shareable web version of this same sheet.
 
 ---
 
-## Why game day is different
+## Shift header
 
-Game day is not a busy night. A busy night builds. Game day arrives all at once, twice, with a dead hour in the middle that makes people forget the second wave is coming.
+| | |
+|---|---|
+| Date | Matchup |
+| Day | Kickoff / 1st pitch |
+| Shift AM/PM | Doors |
+| Manager on duty | Expected volume |
 
-Three windows, and they are not the same job:
+---
+
+## Game day is not a busy night
+
+A busy night builds. Game day arrives all at once, twice, with a dead hour in the middle that makes people forget the second wave is coming. Three windows, and they are not the same job. Write the times on the board.
 
 - **Pre-game** — volume, speed, turn-and-burn. Guests have a hard out. If you are slow, they leave and eat somewhere else.
-- **Game window** — the floor thins and the bar fills. Fewer tickets, more drinks, more eyes on the TVs. This is when standards slip because it feels slow. It is not slow. It is the setup.
+- **Game window** — the floor thins and the bar fills. Standards slip here because it feels slow. It is not slow. It is the setup.
 - **Post-game** — the hardest 90 minutes of your week. Everyone arrives at once, half of them have already been drinking, and your staff has been on their feet for six hours.
-
-You plan for all three at pre-shift. Not for the one in front of you.
 
 ---
 
 ## The three hard lines
 
-These are non-negotiable on game day and every day. Zero tolerance. Nothing follows them.
+Non-negotiable on game day and every day. Say all three out loud, every game day. Zero tolerance. Nothing follows them.
 
 ### 1. No drinking
 
@@ -36,6 +46,8 @@ If you smell like it when you walk in, you are going home. We are serving alcoho
 No bottle leaves the bar as a promo, a comp, a gift, or a bucket for a table. Every bottle gets rung in and gets paid for. Every single one.
 
 A promo bottle is not generosity. It is inventory walking out the door with no ticket behind it, and on game day it is the easiest thing in the building to hide.
+
+**This is not the same thing as bottle service.** Bottle service is a product we sell and ring at full price — sell it hard. A promo bottle is one that leaves without a ticket. Sell every bottle. Give away none.
 
 ### 3. No discounts
 
@@ -53,38 +65,115 @@ That is not a threat. That is the basis of the relationship. Every one of these 
 
 ---
 
-## Manager checklist — 90 minutes before doors
+## ID'ing — no exceptions, not on game day
+
+**Every guest who looks under 40 gets carded. Every time.** At the bar, at the table, and again if someone hands them a drink they did not order. A busy bar is not a reason to skip it — it is the reason someone tries it.
+
+**Physical ID only.** Expired is not an ID. A vertical license means look twice and do the math out loud.
+
+**If you are not sure, you do not pour.** Hand it to a manager. Nobody gets second-guessed for using that door, and nobody gets a pass for skipping it.
+
+The liquor license is the entire business. One bad pour costs more than the whole night made.
+
+Name who is carding at the door and who is carding at the bar before doors open.
+
+---
+
+## Promos for the day
+
+Everybody knows all three before doors. If a guest has to ask what the special is, we missed it.
+
+| Promo | Price | The play |
+|---|---|---|
+| Suncruiser buckets | 6 / 30 | Lead with this at every table in the pre-game window. Fastest ticket in the building. |
+| Lucky One Lemonade | 6 / 24 | Same play. Buckets land on the table before the first food order goes in. |
+| **Tito's bottle service** | **Push hard** | The one we are chasing tonight. Offer it to every large party, every booth, every group already celebrating. Rings at full price — bottle service is sold, never comped. |
+
+---
+
+## The board
+
+- **Goal / contest for the day**
+- **New beers / new items**
+- **86**
+- **Parties / events**
+
+---
+
+## Staff counts & completions
+
+| Staff #'s | Shift leads | Staff to coach (1 Huddl) | 7shifts completion |
+|---|---|---|---|
+| Servers | Server | Server | Server |
+| Bartenders | Café | Bar | Bar |
+| Café | Bartender | Café | Café |
+| Hosts | Host | Host | Host |
+| Runners | Bar | Barback | Barback |
+| Barbacks | Barback | | |
+| Shot girl | | | |
+| Managers | | | |
+
+---
+
+## Station assignments
+
+A name on every line before doors. An unassigned station is an unowned station.
+
+**Host** — Lead · Runner · Waters · Bathrooms
+
+**Runners** — Bar 100 · Bar 200 · Food
+
+**Bar** — 100 · 105 · 110 · 200 · Patio
+
+**Barbacks** — Main bar · Patio bar · Main floor · Café · Front patio
+
+**Shot girl** — on tonight
+
+**Taste plate** — running it
+
+Plus: cleaning duties.
+
+---
+
+## Game day open — 90 minutes before doors
 
 Work this in order. Do not delegate the first two.
 
-- **Know the game.** Kickoff/first pitch time, expected attendance, national TV or not, weather. Write the times on the board where staff can see them.
-- **Build the three windows on paper.** Cut times, breaks, and the post-game all-hands are decided now, not at 9pm when you are underwater.
-- **Staffing check against 7shifts.** Confirm every scheduled body is coming. One no-show on a normal Tuesday is an inconvenience. One no-show on game day is a two-hour wait.
-- **Walk the building.** Every station, front and back. You are looking for the 3 Rules: a place for everything and everything in its place, everything you need and nothing you don't, original position and original condition. If a station starts the shift wrong it will not fix itself at volume.
-- **Bar par, doubled.** Ice, kegs, backups, garnish, glassware, batch. Whatever you think you need for a Saturday, game day needs more. Run out at 7pm and you are done for the night.
-- **86 board current and visible.** Walk it with the kitchen yourself. Nothing gets sold that we cannot make.
-- **Mains timing.** Mains do not go out before 5:00 PM. If the game is early, the whole staff needs to hear that number so nobody promises a guest something we will not fire.
-- **TVs, sound, and the feed.** Test every screen and confirm the game is up before a single guest sits down. A dead TV on game day is the only thing guests will remember.
-- **Restrooms stocked and clean.** Then assign who is checking them every 45 minutes, by name.
-- **POS and printers.** Test a ticket to every printer. Confirm cards are running. A card processor going down at post-game is a night-ender.
-- **Cash on hand.** Enough small bills for a bar that will run cash all night.
-- **Doors, patio, and the line plan.** Where the wait forms, who is holding it, and how they are talking to it.
+- [ ] **Know the game.** Kickoff, expected attendance, national TV or not, weather. Write the times on the board.
+- [ ] **Every staff member can name all three promos.** Ask two people at random before you let pre-shift end.
+- [ ] **Build the three windows on paper.** Cut times, breaks, and the post-game all-hands are decided now — not at 9pm when you are underwater.
+- [ ] **Staffing confirmed against 7shifts.** One no-show on a Tuesday is an inconvenience. One no-show on game day is a two-hour wait.
+- [ ] **A name on every station.** Host, runners, bar, barbacks, shot girl, taste plate.
+- [ ] **Every station walked, front and back.** The 3 Rules on all of them: a place for everything and everything in its place; everything you need, nothing you don't; original position, original condition.
+- [ ] **Bar par doubled.** Ice, kegs, backups, garnish, glassware, batch. Run out at 7pm and you are done for the night.
+- [ ] **86 board walked with the kitchen.** Current and visible. Nothing gets sold that we cannot make.
+- [ ] **Mains timing called out.** Nothing fires before 5:00 PM. On an early game the whole staff hears that number.
+- [ ] **TVs, sound and the game feed tested.** Every screen, game up, before a single guest sits down.
+- [ ] **ID check covered.** Door and bar both know who is carding, and the light works.
+- [ ] **Restrooms stocked, name on the 45-minute rotation.**
+- [ ] **POS, printers and card processing tested with a live ticket.**
+- [ ] **Cash on hand** for a bar that will run cash all night.
+- [ ] **Door, patio and line plan.** Where the wait forms, who holds it, and how they are talking to it.
+
+**Yes / No before doors:** Is staff in uniform? · Servers have wine key & lighter? · ID'ing everyone under 40? · Bar par doubled for post-game?
+
+**\*\*REMIND STAFF TO TEXT FRIENDS TO COME VISIT\*\***
 
 ---
 
 ## Pre-shift meeting — 15 minutes before doors
 
-Hold it. Every game day, no exceptions. Pre-shift is the most important part of your day and it is the one thing that gets cut when you are behind. Do not cut it.
+Hold it. Every game day, no exceptions. Pre-shift is the most important part of your day and it is the first thing that gets cut when you are behind. Do not cut it.
 
-Cover these, in this order:
-
-1. **The three hard lines.** Say all three out loud, every game day. No drinking. No promo bottles. No discounts. If they hear it every time, nobody gets to say they did not know.
-2. **The three windows and the times.** When the rush hits, when it dies, when it comes back. Say the numbers.
-3. **86 board and anything new.** Read it. Do not point at it.
-4. **Sections, stations, and support assignments.** Who is where, and who is helping who when it breaks.
-5. **One service focus for the night.** One. Pick greet time, or drink speed, or table touches — not all three. A staff can execute one thing at 100% volume. They cannot execute five.
-6. **Allergen and temp standards.** We are not a nut-free or gluten-free kitchen and every asterisked item carries the raw/undercooked disclaimer. Volume is not a reason to skip that conversation with a guest. It is the reason to have it.
-7. **Questions.** Actually stop and wait for them.
+1. **The three hard lines.** No drinking. No promo bottles. No discounts. Every game day. If they hear it every time, nobody gets to say they did not know.
+2. **ID'ing.** Under 40 gets carded. Not sure means you do not pour.
+3. **The promos.** All three, by name and price, with the play for each.
+4. **The three windows and the times.** When the rush hits, when it dies, when it comes back. Say the numbers.
+5. **86 board and anything new.** Read it. Do not point at it.
+6. **Station assignments.** Read the names off the sheet so everyone hears where everyone else is.
+7. **One service focus for the night.** One. Greet time, or drink speed, or table touches — not all three. A staff can execute one thing at 100% volume. They cannot execute five.
+8. **Allergen and temp standards.** We are not a nut-free or gluten-free kitchen, and every asterisked item carries the raw and undercooked disclaimer. Volume is not a reason to skip that conversation with a guest. It is the reason to have it.
+9. **Questions.** Actually stop and wait for them.
 
 Close it the same way every time: **You will never get in trouble for asking for help, but you will get in trouble for not asking for help.**
 
@@ -93,57 +182,64 @@ Close it the same way every time: **You will never get in trouble for asking for
 ## By position
 
 ### Bar
-- Every drink rings before it pours. On game day the bar is the highest-volume, lowest-visibility station in the building — that discipline is the whole ballgame.
-- No promo bottles. No comps. Full price, every ticket.
-- Cut people early and tell a manager immediately. On game day you will over-serve someone if you are not deliberate about it. Do not wait until it is obvious.
-- Backups stay stocked during the game window, not after it. The lull is prep for the post-game wave.
-- Ice, garnish, glassware checked every 45 minutes.
-
-### Servers
-- Greet inside 30 seconds. On game day guests are on a clock and they know it.
-- Ask the timing question first: "Are you trying to be out by kickoff?" Then fire the ticket accordingly.
-- Full hands in, full hands out. Every trip.
-- Primary job is your guests. Secondary is finding work — run food, run drinks, bus tables. Tertiary is helping the person next to you. There is always something to do.
-- No discount authority. Guest issue goes to a manager, immediately, not at the end of the rush.
+- ID before you pour. Every time, no exceptions, however deep the rail is stacked.
+- Every drink rings before it pours. The bar is the highest-volume, lowest-visibility station in the building — that discipline is the whole ballgame.
+- No promo bottles. No comps. Full price, every ticket. Sell the bottle service.
+- Cut people early and tell a manager immediately. You will over-serve someone tonight if you are not deliberate about it.
+- Backups get stocked during the game window, not after it. The lull is prep for the post-game wave.
 
 ### Host
-- Own the door and own the wait. An accurate quote is worth more than a short one.
-- Every guest gets a real number, not a hopeful one. Then beat it.
-- Keep the line moving off the sidewalk and out of the entry.
-- Communicate the wait to the bar so they can pick up bodies.
+- Own the door and own the wait. An accurate quote is worth more than a short one — give a real number, then beat it.
+- Card at the door when the room is young. It is far easier there than at the bar with a drink already poured.
+- Lead runs the book. Runner, waters and bathrooms are named before doors and rotate on the clock, not on request.
+- Keep the line moving off the sidewalk and out of the entry. Feed the wait to the bar so they can pick up bodies.
+
+### Servers
+- Greet inside 30 seconds. Guests are on a clock and they know it.
+- Ask the timing question first — "are you trying to be out by kickoff?" — then fire the ticket accordingly.
+- Card every table before the first round lands. Not after.
+- Lead with the buckets in the pre-game window.
+- Full hands in, full hands out. Every trip.
+- Primary job is your guests. Secondary is finding work: run food, run drinks, bus tables. Tertiary is helping the person next to you.
+- No discount authority. A guest issue goes to a manager immediately, not at the end of the rush.
+
+### Runners & barbacks
+- You set the pace of the whole building. Tables turning is the only thing standing between us and a 90-minute wait.
+- Bar 100 and Bar 200 stay on their own bar — you do not both drift to whichever one is loudest.
+- Ice, glassware, trash and restrooms on a rotation, not on request.
+- Run food. Every one of you. Full hands in, full hands out.
 
 ### Kitchen
 - Prep to game-day pars, not weeknight pars. Confirm with the manager before service, not during it.
 - 86 goes to the manager the moment you see it coming — not when you hit zero.
-- Ticket times get called every window. The pre-game rush and the post-game rush are two different fights.
+- Ticket times get called every window. Pre-game and post-game are two different fights.
 - Original position, original condition on every station at every changeover.
-
-### Support / bussers / barbacks
-- You set the pace of the whole building on game day. Tables turning is the only thing standing between us and a 90-minute wait.
-- Restrooms, trash, glassware, ice — on a rotation, not on request.
-- Run food. Every one of you. Full hands in, full hands out.
 
 ---
 
-## During the shift — manager floor discipline
+## Manager floor discipline
 
 - **Be on the floor.** Not in the office. Game day is not a paperwork night.
-- **Touch tables in the window before the rush and in the window after it.** During the crush you are expediting, not visiting.
-- **Watch the bar, specifically.** Volume, comps, voids, and over-service all live in the same place.
+- **Touch tables before the rush and after it.** During the crush you are expediting, not visiting.
+- **Watch the bar specifically.** Volume, comps, voids, ID checks and over-service all live in the same place.
 - **Every void and comp goes through you, and you ring it.** If a number moves on a check, your name is on it.
+- **Back every refusal.** If a bartender or host turns someone away on an ID, they are right until proven otherwise, in front of the guest.
 - **Model the standard.** If you want your staff to smile at tables, you must smile at tables. If you want them to have a sense of urgency, you must always have a sense of urgency.
 - **Correct in the moment, quietly, and move on.** Correction on a game day is normal. Public correction is not.
 - **Feed your people.** Breaks happen in the game window. Put them on the board and hold to it.
 
 ---
 
-## Post-game and close
+## Post-game & close
 
-- All hands on the floor before the final whistle. Not after. If you are still cutting staff when post-game hits, you are already behind.
-- Bar counts and inventory get done tonight, not tomorrow. Full bottle count. Game day is the night the numbers matter most.
-- Reconcile every void, comp, and discount against a manager name. If one does not have a name on it, find out why before you leave.
-- Every station back to original position, original condition. The 3 Rules do not get suspended because it was busy.
-- Write the shift notes while you can still remember them: what we ran out of, where the wait broke down, what the next game day needs to be different.
+- [ ] All hands on the floor before the final whistle — not after.
+- [ ] Full bottle count and bar inventory tonight, not tomorrow.
+- [ ] Every void, comp and discount reconciled to a manager name.
+- [ ] Every refusal and cut-off logged — what happened, who made the call, what time.
+- [ ] Every station back to original position, original condition.
+- [ ] Shift notes written: what we ran out of, where the wait broke down, what the next game day needs to be different.
+
+Plus: marketing, and other important notes.
 
 ---
 
