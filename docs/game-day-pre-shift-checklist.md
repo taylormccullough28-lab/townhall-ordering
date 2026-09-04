@@ -29,11 +29,15 @@ A busy night builds. Game day arrives all at once, twice, with a dead hour in th
 
 ---
 
-## National anthem — the line up
+## National anthem
 
-The anthem is a moment we own. Shots lined up on the bar **before** it starts, not during it. The floor stops, staff stops, nobody runs a plate through it.
+**When the anthem starts, the staff lines up behind the bar and faces the projector screen. All of you.**
 
-Fill in before doors: anthem time · what is lined up and how many · who is pouring · where they line up.
+Everything stops. No pouring, no running food, no ringing tickets, no side conversations. Hands empty, hats off, eyes on the screen.
+
+It is ninety seconds. In a room full of people who have never been here, it is the ninety seconds they remember. Get the floor ready before it starts, not during it.
+
+Fill in before doors: anthem time · who calls the floor to stop.
 
 ---
 
@@ -149,7 +153,7 @@ Work this in order. Do not delegate the first two.
 
 - [ ] **Know the game.** Kickoff, expected attendance, national TV or not, weather. Write the times on the board.
 - [ ] **Every staff member can name all three promos.** Ask two people at random before you let pre-shift end.
-- [ ] **Anthem time on the board, line up poured before it starts.** Nobody is chasing shots while the anthem is playing.
+- [ ] **Anthem time on the board.** Every staff member knows to line up behind the bar and face the screen.
 - [ ] **Social media assigned, phone charged, shot list known.**
 - [ ] **Build the three windows on paper.** Cut times, breaks, and the post-game all-hands are decided now — not at 9pm when you are underwater.
 - [ ] **Staffing confirmed against 7shifts.** One no-show on a Tuesday is an inconvenience. One no-show on game day is a two-hour wait.
@@ -219,7 +223,7 @@ Close it the same way every time: **You will never get in trouble for asking for
 
 ### Social media
 - Work the room all night, not just the first hour. The best footage is the post-game room, and that is when most people have already put the phone away.
-- The shot list: the line up before the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt.
+- The shot list: the staff lined up behind the bar during the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt.
 - Shoot people who want to be shot. Ask first. Never a minor, never a check, never a POS screen.
 - Post in the game window, not in the crush. You are on the floor to capture it, not to stand in it.
 

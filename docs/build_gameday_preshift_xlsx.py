@@ -81,10 +81,10 @@ for name, note in [
     band(r, 3, 7, note, R11, LEFT, height=16); r += 1
 r += 1
 
-band(r, 1, 7, "NATIONAL ANTHEM — LINE UP", B12, LEFT, fill=GREY, height=18); r += 1
-band(r, 1, 7, "Anthem is a moment we own. Shots lined up on the bar BEFORE it starts, not during it. Floor stops, staff stops, nobody runs a plate through it.", R11, LEFT, height=28); r += 1
-for left, right in [("ANTHEM TIME:", "SHOTS LINED UP (WHAT / HOW MANY):"),
-                    ("WHO IS POURING:", "WHERE THEY LINE UP:")]:
+band(r, 1, 7, "NATIONAL ANTHEM", B12, LEFT, fill=GREY, height=18); r += 1
+band(r, 1, 7, "When the anthem starts, the staff lines up behind the bar and faces the projector screen. All of you.", B11, LEFT, height=17); r += 1
+band(r, 1, 7, "Everything stops. No pouring, no running food, no ringing tickets, no side conversations. Hands empty, hats off, eyes on the screen. It is ninety seconds, and in a room full of people who have never been here, it is the ninety seconds they remember. Get the floor ready before it starts, not during it.", R11, LEFT, height=44); r += 1
+for left, right in [("ANTHEM TIME:", "WHO CALLS THE FLOOR TO STOP:")]:
     lab(r, 1, left, R11); rule(r, 2, 2)
     lab(r, 3, right, R11); ws.merge_cells(start_row=r, end_row=r, start_column=3, end_column=5)
     rule(r, 6, 7); ws.row_dimensions[r].height = 18
@@ -192,7 +192,7 @@ band(r, 1, 7, "GAME DAY OPEN — 90 MINUTES BEFORE DOORS", B12, LEFT, fill=GREY,
 r = checks(r, [
     "Know the game — kickoff, attendance, national TV, weather. Times on the board.",
     "Every staff member can name all three promos — ask two people at random before pre-shift ends.",
-    "Anthem time on the board, and the line-up poured before it starts.",
+    "Anthem time on the board — every staff member knows to line up behind the bar.",
     "Social media assigned, phone charged, and they know the shot list.",
     "Three windows built on paper — cut times, breaks, post-game all-hands decided now.",
     "Staffing confirmed against 7shifts. One no-show on game day is a two-hour wait.",
@@ -221,7 +221,7 @@ for name, note in [
     ("SERVERS", 'Greet inside 30 seconds. Ask "are you trying to be out by kickoff?" first, then fire accordingly. Card every table before the first round lands. Full hands in, full hands out. Guest issue goes to a manager immediately.'),
     ("HOST", "Own the door and own the wait. An accurate quote beats a short one — give a real number, then beat it. Card at the door when the room is young; it is far easier there than at the bar. Keep the line off the sidewalk and feed the wait to the bar."),
     ("KITCHEN", "Prep to game-day pars, confirmed before service. 86 goes to the manager when you see it coming, not when you hit zero. Ticket times called every window. Original position, original condition at every changeover."),
-    ("SOCIAL", "Work the room all night, not just the first hour. Get the line-up before the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt. Shoot people who want to be shot — ask first, and never a minor, a check, or a POS screen. Post in the game window, not in the crush."),
+    ("SOCIAL", "Work the room all night, not just the first hour. Get the staff lined up behind the bar during the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt. Shoot people who want to be shot — ask first, and never a minor, a check, or a POS screen. Post in the game window, not in the crush."),
     ("SUPPORT", "You set the pace of the building. Tables turning is the only thing standing between us and a two-hour wait. Everybody runs food."),
 ]:
     lab(r, 1, name, B11)
