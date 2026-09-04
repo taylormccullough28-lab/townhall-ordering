@@ -880,8 +880,8 @@
     <div class="toolbar">
       <button class="reset" type="button" data-print>Print this sheet</button>
       <button class="reset" type="button" data-clear>Clear the whole sheet</button>
-      <button class="reset" type="button" data-save hidden>Save filled copy to print</button>
-      <span class="hint" data-hint>Printing from inside this frame is blocked by the viewer. <b>Save filled copy to print</b> hands you a file with everything you have typed — open it and print normally.</span>
+      <button class="reset" type="button" data-save hidden>Download filled PDF</button>
+      <span class="hint" data-hint>Printing from inside this frame is blocked by the viewer. <b>Download filled PDF</b> builds a PDF of this sheet with everything you have typed — open it and print it.</span>
     </div>
   </div>
 
@@ -1083,43 +1083,532 @@
       refreshers.forEach(function (fn) { fn(); });
     });
 
-    /* ---- save a standalone copy carrying what has been typed ----
-       Values live in the DOM as properties, not attributes, so a plain clone
-       comes out blank. Copy each one onto the clone as an attribute. */
-    function buildStandalone() {
-      var sheet = document.querySelector(".sheet").cloneNode(true);
-      var live = document.querySelectorAll(".sheet input, .sheet textarea, .sheet output");
-      var copy = sheet.querySelectorAll("input, textarea, output");
+    /* ---- build a real PDF of the sheet as filled ---- */
+    /* Minimal PDF writer for the pre-shift sheet.
+       Pure function of a block model — no DOM, no libraries, so it runs in the
+       page and in Node (which is how it gets tested). Uses the PDF base-14
+       fonts, so nothing is embedded and the file stays small. */
+    function buildPreShiftPdf(blocks, opts) {
+      opts = opts || {};
+      var W = 612, H = 792;                 // US Letter, points
+      var ML = 38, MR = 38, MT = 42, MB = 40;
+      var CW = W - ML - MR;                 // content width
 
-      live.forEach(function (el, i) {
-        var to = copy[i];
-        if (!to) return;
-        if (el.type === "checkbox") {
-          if (el.checked) to.setAttribute("checked", "checked");
-          else to.removeAttribute("checked");
-        } else if (el.tagName === "TEXTAREA") {
-          to.textContent = el.value;
-        } else if (el.tagName === "OUTPUT") {
-          to.textContent = el.textContent;
-        } else {
-          to.setAttribute("value", el.value);
+      var HEL = [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+      var BLD = [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584];
+
+      function widths(font) { return font.indexOf("B") === 0 ? BLD : HEL; }
+
+      // WinAnsi bytes we care about beyond ASCII
+      var SPECIAL = { "é": 233, "É": 201, "è": 232, "ü": 252, "ö": 246, "á": 225 };
+
+      function normalize(s) {
+        return String(s == null ? "" : s)
+          .replace(/[—–]/g, "-")
+          .replace(/[‘’]/g, "'")
+          .replace(/[“”]/g, '"')
+          .replace(/ /g, " ")
+          .replace(/[•·]/g, "-")
+          .replace(/…/g, "...");
+      }
+
+      function charWidth(ch, font) {
+        var code = ch.charCodeAt(0);
+        if (code >= 32 && code <= 126) return widths(font)[code - 32];
+        if (SPECIAL[ch]) return font.indexOf("B") === 0 ? 556 : 556;
+        return widths(font)[0];
+      }
+
+      function textWidth(str, font, size) {
+        str = normalize(str);
+        var w = 0;
+        for (var i = 0; i < str.length; i++) w += charWidth(str[i], font);
+        return w * size / 1000;
+      }
+
+      function escape(str) {
+        str = normalize(str);
+        var out = "";
+        for (var i = 0; i < str.length; i++) {
+          var ch = str[i], code = ch.charCodeAt(0);
+          if (ch === "(" || ch === ")" || ch === "\\") out += "\\" + ch;
+          else if (code >= 32 && code <= 126) out += ch;
+          else if (SPECIAL[ch]) out += "\\" + SPECIAL[ch].toString(8);
+          else out += "?";
+        }
+        return out;
+      }
+
+      function wrap(str, font, size, maxW) {
+        var words = normalize(str).split(/\s+/).filter(Boolean), lines = [], line = "";
+        for (var i = 0; i < words.length; i++) {
+          var test = line ? line + " " + words[i] : words[i];
+          if (textWidth(test, font, size) <= maxW || !line) line = test;
+          else { lines.push(line); line = words[i]; }
+        }
+        if (line) lines.push(line);
+        return lines.length ? lines : [""];
+      }
+
+      // ---- page state ----
+      var pages = [], cur = null, y = 0;
+
+      function newPage() {
+        cur = { ops: [] };
+        pages.push(cur);
+        y = H - MT;
+      }
+
+      function need(h) { if (y - h < MB) newPage(); }
+
+      function op(s) { cur.ops.push(s); }
+
+      function drawText(x, yy, str, font, size, gray) {
+        op("BT /" + font + " " + size + " Tf " +
+           (gray != null ? gray + " g " : "0 g ") +
+           x.toFixed(2) + " " + yy.toFixed(2) + " Td (" + escape(str) + ") Tj ET");
+      }
+
+      function line(x1, y1, x2, y2, w, gray) {
+        op((gray != null ? gray : 0.75) + " G " + (w || 0.5) + " w " +
+           x1.toFixed(2) + " " + y1.toFixed(2) + " m " + x2.toFixed(2) + " " + y2.toFixed(2) + " l S");
+      }
+
+      function rect(x, yy, w, h, lw, gray) {
+        op((gray != null ? gray : 0.4) + " G " + (lw || 0.6) + " w " +
+           x.toFixed(2) + " " + yy.toFixed(2) + " " + w.toFixed(2) + " " + h.toFixed(2) + " re S");
+      }
+
+      function fillRect(x, yy, w, h, gray) {
+        op(gray + " g " + x.toFixed(2) + " " + yy.toFixed(2) + " " + w.toFixed(2) + " " + h.toFixed(2) + " re f");
+      }
+
+      function paragraph(str, font, size, lead, gray, indent) {
+        var x = ML + (indent || 0);
+        var lines = wrap(str, font, size, CW - (indent || 0));
+        for (var i = 0; i < lines.length; i++) {
+          need(lead);
+          y -= lead;
+          drawText(x, y, lines[i], font, size, gray);
+        }
+      }
+
+      // measure how tall a card will be so it never splits across a page
+      function cardHeight(card, w) {
+        var h = 16;
+        if (card.rows) h += card.rows.length * 13;
+        if (card.lines) card.lines.forEach(function (t) { h += wrap(t, "H", 8, w - 14).length * 10.5 + 3; });
+        return h + 8;
+      }
+
+      function drawCard(x, top, w, card) {
+        var h = cardHeight(card, w);
+        rect(x, top - h, w, h, 0.6, 0.72);
+        var yy = top - 12;
+        drawText(x + 7, yy, (card.title || "").toUpperCase(), "B", 7.2, 0.15);
+        line(x + 7, yy - 4, x + w - 7, yy - 4, 0.4, 0.82);
+        yy -= 13;
+        (card.rows || []).forEach(function (r) {
+          drawText(x + 7, yy, r.label, "H", 7.4, 0.35);
+          var lx = x + 7 + Math.max(textWidth(r.label, "H", 7.4) + 6, 52);
+          line(lx, yy - 2, x + w - 7, yy - 2, 0.4, 0.8);
+          if (r.value) drawText(lx + 2, yy, r.value, "B", 8, 0.1);
+          yy -= 13;
+        });
+        (card.lines || []).forEach(function (t) {
+          wrap(t, "H", 8, w - 14).forEach(function (ln) {
+            drawText(x + 7, yy, ln, "H", 8, 0.25);
+            yy -= 10.5;
+          });
+          yy -= 3;
+        });
+        return h;
+      }
+
+      newPage();
+
+      blocks.forEach(function (b) {
+        if (b.t === "h1") {
+          need(34);
+          y -= 26;
+          drawText(ML, y, b.text, "B", 22, 0.05);
+          y -= 8;
+        } else if (b.t === "eyebrow") {
+          need(14);
+          y -= 11;
+          drawText(ML, y, b.text.toUpperCase(), "B", 7.4, 0.35);
+        } else if (b.t === "h2") {
+          need(26);
+          y -= 18;
+          drawText(ML, y, b.text, "B", 12.5, b.accent ? 0.0 : 0.05);
+          y -= 5;
+          line(ML, y, W - MR, y, 0.7, 0.55);
+          y -= 4;
+        } else if (b.t === "h3") {
+          need(16);
+          y -= 12;
+          drawText(ML, y, b.text, "B", 9.5, 0.1);
+          y -= 2;
+        } else if (b.t === "p") {
+          paragraph(b.text, b.bold ? "B" : "H", b.size || 8.6, (b.size || 8.6) + 3, b.gray != null ? b.gray : 0.2, b.indent);
+          y -= 3;
+        } else if (b.t === "bullets") {
+          b.items.forEach(function (it) {
+            var lines = wrap(it, "H", 8.4, CW - 12);
+            need(lines.length * 11);
+            for (var i = 0; i < lines.length; i++) {
+              y -= 11;
+              if (i === 0) drawText(ML + 2, y, "-", "B", 8.4, 0.45);
+              drawText(ML + 12, y, lines[i], "H", 8.4, 0.2);
+            }
+          });
+          y -= 3;
+        } else if (b.t === "fields") {
+          var cols = b.cols || 3;
+          var gap = 14, cw = (CW - gap * (cols - 1)) / cols;
+          for (var i = 0; i < b.items.length; i += cols) {
+            need(20);
+            y -= 16;
+            for (var c = 0; c < cols && i + c < b.items.length; c++) {
+              var it = b.items[i + c], x = ML + c * (cw + gap);
+              drawText(x, y, it.label.toUpperCase(), "B", 6.6, 0.4);
+              var lx = x + textWidth(it.label.toUpperCase(), "B", 6.6) + 6;
+              line(lx, y - 2, x + cw, y - 2, 0.4, 0.78);
+              if (it.value) drawText(lx + 2, y, it.value, "B", 8.2, 0.1);
+            }
+          }
+          y -= 4;
+        } else if (b.t === "cards") {
+          var ccols = b.cols || 3, cgap = 10;
+          var ccw = (CW - cgap * (ccols - 1)) / ccols;
+          for (var j = 0; j < b.cards.length; j += ccols) {
+            var row = b.cards.slice(j, j + ccols);
+            var tallest = 0;
+            row.forEach(function (cd) { tallest = Math.max(tallest, cardHeight(cd, ccw)); });
+            need(tallest + 6);
+            y -= 4;
+            var top = y;
+            row.forEach(function (cd, k) { drawCard(ML + k * (ccw + cgap), top, ccw, cd); });
+            y = top - tallest;
+          }
+          y -= 4;
+        } else if (b.t === "checks") {
+          b.items.forEach(function (it) {
+            var tl = wrap(it.title, "B", 8.6, CW - 20);
+            var nl = it.note ? wrap(it.note, "H", 8, CW - 20) : [];
+            need(tl.length * 11 + nl.length * 10 + 6);
+            y -= 11;
+            rect(ML, y - 1.5, 8, 8, 0.7, 0.25);
+            if (it.checked) {
+              op("0.15 G 1.1 w " + (ML + 1.6) + " " + (y + 2.2) + " m " + (ML + 3.4) + " " + (y - 0.2) +
+                 " l " + (ML + 6.6) + " " + (y + 5.4) + " l S");
+            }
+            drawText(ML + 14, y, tl[0], "B", 8.6, 0.1);
+            for (var i = 1; i < tl.length; i++) { y -= 11; drawText(ML + 14, y, tl[i], "B", 8.6, 0.1); }
+            nl.forEach(function (ln) { y -= 10; drawText(ML + 14, y, ln, "H", 8, 0.35); });
+            y -= 4;
+          });
+        } else if (b.t === "yn") {
+          var ycols = 2, ygap = 10, ycw = (CW - ygap) / ycols;
+          for (var q = 0; q < b.items.length; q += ycols) {
+            need(22);
+            y -= 18;
+            for (var d = 0; d < ycols && q + d < b.items.length; d++) {
+              var qi = b.items[q + d], qx = ML + d * (ycw + ygap);
+              rect(qx, y - 4, ycw, 17, 0.8, 0.2);
+              drawText(qx + 6, y + 1, qi.label, "B", 8, 0.1);
+              var tag = qi.answer === true ? "YES" : qi.answer === false ? "NO" : "YES / NO";
+              drawText(qx + ycw - 6 - textWidth(tag, "B", 7.6), y + 1, tag, "B", 7.6, 0.25);
+            }
+          }
+          y -= 6;
+        } else if (b.t === "banner") {
+          need(24);
+          y -= 20;
+          rect(ML, y - 4, CW, 18, 0.9, 0.15);
+          var bw = textWidth(b.text, "B", 9);
+          drawText(ML + (CW - bw) / 2, y + 1, b.text, "B", 9, 0.05);
+          y -= 6;
+        } else if (b.t === "note") {
+          need(16);
+          y -= 13;
+          fillRect(ML, y - 4, CW, 15, 0.93);
+          drawText(ML + 6, y, b.text, "B", 8.4, 0.1);
+          y -= 4;
+        } else if (b.t === "box") {
+          need(b.h + 16);
+          y -= 12;
+          drawText(ML, y, b.label.toUpperCase(), "B", 6.8, 0.4);
+          y -= 3;
+          rect(ML, y - b.h, CW, b.h, 0.5, 0.75);
+          if (b.value) {
+            var vy = y - 10;
+            wrap(b.value, "H", 8.4, CW - 10).forEach(function (ln) {
+              drawText(ML + 5, vy, ln, "B", 8.4, 0.1);
+              vy -= 11;
+            });
+          }
+          y -= b.h + 4;
+        } else if (b.t === "space") {
+          y -= (b.h || 8);
+        } else if (b.t === "rule") {
+          need(8);
+          y -= 6;
+          line(ML, y, W - MR, y, b.w || 1, b.gray != null ? b.gray : 0.5);
+          y -= 2;
+        } else if (b.t === "pagebreak") {
+          newPage();
         }
       });
 
-      var toolbar = sheet.querySelector(".toolbar");
-      if (toolbar) toolbar.remove();
+      // ---- assemble the file ----
+      var objs = [], fonts = { H: "Helvetica", B: "Helvetica-Bold" };
+      function add(body) { objs.push(body); return objs.length; }
 
-      var head = "";
-      document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) { head += l.outerHTML + "\n"; });
-      document.querySelectorAll("style").forEach(function (st) { head += st.outerHTML + "\n"; });
+      var fontIds = {};
+      Object.keys(fonts).forEach(function (k) {
+        fontIds[k] = add("<< /Type /Font /Subtype /Type1 /BaseFont /" + fonts[k] +
+                         " /Encoding /WinAnsiEncoding >>");
+      });
 
-      var title = (document.title || "Game Day Pre-Shift");
-      return "<!doctype html>\n<html lang=\"en\" data-theme=\"light\">\n<head>\n" +
-        '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
-        "<title>" + title + "</title>\n" + head +
-        '<style>html{color-scheme:light}body{margin:0;background:#F5F1F0}img{max-width:100%}</style>\n' +
-        "</head>\n<body>\n" + sheet.outerHTML + "\n</body>\n</html>\n";
+      var pagesId = objs.length + 1 + pages.length * 2;
+      var kids = [];
+      pages.forEach(function (pg) {
+        var stream = pg.ops.join("\n");
+        var contentId = add("<< /Length " + stream.length + " >>\nstream\n" + stream + "\nendstream");
+        var res = "<< /Font << " + Object.keys(fontIds).map(function (k) {
+          return "/" + k + " " + fontIds[k] + " 0 R";
+        }).join(" ") + " >> >>";
+        var pageId = add("<< /Type /Page /Parent " + pagesId + " 0 R /MediaBox [0 0 " + W + " " + H +
+                         "] /Resources " + res + " /Contents " + contentId + " 0 R >>");
+        kids.push(pageId);
+      });
+
+      var realPagesId = add("<< /Type /Pages /Count " + kids.length + " /Kids [" +
+                            kids.map(function (i) { return i + " 0 R"; }).join(" ") + "] >>");
+      var catalogId = add("<< /Type /Catalog /Pages " + realPagesId + " 0 R >>");
+      var info = add("<< /Title (" + escape(opts.title || "Game Day Pre-Shift") + ") /Producer (TownHall Pre-Shift) >>");
+
+      // page objects referenced pagesId before it was known; patch them
+      objs = objs.map(function (o) {
+        return typeof o === "string" ? o.replace("/Parent " + pagesId + " 0 R", "/Parent " + realPagesId + " 0 R") : o;
+      });
+
+      var out = "%PDF-1.4\n";
+      var offsets = [0];
+      objs.forEach(function (body, i) {
+        offsets.push(out.length);
+        out += (i + 1) + " 0 obj\n" + body + "\nendobj\n";
+      });
+      var xref = out.length;
+      out += "xref\n0 " + (objs.length + 1) + "\n0000000000 65535 f \n";
+      for (var i = 1; i <= objs.length; i++) {
+        out += ("0000000000" + offsets[i]).slice(-10) + " 00000 n \n";
+      }
+      out += "trailer\n<< /Size " + (objs.length + 1) + " /Root " + catalogId + " 0 R /Info " + info +
+             " 0 R >>\nstartxref\n" + xref + "\n%%EOF\n";
+
+      var bytes = new Uint8Array(out.length);
+      for (var b = 0; b < out.length; b++) bytes[b] = out.charCodeAt(b) & 0xff;
+      return bytes;
     }
+
+
+    /* Turn the live sheet into the block model buildPreShiftPdf renders.
+       Reads current values, so whatever is typed on the page ends up in the PDF. */
+    function sheetToBlocks() {
+      var blocks = [];
+      var sheet = document.querySelector(".sheet");
+      var txt = function (el) { return el ? el.textContent.replace(/\s+/g, " ").trim() : ""; };
+
+      function fieldsFrom(scope, cols) {
+        var items = [];
+        scope.querySelectorAll(".f").forEach(function (f) {
+          var input = f.querySelector("input, textarea");
+          if (!input) return;
+          items.push({ label: txt(f.querySelector("span")), value: input.value || "" });
+        });
+        return items.length ? { t: "fields", items: items, cols: cols || 3 } : null;
+      }
+
+      function cardFrom(group) {
+        var card = { title: txt(group.querySelector("h3")), rows: [] };
+        group.querySelectorAll(".f, .f3").forEach(function (row) {
+          var label = txt(row.querySelector("span"));
+          var inputs = row.querySelectorAll("input");
+          if (!inputs.length) return;
+          if (row.classList.contains("f3")) {
+            var on = inputs[0] ? inputs[0].value : "";
+            var tr = inputs[1] ? inputs[1].value : "";
+            card.rows.push({ label: label, value: (on || tr) ? (on || "0") + "  /  " + (tr || "0") : "" });
+          } else {
+            card.rows.push({ label: label, value: inputs[0].value || "" });
+          }
+        });
+        var totals = group.querySelectorAll(".counts-total");
+        totals.forEach(function (t) {
+          var outs = [];
+          t.querySelectorAll("output").forEach(function (o) { outs.push(o.textContent); });
+          card.rows.push({ label: txt(t.querySelector("span")), value: outs.join("  /  ") });
+        });
+        if (group.classList.contains("counts")) card.title += "  (on / training)";
+        return card;
+      }
+
+      sheet.querySelectorAll(":scope > header, :scope > section, :scope > .closer").forEach(function (sec) {
+        var eyebrow = sec.querySelector(".eyebrow");
+        if (eyebrow) blocks.push({ t: "eyebrow", text: txt(eyebrow) });
+
+        var h1 = sec.querySelector("h1");
+        if (h1) blocks.push({ t: "h1", text: txt(h1) });
+
+        var stand = sec.querySelector(".standfirst");
+        if (stand) blocks.push({ t: "p", text: txt(stand), size: 8.8, gray: 0.3 });
+
+        var head = sec.querySelector(".section-head");
+        if (head) {
+          var h2 = head.querySelector("h2");
+          if (h2) blocks.push({ t: "h2", text: txt(h2) });
+          head.querySelectorAll("p").forEach(function (p) {
+            blocks.push({ t: "p", text: txt(p), size: 8.4, gray: 0.35 });
+          });
+        }
+
+        var big = sec.querySelector(".closer .big, .big");
+        if (big) blocks.push({ t: "h2", text: txt(big) });
+
+        // three service windows
+        var windows = sec.querySelector(".windows");
+        if (windows) {
+          var cards = [];
+          windows.querySelectorAll(".window").forEach(function (w) {
+            var c = { title: txt(w.querySelector("h3")), rows: [], lines: [] };
+            w.querySelectorAll(":scope > p").forEach(function (p) { c.lines.push(txt(p)); });
+            var f = w.querySelector(".f input");
+            if (f) c.rows.push({ label: "Time", value: f.value || "" });
+            cards.push(c);
+          });
+          blocks.push({ t: "cards", cards: cards, cols: 3 });
+        }
+
+        // hard lines and ID'ing
+        sec.querySelectorAll(".rule-card").forEach(function (rc) {
+          var name = rc.querySelector(".rule-name");
+          if (name) blocks.push({ t: "h3", text: txt(name) });
+          rc.querySelectorAll("p").forEach(function (p) {
+            blocks.push({ t: "p", text: txt(p), size: 8.4, gray: 0.15 });
+          });
+        });
+
+        var escape_ = sec.querySelector(".escape");
+        if (escape_) {
+          blocks.push({ t: "h3", text: txt(escape_.querySelector("h3")) });
+          escape_.querySelectorAll("p").forEach(function (p) {
+            blocks.push({ t: "p", text: txt(p), size: 8.4, bold: p.classList.contains("pull"), gray: 0.15 });
+          });
+        }
+
+        // promos
+        var promos = sec.querySelector(".promo-list");
+        if (promos) {
+          promos.querySelectorAll("li").forEach(function (li) {
+            blocks.push({
+              t: "note",
+              text: txt(li.querySelector(".promo-name")) + "   -   " + txt(li.querySelector(".promo-price"))
+            });
+            blocks.push({ t: "p", text: txt(li.querySelector(".promo-note")), size: 8.2, gray: 0.3 });
+          });
+        }
+
+        // top-level field rows and note boxes, kept in document order
+        sec.querySelectorAll(":scope > .grid").forEach(function (g) {
+          var loose = [];
+          g.querySelectorAll(":scope > .f").forEach(function (f) {
+            var input = f.querySelector("input");
+            if (input) loose.push({ label: txt(f.querySelector("span")), value: input.value || "" });
+          });
+          if (loose.length) blocks.push({ t: "fields", items: loose, cols: 3 });
+          g.querySelectorAll(":scope > .stack").forEach(function (st) {
+            var ta = st.querySelector("textarea");
+            if (ta) blocks.push({ t: "box", label: txt(st.querySelector("span")), value: ta.value || "", h: 34 });
+          });
+        });
+
+        // AM / PM daypart blocks of cards
+        sec.querySelectorAll(":scope > .daypart").forEach(function (dp) {
+          blocks.push({ t: "note", text: txt(dp) });
+          var groupsEl = dp.nextElementSibling;
+          if (groupsEl && groupsEl.classList.contains("groups")) {
+            var cards = [];
+            groupsEl.querySelectorAll(".group").forEach(function (g) { cards.push(cardFrom(g)); });
+            blocks.push({ t: "cards", cards: cards, cols: 3 });
+          }
+        });
+
+        // groups not under a daypart heading
+        sec.querySelectorAll(":scope > .groups").forEach(function (gs) {
+          var prev = gs.previousElementSibling;
+          if (prev && prev.classList.contains("daypart")) return;
+          var cards = [];
+          gs.querySelectorAll(".group").forEach(function (g) { cards.push(cardFrom(g)); });
+          blocks.push({ t: "cards", cards: cards, cols: 3 });
+        });
+
+        // checklists
+        sec.querySelectorAll(".checks").forEach(function (list) {
+          var items = [];
+          list.querySelectorAll("li").forEach(function (li) {
+            items.push({
+              title: txt(li.querySelector(".item-title")),
+              note: txt(li.querySelector(".item-note")),
+              checked: !!li.querySelector("input:checked")
+            });
+          });
+          blocks.push({ t: "checks", items: items });
+        });
+
+        // yes / no row
+        var yn = sec.querySelector(".yn");
+        if (yn) {
+          var qs = [];
+          yn.querySelectorAll("label").forEach(function (l) {
+            var box = l.querySelector("input");
+            qs.push({
+              label: l.textContent.replace(/\s+/g, " ").trim(),
+              answer: box && box.checked ? true : null
+            });
+          });
+          blocks.push({ t: "yn", items: qs });
+        }
+
+        var banner = sec.querySelector(".banner");
+        if (banner) blocks.push({ t: "banner", text: txt(banner) });
+
+        // by-position and manager discipline lists
+        sec.querySelectorAll(".position").forEach(function (pos) {
+          blocks.push({ t: "h3", text: txt(pos.querySelector("h3")) });
+          var items = [];
+          pos.querySelectorAll("li").forEach(function (li) { items.push(txt(li)); });
+          blocks.push({ t: "bullets", items: items });
+        });
+
+        var plain = sec.querySelector(".plain");
+        if (plain) {
+          var pitems = [];
+          plain.querySelectorAll("li").forEach(function (li) { pitems.push(txt(li)); });
+          blocks.push({ t: "bullets", items: pitems });
+        }
+
+        if (sec.classList.contains("closer")) {
+          sec.querySelectorAll("p:not(.big)").forEach(function (p) {
+            blocks.push({ t: "p", text: txt(p), size: 8.4, gray: 0.25 });
+          });
+        }
+      });
+
+      return blocks;
+    }
+
 
     function stamp() {
       var d = new Date();
@@ -1136,11 +1625,19 @@
         saveBtn.hidden = false;
         saveBtn.addEventListener("click", function () {
           saveBtn.disabled = true;
+          var bytes;
+          try {
+            bytes = buildPreShiftPdf(sheetToBlocks(), { title: "TownHall Game Day Pre-Shift" });
+          } catch (e) {
+            if (hint) hint.textContent = "Could not build the PDF here. Use \u2318P / Ctrl+P instead.";
+            saveBtn.disabled = false;
+            return;
+          }
           downloads.save({
-            filename: "GameDay-PreShift-" + stamp() + ".html",
-            data: buildStandalone()
+            filename: "GameDay-PreShift-" + stamp() + ".pdf",
+            data: bytes
           }).then(function () {
-            if (hint) hint.textContent = "Saved. Open that file and print it — everything you typed is in it.";
+            if (hint) hint.textContent = "Downloaded. Everything you typed is in that PDF — open it and print.";
           }).catch(function (err) {
             if (hint && err && err.code !== "declined") {
               hint.textContent = "Could not save the file here. Use \u2318P / Ctrl+P, or open this page in its own browser tab.";
