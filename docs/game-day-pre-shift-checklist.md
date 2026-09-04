@@ -136,13 +136,15 @@ Run it twice. Game day turns over mid-shift, and the PM crew walks into a differ
 
 A name on every line before doors, for both crews. An unassigned station is an unowned station.
 
-**AM crew** and **PM crew** each get all seven:
+**AM crew** and **PM crew** each get all eight:
 
 **Host** — First in command · Second in command · Runner · Waters · Bathrooms
 
 **Runners** — Bar 100 · Bar 200 · Food
 
 **Bar** — 100 · 105 · 110 · 200 · Patio
+
+**Barista** — POS 1 · POS 2 · Cocktail 1 · Cocktail 2
 
 **Barbacks** — Main bar · Patio bar · Main floor · Café · Front patio
 

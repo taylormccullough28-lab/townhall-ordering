@@ -207,6 +207,7 @@ STATIONS = [
     ("HOST", ["First in command:", "Second in command:", "Runner:", "Waters:", "Bathrooms:"]),
     ("RUNNERS", ["Bar 100:", "Bar 200:", "Food:"]),
     ("BAR", ["100:", "105:", "110:", "200:", "Patio:"]),
+    ("BARISTA", ["POS 1:", "POS 2:", "Cocktail 1:", "Cocktail 2:"]),
     ("BARBACKS", ["Main Bar:", "Patio Bar:", "Main Floor:", "Café:", "Front Patio:"]),
     ("SHOT GIRL", ["On tonight:"]),
     ("TASTE PLATE", ["Running it:"]),
