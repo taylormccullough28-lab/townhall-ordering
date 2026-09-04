@@ -113,6 +113,11 @@
   .item.fixture.sel .shape { fill: none; stroke: var(--accent); }
   .stage.editing .item { cursor: move; }
   .selbox { fill: none; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 10 7; pointer-events: none; }
+  .zonebox { fill: none; stroke: var(--accent); stroke-width: 6; stroke-dasharray: 24 15; pointer-events: none; }
+  .rot-stem { stroke: var(--accent); stroke-width: 4; pointer-events: none; }
+  .rot-icon { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
+  .rot-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
+  .stage.editing .zone-hit { cursor: move; }
 
   /* -------------------------------- panel -------------------------------- */
   .panel {
@@ -279,8 +284,8 @@
     zones: [
       {
         id: 'patio', name: 'Patio', color: '#33593F', ox: 60, oy: 110,
-        title: { x: 85, y: -76 },
         bounds: { x: 71, y: 56, w: 1758, h: 1088 },
+        rot: 0,
         room: 'M85,70 H1815 V700 H655 V1130 H85 Z',
         walls: [
           { x: 600, y: 105, w: 28, h: 332 },
@@ -315,8 +320,8 @@
 
       {
         id: 'main', name: 'Main Dining Room', color: '#3B5470', ox: 700, oy: 1330,
-        title: { x: 40, y: -76 },
         bounds: { x: 33, y: 13, w: 1834, h: 1194 },
+        rot: 0,
         room: 'M40,20 H1860 V1200 H40 Z',
         roomApprox: true,
         walls: [{ x: 167, y: 240, w: 1225, h: 33 }],
@@ -355,8 +360,8 @@
 
       {
         id: 'cafe', name: 'Cafe', color: '#9A5B12', ox: 2620, oy: 1230,
-        title: { x: 85, y: -76 },
         bounds: { x: 66, y: 1, w: 738, h: 1208 },
+        rot: 0,
         room: 'M80,15 H790 V1195 H80 Z',
         openEdges: ['M790,15 V1195'],
         wallPaths: ['M408,30 H575 V250 H790 V380 H408 Z'],
@@ -399,6 +404,7 @@
     editing: false,
     activeZone: 'all',
     selected: null,      // uid
+    selectedZone: null,  // zone id
     snap: 10,
     history: [],
     future: []
@@ -476,13 +482,28 @@
         return na - nb;
       });
   }
+  function rotPt(x, y, cx, cy, deg) {
+    var a = deg * Math.PI / 180, c = Math.cos(a), s2 = Math.sin(a), dx = x - cx, dy = y - cy;
+    return { x: cx + dx * c - dy * s2, y: cy + dx * s2 + dy * c };
+  }
+  function zonePivot(z) { return { x: z.bounds.x + z.bounds.w / 2, y: z.bounds.y + z.bounds.h / 2 }; }
+  function zonePivotCanvas(z) { var p = zonePivot(z); return { x: z.ox + p.x, y: z.oy + p.y }; }
+  function zoneTransform(z) {
+    var r = z.rot || 0, p = zonePivot(z);
+    return 'translate(' + z.ox + ',' + z.oy + ')' + (r ? ' rotate(' + r + ',' + p.x + ',' + p.y + ')' : '');
+  }
+  /* Canvas-space bounding box of the area's footprint, after its rotation. */
   function zoneBox(z, withTitle) {
-    var b = z.bounds;
-    var box = { x: z.ox + b.x, y: z.oy + b.y, w: b.w, h: b.h };
-    if (withTitle) {
-      var top = z.oy + z.title.y - 46;
-      if (top < box.y) { box.h += box.y - top; box.y = top; }
-    }
+    var b = z.bounds, p = zonePivot(z), r = z.rot || 0;
+    var xs = [], ys = [];
+    [[b.x, b.y], [b.x + b.w, b.y], [b.x + b.w, b.y + b.h], [b.x, b.y + b.h]].forEach(function (q) {
+      var t = rotPt(q[0], q[1], p.x, p.y, r);
+      xs.push(t.x); ys.push(t.y);
+    });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var box = { x: z.ox + x0, y: z.oy + y0, w: x1 - x0, h: y1 - y0 };
+    if (withTitle) { box.y -= 96; box.h += 96; }
     return box;
   }
   function unionBox(zones, withTitle, pad) {
@@ -515,7 +536,9 @@
 
   /* ------------------------------- drawing ------------------------------- */
 
-  function drawItem(it, g) {
+  function drawItem(it, g, zrot) {
+    /* Labels stay upright however the area is turned. */
+    var up = zrot ? 'rotate(' + (-zrot) + ',' + it.cx + ',' + it.cy + ')' : null;
     var cls = 'item ' + it.kind + (it.style === 'solid' ? ' solid' : '') + (state.selected === it.uid ? ' sel' : '');
     var ig = el('g', {
       class: cls, 'data-uid': it.uid,
@@ -542,10 +565,10 @@
     var text = it.kind === 'table' ? it.id : (it.kind === 'fixture' ? it.name : '');
     if (text) {
       var hasSeats = it.kind === 'table' && it.seats > 0;
-      var t = el('text', { x: it.cx, y: it.cy + (hasSeats ? -13 : 0), class: 'lbl' }, ig);
+      var t = el('text', { x: it.cx, y: it.cy + (hasSeats ? -13 : 0), class: 'lbl', transform: up }, ig);
       t.textContent = text;
       if (hasSeats) {
-        var s = el('text', { x: it.cx, y: it.cy + 17, class: 'seats' }, ig);
+        var s = el('text', { x: it.cx, y: it.cy + 17, class: 'seats', transform: up }, ig);
         s.textContent = it.seats + 'p';
       }
     }
@@ -558,9 +581,10 @@
   }
 
   function drawZone(z, parent, opts) {
-    var g = el('g', { transform: 'translate(' + z.ox + ',' + z.oy + ')', 'data-zone': z.id }, parent);
+    var outer = el('g', { 'data-zone': z.id }, parent);
+    var g = el('g', { transform: zoneTransform(z), 'data-body': '1' }, outer);
 
-    el('path', { d: z.room, class: 'zone-fill' }, g);
+    el('path', { d: z.room, class: 'zone-fill zone-hit' }, g);
     if (z.roomApprox) {
       el('path', { d: z.room, class: 'edge-open' }, g);
     } else {
@@ -574,16 +598,32 @@
     (z.walls || []).forEach(function (w) { el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, class: 'wall' }, g); });
     (z.wallLines || []).forEach(function (d) { el('path', { d: d, class: 'wall-line' }, g); });
 
-    z.items.forEach(function (it) { drawItem(it, g); });
+    z.items.forEach(function (it) { drawItem(it, g, z.rot || 0); });
 
-    if (opts.titles) {
-      var ttl = el('text', { x: z.title.x, y: z.title.y, class: 'zone-title', fill: z.color }, g);
-      ttl.textContent = z.name;
-      var sub = el('text', { x: z.title.x, y: z.title.y + 36, class: 'zone-sub' }, g);
-      var n = tableCount(z);
-      sub.textContent = n + (n === 1 ? ' table' : ' tables');
+    var picked = opts.editing && state.selectedZone === z.id;
+    if (picked) {
+      var b = z.bounds;
+      el('rect', { x: b.x - 18, y: b.y - 18, width: b.w + 36, height: b.h + 36, rx: 8, class: 'zonebox' }, g);
     }
-    return g;
+
+    /* Titles sit upright in canvas space, above the area's rotated footprint. */
+    if (opts.titles) {
+      var box = zoneBox(z, false);
+      var tg = el('g', null, outer);
+      var ttl = el('text', { x: box.x, y: box.y - 46, class: 'zone-title', fill: z.color }, tg);
+      ttl.textContent = z.name;
+      var sub = el('text', { x: box.x, y: box.y - 10, class: 'zone-sub' }, tg);
+      var n = tableCount(z);
+      sub.textContent = n + (n === 1 ? ' table' : ' tables') + ((z.rot || 0) ? ' · turned ' + Math.round(z.rot) + '°' : '');
+    }
+
+    if (picked) {
+      var fb = zoneBox(z, false), pc = zonePivotCanvas(z), hy = fb.y - 70;
+      el('line', { x1: pc.x, y1: fb.y, x2: pc.x, y2: hy, class: 'rot-stem' }, outer);
+      el('circle', { cx: pc.x, cy: hy, r: 27, class: 'rot-handle', 'data-rot': z.id }, outer);
+      el('path', { d: 'M' + (pc.x - 11) + ',' + (hy + 4) + ' a11,11 0 1,1 8,7', class: 'rot-icon' }, outer);
+    }
+    return outer;
   }
 
   function renderInto(svgEl, zones, opts) {
@@ -608,6 +648,7 @@
   function render() {
     renderInto(svg, state.plan.zones, {
       titles: true,
+      editing: state.editing,
       dimOthers: state.activeZone === 'all' ? null : state.activeZone
     });
     bindItemEvents();
@@ -676,8 +717,16 @@
 
   /* -------------------------------- panel -------------------------------- */
 
+  function selectZone(id) {
+    state.selectedZone = id;
+    if (id) state.selected = null;
+    render();
+    renderPanel();
+  }
+
   function select(uid, centerOn) {
     state.selected = uid;
+    if (uid) state.selectedZone = null;
     render();
     renderPanel();
     if (centerOn && uid) {
@@ -702,6 +751,8 @@
     var f = state.selected ? findItem(state.selected) : null;
     if (!f && !state.editing) { panel.hidden = true; return; }
     panel.hidden = false;
+
+    if (state.editing && state.selectedZone) { renderZonePanel(zoneById(state.selectedZone)); return; }
 
     if (!state.editing) {
       var it = f.item;
@@ -728,8 +779,9 @@
 
     if (!f) {
       panel.innerHTML = head +
-        '<div class="hint">Click anything on the plan to edit it. Drag to move. Arrow keys nudge, ' +
-        'Shift+arrows nudge further. Hold Shift while dragging to ignore the ' + state.snap + '-unit grid.</div>';
+        '<div class="hint">Click a table to edit it, or click an area\u2019s floor to move and turn the whole area. ' +
+        'Drag to move, arrow keys nudge, Shift+arrows nudge further. Hold Shift while dragging to ignore the ' +
+        state.snap + '-unit grid.</div>';
       bindPanel();
       return;
     }
@@ -769,6 +821,37 @@
         '<button class="tool danger" id="delBtn" type="button">Delete</button>' +
       '</div>';
     bindPanel();
+  }
+
+  function renderZonePanel(z) {
+    if (!z) { state.selectedZone = null; renderPanel(); return; }
+    panel.innerHTML =
+      '<div class="zbadge"><span class="dot" style="background:' + z.color + '"></span>Area</div>' +
+      '<div class="big">' + esc(z.name) + '</div>' +
+      '<label class="field"><span>Area name</span><input id="zName" type="text" value="' + esc(z.name) + '"></label>' +
+      '<label class="field"><span>Rotation°</span><input id="zRot" type="number" step="15" value="' + Math.round(z.rot || 0) + '"></label>' +
+      '<div class="row">' +
+        '<button class="tool" id="zL" type="button" title="Turn 90° left">⟲ 90°</button>' +
+        '<button class="tool" id="zR" type="button" title="Turn 90° right">⟳ 90°</button>' +
+        '<button class="tool" id="zZero" type="button" title="Back to square">0°</button>' +
+      '</div>' +
+      '<div class="row"><button class="tool" id="zDone" type="button">Done with area</button></div>' +
+      '<div class="hint">Drag the floor to move the whole area. Drag the handle above it to turn it — 15° steps, ' +
+      'hold Shift to turn freely. Tables travel with the area. Pan the plan from the empty canvas around it.</div>';
+
+    function commit(fn) { pushHistory(); fn(); afterMutate(true); }
+    document.getElementById('zName').addEventListener('change', function () {
+      var v = this.value.trim(); if (v) commit(function () { z.name = v; });
+    });
+    document.getElementById('zRot').addEventListener('change', function () {
+      var v = parseFloat(this.value);
+      if (!isNaN(v)) commit(function () { z.rot = ((v % 360) + 360) % 360; });
+    });
+    function turn(by) { commit(function () { z.rot = ((((z.rot || 0) + by) % 360) + 360) % 360; }); }
+    document.getElementById('zL').addEventListener('click', function () { turn(-90); });
+    document.getElementById('zR').addEventListener('click', function () { turn(90); });
+    document.getElementById('zZero').addEventListener('click', function () { commit(function () { z.rot = 0; }); });
+    document.getElementById('zDone').addEventListener('click', function () { selectZone(null); });
   }
 
   function bindPanel() {
@@ -863,6 +946,7 @@
   }
 
   function targetZone() {
+    if (state.selectedZone) return zoneById(state.selectedZone) || state.plan.zones[0];
     if (state.activeZone !== 'all') return zoneById(state.activeZone) || state.plan.zones[0];
     var cx = view.x + view.w / 2, cy = view.y + view.h / 2, best = state.plan.zones[0], bestD = Infinity;
     state.plan.zones.forEach(function (z) {
@@ -934,9 +1018,13 @@
     var moved = false;
     var live = svg.querySelector('.item[data-uid="' + uid + '"]') || node;
 
+    var zr = -(f.zone.rot || 0) * Math.PI / 180, zc = Math.cos(zr), zs = Math.sin(zr);
+
     function move(ev) {
       var p = toPlan(ev.clientX, ev.clientY);
-      var nx = origin.cx + (p.x - start.x), ny = origin.cy + (p.y - start.y);
+      /* Pointer movement is in canvas space; the item lives in the area's rotated frame. */
+      var cdx = p.x - start.x, cdy = p.y - start.y;
+      var nx = origin.cx + (cdx * zc - cdy * zs), ny = origin.cy + (cdx * zs + cdy * zc);
       if (!ev.shiftKey && state.snap) {
         nx = Math.round(nx / state.snap) * state.snap;
         ny = Math.round(ny / state.snap) * state.snap;
@@ -955,6 +1043,68 @@
       pushHistory();
       it.cx = origin.cx + dx;
       it.cy = origin.cy + dy;
+      afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
+  function startZoneDrag(e, zid) {
+    var z = zoneById(zid);
+    if (!z) return;
+    var node = svg.querySelector('g[data-zone="' + zid + '"]');
+    var start = toPlan(e.clientX, e.clientY);
+    var origin = { ox: z.ox, oy: z.oy };
+    var moved = false, dx = 0, dy = 0;
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      dx = p.x - start.x; dy = p.y - start.y;
+      if (!ev.shiftKey && state.snap) {
+        dx = Math.round(dx / state.snap) * state.snap;
+        dy = Math.round(dy / state.snap) * state.snap;
+      }
+      if (Math.abs(dx) > 1 || Math.abs(dy) > 1) moved = true;
+      node.setAttribute('transform', 'translate(' + dx + ',' + dy + ')');
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      node.removeAttribute('transform');
+      if (!moved) return;
+      pushHistory();
+      z.ox = origin.ox + dx; z.oy = origin.oy + dy;
+      afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
+  function startZoneRotate(e, zid) {
+    var z = zoneById(zid);
+    if (!z) return;
+    var body = svg.querySelector('g[data-zone="' + zid + '"] > g[data-body]');
+    var pc = zonePivotCanvas(z), pv = zonePivot(z);
+    var p0 = toPlan(e.clientX, e.clientY);
+    var a0 = Math.atan2(p0.y - pc.y, p0.x - pc.x) * 180 / Math.PI;
+    var r0 = z.rot || 0, cur = r0, moved = false;
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      var a = Math.atan2(p.y - pc.y, p.x - pc.x) * 180 / Math.PI;
+      var r = r0 + (a - a0);
+      if (!ev.shiftKey) r = Math.round(r / 15) * 15;
+      cur = ((r % 360) + 360) % 360;
+      moved = true;
+      body.setAttribute('transform',
+        'translate(' + z.ox + ',' + z.oy + ') rotate(' + cur + ',' + pv.x + ',' + pv.y + ')');
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      if (!moved) { body.setAttribute('transform', zoneTransform(z)); return; }
+      pushHistory();
+      z.rot = cur;
       afterMutate(true);
     }
     window.addEventListener('pointermove', move);
@@ -1130,6 +1280,7 @@
   var editToggle = document.getElementById('editToggle');
   function setEditing(on) {
     state.editing = on;
+    if (!on) state.selectedZone = null;
     editToggle.setAttribute('aria-pressed', String(on));
     editToggle.textContent = on ? '✓ Editing' : '✎ Edit';
     stage.classList.toggle('editing', on);
@@ -1170,7 +1321,22 @@
   var pan = null;
   stage.addEventListener('pointerdown', function (e) {
     if (e.target.closest('.panel') || e.target.closest('.note')) return;
-    if (!e.target.closest('.item')) select(null, false);
+
+    if (state.editing) {
+      var handle = e.target.closest('.rot-handle');
+      if (handle) { startZoneRotate(e, handle.getAttribute('data-rot')); return; }
+      var zg = e.target.closest('g[data-zone]');
+      if (zg && e.target.classList.contains('zone-hit')) {
+        if (state.selectedZone !== zg.getAttribute('data-zone')) selectZone(zg.getAttribute('data-zone'));
+        startZoneDrag(e, zg.getAttribute('data-zone'));
+        return;
+      }
+    }
+
+    if (!e.target.closest('.item')) {
+      select(null, false);
+      if (state.selectedZone) selectZone(null);
+    }
     pan = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
     stage.classList.add('dragging');
   });
@@ -1198,7 +1364,7 @@
     }
     if (typing) return;
     if (e.key === 'e' || e.key === 'E') { setEditing(!state.editing); return; }
-    if (e.key === 'Escape') { select(null, false); closeMenus(null); return; }
+    if (e.key === 'Escape') { select(null, false); selectZone(null); closeMenus(null); return; }
     if (state.editing && state.selected) {
       var step = e.shiftKey ? state.snap * 5 : state.snap;
       if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-step, 0); }
