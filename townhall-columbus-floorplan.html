@@ -118,6 +118,7 @@
   .rot-icon { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
   .rot-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
   .move-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: move; }
+  .ext-handle { fill: var(--card); stroke: var(--accent); stroke-width: 5; cursor: grab; }
   .item.draw .shape { fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .item.draw .draw-wall { stroke: var(--wall); }
   .item.draw .draw-pen { stroke: #B4532A; }
@@ -298,13 +299,14 @@
         id: 'patio', name: 'Patio', color: '#33593F', ox: 60, oy: 110,
         bounds: { x: 71, y: 56, w: 1758, h: 1088 },
         rot: 0,
-        room: 'M85,70 H1815 V700 H655 V1130 H85 Z',
+        ext: { n: 0, s: 0, e: 0, w: 0 },
+        room: 'M85,70 L1815,70 L1815,700 L655,700 L655,1130 L85,1130 Z',
         walls: [
           { x: 600, y: 105, w: 28, h: 332 },
           { x: 982, y: 105, w: 28, h: 332 },
           { x: 1477, y: 105, w: 28, h: 332 }
         ],
-        wallLines: ['M640,108 H980', 'M1012,108 H1475', 'M1515,108 H1810'],
+        wallLines: ['M640,108 L980,108', 'M1012,108 L1475,108', 'M1515,108 L1810,108'],
         items: [
           { kind: 'table', id: '73', shape: 'circle', cx: 211, cy: 176, r: 58 },
           { kind: 'table', id: '72', shape: 'circle', cx: 369, cy: 176, r: 58 },
@@ -334,7 +336,8 @@
         id: 'main', name: 'Main Dining Room', color: '#3B5470', ox: 700, oy: 1330,
         bounds: { x: 33, y: 13, w: 1834, h: 1194 },
         rot: 0,
-        room: 'M40,20 H1860 V1200 H40 Z',
+        ext: { n: 0, s: 0, e: 0, w: 0 },
+        room: 'M40,20 L1860,20 L1860,1200 L40,1200 Z',
         roomApprox: true,
         walls: [{ x: 167, y: 240, w: 1225, h: 33 }],
         wallLines: [],
@@ -374,9 +377,10 @@
         id: 'cafe', name: 'Cafe', color: '#9A5B12', ox: 2620, oy: 1230,
         bounds: { x: 66, y: 1, w: 738, h: 1208 },
         rot: 0,
-        room: 'M80,15 H790 V1195 H80 Z',
-        openEdges: ['M790,15 V1195'],
-        wallPaths: ['M408,30 H575 V250 H790 V380 H408 Z'],
+        ext: { n: 0, s: 0, e: 0, w: 0 },
+        room: 'M80,15 L790,15 L790,1195 L80,1195 Z',
+        openEdges: ['M790,15 L790,1195'],
+        wallPaths: ['M408,30 L575,30 L575,250 L790,250 L790,380 L408,380 Z'],
         walls: [
           { x: 95, y: 1005, w: 142, h: 47 },
           { x: 700, y: 645, w: 90, h: 275 }
@@ -406,6 +410,8 @@
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function stampUids(plan) {
     plan.zones.forEach(function (z) {
+      if (typeof z.rot !== 'number') z.rot = 0;
+      if (!z.ext) z.ext = { n: 0, s: 0, e: 0, w: 0 };
       z.items.forEach(function (it) { if (!it.uid) it.uid = 'i' + (uidSeq++); });
     });
     return plan;
@@ -558,11 +564,55 @@
         return na - nb;
       });
   }
+  var EDGE_TOL = 30;
+  function extOf(z) { return z.ext || (z.ext = { n: 0, s: 0, e: 0, w: 0 }); }
+  function parsePoly(d) {
+    return (d.match(/-?[\d.]+\s*,\s*-?[\d.]+/g) || []).map(function (q) {
+      var n = q.split(',');
+      return [parseFloat(n[0]), parseFloat(n[1])];
+    });
+  }
+  function polyToPath(pts, closed) {
+    return pts.map(function (q, i) { return (i ? 'L' : 'M') + q[0] + ',' + q[1]; }).join(' ') + (closed ? ' Z' : '');
+  }
+  /* Extremes of the room as originally drawn — the reference for which points
+     belong to which outside wall. */
+  function roomEdges(z) {
+    if (z._re) return z._re;
+    var pts = parsePoly(z.room);
+    var xs = pts.map(function (q) { return q[0]; }), ys = pts.map(function (q) { return q[1]; });
+    z._re = { minX: Math.min.apply(null, xs), maxX: Math.max.apply(null, xs),
+              minY: Math.min.apply(null, ys), maxY: Math.max.apply(null, ys) };
+    return z._re;
+  }
+  function stretchPt(z, x, y) {
+    var e = extOf(z), R = roomEdges(z), nx = x, ny = y;
+    if (Math.abs(x - R.maxX) <= EDGE_TOL) nx = x + e.e;
+    if (Math.abs(x - R.minX) <= EDGE_TOL) nx = x - e.w;
+    if (Math.abs(y - R.maxY) <= EDGE_TOL) ny = y + e.s;
+    if (Math.abs(y - R.minY) <= EDGE_TOL) ny = y - e.n;
+    return [nx, ny];
+  }
+  function stretchPath(z, d, closed) {
+    var e = extOf(z);
+    if (!e.n && !e.s && !e.e && !e.w) return d;
+    return polyToPath(parsePoly(d).map(function (q) { return stretchPt(z, q[0], q[1]); }), closed);
+  }
+  function stretchRect(z, w) {
+    var a = stretchPt(z, w.x, w.y), b2 = stretchPt(z, w.x + w.w, w.y + w.h);
+    return { x: a[0], y: a[1], w: b2[0] - a[0], h: b2[1] - a[1] };
+  }
+  /* The area's footprint including whatever it has been stretched by. */
+  function effBounds(z) {
+    var b = z.bounds, e = extOf(z);
+    return { x: b.x - e.w, y: b.y - e.n, w: b.w + e.w + e.e, h: b.h + e.n + e.s };
+  }
+
   function rotPt(x, y, cx, cy, deg) {
     var a = deg * Math.PI / 180, c = Math.cos(a), s2 = Math.sin(a), dx = x - cx, dy = y - cy;
     return { x: cx + dx * c - dy * s2, y: cy + dx * s2 + dy * c };
   }
-  function zonePivot(z) { return { x: z.bounds.x + z.bounds.w / 2, y: z.bounds.y + z.bounds.h / 2 }; }
+  function zonePivot(z) { var b = effBounds(z); return { x: b.x + b.w / 2, y: b.y + b.h / 2 }; }
   function zonePivotCanvas(z) { var p = zonePivot(z); return { x: z.ox + p.x, y: z.oy + p.y }; }
   function zoneTransform(z) {
     var r = z.rot || 0, p = zonePivot(z);
@@ -570,7 +620,7 @@
   }
   /* Canvas-space bounding box of the area's footprint, after its rotation. */
   function zoneBox(z, withTitle) {
-    var b = z.bounds, p = zonePivot(z), r = z.rot || 0;
+    var b = effBounds(z), p = zonePivot(z), r = z.rot || 0;
     var xs = [], ys = [];
     [[b.x, b.y], [b.x + b.w, b.y], [b.x + b.w, b.y + b.h], [b.x, b.y + b.h]].forEach(function (q) {
       var t = rotPt(q[0], q[1], p.x, p.y, r);
@@ -674,26 +724,43 @@
     var outer = el('g', { 'data-zone': z.id }, parent);
     var g = el('g', { transform: zoneTransform(z), 'data-body': '1' }, outer);
 
-    el('path', { d: z.room, class: 'zone-fill zone-hit' }, g);
+    var roomD = stretchPath(z, z.room, true);
+    el('path', { d: roomD, class: 'zone-fill zone-hit' }, g);
     if (z.roomApprox) {
-      el('path', { d: z.room, class: 'edge-open' }, g);
+      el('path', { d: roomD, class: 'edge-open' }, g);
     } else {
-      el('path', { d: z.room, fill: 'none', stroke: 'var(--wall)', 'stroke-width': 28, 'stroke-linejoin': 'miter' }, g);
+      el('path', { d: roomD, fill: 'none', stroke: 'var(--wall)', 'stroke-width': 28, 'stroke-linejoin': 'miter' }, g);
     }
-    (z.openEdges || []).forEach(function (d) {
+    (z.openEdges || []).forEach(function (d0) {
+      var d = stretchPath(z, d0, false);
       el('path', { d: d, fill: 'none', style: 'stroke:var(--floor);stroke-width:34' }, g);
       el('path', { d: d, class: 'edge-open' }, g);
     });
-    (z.wallPaths || []).forEach(function (d) { el('path', { d: d, class: 'wall' }, g); });
-    (z.walls || []).forEach(function (w) { el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, class: 'wall' }, g); });
-    (z.wallLines || []).forEach(function (d) { el('path', { d: d, class: 'wall-line' }, g); });
+    (z.wallPaths || []).forEach(function (d) { el('path', { d: stretchPath(z, d, true), class: 'wall' }, g); });
+    (z.walls || []).forEach(function (w0) {
+      var w = stretchRect(z, w0);
+      el('rect', { x: w.x, y: w.y, width: w.w, height: w.h, class: 'wall' }, g);
+    });
+    (z.wallLines || []).forEach(function (d) { el('path', { d: stretchPath(z, d, false), class: 'wall-line' }, g); });
 
     z.items.forEach(function (it) { drawItem(it, g, z.rot || 0); });
 
     var picked = opts.editing && state.selectedZone === z.id;
     if (picked) {
-      var b = z.bounds;
+      var b = effBounds(z);
       el('rect', { x: b.x - 18, y: b.y - 18, width: b.w + 36, height: b.h + 36, rx: 8, class: 'zonebox' }, g);
+      /* One grip per outside wall — drag to lengthen or shorten the room. */
+      [['w', b.x, b.y + b.h / 2], ['e', b.x + b.w, b.y + b.h / 2],
+       ['n', b.x + b.w / 2, b.y], ['s', b.x + b.w / 2, b.y + b.h]].forEach(function (h) {
+        el('rect', { x: h[1] - 23, y: h[2] - 23, width: 46, height: 46, rx: 9,
+                     class: 'ext-handle', 'data-ext': h[0], 'data-zid': z.id }, g);
+        var vert = h[0] === 'n' || h[0] === 's';
+        el('path', {
+          d: vert ? 'M' + (h[1] - 11) + ',' + h[2] + ' H' + (h[1] + 11)
+                  : 'M' + h[1] + ',' + (h[2] - 11) + ' V' + (h[2] + 11),
+          class: 'rot-icon'
+        }, g);
+      });
     }
 
     /* Titles sit upright in canvas space, above the area's rotated footprint. */
@@ -1145,11 +1212,16 @@
         '<button class="tool" id="zR" type="button" title="Turn 90° right">⟳ 90°</button>' +
         '<button class="tool" id="zZero" type="button" title="Back to square">0°</button>' +
       '</div>' +
+      '<div class="grid2">' +
+        '<label class="field"><span>Wider (east)</span><input id="zExtE" type="number" step="20" value="' + Math.round(extOf(z).e) + '"></label>' +
+        '<label class="field"><span>Taller (south)</span><input id="zExtS" type="number" step="20" value="' + Math.round(extOf(z).s) + '"></label>' +
+      '</div>' +
+      '<div class="row"><button class="tool" id="zSize" type="button">Reset room size</button></div>' +
       '<div class="row"><button class="tool" id="zAll" type="button">Select all tables here</button></div>' +
       '<div class="row"><button class="tool" id="zDone" type="button">Done with area</button></div>' +
-      '<div class="hint">Use the two handles above the area: ✛ moves the whole room, ↻ turns it (15° steps, ' +
-      'Alt to turn freely). Dragging the floor itself lassoes tables instead, so you can move one seating ' +
-      'section on its own.</div>';
+      '<div class="hint">Grips sit on each of the four outside walls — drag one to lengthen or shorten the ' +
+      'room on that side. Tables stay put, so extend a wall first, then move tables into the new space.<br><br>' +
+      'Above the area: ✛ moves the whole room, ↻ turns it. Dragging the floor lassoes tables instead.</div>';
 
     function commit(fn) { pushHistory(); fn(); afterMutate(true); }
     document.getElementById('zName').addEventListener('change', function () {
@@ -1163,6 +1235,20 @@
     document.getElementById('zL').addEventListener('click', function () { turn(-90); });
     document.getElementById('zR').addEventListener('click', function () { turn(90); });
     document.getElementById('zZero').addEventListener('click', function () { commit(function () { z.rot = 0; }); });
+    function onExt(id, side) {
+      var n = document.getElementById(id);
+      n.addEventListener('change', function () {
+        var v = parseFloat(n.value);
+        if (isNaN(v)) return;
+        var span = (side === 'e' || side === 'w') ? z.bounds.w : z.bounds.h;
+        commit(function () { extOf(z)[side] = Math.max(-(span - 260), v); });
+      });
+    }
+    onExt('zExtE', 'e');
+    onExt('zExtS', 's');
+    document.getElementById('zSize').addEventListener('click', function () {
+      commit(function () { z.ext = { n: 0, s: 0, e: 0, w: 0 }; });
+    });
     document.getElementById('zAll').addEventListener('click', function () {
       setSel(z.items.filter(function (i) { return i.kind === 'table'; }).map(function (i) { return i.uid; }));
       state.selectedZone = null;
@@ -1491,6 +1577,37 @@
     window.addEventListener('pointerup', up);
   }
 
+  function startZoneExtend(e, zid, side) {
+    var z = zoneById(zid);
+    if (!z) return;
+    var snapshot = JSON.stringify(state.plan);
+    var e0 = extOf(z)[side];
+    var start = toPlan(e.clientX, e.clientY);
+    var span = (side === 'e' || side === 'w') ? z.bounds.w : z.bounds.h;
+    var floor = -(span - 260);                    // never collapse the room away
+    var moved = false;
+
+    function move(ev) {
+      var p = toPlan(ev.clientX, ev.clientY);
+      var l = toZoneFrame(z, p.x - start.x, p.y - start.y);
+      var d = side === 'e' ? l.x : side === 'w' ? -l.x : side === 's' ? l.y : -l.y;
+      if (!ev.altKey && state.snap) d = Math.round(d / state.snap) * state.snap;
+      var next = Math.max(floor, e0 + d);
+      if (next !== extOf(z)[side]) { extOf(z)[side] = next; moved = true; render(); }
+    }
+    function up() {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      if (!moved || extOf(z)[side] === e0) { extOf(z)[side] = e0; render(); return; }
+      state.history.push(snapshot);
+      if (state.history.length > 60) state.history.shift();
+      state.future.length = 0;
+      afterMutate(true);
+    }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
   function startZoneRotate(e, zid) {
     var z = zoneById(zid);
     if (!z) return;
@@ -1754,6 +1871,8 @@
 
     if (state.editing && e.button !== 1 && !spaceDown) {
       if (e.target.closest('.grp-handle')) { startSelRotate(e); return; }
+      var grip = e.target.closest('.ext-handle');
+      if (grip) { startZoneExtend(e, grip.getAttribute('data-zid'), grip.getAttribute('data-ext')); return; }
       var handle = e.target.closest('.zone-handle');
       if (handle) {
         var hz = handle.getAttribute('data-zid');
