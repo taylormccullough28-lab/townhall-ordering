@@ -249,7 +249,7 @@ r += 1
 
 band(r, 1, 7, "UNIFORM CHECK", B12, LEFT, fill=GREY, height=18)
 r += 1
-r = checks(r, ["OSU body suit and / or polo", "Eye black", "Glitter", "Ribbon", "Hair", "Makeup done", "Hair done", "Gentlemen have a belt on"])
+r = checks(r, ["OSU body suit and / or polo", "Eye black", "Glitter", "Ribbon", "Hair pulled back - tight", "Makeup done", "Hair done", "Gentlemen have a belt on"])
 r += 1
 
 for l, rt in [("SERVERS HAVE WINE KEY & LIGHTER?   YES / NO", "ID'ING EVERYONE UNDER 40?   YES / NO"),

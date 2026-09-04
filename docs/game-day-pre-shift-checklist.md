@@ -183,7 +183,7 @@ Work this in order. Do not delegate the first two.
 - [ ] Eye black
 - [ ] Glitter
 - [ ] Ribbon
-- [ ] Hair
+- [ ] Hair pulled back — tight
 - [ ] Makeup done
 - [ ] Hair done
 - [ ] Gentlemen have a belt on
