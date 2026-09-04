@@ -61,7 +61,7 @@ def checks(row, items):
     return row
 
 r = 1
-band(r, 1, 7, "TOWNHALL CLE  —  GAME DAY PRE-SHIFT", B14, CEN, fill=DARK, height=24); r += 1
+band(r, 1, 7, "TOWNHALL COLUMBUS  —  OSU GAME DAY PRE-SHIFT", B14, CEN, fill=DARK, height=24); r += 1
 band(r, 1, 7, "Read this at pre-shift. Do not summarize it.", I10, CEN); r += 2
 
 for left, right in [("DATE:", "MATCHUP:"), ("DAY:", "KICKOFF:"),
@@ -79,6 +79,16 @@ for name, note in [
 ]:
     lab(r, 1, name, B11); rule(r, 2, 2)
     band(r, 3, 7, note, R11, LEFT, height=16); r += 1
+r += 1
+
+band(r, 1, 7, "NATIONAL ANTHEM — LINE UP", B12, LEFT, fill=GREY, height=18); r += 1
+band(r, 1, 7, "Anthem is a moment we own. Shots lined up on the bar BEFORE it starts, not during it. Floor stops, staff stops, nobody runs a plate through it.", R11, LEFT, height=28); r += 1
+for left, right in [("ANTHEM TIME:", "SHOTS LINED UP (WHAT / HOW MANY):"),
+                    ("WHO IS POURING:", "WHERE THEY LINE UP:")]:
+    lab(r, 1, left, R11); rule(r, 2, 2)
+    lab(r, 3, right, R11); ws.merge_cells(start_row=r, end_row=r, start_column=3, end_column=5)
+    rule(r, 6, 7); ws.row_dimensions[r].height = 18
+    r += 1
 r += 1
 
 band(r, 1, 7, "THE THREE HARD LINES — SAY ALL THREE OUT LOUD, EVERY GAME DAY", B12, CEN, border=BOX, fill=DARK, height=20); r += 1
@@ -145,8 +155,6 @@ lab(r, 5, "7SHIFTS COMPLETION")
 for i, s in enumerate(["SERVER:", "BAR:", "CAFÉ:", "HOST:", "BARBACK:"]):
     lab(r + 1 + i, 5, s, R12); rule(r + 1 + i, 6, 6)
 
-lab(r, 1, "CLEANING DUTIES:")
-box(r + 1, r + 2, 1, 4)
 r += 7   # clear the 7shifts column on the right before starting a full-width block
 
 band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, fill=GREY, height=18); r += 1
@@ -173,6 +181,10 @@ e5 = group(band2, 3, "SHOT GIRL", ["On tonight:"])
 e6 = group(band2, 5, "TASTE PLATE", ["Running it:"])
 r = max(e4, e5, e6) + 1
 
+band3 = r
+e7 = group(band3, 1, "SOCIAL MEDIA", ["On tonight:", "Backup / 2nd half:"])
+r = e7 + 1
+
 lab(r, 1, "PARTIES / EVENTS:"); r += 1
 box(r, r + 1, 1, 7); r += 3
 
@@ -180,15 +192,16 @@ band(r, 1, 7, "GAME DAY OPEN — 90 MINUTES BEFORE DOORS", B12, LEFT, fill=GREY,
 r = checks(r, [
     "Know the game — kickoff, attendance, national TV, weather. Times on the board.",
     "Every staff member can name all three promos — ask two people at random before pre-shift ends.",
+    "Anthem time on the board, and the line-up poured before it starts.",
+    "Social media assigned, phone charged, and they know the shot list.",
     "Three windows built on paper — cut times, breaks, post-game all-hands decided now.",
     "Staffing confirmed against 7shifts. One no-show on game day is a two-hour wait.",
     "Every station walked, front and back. The 3 Rules on all of them.",
     "Bar par DOUBLED — ice, kegs, backups, garnish, glassware, batch.",
     "86 board walked with the kitchen, current and visible.",
-    "Mains timing called out — nothing fires before 5:00 PM.",
     "TVs, sound and the game feed tested before a single guest sits down.",
     "ID check covered — door and bar know who is carding, and the light works.",
-    "Restrooms stocked, and a name on the 45-minute rotation.",
+    "Restrooms stocked and clean before doors.",
     "POS, printers and card processing tested with a live ticket.",
     "Cash on hand for a bar that will run cash all night.",
     "Door, patio and line plan — where the wait forms and who holds it.",
@@ -208,7 +221,8 @@ for name, note in [
     ("SERVERS", 'Greet inside 30 seconds. Ask "are you trying to be out by kickoff?" first, then fire accordingly. Card every table before the first round lands. Full hands in, full hands out. Guest issue goes to a manager immediately.'),
     ("HOST", "Own the door and own the wait. An accurate quote beats a short one — give a real number, then beat it. Card at the door when the room is young; it is far easier there than at the bar. Keep the line off the sidewalk and feed the wait to the bar."),
     ("KITCHEN", "Prep to game-day pars, confirmed before service. 86 goes to the manager when you see it coming, not when you hit zero. Ticket times called every window. Original position, original condition at every changeover."),
-    ("SUPPORT", "You set the pace of the building. Restrooms, trash, glassware and ice on a rotation, not on request. Everybody runs food."),
+    ("SOCIAL", "Work the room all night, not just the first hour. Get the line-up before the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt. Shoot people who want to be shot — ask first, and never a minor, a check, or a POS screen. Post in the game window, not in the crush."),
+    ("SUPPORT", "You set the pace of the building. Tables turning is the only thing standing between us and a two-hour wait. Everybody runs food."),
 ]:
     lab(r, 1, name, B11)
     band(r, 2, 7, note, R11, LEFT, height=32); r += 1

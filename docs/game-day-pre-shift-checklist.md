@@ -1,7 +1,7 @@
-# Game Day Pre-Shift — TownHall CLE
+# Game Day Pre-Shift — TownHall Columbus
 
 **For:** Manager on duty. Fill this in before doors, then read it out loud at pre-shift. Do not summarize it.
-**When:** Every home game. Browns, Guardians, Cavs, and anything else that fills West 25th.
+**When:** Every Ohio State home game, and anything else that turns the block into a two-hour wait.
 
 > Companion files: `GameDay_PreShift_Template.xlsx` (printable fill-in form, built on the existing
 > TownHall pre-shift template) and the shareable web version of this same sheet.
@@ -26,6 +26,14 @@ A busy night builds. Game day arrives all at once, twice, with a dead hour in th
 - **Pre-game** — volume, speed, turn-and-burn. Guests have a hard out. If you are slow, they leave and eat somewhere else.
 - **Game window** — the floor thins and the bar fills. Standards slip here because it feels slow. It is not slow. It is the setup.
 - **Post-game** — the hardest 90 minutes of your week. Everyone arrives at once, half of them have already been drinking, and your staff has been on their feet for six hours.
+
+---
+
+## National anthem — the line up
+
+The anthem is a moment we own. Shots lined up on the bar **before** it starts, not during it. The floor stops, staff stops, nobody runs a plate through it.
+
+Fill in before doors: anthem time · what is lined up and how many · who is pouring · where they line up.
 
 ---
 
@@ -129,9 +137,9 @@ A name on every line before doors. An unassigned station is an unowned station.
 
 **Shot girl** — on tonight
 
-**Taste plate** — running it
+**Social media** — on tonight · backup for the 2nd half
 
-Plus: cleaning duties.
+**Taste plate** — running it
 
 ---
 
@@ -141,16 +149,17 @@ Work this in order. Do not delegate the first two.
 
 - [ ] **Know the game.** Kickoff, expected attendance, national TV or not, weather. Write the times on the board.
 - [ ] **Every staff member can name all three promos.** Ask two people at random before you let pre-shift end.
+- [ ] **Anthem time on the board, line up poured before it starts.** Nobody is chasing shots while the anthem is playing.
+- [ ] **Social media assigned, phone charged, shot list known.**
 - [ ] **Build the three windows on paper.** Cut times, breaks, and the post-game all-hands are decided now — not at 9pm when you are underwater.
 - [ ] **Staffing confirmed against 7shifts.** One no-show on a Tuesday is an inconvenience. One no-show on game day is a two-hour wait.
 - [ ] **A name on every station.** Host, runners, bar, barbacks, shot girl, taste plate.
 - [ ] **Every station walked, front and back.** The 3 Rules on all of them: a place for everything and everything in its place; everything you need, nothing you don't; original position, original condition.
 - [ ] **Bar par doubled.** Ice, kegs, backups, garnish, glassware, batch. Run out at 7pm and you are done for the night.
 - [ ] **86 board walked with the kitchen.** Current and visible. Nothing gets sold that we cannot make.
-- [ ] **Mains timing called out.** Nothing fires before 5:00 PM. On an early game the whole staff hears that number.
 - [ ] **TVs, sound and the game feed tested.** Every screen, game up, before a single guest sits down.
 - [ ] **ID check covered.** Door and bar both know who is carding, and the light works.
-- [ ] **Restrooms stocked, name on the 45-minute rotation.**
+- [ ] **Restrooms stocked and clean before doors.**
 - [ ] **POS, printers and card processing tested with a live ticket.**
 - [ ] **Cash on hand** for a bar that will run cash all night.
 - [ ] **Door, patio and line plan.** Where the wait forms, who holds it, and how they are talking to it.
@@ -170,9 +179,9 @@ Hold it. Every game day, no exceptions. Pre-shift is the most important part of 
 3. **The promos.** All three, by name and price, with the play for each.
 4. **The three windows and the times.** When the rush hits, when it dies, when it comes back. Say the numbers.
 5. **86 board and anything new.** Read it. Do not point at it.
-6. **Station assignments.** Read the names off the sheet so everyone hears where everyone else is.
+6. **Station assignments.** Read the names off the sheet so everyone hears where everyone else is — including social media and the anthem line-up.
 7. **One service focus for the night.** One. Greet time, or drink speed, or table touches — not all three. A staff can execute one thing at 100% volume. They cannot execute five.
-8. **Allergen and temp standards.** We are not a nut-free or gluten-free kitchen, and every asterisked item carries the raw and undercooked disclaimer. Volume is not a reason to skip that conversation with a guest. It is the reason to have it.
+8. **Allergen and temp standards.** Every asterisked item carries the raw and undercooked disclaimer, and allergen questions get a real answer. Volume is not a reason to skip that conversation with a guest. It is the reason to have it.
 9. **Questions.** Actually stop and wait for them.
 
 Close it the same way every time: **You will never get in trouble for asking for help, but you will get in trouble for not asking for help.**
@@ -191,7 +200,7 @@ Close it the same way every time: **You will never get in trouble for asking for
 ### Host
 - Own the door and own the wait. An accurate quote is worth more than a short one — give a real number, then beat it.
 - Card at the door when the room is young. It is far easier there than at the bar with a drink already poured.
-- Lead runs the book. Runner, waters and bathrooms are named before doors and rotate on the clock, not on request.
+- Lead runs the book. Runner, waters and bathrooms all have a name on them before doors.
 - Keep the line moving off the sidewalk and out of the entry. Feed the wait to the bar so they can pick up bodies.
 
 ### Servers
@@ -206,8 +215,13 @@ Close it the same way every time: **You will never get in trouble for asking for
 ### Runners & barbacks
 - You set the pace of the whole building. Tables turning is the only thing standing between us and a 90-minute wait.
 - Bar 100 and Bar 200 stay on their own bar — you do not both drift to whichever one is loudest.
-- Ice, glassware, trash and restrooms on a rotation, not on request.
 - Run food. Every one of you. Full hands in, full hands out.
+
+### Social media
+- Work the room all night, not just the first hour. The best footage is the post-game room, and that is when most people have already put the phone away.
+- The shot list: the line up before the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt.
+- Shoot people who want to be shot. Ask first. Never a minor, never a check, never a POS screen.
+- Post in the game window, not in the crush. You are on the floor to capture it, not to stand in it.
 
 ### Kitchen
 - Prep to game-day pars, not weeknight pars. Confirm with the manager before service, not during it.
