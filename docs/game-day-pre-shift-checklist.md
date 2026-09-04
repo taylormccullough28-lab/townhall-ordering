@@ -138,7 +138,7 @@ A name on every line before doors, for both crews. An unassigned station is an u
 
 **AM crew** and **PM crew** each get all seven:
 
-**Host** — Lead · Runner · Waters · Bathrooms
+**Host** — First in command · Second in command · Runner · Waters · Bathrooms
 
 **Runners** — Bar 100 · Bar 200 · Food
 
@@ -211,7 +211,7 @@ Close it the same way every time: **You will never get in trouble for asking for
 ### Host
 - Own the door and own the wait. An accurate quote is worth more than a short one — give a real number, then beat it.
 - Card at the door when the room is young. It is far easier there than at the bar with a drink already poured.
-- Lead runs the book. Runner, waters and bathrooms all have a name on them before doors.
+- First in command runs the book. Second in command steps in the moment first gets pulled — the door never goes unowned. Runner, waters and bathrooms all have a name on them before doors.
 - Keep the line moving off the sidewalk and out of the entry. Feed the wait to the bar so they can pick up bodies.
 
 ### Servers

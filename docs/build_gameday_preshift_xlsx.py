@@ -22,7 +22,7 @@ CEN = Alignment(horizontal="center", vertical="center", wrap_text=True)
 LEFT = Alignment(horizontal="left", vertical="center", wrap_text=True)
 TOPL = Alignment(horizontal="left", vertical="top", wrap_text=True)
 
-for col, w in {"A": 16.5, "B": 11, "C": 15, "D": 20, "E": 17, "F": 11, "G": 11}.items():
+for col, w in {"A": 20.5, "B": 11, "C": 15, "D": 20, "E": 17, "F": 11, "G": 11}.items():
     ws.column_dimensions[col].width = w
 
 def band(row, c1, c2, value, font=B12, align=LEFT, border=None, fill=None, height=None):
@@ -171,7 +171,7 @@ band(r, 1, 7, "STATION ASSIGNMENTS — WRITE A NAME ON EVERY LINE", B12, LEFT, f
 r += 1
 
 STATIONS = [
-    ("HOST", ["Lead:", "Runner:", "Waters:", "Bathrooms:"]),
+    ("HOST", ["First in command:", "Second in command:", "Runner:", "Waters:", "Bathrooms:"]),
     ("RUNNERS", ["Bar 100:", "Bar 200:", "Food:"]),
     ("BAR", ["100:", "105:", "110:", "200:", "Patio:"]),
     ("BARBACKS", ["Main Bar:", "Patio Bar:", "Main Floor:", "Café:", "Front Patio:"]),
@@ -224,7 +224,7 @@ band(r, 1, 7, "BY POSITION — READ THE BLOCK THAT BELONGS TO EACH GROUP", B12, 
 for name, note in [
     ("BAR", "ID before you pour — every time, no exceptions. Every drink rings before it pours. No promo bottles, no comps. Cut people early and tell a manager immediately. Stock backups during the game window, not after it."),
     ("SERVERS", 'Greet inside 30 seconds. Ask "are you trying to be out by kickoff?" first, then fire accordingly. Card every table before the first round lands. Full hands in, full hands out. Guest issue goes to a manager immediately.'),
-    ("HOST", "Own the door and own the wait. An accurate quote beats a short one — give a real number, then beat it. Card at the door when the room is young; it is far easier there than at the bar. Keep the line off the sidewalk and feed the wait to the bar."),
+    ("HOST", "Own the door and own the wait. An accurate quote beats a short one — give a real number, then beat it. First in command runs the book; second in command steps in the moment first gets pulled. Card at the door when the room is young. Keep the line off the sidewalk and feed the wait to the bar."),
     ("KITCHEN", "Prep to game-day pars, confirmed before service. 86 goes to the manager when you see it coming, not when you hit zero. Ticket times called every window. Original position, original condition at every changeover."),
     ("SOCIAL", "Work the room all night, not just the first hour. Get the staff lined up behind the bar during the anthem, buckets landing on tables, the bottle service pour, and the bar at full tilt. Shoot people who want to be shot — ask first, and never a minor, a check, or a POS screen. Post in the game window, not in the crush."),
     ("SUPPORT", "You set the pace of the building. Tables turning is the only thing standing between us and a two-hour wait. Everybody runs food."),
