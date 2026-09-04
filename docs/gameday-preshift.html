@@ -991,7 +991,60 @@
       catch (e) { /* storage unavailable — the sheet still works, it just won't remember */ }
     }
 
-    var state = read();
+    /* Field names changed as this sheet grew — staff and stations were split
+       into AM and PM crews, and the host lead became first in command. Entries
+       made before those changes are still in this browser under their old
+       names, attached to nothing. Reattach them to the AM crew. */
+    var RENAMED = {
+      nServers: "amNServers", nBartenders: "amNBartenders", nCafe: "amNCafe",
+      nHosts: "amNHosts", nRunners: "amNRunners", nBarbacks: "amNBarbacks",
+      nShot: "amNShot", nManagers: "amNManagers",
+      lServer: "amLServer", lCafe: "amLCafe", lBartender: "amLBartender",
+      lHost: "amLHost", lBar: "amLBar", lBarback: "amLBarback",
+      hServer: "amHuddlServer", hBar: "amHuddlBar", hCafe: "amHuddlCafe",
+      hHost: "amHuddlHost", hBarback: "amHuddlBarback",
+      sServer: "amShiftsServer", sBar: "amShiftsBar", sCafe: "amShiftsCafe",
+      sHost: "amShiftsHost", sBarback: "amShiftsBarback",
+      hostLead: "amFirst", hostRunner: "amRunner", hostWaters: "amWaters",
+      hostBath: "amBath", amLead: "amFirst", pmLead: "pmFirst",
+      run100: "amRun100", run200: "amRun200", runFood: "amRunFood",
+      bar100: "amBar100", bar105: "amBar105", bar110: "amBar110",
+      bar200: "amBar200", barPatio: "amBarPatio",
+      bbMain: "amBbMain", bbPatio: "amBbPatio", bbFloor: "amBbFloor",
+      bbCafe: "amBbCafe", bbFront: "amBbFront",
+      shotGirl: "amShotGirl", tastePlate: "amTastePlate",
+      socialLead: "amSocialLead", socialBackup: "amSocialBackup"
+    };
+
+    function readKey(key) {
+      try {
+        var raw = window.localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+
+    function recover() {
+      var live = document.querySelectorAll("[data-key]");
+      var known = {};
+      live.forEach(function (el) { known[el.getAttribute("data-key")] = true; });
+
+      // oldest store first, so newer entries win
+      var merged = {};
+      ["th-gameday-preshift-v1", STORE].forEach(function (storeKey) {
+        var old = readKey(storeKey);
+        Object.keys(old).forEach(function (k) {
+          var target = known[k] ? k : RENAMED[k];
+          if (!target || !known[target]) return;
+          var v = old[k];
+          if (v === "" || v == null || v === false) return;
+          merged[target] = v;
+        });
+      });
+      return merged;
+    }
+
+    var state = recover();
+    write(state);
 
     document.querySelectorAll("input.w, textarea.w").forEach(function (el) {
       var key = el.getAttribute("data-key");
