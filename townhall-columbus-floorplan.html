@@ -469,21 +469,28 @@
     S: ['53', '67', '68'],   T: ['71', '72', '73'],   U: ['83', '84', '85']
   };
 
-  function applySections(plan) {
+  /* force: build the defaults outright. Otherwise only fill what a plan is
+     missing, so a plan saved before sections existed picks them up on load
+     while anything already set — including a section deliberately cleared —
+     is left alone. */
+  function applySections(plan, force) {
     var of = {};
     Object.keys(SECTION_MAP).forEach(function (sid) {
       SECTION_MAP[sid].forEach(function (t) { of[t] = sid; });
     });
-    plan.sections = Object.keys(SECTION_MAP).sort();
+    if (force || !plan.sections) plan.sections = Object.keys(SECTION_MAP).sort();
     plan.zones.forEach(function (z) {
       z.items.forEach(function (it) {
         if (it.kind !== 'table') return;
-        if (LARGE_TOPS.indexOf(it.id) >= 0) { it.smin = 8; it.smax = 10; }
-        else if (TWO_TOPS.indexOf(it.id) >= 0) { it.smin = 2; it.smax = 2; }
-        else { it.smin = 4; it.smax = 6; }
-        if (of[it.id]) it.sec = of[it.id];
+        if (force || it.smax == null) {
+          if (LARGE_TOPS.indexOf(it.id) >= 0) { it.smin = 8; it.smax = 10; }
+          else if (TWO_TOPS.indexOf(it.id) >= 0) { it.smin = 2; it.smax = 2; }
+          else { it.smin = 4; it.smax = 6; }
+        }
+        if ((force || it.sec == null) && of[it.id]) it.sec = of[it.id];
       });
     });
+    plan.secV = 1;
     return plan;
   }
 
@@ -497,13 +504,14 @@
     return plan;
   }
 
-  var DEFAULT_PLAN = applySections(wallsUnder(buildDefaultPlan()));
+  var DEFAULT_PLAN = applySections(wallsUnder(buildDefaultPlan()), true);
 
   /* ------------------------------- state ------------------------------- */
 
   var uidSeq = 1;
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function stampUids(plan) {
+    if (!plan.secV) applySections(plan, false);
     plan.zones.forEach(function (z) {
       if (typeof z.rot !== 'number') z.rot = 0;
       if (!z.ext) z.ext = { n: 0, s: 0, e: 0, w: 0 };
