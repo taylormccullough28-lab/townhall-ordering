@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Staff Totals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1B16;
+    --muted: #6B6B60;
+    --faint: #9C9C90;
+    --line: #E7E3D6;
+    --line-soft: #F0EDE2;
+    --bg: #FBFAF6;
+    --card: #FFFFFF;
+    --field: #FFFFFF;
+    --accent: #33593F;
+    --accent-dark: #23402C;
+    --accent-soft: #EAF1EA;
+    --clay: #9A5B12;
+    --clay-soft: #FBF0DE;
+    --shadow: 0 1px 2px rgba(27,27,22,0.05);
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #F2EFE4;
+      --muted: #A8A69A;
+      --faint: #7E7C71;
+      --line: #34372E;
+      --line-soft: #262922;
+      --bg: #161813;
+      --card: #1E211A;
+      --field: #23261E;
+      --accent: #8FBE9C;
+      --accent-dark: #B5D7BE;
+      --accent-soft: #26352A;
+      --clay: #D8A867;
+      --clay-soft: #33291B;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #F2EFE4;
+    --muted: #A8A69A;
+    --faint: #7E7C71;
+    --line: #34372E;
+    --line-soft: #262922;
+    --bg: #161813;
+    --card: #1E211A;
+    --field: #23261E;
+    --accent: #8FBE9C;
+    --accent-dark: #B5D7BE;
+    --accent-soft: #26352A;
+    --clay: #D8A867;
+    --clay-soft: #33291B;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, .serif { font-family: 'Fraunces', Georgia, serif; font-weight: 600; text-wrap: balance; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .num { font-variant-numeric: tabular-nums; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 26px 72px; }
+
+  /* ---- masthead ---- */
+  header.mast { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  header.mast h1 { margin: 4px 0 0; font-size: 27px; letter-spacing: -0.01em; }
+  .mast .sub { margin: 5px 0 0; font-size: 13px; color: var(--muted); max-width: 52ch; line-height: 1.5; }
+  .storage { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; background: var(--card); white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); flex: none; }
+  .storage.shared .dot { background: var(--accent); }
+  .storage.shared { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+
+  /* ---- shift bar ---- */
+  .shiftbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; margin-top: 22px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field > label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  input[type="date"], select, .txt {
+    background: var(--field); border: 1px solid var(--line); border-radius: 8px;
+    padding: 9px 11px; font-size: 14px; font-weight: 500;
+  }
+  input[type="date"] { min-width: 160px; }
+  select { min-width: 130px; }
+  .btn { border-radius: 8px; border: 1px solid var(--line); background: var(--card); padding: 10px 15px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn.quiet { box-shadow: none; background: transparent; border-color: transparent; color: var(--muted); padding: 8px 10px; }
+  .btn.quiet:hover { color: var(--accent-dark); border-color: var(--line); }
+  .saved-note { font-size: 12px; color: var(--muted); align-self: center; padding-bottom: 10px; }
+  .saved-note.ok { color: var(--accent); font-weight: 600; }
+
+  /* ---- summary rail ---- */
+  .rail { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 24px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .stat { background: var(--card); padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; }
+  .stat .k { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .stat .v { font-family: 'Fraunces', Georgia, serif; font-size: 25px; font-weight: 600; letter-spacing: -0.01em; }
+  .stat.lead .v { color: var(--accent); }
+
+  /* ---- layout ---- */
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) 268px; gap: 30px; align-items: start; margin-top: 30px; }
+
+  h2.sec { font-size: 17px; margin: 0 0 2px; }
+  .sec-note { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; }
+
+  /* ---- sheet ---- */
+  .sheet { border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .row { display: grid; grid-template-columns: minmax(120px, 1.5fr) 78px 78px 104px 92px 30px; gap: 10px; align-items: center; padding: 9px 16px; border-bottom: 1px solid var(--line-soft); }
+  .row:last-child { border-bottom: none; }
+  .row.head { padding-block: 8px; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .row.head span { font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .row.head .r, .row .r { text-align: right; }
+  .pos { font-weight: 600; font-size: 14.5px; }
+  .pos .tag { display: block; font-size: 11px; font-weight: 500; color: var(--faint); }
+  .cell input.n {
+    width: 100%; text-align: right; background: var(--field); border: 1px solid var(--line);
+    border-radius: 7px; padding: 8px 9px; font-size: 14px; font-variant-numeric: tabular-nums;
+  }
+  .cell input.n:hover { border-color: var(--faint); }
+  .cell input.n::placeholder { color: var(--faint); font-weight: 400; }
+  .cell input.n:not(:placeholder-shown) { font-weight: 600; }
+  .flab { display: none; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 3px; }
+  .perhr { text-align: right; font-variant-numeric: tabular-nums; font-size: 13.5px; color: var(--muted); }
+  .perhr.on { color: var(--ink); font-weight: 600; }
+  .del { border: none; background: none; color: var(--faint); font-size: 16px; line-height: 1; padding: 4px; }
+  .del:hover { color: var(--clay); }
+  .row.total { background: var(--bg); border-top: 2px solid var(--ink); border-bottom: none; padding-block: 13px; }
+  .row.total .pos { font-family: 'Fraunces', Georgia, serif; font-size: 16px; }
+  .row.total .tv { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 15px; }
+  .row.total .perhr { color: var(--accent); font-weight: 700; font-size: 15px; }
+
+  .sheet-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+  .sheet-foot .spacer { flex: 1 1 auto; }
+
+  .notes { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .notes textarea { min-height: 74px; resize: vertical; background: var(--field); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; line-height: 1.5; }
+  .notes label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  /* ---- history ---- */
+  .hist-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+  .hist { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; background: var(--card); border: none; text-align: left; padding: 11px 13px; width: 100%; }
+  .hist:hover { background: var(--accent-soft); }
+  .hist .d { grid-column: 1; grid-row: 1; font-weight: 600; font-size: 13.5px; }
+  .hist .s { grid-column: 1; grid-row: 2; font-size: 11.5px; color: var(--muted); }
+  .hist .amt { grid-column: 2; grid-row: 1 / span 2; align-self: center; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; }
+  .hist.current { box-shadow: inset 3px 0 0 var(--accent); }
+  .hist.sample { background: var(--card); cursor: default; opacity: 0.72; }
+  .hist.sample:hover { background: var(--card); }
+  .hist .ex { grid-column: 1; grid-row: 3; margin-top: 4px; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clay); font-weight: 700; background: var(--clay-soft); padding: 1px 5px; border-radius: 3px; justify-self: start; grid-column: 1; }
+  .empty { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 999px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; z-index: 50; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 26px; }
+  }
+  @media (max-width: 720px) {
+    .rail { grid-template-columns: repeat(2, 1fr); }
+    .sheet { border: none; border-radius: 0; background: none; overflow: visible; }
+    .row.head { display: none; }
+    .row { grid-template-columns: repeat(3, 1fr); gap: 8px 10px; padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: var(--card); margin-bottom: 9px; align-items: start; }
+    .row .pos { grid-column: 1 / -1; }
+    .row .perhr { grid-column: 1 / 3; text-align: left; align-self: center; }
+    .row .perhr.on::after { content: " / hr"; font-weight: 500; color: var(--muted); }
+    .row .del { grid-column: 3; justify-self: end; }
+    .flab { display: block; }
+    .row.total { grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); }
+    .row.total .pos { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div>
+      <div class="eyebrow">TownHall CLE &middot; Back of house</div>
+      <h1>Daily Staff Totals</h1>
+      <p class="sub">One sheet per shift. Enter how many worked each position, their hours, and the tips that position took in.</p>
+    </div>
+    <div class="storage" id="storage-pill"><span class="dot"></span><span id="storage-text">Saved on this device</span></div>
+  </header>
+
+  <div class="shiftbar">
+    <div class="field">
+      <label for="date">Business date</label>
+      <input type="date" id="date">
+    </div>
+    <div class="field">
+      <label for="shift">Shift</label>
+      <select id="shift">
+        <option value="dinner">Dinner</option>
+        <option value="lunch">Lunch</option>
+        <option value="brunch">Brunch</option>
+        <option value="allday">All day</option>
+      </select>
+    </div>
+    <button class="btn primary" id="save">Save shift</button>
+    <span class="saved-note" id="saved-note">Not saved yet</span>
+  </div>
+
+  <div class="rail">
+    <div class="stat"><span class="k">Staff on</span><span class="v num" id="t-staff">0</span></div>
+    <div class="stat"><span class="k">Hours</span><span class="v num" id="t-hours">0</span></div>
+    <div class="stat lead"><span class="k">Tips</span><span class="v num" id="t-tips">$0</span></div>
+    <div class="stat"><span class="k">Tips per hour</span><span class="v num" id="t-rate">&mdash;</span></div>
+  </div>
+
+  <div class="cols">
+    <section>
+      <h2 class="sec">Positions</h2>
+      <p class="sec-note">Leave a position blank if nobody worked it. Tips per hour fills in as you type.</p>
+
+      <div class="sheet" id="sheet">
+        <div class="row head" aria-hidden="true">
+          <span>Position</span>
+          <span class="r">Staff</span>
+          <span class="r">Hours</span>
+          <span class="r">Tips</span>
+          <span class="r">$ / hr</span>
+          <span></span>
+        </div>
+        <div id="rows"></div>
+        <div class="row total">
+          <div class="pos">Shift total</div>
+          <div class="tv num" id="f-staff">0</div>
+          <div class="tv num" id="f-hours">0</div>
+          <div class="tv num" id="f-tips">$0</div>
+          <div class="perhr num" id="f-rate">&mdash;</div>
+          <div></div>
+        </div>
+      </div>
+
+      <div class="sheet-foot">
+        <button class="btn quiet" id="add-pos">+ Add a position</button>
+        <span class="spacer"></span>
+        <button class="btn" id="copy">Copy summary</button>
+        <button class="btn" id="csv">Export CSV</button>
+        <button class="btn quiet" id="clear">Clear sheet</button>
+      </div>
+
+      <div class="notes">
+        <label for="notes">Shift notes</label>
+        <textarea id="notes" placeholder="Cuts, callouts, big parties, anything that explains the numbers."></textarea>
+      </div>
+    </section>
+
+    <aside>
+      <h2 class="sec">Saved shifts</h2>
+      <p class="sec-note">Newest first. Open one to edit it.</p>
+      <div id="history"></div>
+    </aside>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var ROLES = [
+    { key: "bar", label: "Bar" },
+    { key: "barback", label: "Barback" },
+    { key: "barista", label: "Barista" },
+    { key: "host", label: "Host" },
+    { key: "runner", label: "Runner" },
+    { key: "server", label: "Server" },
+    { key: "trainees", label: "Trainees" }
+  ];
+  var SHIFTS = { dinner: "Dinner", lunch: "Lunch", brunch: "Brunch", allday: "All day" };
+  var LS_KEY = "townhall-staff-totals-v1";
+  var DRAFT_KEY = "townhall-staff-totals-draft-v1";
+
+  var usd0 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  var usd2 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  var el = function (id) { return document.getElementById(id); };
+  var state = null;
+  var dirty = false;
+  var store = null;
+  var historyDocs = [];
+
+  /* ---------------- helpers ---------------- */
+
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function prettyDate(iso) {
+    var p = String(iso || "").split("-");
+    if (p.length !== 3) return iso || "";
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  }
+
+  function num(v) {
+    var n = parseFloat(v);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function docId(s) { return s.date + "_" + s.shift; }
+
+  function freshState(date, shift) {
+    return {
+      date: date || todayISO(),
+      shift: shift || "dinner",
+      rows: ROLES.map(function (r) { return { key: r.key, label: r.label, staff: "", hours: "", tips: "" }; }),
+      notes: "",
+      savedAt: ""
+    };
+  }
+
+  function normalize(doc) {
+    var s = freshState(doc.date, doc.shift);
+    s.notes = typeof doc.notes === "string" ? doc.notes : "";
+    s.savedAt = typeof doc.savedAt === "string" ? doc.savedAt : "";
+    var incoming = Array.isArray(doc.rows) ? doc.rows : [];
+    var byKey = {};
+    incoming.forEach(function (r) { if (r && r.key) byKey[r.key] = r; });
+    s.rows = s.rows.map(function (r) {
+      var m = byKey[r.key];
+      if (!m) return r;
+      return { key: r.key, label: r.label, staff: String(m.staff || ""), hours: String(m.hours || ""), tips: String(m.tips || "") };
+    });
+    incoming.forEach(function (r) {
+      if (!r || !r.key || !r.custom) return;
+      s.rows.push({ key: r.key, label: String(r.label || "Position"), staff: String(r.staff || ""), hours: String(r.hours || ""), tips: String(r.tips || ""), custom: true });
+    });
+    return s;
+  }
+
+  function totals(s) {
+    var t = { staff: 0, hours: 0, tips: 0 };
+    s.rows.forEach(function (r) {
+      t.staff += num(r.staff);
+      t.hours += num(r.hours);
+      t.tips += num(r.tips);
+    });
+    return t;
+  }
+
+  function toast(msg) {
+    var t = el("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.classList.remove("show"); }, 2200);
+  }
+
+  /* ---------------- storage ---------------- */
+
+  function readLocal() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch (e) { return {}; }
+  }
+  function writeLocal(obj) {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(obj)); } catch (e) { /* private mode */ }
+  }
+
+  var localStore = {
+    mode: "local",
+    get: function (id) {
+      var all = readLocal();
+      return Promise.resolve(all[id] || null);
+    },
+    put: function (id, doc) {
+      var all = readLocal();
+      all[id] = doc;
+      writeLocal(all);
+      renderHistory(listLocal());
+      return Promise.resolve();
+    },
+    remove: function (id) {
+      var all = readLocal();
+      delete all[id];
+      writeLocal(all);
+      renderHistory(listLocal());
+      return Promise.resolve();
+    },
+    watch: function () { renderHistory(listLocal()); }
+  };
+
+  function listLocal() {
+    var all = readLocal();
+    return Object.keys(all).map(function (k) { return all[k]; }).sort(function (a, b) {
+      return String(b.sortKey || "").localeCompare(String(a.sortKey || ""));
+    }).slice(0, 24);
+  }
+
+  function sharedStore(db) {
+    var col = db.collection("days");
+    return {
+      mode: "shared",
+      get: function (id) {
+        return col.doc(id).get().then(function (snap) { return snap.exists ? snap.data() : null; });
+      },
+      put: function (id, doc) { return col.doc(id).set(doc); },
+      remove: function (id) { return col.doc(id).delete(); },
+      watch: function () {
+        col.orderBy("sortKey", "desc").limit(24).onSnapshot(function (snap) {
+          renderHistory(snap.docs.map(function (d) { return d.data(); }));
+        }, function () {
+          renderHistory(listLocal());
+        });
+      }
+    };
+  }
+
+  function saveDraft() {
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  }
+  function readDraft() {
+    try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) { return null; }
+  }
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ }
+  }
+
+  /* ---------------- rendering ---------------- */
+
+  function rowNode(row, index) {
+    var wrap = document.createElement("div");
+    wrap.className = "row";
+    wrap.dataset.index = String(index);
+
+    var pos = document.createElement("div");
+    pos.className = "pos";
+    pos.textContent = row.label;
+    if (row.custom) {
+      var tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = "Added position";
+      pos.appendChild(tag);
+    }
+    wrap.appendChild(pos);
+
+    ["staff", "hours", "tips"].forEach(function (fieldKey) {
+      var cell = document.createElement("div");
+      cell.className = "cell";
+      var id = "f-" + index + "-" + fieldKey;
+      var lab = document.createElement("label");
+      lab.className = "flab";
+      lab.setAttribute("for", id);
+      lab.textContent = fieldKey === "staff" ? "Staff" : fieldKey === "hours" ? "Hours" : "Tips";
+      var input = document.createElement("input");
+      input.className = "n";
+      input.id = id;
+      input.type = "number";
+      input.min = "0";
+      input.step = fieldKey === "staff" ? "1" : "0.01";
+      input.inputMode = "decimal";
+      input.placeholder = fieldKey === "tips" ? "0.00" : "0";
+      input.value = row[fieldKey];
+      input.setAttribute("aria-label", row.label + " " + lab.textContent);
+      input.addEventListener("input", function () {
+        state.rows[index][fieldKey] = input.value;
+        dirty = true;
+        saveDraft();
+        recalc();
+        markUnsaved();
+      });
+      cell.appendChild(lab);
+      cell.appendChild(input);
+      wrap.appendChild(cell);
+    });
+
+    var per = document.createElement("div");
+    per.className = "perhr";
+    per.dataset.per = String(index);
+    wrap.appendChild(per);
+
+    var del = document.createElement("div");
+    if (row.custom) {
+      var b = document.createElement("button");
+      b.className = "del";
+      b.type = "button";
+      b.title = "Remove " + row.label;
+      b.setAttribute("aria-label", "Remove " + row.label);
+      b.textContent = "×";
+      b.addEventListener("click", function () {
+        state.rows.splice(index, 1);
+        dirty = true;
+        saveDraft();
+        renderRows();
+        markUnsaved();
+      });
+      del.appendChild(b);
+    }
+    wrap.appendChild(del);
+    return wrap;
+  }
+
+  function renderRows() {
+    var host = el("rows");
+    host.textContent = "";
+    state.rows.forEach(function (row, i) { host.appendChild(rowNode(row, i)); });
+    recalc();
+  }
+
+  function recalc() {
+    state.rows.forEach(function (row, i) {
+      var node = document.querySelector('[data-per="' + i + '"]');
+      if (!node) return;
+      var hrs = num(row.hours), tips = num(row.tips);
+      if (hrs > 0 && tips > 0) {
+        node.textContent = usd2.format(tips / hrs);
+        node.classList.add("on");
+      } else {
+        node.textContent = "—";
+        node.classList.remove("on");
+      }
+    });
+
+    var t = totals(state);
+    var rate = t.hours > 0 && t.tips > 0 ? usd2.format(t.tips / t.hours) : "—";
+    el("t-staff").textContent = String(t.staff);
+    el("t-hours").textContent = t.hours ? String(Math.round(t.hours * 10) / 10) : "0";
+    el("t-tips").textContent = usd0.format(t.tips);
+    el("t-rate").textContent = rate;
+    el("f-staff").textContent = String(t.staff);
+    el("f-hours").textContent = t.hours ? String(Math.round(t.hours * 10) / 10) : "0";
+    el("f-tips").textContent = usd2.format(t.tips);
+    el("f-rate").textContent = rate;
+  }
+
+  function markUnsaved() {
+    var n = el("saved-note");
+    n.className = "saved-note";
+    n.textContent = state.savedAt ? "Unsaved changes" : "Not saved yet";
+  }
+
+  function markSaved(when) {
+    var n = el("saved-note");
+    n.className = "saved-note ok";
+    var d = new Date(when);
+    n.textContent = "Saved " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  var SAMPLE = { date: "2026-09-06", shift: "dinner", tips: 2418 };
+
+  function renderHistory(docs) {
+    historyDocs = docs || [];
+    var host = el("history");
+    host.textContent = "";
+
+    if (!historyDocs.length) {
+      var p = document.createElement("p");
+      p.className = "empty";
+      p.style.margin = "0 0 10px";
+      p.textContent = "Nothing saved yet. Save this shift and it lands here \u2014 like this:";
+      host.appendChild(p);
+      var list = document.createElement("div");
+      list.className = "hist-list";
+      var s = document.createElement("div");
+      s.className = "hist sample";
+      s.innerHTML = '<span class="d">' + prettyDate(SAMPLE.date) + '</span>' +
+        '<span class="amt num">' + usd0.format(SAMPLE.tips) + '</span>' +
+        '<span class="s">Dinner &middot; 13 staff</span>' +
+        '<span class="ex">Example</span>';
+      list.appendChild(s);
+      host.appendChild(list);
+      return;
+    }
+
+    var listEl = document.createElement("div");
+    listEl.className = "hist-list";
+    var currentId = docId(state);
+    historyDocs.forEach(function (d) {
+      var t = totals(normalize(d));
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "hist" + (docId(d) === currentId ? " current" : "");
+      b.innerHTML = '<span class="d">' + prettyDate(d.date) + '</span>' +
+        '<span class="amt num">' + usd0.format(t.tips) + '</span>' +
+        '<span class="s">' + (SHIFTS[d.shift] || d.shift) + ' &middot; ' + t.staff + ' staff &middot; ' + (Math.round(t.hours * 10) / 10) + ' hrs</span>';
+      b.addEventListener("click", function () {
+        el("date").value = d.date;
+        el("shift").value = d.shift;
+        loadDay();
+      });
+      listEl.appendChild(b);
+    });
+    host.appendChild(listEl);
+  }
+
+  function paint() {
+    el("date").value = state.date;
+    el("shift").value = state.shift;
+    el("notes").value = state.notes;
+    renderRows();
+    if (state.savedAt) { markSaved(state.savedAt); } else { markUnsaved(); }
+    renderHistory(historyDocs);
+  }
+
+  /* ---------------- actions ---------------- */
+
+  function loadDay() {
+    var date = el("date").value || todayISO();
+    var shift = el("shift").value;
+    var id = date + "_" + shift;
+    dirty = false;
+    return store.get(id).then(function (doc) {
+      if (doc) {
+        state = normalize(doc);
+      } else {
+        var draft = readDraft();
+        state = draft && draft.date === date && draft.shift === shift ? normalize(draft) : freshState(date, shift);
+      }
+      paint();
+    });
+  }
+
+  function saveDay() {
+    state.date = el("date").value || todayISO();
+    state.shift = el("shift").value;
+    state.notes = el("notes").value;
+    var now = new Date().toISOString();
+    var doc = {
+      date: state.date,
+      shift: state.shift,
+      sortKey: state.date + "#" + state.shift,
+      rows: state.rows.map(function (r) {
+        return { key: r.key, label: r.label, staff: r.staff, hours: r.hours, tips: r.tips, custom: !!r.custom };
+      }),
+      notes: state.notes,
+      savedAt: now
+    };
+    return store.put(docId(state), doc).then(function () {
+      state.savedAt = now;
+      dirty = false;
+      clearDraft();
+      markSaved(now);
+      renderHistory(historyDocs);
+      toast(store.mode === "shared" ? "Saved for the team" : "Saved on this device");
+    }).catch(function () {
+      toast("Could not save. Try again.");
+    });
+  }
+
+  function summaryText() {
+    var t = totals(state);
+    var lines = [];
+    lines.push("TownHall CLE — " + prettyDate(state.date) + " · " + (SHIFTS[state.shift] || state.shift));
+    lines.push("");
+    var width = 0;
+    state.rows.forEach(function (r) { width = Math.max(width, r.label.length); });
+    state.rows.forEach(function (r) {
+      if (!num(r.staff) && !num(r.hours) && !num(r.tips)) return;
+      lines.push(r.label.padEnd(width + 2) + num(r.staff) + " staff  " + num(r.hours) + " hrs  " + usd2.format(num(r.tips)));
+    });
+    lines.push("");
+    lines.push("Total".padEnd(width + 2) + t.staff + " staff  " + (Math.round(t.hours * 10) / 10) + " hrs  " + usd2.format(t.tips));
+    if (t.hours > 0 && t.tips > 0) lines.push("Tips per hour: " + usd2.format(t.tips / t.hours));
+    if (state.notes.trim()) { lines.push(""); lines.push("Notes: " + state.notes.trim()); }
+    return lines.join("\n");
+  }
+
+  function csvText() {
+    var t = totals(state);
+    var rows = [["Date", "Shift", "Position", "Staff", "Hours", "Tips", "Tips per hour"]];
+    state.rows.forEach(function (r) {
+      var hrs = num(r.hours), tips = num(r.tips);
+      rows.push([state.date, SHIFTS[state.shift] || state.shift, r.label, num(r.staff), hrs, tips.toFixed(2), hrs > 0 ? (tips / hrs).toFixed(2) : ""]);
+    });
+    rows.push([state.date, SHIFTS[state.shift] || state.shift, "Shift total", t.staff, Math.round(t.hours * 100) / 100, t.tips.toFixed(2), t.hours > 0 ? (t.tips / t.hours).toFixed(2) : ""]);
+    return rows.map(function (r) {
+      return r.map(function (c) {
+        var v = String(c);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }).join(",");
+    }).join("\n");
+  }
+
+  function copySummary() {
+    var text = summaryText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast("Summary copied"); }, function () { fallbackCopy(text); });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); toast("Summary copied"); } catch (e) { toast("Copy failed"); }
+    document.body.removeChild(ta);
+  }
+
+  function exportCSV() {
+    var name = "staff-totals-" + state.date + "-" + state.shift + ".csv";
+    var text = csvText();
+    if (window.claude && window.claude.use) {
+      window.claude.use("downloads").then(function (dl) {
+        if (!dl) { fallbackCopy(text); toast("CSV copied to clipboard"); return; }
+        dl.save({ filename: name, data: text }).then(function (res) {
+          if (res && res.status === "saved") toast("CSV saved");
+        }).catch(function () { fallbackCopy(text); toast("CSV copied to clipboard"); });
+      });
+      return;
+    }
+    var blob = new Blob([text], { type: "text/csv" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function clearSheet() {
+    state = freshState(el("date").value || todayISO(), el("shift").value);
+    dirty = false;
+    clearDraft();
+    paint();
+    toast("Sheet cleared");
+  }
+
+  function addPosition() {
+    var name = window.prompt("Position name");
+    if (!name) return;
+    name = name.trim().slice(0, 40);
+    if (!name) return;
+    var key = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now().toString(36);
+    state.rows.push({ key: key, label: name, staff: "", hours: "", tips: "", custom: true });
+    dirty = true;
+    saveDraft();
+    renderRows();
+    markUnsaved();
+  }
+
+  /* ---------------- boot ---------------- */
+
+  state = freshState(todayISO(), "dinner");
+  store = localStore;
+  paint();
+  store.watch();
+
+  el("date").addEventListener("change", loadDay);
+  el("shift").addEventListener("change", loadDay);
+  el("save").addEventListener("click", saveDay);
+  el("copy").addEventListener("click", copySummary);
+  el("csv").addEventListener("click", exportCSV);
+  el("clear").addEventListener("click", clearSheet);
+  el("add-pos").addEventListener("click", addPosition);
+  el("notes").addEventListener("input", function () {
+    state.notes = el("notes").value;
+    dirty = true;
+    saveDraft();
+    markUnsaved();
+  });
+
+  var draft = readDraft();
+  if (draft && draft.date === state.date && draft.shift === state.shift) {
+    state = normalize(draft);
+    paint();
+    markUnsaved();
+  }
+
+  if (window.claude && window.claude.use) {
+    window.claude.use("db").then(function (db) {
+      if (!db) return;
+      store = sharedStore(db);
+      store.watch();
+      var pill = el("storage-pill");
+      pill.classList.add("shared");
+      el("storage-text").textContent = "Shared with the team";
+      if (!dirty) { loadDay(); }
+    }).catch(function () { /* stay local */ });
+  }
+})();
+</script>
+</body>
+</html>
