@@ -9,19 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1B1B16;
-    --muted: #6B6B60;
-    --faint: #9C9C90;
-    --line: #E7E3D6;
-    --line-soft: #F0EDE2;
-    --bg: #FBFAF6;
-    --card: #FFFFFF;
-    --field: #FFFFFF;
-    --accent: #33593F;
-    --accent-dark: #23402C;
-    --accent-soft: #EAF1EA;
-    --clay: #9A5B12;
-    --clay-soft: #FBF0DE;
+    --ink: #1B1B16; --muted: #6B6B60; --faint: #9C9C90;
+    --line: #E7E3D6; --line-soft: #F0EDE2;
+    --bg: #FBFAF6; --card: #FFFFFF; --field: #FFFFFF;
+    --accent: #33593F; --accent-dark: #23402C; --accent-soft: #EAF1EA;
+    --clay: #9A5B12; --clay-soft: #FBF0DE;
     --shadow: 0 1px 2px rgba(27,27,22,0.05);
   }
   @media (prefers-color-scheme: dark) {
@@ -54,42 +46,56 @@
   button { cursor: pointer; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .num { font-variant-numeric: tabular-nums; }
+  [hidden] { display: none !important; }
 
-  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 26px 72px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 72px; }
 
   /* masthead */
-  header.mast { display: flex; align-items: flex-start; gap: 16px 20px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  header.mast { display: flex; align-items: flex-start; gap: 14px 20px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
   .eyebrow { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   header.mast h1 { margin: 4px 0 0; font-size: 26px; letter-spacing: -0.01em; }
-  .mast .sub { margin: 5px 0 0; font-size: 13px; color: var(--muted); max-width: 54ch; line-height: 1.5; }
-  .storage { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; background: var(--card); white-space: nowrap; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); flex: none; }
-  .storage.shared { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
-  .storage.shared .dot { background: var(--accent); }
+  .mast .sub { margin: 5px 0 0; font-size: 13px; color: var(--muted); max-width: 50ch; line-height: 1.5; }
+  .mast-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 9px; }
+  .mast-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+  .who { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 10px 5px 5px; font-size: 12.5px; font-weight: 600; box-shadow: var(--shadow); }
+  .who:hover { border-color: var(--accent); }
+  .av { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; color: #fff; flex: none; letter-spacing: 0.02em; }
+  .roster { display: flex; align-items: center; gap: 5px; }
+  .roster .av { width: 26px; height: 26px; font-size: 11px; border: 2px solid var(--bg); margin-left: -8px; }
+  .roster .av:first-child { margin-left: 0; }
+  .roster .cnt { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-left: 4px; }
+
+  .btn { border-radius: 8px; border: 1px solid var(--line); background: var(--card); padding: 9px 14px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn.quiet { box-shadow: none; background: transparent; border-color: transparent; color: var(--muted); padding: 8px 10px; }
+  .btn.quiet:hover { color: var(--accent-dark); border-color: var(--line); }
+  .btn.sm { padding: 6px 11px; font-size: 12.5px; }
+
+  /* name prompt */
+  .namebar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding: 11px 14px; border: 1px solid var(--line); background: var(--clay-soft); border-radius: 10px; }
+  .namebar p { margin: 0; font-size: 13px; color: var(--clay); font-weight: 600; }
+  .namebar input { flex: 0 1 200px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13.5px; }
 
   /* week bar */
-  .weekbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 20px; }
+  .weekbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 18px; }
   .weeknav { display: flex; align-items: center; gap: 8px; }
   .arrow { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); font-size: 15px; line-height: 1; box-shadow: var(--shadow); }
   .arrow:hover { border-color: var(--accent); color: var(--accent); }
-  .weeklabel { font-family: 'Fraunces', Georgia, serif; font-size: 19px; font-weight: 600; min-width: 210px; }
+  .weeklabel { font-family: 'Fraunces', Georgia, serif; font-size: 19px; font-weight: 600; }
   .weeklabel .yr { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 500; display: block; letter-spacing: 0.02em; }
-  .btn { border-radius: 8px; border: 1px solid var(--line); background: var(--card); padding: 9px 14px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); }
-  .btn:hover { border-color: var(--accent); }
-  .btn.quiet { box-shadow: none; background: transparent; border-color: transparent; color: var(--muted); padding: 8px 10px; }
-  .btn.quiet:hover { color: var(--accent-dark); border-color: var(--line); }
   .spacer { flex: 1 1 auto; }
-
-  /* metric switch */
   .seg { display: inline-flex; background: var(--line-soft); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 2px; }
   .seg button { border: none; background: none; border-radius: 6px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
   .seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
-  .seg-note { font-size: 12px; color: var(--muted); }
-  .saved-note { font-size: 12px; color: var(--muted); }
-  .saved-note.ok { color: var(--accent); font-weight: 600; }
+  .status { font-size: 12px; color: var(--muted); }
+  .status.ok { color: var(--accent); font-weight: 600; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-soft); border-radius: 999px; padding: 5px 11px; }
 
   /* rail */
-  .rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 20px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 18px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
   .stat { background: var(--card); padding: 13px 16px; display: flex; flex-direction: column; gap: 2px; }
   .stat .k { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   .stat .v { font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
@@ -97,18 +103,20 @@
   .stat .sub { font-size: 11.5px; color: var(--muted); }
 
   /* grid */
-  .scroller { margin-top: 22px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
-  .grid { display: grid; grid-template-columns: 152px repeat(7, minmax(72px, 1fr)) 92px; min-width: 780px; }
+  .scroller { margin-top: 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .grid { display: grid; grid-template-columns: 152px repeat(7, minmax(78px, 1fr)) 92px; min-width: 820px; }
   .cell { padding: 8px 9px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: flex-end; }
   .cell.pos { justify-content: space-between; gap: 6px; position: sticky; left: 0; background: var(--card); z-index: 2; border-right: 1px solid var(--line); font-weight: 600; font-size: 14px; padding-left: 14px; }
-  .cell.head { background: var(--bg); border-bottom: 1px solid var(--line); flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding-block: 9px; position: sticky; top: 0; z-index: 3; }
+  .cell.head { background: var(--bg); border-bottom: 1px solid var(--line); flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding-block: 8px; position: sticky; top: 0; z-index: 3; }
   .cell.head.pos { z-index: 4; align-items: flex-start; justify-content: center; }
   .cell.head .dow { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
   .cell.head .dnum { font-size: 12.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
-  .cell.head.today .dow { color: var(--accent); }
-  .cell.head.today .dnum { color: var(--accent); font-weight: 600; }
+  .cell.head .by { font-size: 10px; color: var(--faint); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cell.head.today .dow, .cell.head.today .dnum { color: var(--accent); }
+  .cell.head.today .dnum { font-weight: 600; }
   .col-today { background: var(--accent-soft); }
   .cell.head.colend { font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .cell.head.busy { box-shadow: inset 0 -3px 0 var(--peer, var(--accent)); }
   input.c {
     width: 100%; text-align: center; background: var(--field); border: 1px solid var(--line);
     border-radius: 7px; padding: 8px 4px; font-size: 14px; font-variant-numeric: tabular-nums;
@@ -117,30 +125,43 @@
   input.c:not(:placeholder-shown) { font-weight: 600; }
   input.c:hover { border-color: var(--faint); }
   input.c:focus { border-color: var(--accent); }
+  input.c.flash { animation: flash 1.1s ease; }
+  @keyframes flash { 0% { background: var(--accent-soft); border-color: var(--accent); } 100% { background: var(--field); } }
+  @media (prefers-reduced-motion: reduce) { input.c.flash { animation: none; } }
   .cell.rowtot { font-weight: 700; font-variant-numeric: tabular-nums; border-left: 1px solid var(--line); background: var(--bg); }
-  .cell.rowtot.zero { color: var(--faint); font-weight: 500; }
+  .cell.rowtot.zero, .cell.foot.zero { color: var(--faint); font-weight: 500; }
   .cell.foot { background: var(--bg); border-top: 2px solid var(--ink); border-bottom: none; font-weight: 700; font-variant-numeric: tabular-nums; padding-block: 12px; }
   .cell.foot.pos { font-family: 'Fraunces', Georgia, serif; font-size: 15px; font-weight: 600; }
   .cell.foot.grand { color: var(--accent); }
-  .cell.foot.zero { color: var(--faint); font-weight: 500; }
   .del { border: none; background: none; color: var(--faint); font-size: 15px; line-height: 1; padding: 2px 4px; border-radius: 4px; }
   .del:hover { color: var(--clay); background: var(--clay-soft); }
 
   .gridfoot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
   .hint { font-size: 12px; color: var(--muted); }
 
-  .notes { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
-  .notes label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-  .notes textarea { min-height: 70px; resize: vertical; background: var(--field); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; line-height: 1.5; }
+  .lower { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 26px; align-items: start; margin-top: 22px; }
+  .notes { display: flex; flex-direction: column; gap: 6px; }
+  .notes label, .feed h2 { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0; font-family: 'Inter', sans-serif; }
+  .notes textarea { min-height: 84px; resize: vertical; background: var(--field); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; line-height: 1.5; }
+  .feed { display: flex; flex-direction: column; gap: 9px; }
+  .feed ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .feed li { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; line-height: 1.4; }
+  .feed li .who-line { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .feed li strong { font-weight: 600; }
+  .feed .av { width: 20px; height: 20px; font-size: 9.5px; margin-top: 1px; }
+  .feed .t { color: var(--muted); }
+  .feed .none { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
 
-  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 999px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: opacity .18s ease; z-index: 50; }
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 999px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: opacity .18s ease; z-index: 50; max-width: 88vw; text-align: center; }
   .toast.show { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
 
+  @media (max-width: 860px) { .lower { grid-template-columns: 1fr; gap: 20px; } }
   @media (max-width: 700px) {
     .rail { grid-template-columns: 1fr; }
-    .weeklabel { min-width: 0; }
-    .grid { grid-template-columns: 126px repeat(7, 68px) 84px; }
+    .mast-right { margin-left: 0; align-items: flex-start; }
+    .mast-actions { justify-content: flex-start; }
+    .grid { grid-template-columns: 126px repeat(7, 72px) 84px; }
     .cell.pos { padding-left: 10px; font-size: 13px; }
   }
 
@@ -154,10 +175,10 @@
     .grid { min-width: 0; grid-template-columns: 1.3fr repeat(7, 1fr) 0.9fr; }
     .cell { border-bottom: 1px solid #999; padding: 5px 4px; }
     .cell.pos { border-right: 1px solid #000; }
-    .cell.head, .cell.rowtot, .cell.foot { background: #fff; }
-    .col-today { background: #fff; }
+    .cell.head, .cell.rowtot, .cell.foot, .col-today { background: #fff; }
     input.c { border: none; border-bottom: 1px solid #bbb; border-radius: 0; background: #fff; color: #000; padding: 4px 2px; }
     input.c::placeholder { color: transparent; }
+    .lower { grid-template-columns: 1fr; }
     .notes textarea { border: 1px solid #999; background: #fff; color: #000; }
     @page { margin: 0.5in; }
   }
@@ -168,12 +189,28 @@
 
   <header class="mast">
     <div>
-      <div class="eyebrow">TownHall CLE &middot; Back of house</div>
+      <div class="eyebrow">TownHall CLE &middot; Manager sheet</div>
       <h1>Weekly Staff Totals</h1>
-      <p class="sub">One line per position, one column per day. Fill it in as the week goes, or print it blank and post it in the office.</p>
+      <p class="sub">Shared with the management team. Everyone fills in the same week, and it updates as they type.</p>
     </div>
-    <div class="storage noprint" id="storage-pill"><span class="dot"></span><span id="storage-text">Saved on this device</span></div>
+    <div class="mast-right noprint">
+      <div class="roster" id="roster" hidden></div>
+      <div class="mast-actions">
+        <span class="badge" id="done-badge" hidden></span>
+        <button class="who" id="who" type="button" title="Change your name">
+          <span class="av" id="who-av">?</span><span id="who-name">Add your name</span>
+        </button>
+        <button class="btn sm" id="share" type="button">Share</button>
+      </div>
+    </div>
   </header>
+
+  <div class="namebar noprint" id="namebar" hidden>
+    <p>Who's filling this in?</p>
+    <input id="name-input" type="text" maxlength="32" placeholder="First name and last initial" autocomplete="name">
+    <button class="btn primary sm" id="name-save" type="button">Save</button>
+    <span class="hint">Your name gets stamped on the days you enter, so the team knows who did what.</span>
+  </div>
 
   <div class="weekbar noprint">
     <div class="weeknav">
@@ -188,14 +225,12 @@
       <button type="button" data-metric="hours" aria-pressed="false">Hours</button>
       <button type="button" data-metric="tips" aria-pressed="false">Tips</button>
     </div>
-    <span class="saved-note" id="saved-note">Not saved yet</span>
+    <span class="status" id="status">Loading…</span>
   </div>
-
-  <div class="weeklabel-print" style="display:none"></div>
 
   <div class="rail">
     <div class="stat lead"><span class="k" id="k-total">Staff, week total</span><span class="v num" id="v-total">0</span><span class="sub" id="s-total">Nothing entered yet</span></div>
-    <div class="stat"><span class="k">Daily average</span><span class="v num" id="v-avg">0</span><span class="sub" id="s-avg">Across days with entries</span></div>
+    <div class="stat"><span class="k">Daily average</span><span class="v num" id="v-avg">0</span><span class="sub">Across days with entries</span></div>
     <div class="stat"><span class="k">Busiest day</span><span class="v num" id="v-peak">&mdash;</span><span class="sub" id="s-peak">Fills in as you enter</span></div>
   </div>
 
@@ -207,15 +242,21 @@
     <button class="btn quiet" id="add-pos" type="button">+ Add a position</button>
     <span class="hint" id="metric-hint">Enter how many people worked each position that day.</span>
     <span class="spacer"></span>
+    <button class="btn" id="complete" type="button">Mark week complete</button>
     <button class="btn" id="print" type="button">Print</button>
     <button class="btn" id="copy" type="button">Copy week</button>
     <button class="btn" id="csv" type="button">Export CSV</button>
-    <button class="btn quiet" id="clear" type="button">Clear week</button>
   </div>
 
-  <div class="notes">
-    <label for="notes">Week notes</label>
-    <textarea id="notes" placeholder="Callouts, patio days, private events, anything that explains a number."></textarea>
+  <div class="lower">
+    <div class="notes">
+      <label for="notes">Week notes</label>
+      <textarea id="notes" placeholder="Callouts, patio days, private events, anything that explains a number."></textarea>
+    </div>
+    <div class="feed noprint">
+      <h2>Recent entries</h2>
+      <div id="feed-body"><p class="none">No entries yet this week.</p></div>
+    </div>
   </div>
 </div>
 
@@ -240,180 +281,278 @@
     hours: { label: "Hours", total: "Hours, week total", hint: "Enter total hours worked by each position that day.", money: false, step: "0.25", ph: "0" },
     tips: { label: "Tips", total: "Tips, week total", hint: "Enter the tips each position took in that day.", money: true, step: "0.01", ph: "0.00" }
   };
-  var LS_KEY = "townhall-weekly-staff-totals-v1";
+  var COLORS = ["#33593F", "#9A5B12", "#3D5A80", "#7B3F61", "#2F6D6A", "#8A4B2A", "#4A5D23", "#5C4B8A"];
+  var LS_DATA = "townhall-weekly-staff-totals-v2";
+  var LS_NAME = "townhall-staff-totals-name";
 
   var usd0 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
   var usd2 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
   var el = function (id) { return document.getElementById(id); };
-  var state = null;
+
+  var me = { name: "", color: COLORS[0] };
+  var week = { start: "", metric: "staff", positions: [], notes: "", notesBy: "", completedBy: "", completedAt: "" };
+  var days = [];
   var store = null;
-  var saveTimer = null;
-  var touched = false;
+  var roomNs = null;
+  var unwatch = null;
+  var pending = {};
+  var timers = {};
+  var notesTimer = null;
+  var typingUntil = 0;
 
   /* ---------- dates ---------- */
-
-  function iso(d) {
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-  }
-  function parseISO(s) {
-    var p = String(s).split("-");
-    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
-  }
-  function mondayOf(d) {
-    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    var day = (x.getDay() + 6) % 7;
-    x.setDate(x.getDate() - day);
-    return x;
-  }
-  function addDays(d, n) {
-    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    x.setDate(x.getDate() + n);
-    return x;
-  }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function parseISO(s) { var p = String(s).split("-"); return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2])); }
+  function mondayOf(d) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+  function addDays(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() + n); return x; }
   function weekDays(startISO) {
     var s = parseISO(startISO);
     return DOW.map(function (name, i) {
       var d = addDays(s, i);
-      return { name: name, date: d, iso: iso(d), num: d.getDate(), month: d.toLocaleDateString("en-US", { month: "short" }) };
+      return { name: name, iso: iso(d), num: d.getDate(), month: d.toLocaleDateString("en-US", { month: "short" }) };
     });
   }
   function weekTitle(startISO) {
-    var days = weekDays(startISO);
-    var a = days[0].date, b = days[6].date;
-    var sameMonth = a.getMonth() === b.getMonth();
+    var d = weekDays(startISO), a = parseISO(d[0].iso), b = parseISO(d[6].iso);
     var left = a.toLocaleDateString("en-US", { month: "long", day: "numeric" });
-    var right = sameMonth ? String(b.getDate()) : b.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+    var right = a.getMonth() === b.getMonth() ? String(b.getDate()) : b.toLocaleDateString("en-US", { month: "long", day: "numeric" });
     return { range: left + " – " + right, year: b.getFullYear() };
   }
-
-  /* ---------- state ---------- */
-
-  function blankWeek(startISO) {
-    return {
-      weekStart: startISO,
-      positions: ROLES.map(function (r) { return { key: r.key, label: r.label }; }),
-      values: { staff: {}, hours: {}, tips: {} },
-      notes: "",
-      savedAt: ""
-    };
+  function ago(isoTime) {
+    if (!isoTime) return "";
+    var t = new Date(isoTime).getTime();
+    if (!isFinite(t)) return "";
+    var mins = Math.round((Date.now() - t) / 60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return mins + "m ago";
+    var hrs = Math.round(mins / 60);
+    if (hrs < 24) return hrs + "h ago";
+    return new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }
 
-  function normalize(doc) {
-    var s = blankWeek(doc.weekStart || iso(mondayOf(new Date())));
-    if (Array.isArray(doc.positions) && doc.positions.length) {
-      s.positions = doc.positions.filter(function (p) { return p && p.key; }).map(function (p) {
-        return { key: String(p.key), label: String(p.label || p.key), custom: !!p.custom };
-      });
-    }
-    ["staff", "hours", "tips"].forEach(function (m) {
-      var src = doc.values && doc.values[m] ? doc.values[m] : {};
-      Object.keys(src).forEach(function (k) {
-        var arr = src[k];
-        if (Array.isArray(arr)) s.values[m][k] = arr.slice(0, 7).map(function (v) { return v == null ? "" : String(v); });
-      });
-    });
-    s.notes = typeof doc.notes === "string" ? doc.notes : "";
-    s.savedAt = typeof doc.savedAt === "string" ? doc.savedAt : "";
+  /* ---------- people ---------- */
+  function colorFor(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return COLORS[h % COLORS.length];
+  }
+  function initials(name) {
+    var parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return "?";
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  function avatar(name, cls) {
+    var s = document.createElement("span");
+    s.className = "av" + (cls ? " " + cls : "");
+    s.style.background = colorFor(name || "?");
+    s.textContent = initials(name);
+    s.title = name || "Unnamed";
     return s;
   }
-
-  function cellsFor(metric, key) {
-    var bag = state.values[metric];
-    if (!bag[key]) bag[key] = ["", "", "", "", "", "", ""];
-    return bag[key];
+  function loadName() {
+    try { return localStorage.getItem(LS_NAME) || ""; } catch (e) { return ""; }
+  }
+  function saveName(n) {
+    try { localStorage.setItem(LS_NAME, n); } catch (e) { /* private mode */ }
+  }
+  function setMe(name) {
+    me.name = name;
+    me.color = colorFor(name || "?");
+    el("who-name").textContent = name || "Add your name";
+    var av = el("who-av");
+    av.textContent = initials(name);
+    av.style.background = me.color;
+    el("namebar").hidden = !!name;
+    pushPresence({ name: name || "Someone", color: me.color });
   }
 
-  function num(v) {
-    var n = parseFloat(v);
-    return isFinite(n) && n > 0 ? n : 0;
+  /* ---------- data shape ---------- */
+  function blankDay() { return { staff: {}, hours: {}, tips: {}, updatedBy: "", updatedAt: "" }; }
+  function resetDays() { days = [0, 1, 2, 3, 4, 5, 6].map(blankDay); }
+  function defaultPositions() { return ROLES.map(function (r) { return { key: r.key, label: r.label }; }); }
+  function cellValue(dayIdx, metric, key) {
+    var bag = days[dayIdx] && days[dayIdx][metric];
+    return bag && bag[key] != null ? String(bag[key]) : "";
   }
-
+  function num(v) { var n = parseFloat(v); return isFinite(n) && n > 0 ? n : 0; }
   function fmt(n, metric, precise) {
-    var m = METRICS[metric];
-    if (m.money) return precise ? usd2.format(n) : usd0.format(n);
-    return String(Math.round(n * 100) / 100);
+    return METRICS[metric].money ? (precise ? usd2.format(n) : usd0.format(n)) : String(Math.round(n * 100) / 100);
   }
+  function metric() { return week.metric; }
 
   function toast(msg) {
     var t = el("toast");
     t.textContent = msg;
     t.classList.add("show");
     clearTimeout(toast._t);
-    toast._t = setTimeout(function () { t.classList.remove("show"); }, 2000);
+    toast._t = setTimeout(function () { t.classList.remove("show"); }, 2600);
   }
 
-  /* ---------- storage ---------- */
-
-  function readLocal() {
-    try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch (e) { return {}; }
+  /* ---------- local store ---------- */
+  function readLocal() { try { return JSON.parse(localStorage.getItem(LS_DATA) || "{}") || {}; } catch (e) { return {}; } }
+  function writeLocal(o) { try { localStorage.setItem(LS_DATA, JSON.stringify(o)); } catch (e) { /* private mode */ } }
+  function localWeek(startISO) {
+    var all = readLocal();
+    if (!all[startISO]) all[startISO] = { meta: {}, days: {} };
+    return all;
   }
-  function writeLocal(o) {
-    try { localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch (e) { /* private mode */ }
+  function mergeInto(target, patch) {
+    Object.keys(patch).forEach(function (k) {
+      var v = patch[k];
+      if (v && typeof v === "object" && !Array.isArray(v)) {
+        if (!target[k] || typeof target[k] !== "object") target[k] = {};
+        mergeInto(target[k], v);
+      } else {
+        target[k] = v;
+      }
+    });
+    return target;
   }
 
   var localStore = {
     mode: "local",
-    get: function (id) { return Promise.resolve(readLocal()[id] || null); },
-    put: function (id, doc) { var all = readLocal(); all[id] = doc; writeLocal(all); return Promise.resolve(); }
+    watch: function (startISO, onMeta, onDay) {
+      var all = localWeek(startISO);
+      onMeta(all[startISO].meta || {});
+      for (var i = 0; i < 7; i++) if (all[startISO].days[i]) onDay(i, all[startISO].days[i]);
+      return function () {};
+    },
+    writeDay: function (startISO, i, patch) {
+      var all = localWeek(startISO);
+      all[startISO].days[i] = mergeInto(all[startISO].days[i] || blankDay(), patch);
+      writeLocal(all);
+      return Promise.resolve();
+    },
+    writeMeta: function (startISO, patch) {
+      var all = localWeek(startISO);
+      all[startISO].meta = mergeInto(all[startISO].meta || {}, patch);
+      writeLocal(all);
+      return Promise.resolve();
+    }
   };
 
+  /* ---------- shared store ---------- */
   function sharedStore(db) {
-    var col = db.collection("weeks");
     return {
       mode: "shared",
-      get: function (id) { return col.doc(id).get().then(function (s) { return s.exists ? s.data() : null; }); },
-      put: function (id, doc) { return col.doc(id).set(doc); }
+      watch: function (startISO, onMeta, onDay) {
+        var stops = [];
+        stops.push(db.doc("weeks/" + startISO).onSnapshot(function (snap) {
+          onMeta(snap.exists ? snap.data() : {});
+        }, function () { setStatus("Live updates paused", false); }));
+        stops.push(db.collection("weeks/" + startISO + "/days").onSnapshot(function (snap) {
+          snap.docs.forEach(function (d) {
+            var i = parseInt(d.id, 10);
+            if (i >= 0 && i < 7) onDay(i, d.data() || {});
+          });
+        }, function () { setStatus("Live updates paused", false); }));
+        return function () { stops.forEach(function (s) { try { s(); } catch (e) {} }); };
+      },
+      writeDay: function (startISO, i, patch) {
+        var ref = db.collection("weeks/" + startISO + "/days").doc(String(i));
+        return ref.update(patch).catch(function () { return ref.set(patch); });
+      },
+      writeMeta: function (startISO, patch) {
+        var ref = db.doc("weeks/" + startISO);
+        return ref.update(patch).catch(function () { return ref.set(patch); });
+      }
     };
   }
 
-  /* ---------- render ---------- */
+  /* ---------- presence ---------- */
+  function pushPresence(patch) {
+    if (!roomNs) return;
+    try { roomNs.presence(patch); } catch (e) { /* ignore */ }
+  }
+  function renderRoster(peers) {
+    var host = el("roster");
+    host.textContent = "";
+    var others = (peers || []).filter(function (p) {
+      return p.kind === "viewer" && !p.isMe && p.presence && p.presence.week === week.start;
+    });
+    document.querySelectorAll(".cell.head.busy").forEach(function (n) {
+      n.classList.remove("busy");
+      n.style.removeProperty("--peer");
+    });
+    if (!others.length) { host.hidden = true; return; }
+    host.hidden = false;
+    others.slice(0, 5).forEach(function (p) {
+      var nm = typeof p.presence.name === "string" ? p.presence.name.slice(0, 32) : "Someone";
+      host.appendChild(avatar(nm));
+      var d = p.presence.day;
+      if (typeof d === "number" && d >= 0 && d < 7) {
+        var cell = document.querySelector('[data-dayhead="' + d + '"]');
+        if (cell) { cell.classList.add("busy"); cell.style.setProperty("--peer", colorFor(nm)); }
+      }
+    });
+    var cnt = document.createElement("span");
+    cnt.className = "cnt";
+    cnt.textContent = others.length === 1 ? "1 other manager here" : others.length + " other managers here";
+    host.appendChild(cnt);
+  }
 
-  function metric() { return state.metric || "staff"; }
+  /* ---------- render ---------- */
+  function setStatus(text, ok) {
+    var s = el("status");
+    s.className = "status" + (ok ? " ok" : "");
+    s.textContent = text;
+  }
 
   function renderHeader() {
-    var t = weekTitle(state.weekStart);
+    var t = weekTitle(week.start);
     el("week-label").firstChild.nodeValue = "Week of " + t.range;
     el("week-year").textContent = String(t.year);
     var m = METRICS[metric()];
     el("k-total").textContent = m.total;
     el("metric-hint").textContent = m.hint;
-    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) {
+    document.querySelectorAll(".seg button").forEach(function (b) {
       b.setAttribute("aria-pressed", b.dataset.metric === metric() ? "true" : "false");
     });
+    var badge = el("done-badge");
+    if (week.completedBy) {
+      badge.hidden = false;
+      badge.textContent = "Week complete · " + week.completedBy;
+      el("complete").textContent = "Reopen week";
+    } else {
+      badge.hidden = true;
+      el("complete").textContent = "Mark week complete";
+    }
   }
 
-  function cellNode(cls, content) {
+  function cellNode(cls, text) {
     var d = document.createElement("div");
     d.className = "cell " + cls;
-    if (content != null) d.textContent = content;
+    if (text != null) d.textContent = text;
     return d;
   }
 
   function renderGrid() {
     var g = el("grid");
     g.textContent = "";
-    var days = weekDays(state.weekStart);
+    var wd = weekDays(week.start);
     var todayISO = iso(new Date());
     var m = METRICS[metric()];
 
-    var corner = cellNode("head pos", "");
-    var cLabel = document.createElement("span");
-    cLabel.className = "dow";
-    cLabel.textContent = "Position";
-    corner.appendChild(cLabel);
+    var corner = cellNode("head pos");
+    var cl = document.createElement("span");
+    cl.className = "dow";
+    cl.textContent = "Position";
+    corner.appendChild(cl);
     g.appendChild(corner);
 
-    days.forEach(function (d) {
+    wd.forEach(function (d, i) {
       var c = cellNode("head" + (d.iso === todayISO ? " today col-today" : ""));
+      c.dataset.dayhead = String(i);
       var a = document.createElement("span"); a.className = "dow"; a.textContent = d.name;
       var b = document.createElement("span"); b.className = "dnum"; b.textContent = d.month + " " + d.num;
-      c.appendChild(a); c.appendChild(b);
+      var by = document.createElement("span"); by.className = "by"; by.dataset.by = String(i);
+      c.appendChild(a); c.appendChild(b); c.appendChild(by);
       g.appendChild(c);
     });
     g.appendChild(cellNode("head colend", "Total"));
 
-    state.positions.forEach(function (pos) {
+    week.positions.forEach(function (pos) {
       var pcell = cellNode("pos");
       var name = document.createElement("span");
       name.textContent = pos.label;
@@ -423,22 +562,13 @@
         x.className = "del noprint";
         x.type = "button";
         x.textContent = "×";
-        x.title = "Remove " + pos.label;
         x.setAttribute("aria-label", "Remove " + pos.label);
-        x.addEventListener("click", function () {
-          state.positions = state.positions.filter(function (p) { return p.key !== pos.key; });
-          ["staff", "hours", "tips"].forEach(function (mm) { delete state.values[mm][pos.key]; });
-          touched = true;
-          renderGrid();
-          recalc();
-          queueSave();
-        });
+        x.addEventListener("click", function () { removePosition(pos.key); });
         pcell.appendChild(x);
       }
       g.appendChild(pcell);
 
-      var vals = cellsFor(metric(), pos.key);
-      days.forEach(function (d, i) {
+      wd.forEach(function (d, i) {
         var c = cellNode(d.iso === todayISO ? "col-today" : "");
         var input = document.createElement("input");
         input.className = "c num";
@@ -447,15 +577,12 @@
         input.step = m.step;
         input.inputMode = "decimal";
         input.placeholder = m.ph;
-        input.value = vals[i] || "";
         input.id = "in-" + pos.key + "-" + i;
+        input.value = cellValue(i, metric(), pos.key);
         input.setAttribute("aria-label", pos.label + ", " + d.name + " " + d.month + " " + d.num + ", " + m.label);
-        input.addEventListener("input", function () {
-          cellsFor(metric(), pos.key)[i] = input.value;
-          touched = true;
-          recalc();
-          queueSave();
-        });
+        input.addEventListener("focus", function () { pushPresence({ day: i }); });
+        input.addEventListener("blur", function () { pushPresence({ day: null }); });
+        input.addEventListener("input", function () { onCellInput(i, pos.key, input.value); });
         c.appendChild(input);
         g.appendChild(c);
       });
@@ -466,7 +593,7 @@
     });
 
     g.appendChild(cellNode("foot pos", "Daily total"));
-    days.forEach(function (d, i) {
+    wd.forEach(function (d, i) {
       var c = cellNode("foot" + (d.iso === todayISO ? " col-today" : ""));
       c.dataset.coltot = String(i);
       g.appendChild(c);
@@ -476,19 +603,84 @@
     g.appendChild(grand);
   }
 
+  function refreshInputs(changedDay) {
+    week.positions.forEach(function (pos) {
+      for (var i = 0; i < 7; i++) {
+        if (changedDay != null && i !== changedDay) continue;
+        var input = el("in-" + pos.key + "-" + i);
+        if (!input || document.activeElement === input) continue;
+        var v = cellValue(i, metric(), pos.key);
+        if (input.value !== v) {
+          input.value = v;
+          if (changedDay != null && Date.now() > typingUntil) {
+            input.classList.remove("flash");
+            void input.offsetWidth;
+            input.classList.add("flash");
+          }
+        }
+      }
+    });
+  }
+
+  function refreshAttribution() {
+    for (var i = 0; i < 7; i++) {
+      var node = document.querySelector('[data-by="' + i + '"]');
+      if (!node) continue;
+      var d = days[i];
+      node.textContent = d && d.updatedBy ? d.updatedBy.split(/\s+/)[0] : "";
+      node.title = d && d.updatedBy ? d.updatedBy + " · " + ago(d.updatedAt) : "";
+    }
+  }
+
+  function refreshFeed() {
+    var host = el("feed-body");
+    var wd = weekDays(week.start);
+    var entries = days.map(function (d, i) { return { i: i, by: d.updatedBy, at: d.updatedAt }; })
+      .filter(function (e) { return e.by && e.at; })
+      .sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); })
+      .slice(0, 5);
+    host.textContent = "";
+    if (!entries.length) {
+      var p = document.createElement("p");
+      p.className = "none";
+      p.textContent = "No entries yet this week. Names show up here as managers fill days in.";
+      host.appendChild(p);
+      return;
+    }
+    var ul = document.createElement("ul");
+    entries.forEach(function (e) {
+      var li = document.createElement("li");
+      li.appendChild(avatar(e.by));
+      var block = document.createElement("span");
+      block.className = "who-line";
+      var top = document.createElement("span");
+      var strong = document.createElement("strong");
+      strong.textContent = e.by;
+      top.appendChild(strong);
+      top.appendChild(document.createTextNode(" · " + wd[e.i].name + " " + wd[e.i].month + " " + wd[e.i].num));
+      var t = document.createElement("span");
+      t.className = "t";
+      t.textContent = ago(e.at);
+      block.appendChild(top);
+      block.appendChild(t);
+      li.appendChild(block);
+      ul.appendChild(li);
+    });
+    host.appendChild(ul);
+  }
+
   function recalc() {
     var m = metric();
     var colTotals = [0, 0, 0, 0, 0, 0, 0];
     var grand = 0;
 
-    state.positions.forEach(function (pos) {
-      var vals = cellsFor(m, pos.key);
+    week.positions.forEach(function (pos) {
       var rowSum = 0;
-      vals.forEach(function (v, i) {
-        var n = num(v);
+      for (var i = 0; i < 7; i++) {
+        var n = num(cellValue(i, m, pos.key));
         rowSum += n;
         colTotals[i] += n;
-      });
+      }
       grand += rowSum;
       var node = document.querySelector('[data-rowtot="' + pos.key + '"]');
       if (node) {
@@ -507,105 +699,151 @@
     var g = el("grand");
     if (g) g.textContent = grand > 0 ? fmt(grand, m, false) : "—";
 
+    var wd = weekDays(week.start);
     var filled = colTotals.filter(function (n) { return n > 0; });
-    var days = weekDays(state.weekStart);
-    var peakIdx = -1;
-    colTotals.forEach(function (n, i) { if (n > 0 && (peakIdx === -1 || n > colTotals[peakIdx])) peakIdx = i; });
+    var peak = -1;
+    colTotals.forEach(function (n, i) { if (n > 0 && (peak === -1 || n > colTotals[peak])) peak = i; });
 
     el("v-total").textContent = grand > 0 ? fmt(grand, m, METRICS[m].money) : "0";
     el("s-total").textContent = filled.length ? filled.length + " of 7 days entered" : "Nothing entered yet";
     el("v-avg").textContent = filled.length ? fmt(grand / filled.length, m, METRICS[m].money) : "0";
-    el("s-avg").textContent = filled.length ? "Across days with entries" : "Across days with entries";
-    el("v-peak").textContent = peakIdx > -1 ? days[peakIdx].name : "—";
-    el("s-peak").textContent = peakIdx > -1
-      ? days[peakIdx].month + " " + days[peakIdx].num + " · " + fmt(colTotals[peakIdx], m, METRICS[m].money)
-      : "Fills in as you enter";
+    el("v-peak").textContent = peak > -1 ? wd[peak].name : "—";
+    el("s-peak").textContent = peak > -1 ? wd[peak].month + " " + wd[peak].num + " · " + fmt(colTotals[peak], m, METRICS[m].money) : "Fills in as you enter";
   }
 
-  function markUnsaved() {
-    var n = el("saved-note");
-    n.className = "saved-note";
-    n.textContent = state.savedAt ? "Saving…" : "Not saved yet";
-  }
-  function markSaved(when) {
-    var n = el("saved-note");
-    n.className = "saved-note ok";
-    n.textContent = "Saved " + new Date(when).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  }
-
-  /* ---------- load / save ---------- */
-
-  function docId() { return "week-" + state.weekStart; }
-
-  function toDoc() {
-    var now = new Date().toISOString();
-    return {
-      weekStart: state.weekStart,
-      sortKey: state.weekStart,
-      positions: state.positions.map(function (p) { return { key: p.key, label: p.label, custom: !!p.custom }; }),
-      values: state.values,
-      notes: state.notes,
-      savedAt: now
-    };
-  }
-
-  function queueSave() {
-    markUnsaved();
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(save, 700);
-  }
-
-  function save() {
-    var doc = toDoc();
-    return store.put(docId(), doc).then(function () {
-      state.savedAt = doc.savedAt;
-      markSaved(doc.savedAt);
-    }).catch(function () {
-      var n = el("saved-note");
-      n.className = "saved-note";
-      n.textContent = "Not saved — try again";
-    });
-  }
-
-  function loadWeek(startISO, keepMetric) {
-    var m = keepMetric ? metric() : "staff";
-    return store.get("week-" + startISO).then(function (doc) {
-      state = doc ? normalize(doc) : blankWeek(startISO);
-      state.metric = m;
-      touched = false;
-      paint();
-    });
-  }
-
-  function paint() {
+  function repaint() {
     renderHeader();
     renderGrid();
     recalc();
-    el("notes").value = state.notes;
-    if (state.savedAt) { markSaved(state.savedAt); } else {
-      var n = el("saved-note");
-      n.className = "saved-note";
-      n.textContent = "Not saved yet";
+    refreshAttribution();
+    refreshFeed();
+    el("notes").value = week.notes;
+  }
+
+  /* ---------- writes ---------- */
+  function onCellInput(dayIdx, roleKey, value) {
+    typingUntil = Date.now() + 1500;
+    if (!days[dayIdx]) days[dayIdx] = blankDay();
+    days[dayIdx][metric()][roleKey] = value;
+    recalc();
+    if (!pending[dayIdx]) pending[dayIdx] = {};
+    if (!pending[dayIdx][metric()]) pending[dayIdx][metric()] = {};
+    pending[dayIdx][metric()][roleKey] = value;
+    setStatus("Saving…", false);
+    clearTimeout(timers[dayIdx]);
+    timers[dayIdx] = setTimeout(function () { flushDay(dayIdx); }, 600);
+  }
+
+  function flushDay(dayIdx) {
+    var patch = pending[dayIdx];
+    if (!patch) return;
+    delete pending[dayIdx];
+    patch.updatedBy = me.name || "Someone";
+    patch.updatedAt = new Date().toISOString();
+    days[dayIdx].updatedBy = patch.updatedBy;
+    days[dayIdx].updatedAt = patch.updatedAt;
+    store.writeDay(week.start, dayIdx, patch).then(function () {
+      setStatus(store.mode === "shared" ? "Saved · everyone sees it" : "Saved on this device", true);
+      refreshAttribution();
+      refreshFeed();
+    }).catch(function () {
+      setStatus("Not saved — check your connection", false);
+    });
+  }
+
+  function writeMeta(patch, okText) {
+    store.writeMeta(week.start, patch).then(function () {
+      if (okText) setStatus(okText, true);
+    }).catch(function () { setStatus("Not saved — check your connection", false); });
+  }
+
+  function removePosition(key) {
+    week.positions = week.positions.filter(function (p) { return p.key !== key; });
+    writeMeta({ positions: week.positions.map(function (p) { return { key: p.key, label: p.label, custom: !!p.custom }; }) }, "Position removed");
+    repaint();
+  }
+
+  /* ---------- incoming ---------- */
+  function positionSig(list) {
+    return list.map(function (p) { return p.key + ":" + p.label; }).join("|");
+  }
+
+  function applyMeta(data) {
+    var before = positionSig(week.positions);
+    week.positions = Array.isArray(data.positions) && data.positions.length
+      ? data.positions.filter(function (p) { return p && p.key; }).map(function (p) {
+          return { key: String(p.key), label: String(p.label || p.key).slice(0, 40), custom: !!p.custom };
+        })
+      : defaultPositions();
+    var positionsChanged = positionSig(week.positions) !== before;
+    week.completedBy = typeof data.completedBy === "string" ? data.completedBy.slice(0, 32) : "";
+    week.completedAt = typeof data.completedAt === "string" ? data.completedAt : "";
+    var incomingNotes = typeof data.notes === "string" ? data.notes : "";
+    var notesEl = el("notes");
+    if (document.activeElement !== notesEl && incomingNotes !== week.notes) {
+      week.notes = incomingNotes;
+      notesEl.value = incomingNotes;
+    } else if (document.activeElement !== notesEl) {
+      week.notes = incomingNotes;
     }
+    renderHeader();
+    if (positionsChanged) renderGrid();
+    refreshInputs(null);
+    recalc();
+    refreshAttribution();
+    refreshFeed();
+  }
+
+  function applyDay(i, data) {
+    var d = blankDay();
+    ["staff", "hours", "tips"].forEach(function (m) {
+      if (data[m] && typeof data[m] === "object") {
+        Object.keys(data[m]).forEach(function (k) {
+          var v = data[m][k];
+          d[m][k] = v == null ? "" : String(v);
+        });
+      }
+    });
+    d.updatedBy = typeof data.updatedBy === "string" ? data.updatedBy.slice(0, 32) : "";
+    d.updatedAt = typeof data.updatedAt === "string" ? data.updatedAt : "";
+    days[i] = d;
+    refreshInputs(i);
+    recalc();
+    refreshAttribution();
+    refreshFeed();
+  }
+
+  /* ---------- week loading ---------- */
+  function openWeek(startISO) {
+    Object.keys(timers).forEach(function (k) { clearTimeout(timers[k]); });
+    Object.keys(pending).forEach(function (k) { flushDay(Number(k)); });
+    if (unwatch) { unwatch(); unwatch = null; }
+    week.start = startISO;
+    week.notes = "";
+    week.completedBy = "";
+    week.positions = defaultPositions();
+    resetDays();
+    repaint();
+    setStatus(store.mode === "shared" ? "Loading week…" : "This device only", false);
+    pushPresence({ week: startISO, day: null });
+    unwatch = store.watch(startISO, applyMeta, applyDay);
+    if (store.mode === "local") setStatus("Saved on this device", false);
+    else setTimeout(function () { if (el("status").textContent === "Loading week…") setStatus("Live with your team", true); }, 900);
   }
 
   /* ---------- exports ---------- */
-
   function weekRows() {
     var m = metric();
-    var days = weekDays(state.weekStart);
-    var head = ["Position"].concat(days.map(function (d) { return d.name + " " + d.month + " " + d.num; })).concat(["Total"]);
-    var rows = [head];
+    var wd = weekDays(week.start);
+    var rows = [["Position"].concat(wd.map(function (d) { return d.name + " " + d.month + " " + d.num; })).concat(["Total"])];
     var colTotals = [0, 0, 0, 0, 0, 0, 0];
-    state.positions.forEach(function (pos) {
-      var vals = cellsFor(m, pos.key);
-      var sum = 0;
-      var line = [pos.label];
-      vals.forEach(function (v, i) {
-        var n = num(v);
+    week.positions.forEach(function (pos) {
+      var line = [pos.label], sum = 0;
+      for (var i = 0; i < 7; i++) {
+        var n = num(cellValue(i, m, pos.key));
         sum += n; colTotals[i] += n;
         line.push(n ? (METRICS[m].money ? n.toFixed(2) : String(n)) : "");
-      });
+      }
       line.push(sum ? (METRICS[m].money ? sum.toFixed(2) : String(Math.round(sum * 100) / 100)) : "");
       rows.push(line);
     });
@@ -613,34 +851,14 @@
     rows.push(["Daily total"].concat(colTotals.map(function (n) {
       return n ? (METRICS[m].money ? n.toFixed(2) : String(Math.round(n * 100) / 100)) : "";
     })).concat([grand ? (METRICS[m].money ? grand.toFixed(2) : String(Math.round(grand * 100) / 100)) : ""]));
+    rows.push(["Entered by"].concat(days.map(function (d) { return d.updatedBy || ""; })).concat([""]));
     return rows;
-  }
-
-  function copyWeek() {
-    var t = weekTitle(state.weekStart);
-    var m = METRICS[metric()];
-    var rows = weekRows();
-    var widths = rows[0].map(function (_, i) {
-      return rows.reduce(function (w, r) { return Math.max(w, String(r[i] || "").length); }, 0);
-    });
-    var lines = ["TownHall CLE — " + m.label + ", week of " + t.range + " " + t.year, ""];
-    rows.forEach(function (r, ri) {
-      lines.push(r.map(function (c, i) {
-        var v = String(c || (ri === 0 ? "" : "-"));
-        return i === 0 ? v.padEnd(widths[0]) : v.padStart(widths[i] + 2);
-      }).join(""));
-      if (ri === 0) lines.push("");
-    });
-    if (state.notes.trim()) { lines.push(""); lines.push("Notes: " + state.notes.trim()); }
-    copyText(lines.join("\n"), "Week copied");
   }
 
   function copyText(text, okMsg) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () { toast(okMsg); }, function () { fallbackCopy(text, okMsg); });
-    } else {
-      fallbackCopy(text, okMsg);
-    }
+    } else { fallbackCopy(text, okMsg); }
   }
   function fallbackCopy(text, okMsg) {
     var ta = document.createElement("textarea");
@@ -650,6 +868,24 @@
     document.body.removeChild(ta);
   }
 
+  function copyWeek() {
+    var t = weekTitle(week.start);
+    var rows = weekRows();
+    var widths = rows[0].map(function (_, i) {
+      return rows.reduce(function (w, r) { return Math.max(w, String(r[i] || "").length); }, 0);
+    });
+    var lines = ["TownHall CLE — " + METRICS[metric()].label + ", week of " + t.range + " " + t.year, ""];
+    rows.forEach(function (r, ri) {
+      lines.push(r.map(function (c, i) {
+        var v = String(c || (ri === 0 ? "" : "-"));
+        return i === 0 ? v.padEnd(widths[0]) : v.padStart(widths[i] + 2);
+      }).join(""));
+      if (ri === 0) lines.push("");
+    });
+    if (week.notes.trim()) { lines.push(""); lines.push("Notes: " + week.notes.trim()); }
+    copyText(lines.join("\n"), "Week copied");
+  }
+
   function exportCSV() {
     var text = weekRows().map(function (r) {
       return r.map(function (c) {
@@ -657,7 +893,7 @@
         return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
       }).join(",");
     }).join("\n");
-    var name = "staff-" + metric() + "-week-of-" + state.weekStart + ".csv";
+    var name = "staff-" + metric() + "-week-of-" + week.start + ".csv";
     if (window.claude && window.claude.use) {
       window.claude.use("downloads").then(function (dl) {
         if (!dl) { copyText(text, "CSV copied to clipboard"); return; }
@@ -676,23 +912,34 @@
   }
 
   /* ---------- events ---------- */
+  el("prev").addEventListener("click", function () { openWeek(iso(addDays(parseISO(week.start), -7))); });
+  el("next").addEventListener("click", function () { openWeek(iso(addDays(parseISO(week.start), 7))); });
+  el("this-week").addEventListener("click", function () { openWeek(iso(mondayOf(new Date()))); });
 
-  function shiftWeek(n) {
-    var d = addDays(parseISO(state.weekStart), n * 7);
-    loadWeek(iso(d), true);
-  }
-
-  el("prev").addEventListener("click", function () { shiftWeek(-1); });
-  el("next").addEventListener("click", function () { shiftWeek(1); });
-  el("this-week").addEventListener("click", function () { loadWeek(iso(mondayOf(new Date())), true); });
-
-  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) {
+  document.querySelectorAll(".seg button").forEach(function (b) {
     b.addEventListener("click", function () {
-      state.metric = b.dataset.metric;
+      week.metric = b.dataset.metric;
       renderHeader();
       renderGrid();
       recalc();
+      refreshAttribution();
     });
+  });
+
+  el("who").addEventListener("click", function () {
+    el("namebar").hidden = false;
+    el("name-input").value = me.name;
+    el("name-input").focus();
+  });
+  el("name-save").addEventListener("click", function () {
+    var v = el("name-input").value.trim().slice(0, 32);
+    if (!v) { el("name-input").focus(); return; }
+    saveName(v);
+    setMe(v);
+    toast("You're filling this in as " + v);
+  });
+  el("name-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); el("name-save").click(); }
   });
 
   el("add-pos").addEventListener("click", function () {
@@ -701,55 +948,72 @@
     name = name.trim().slice(0, 40);
     if (!name) return;
     var key = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now().toString(36);
-    state.positions.push({ key: key, label: name, custom: true });
-    touched = true;
-    renderGrid();
-    recalc();
-    queueSave();
+    week.positions.push({ key: key, label: name, custom: true });
+    writeMeta({ positions: week.positions.map(function (p) { return { key: p.key, label: p.label, custom: !!p.custom }; }) }, "Position added");
+    repaint();
+  });
+
+  el("complete").addEventListener("click", function () {
+    if (week.completedBy) {
+      week.completedBy = ""; week.completedAt = "";
+      writeMeta({ completedBy: "", completedAt: "" }, "Week reopened");
+    } else {
+      if (!me.name) { el("namebar").hidden = false; el("name-input").focus(); toast("Add your name first"); return; }
+      week.completedBy = me.name;
+      week.completedAt = new Date().toISOString();
+      writeMeta({ completedBy: week.completedBy, completedAt: week.completedAt }, "Week marked complete");
+      toast("Week marked complete");
+    }
+    renderHeader();
+  });
+
+  el("share").addEventListener("click", function () {
+    var url = window.location.href;
+    if (url.indexOf("http") !== 0) { toast("Open the shared link to send it to your team"); return; }
+    copyText(url, "Link copied — send it to your managers");
   });
 
   el("print").addEventListener("click", function () { window.print(); });
   el("copy").addEventListener("click", copyWeek);
   el("csv").addEventListener("click", exportCSV);
-  el("clear").addEventListener("click", function () {
-    if (!window.confirm("Clear every number in this week?")) return;
-    state.values = { staff: {}, hours: {}, tips: {} };
-    state.notes = "";
-    el("notes").value = "";
-    renderGrid();
-    recalc();
-    queueSave();
-    toast("Week cleared");
-  });
+
   el("notes").addEventListener("input", function () {
-    state.notes = el("notes").value;
-    touched = true;
-    queueSave();
+    week.notes = el("notes").value;
+    clearTimeout(notesTimer);
+    setStatus("Saving…", false);
+    notesTimer = setTimeout(function () {
+      writeMeta({ notes: week.notes, notesBy: me.name || "Someone" }, store.mode === "shared" ? "Saved · everyone sees it" : "Saved on this device");
+    }, 800);
+  });
+
+  window.addEventListener("beforeunload", function () {
+    Object.keys(pending).forEach(function (k) { flushDay(Number(k)); });
   });
 
   /* ---------- boot ---------- */
-
-  state = blankWeek(iso(mondayOf(new Date())));
-  state.metric = "staff";
   store = localStore;
-  paint();
-
-  store.get(docId()).then(function (doc) {
-    if (!doc || touched) return;
-    var m = metric();
-    state = normalize(doc);
-    state.metric = m;
-    paint();
-  });
+  resetDays();
+  week.start = iso(mondayOf(new Date()));
+  week.positions = defaultPositions();
+  setMe(loadName());
+  repaint();
+  setStatus("Saved on this device", false);
+  openWeek(week.start);
 
   if (window.claude && window.claude.use) {
     window.claude.use("db").then(function (db) {
       if (!db) return;
       store = sharedStore(db);
-      el("storage-pill").classList.add("shared");
-      el("storage-text").textContent = "Shared with the team";
-      if (!touched) loadWeek(state.weekStart, true);
+      setStatus("Live with your team", true);
+      openWeek(week.start);
     }).catch(function () { /* stay local */ });
+
+    window.claude.use("room").then(function (room) {
+      if (!room) return;
+      roomNs = room;
+      pushPresence({ name: me.name || "Someone", color: me.color, week: week.start, day: null });
+      room.onPeers(function (change) { renderRoster(change.peers); }, function () { el("roster").hidden = true; });
+    }).catch(function () { /* no presence */ });
   }
 })();
 </script>
