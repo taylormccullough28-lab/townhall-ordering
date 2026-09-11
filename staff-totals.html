@@ -76,6 +76,8 @@
   .btn.quiet:hover { color: var(--accent-dark); border-color: var(--line); }
   .btn.sm { padding: 6px 11px; font-size: 12.5px; }
 
+  .viewonly { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding: 11px 14px; border: 1px solid var(--line); background: var(--accent-soft); border-radius: 10px; font-size: 13px; color: var(--accent-dark); }
+  .viewonly strong { font-weight: 700; }
   .namebar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding: 11px 14px; border: 1px solid var(--line); background: var(--clay-soft); border-radius: 10px; }
   .namebar p { margin: 0; font-size: 13px; color: var(--clay); font-weight: 600; }
   .namebar input { flex: 0 1 200px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13.5px; }
@@ -228,7 +230,7 @@
 
   <header class="mast">
     <div>
-      <div class="eyebrow">TownHall CLE &middot; Manager sheet</div>
+      <div class="eyebrow">TownHall CBUS &middot; Manager sheet</div>
       <h1>Weekly Staff Totals</h1>
       <p class="sub">Shared with the management team. AM and PM are tracked separately, and every day has room for what's on the books.</p>
     </div>
@@ -243,6 +245,11 @@
       </div>
     </div>
   </header>
+
+  <div class="viewonly noprint" id="viewonly" hidden>
+    <strong>View only.</strong>
+    <span>You can read this week but not change it. Ask the GM for edit access to enter numbers.</span>
+  </div>
 
   <div class="namebar noprint" id="namebar" hidden>
     <p>Who's filling this in?</p>
@@ -354,6 +361,7 @@
   var timers = {};
   var notesTimer = null;
   var typingUntil = 0;
+  var viewOnly = false;
 
   /* ---------- dates ---------- */
   function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
@@ -546,6 +554,22 @@
   }
 
   /* ---------- render ---------- */
+  function setViewOnly(on) {
+    viewOnly = !!on;
+    el("viewonly").hidden = !viewOnly;
+    ["add-pos", "complete"].forEach(function (id) { el(id).disabled = viewOnly; });
+    el("notes").readOnly = viewOnly;
+    applyViewOnlyToInputs();
+    if (viewOnly) setStatus("View only", false);
+  }
+
+  function applyViewOnlyToInputs() {
+    document.querySelectorAll("#grid input.c, #grid textarea.e").forEach(function (n) {
+      n.readOnly = viewOnly;
+      if (viewOnly) n.setAttribute("aria-readonly", "true"); else n.removeAttribute("aria-readonly");
+    });
+  }
+
   function setStatus(text, ok) {
     var s = el("status");
     s.className = "status" + (ok ? " ok" : "");
@@ -701,6 +725,7 @@
     g.appendChild(grand);
 
     refreshMarks(null);
+    applyViewOnlyToInputs();
   }
 
   function refreshInputs(changedDay) {
@@ -997,7 +1022,8 @@
       refreshAttribution();
       refreshFeed();
     }).catch(function () {
-      setStatus("Not saved — check your connection", false);
+      if (store.mode === "shared" && !viewOnly) setViewOnly(true);
+      else setStatus("Not saved — check your connection", false);
     });
   }
 
@@ -1173,7 +1199,7 @@
     var m = METRICS[metric()];
     var wd = weekDays(week.start);
     var shifts = shownShifts();
-    var lines = ["TownHall CLE — " + m.label + ", week of " + t.range + " " + t.year];
+    var lines = ["TownHall CBUS — " + m.label + ", week of " + t.range + " " + t.year];
     lines.push(week.view === "both" ? "AM / PM per day" : week.view.toUpperCase() + " shift only");
     lines.push("");
     wd.forEach(function (d, i) {
@@ -1331,6 +1357,11 @@
       store = sharedStore(db);
       setStatus("Live with your team", true);
       openWeek(week.start);
+      db.doc("access/probe").set({ at: new Date().toISOString() }).then(function () {
+        setViewOnly(false);
+      }).catch(function () {
+        setViewOnly(true);
+      });
     }).catch(function () {});
 
     window.claude.use("room").then(function (room) {

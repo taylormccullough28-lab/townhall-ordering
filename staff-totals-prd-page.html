@@ -131,9 +131,9 @@
 
 <div class="wrap">
   <header class="mast">
-    <div class="eyebrow">TownHall CLE · Product requirements</div>
+    <div class="eyebrow">TownHall CBUS · Product requirements</div>
     <h1>Weekly Staff Totals</h1>
-    <p class="deck">A shared sheet where the management team records staffing for the week, AM and PM kept apart, with the events that explain the numbers sitting next to them.</p>
+    <p class="deck">A shared sheet where the management team records staffing for the week at TownHall Columbus, AM and PM kept apart, with the events that explain the numbers sitting next to them.</p>
     <dl class="meta">
       <div><dt>Status</dt><dd>Draft · describes a working build</dd></div>
       <div><dt>Owner</dt><dd>TBD</dd></div>
@@ -163,7 +163,7 @@
       <section id="scope">
         <h2>Scope</h2>
         <ul class="body">
-          <li><strong>TownHall CLE only.</strong> One house, one management team.</li>
+          <li><strong>TownHall CBUS (Columbus) only.</strong> One house, one management team.</li>
           <li><strong>Manager-facing only.</strong> No staff-facing view, no guest-facing view.</li>
           <li><strong>Records what happened.</strong> It is not a scheduling tool and does not tell anyone when to work.</li>
           <li><strong>Positions in scope:</strong> Bar, Barback, Barista, Host, Runner, Server, Trainees, plus any position a manager adds.</li>
@@ -195,7 +195,7 @@
           <li><strong>Not payroll, and not a time clock.</strong> Hours entered here are a manager's summary figure, not a punch record, and nothing here should be used to pay anyone.</li>
           <li><strong>Not POS-integrated.</strong> Sales, covers, and labor percentage are not pulled in. Every figure is typed by a manager.</li>
           <li><strong>Not an identity system.</strong> The name on an entry is typed and stored on that manager's own device, not verified against an account.</li>
-          <li><strong>Not multi-location.</strong> CLE only. A location picker is deferred until the single-house version earns its keep.</li>
+          <li><strong>Not multi-location.</strong> Columbus only. A location picker is deferred until the single-house version earns its keep.</li>
           <li><strong>Not an analytics product.</strong> It shows the current week's totals and split. Trend analysis across weeks is out of scope for this build.</li>
           <li><strong>Not a replacement for the daily manager log.</strong> Narrative, incidents, and guest issues stay wherever they live today.</li>
         </ul>
@@ -250,6 +250,7 @@
               <tr><td>Works on a phone</td><td>Usable at roughly 400px wide, with the position column fixed and the grid scrolling horizontally.</td></tr>
               <tr><td>Print a blank or filled week</td><td>The week prints legibly in landscape without app controls.</td></tr>
               <tr><td>Export</td><td>A week can be copied as formatted text for messaging, or exported as CSV including the events and attribution rows.</td></tr>
+              <tr><td>Manager-only access</td><td>The sheet is private. Only people explicitly granted access can open it, and only those granted edit access can enter numbers. A viewer without edit rights sees the week read-only with every field locked.</td></tr>
               <tr><td>Offline-tolerant fallback</td><td>Opened as a local file with no shared store, the app still works and saves to that browser.</td></tr>
             </tbody>
           </table>
@@ -316,7 +317,7 @@
           <div><span class="rt">Typed names are a convention, not a control</span><p>Anyone can type any name. It is enough for "who do I ask", and not enough for anything that has to hold up.</p></div>
           <div><span class="rt">Manager-entered hours are estimates</span><p>They must not be treated as payroll data, and the interface should not imply they can be.</p></div>
           <div><span class="rt">Same-cell collisions resolve last-writer-wins</span><p>Different days, shifts, and positions are safe. Two managers typing the same box at the same moment are not.</p></div>
-          <div><span class="rt">Access is tied to the workspace the sheet is shared from</span><p>A manager without access cannot fill in their shift, which makes onboarding new managers part of the rollout, not an afterthought.</p></div>
+          <div><span class="rt">Access is a managed list, not a link</span><p>The sheet is private. Managers are granted edit access individually and nobody else can open it. Onboarding a new manager is part of the rollout, and off-boarding one means removing access the same day.</p></div>
           <div><span class="rt">Data lives in the app's own store</span><p>Retention, backup, and what happens to a week when the app is deleted are undefined and need an owner.</p></div>
         </div>
       </section>

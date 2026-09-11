@@ -5,7 +5,7 @@
 **Artifact:** `https://claude.ai/code/artifact/c047d572-6fd5-4db7-b724-e0b4315a5565` · **Source:** `staff-totals.html` in this repository
 
 **Scope decisions (confirmed):**
-- TownHall CLE only — one house, one management team.
+- TownHall CBUS (Columbus) only — one house, one management team.
 - Manager-facing only. No staff-facing view, no guest-facing view.
 - Records what actually happened on a shift. It is not a scheduling tool and does not tell anyone when to work.
 - Positions in scope: Bar, Barback, Barista, Host, Runner, Server, Trainees, plus any position a manager adds.
@@ -33,7 +33,7 @@ The problem compounds across managers. An opening manager and a closing manager 
 - **Not payroll, and not a time clock.** Hours entered here are a manager's summary figure, not a punch record, and nothing here should be used to pay anyone.
 - **Not POS-integrated.** Sales, covers, and labor percentage are not pulled in. Every figure is typed by a manager.
 - **Not an identity system.** The name on an entry is typed and stored on that manager's own device, not verified against an account.
-- **Not multi-location.** CLE only. A location picker is deferred until the single-house version earns its keep.
+- **Not multi-location.** Columbus only. A location picker is deferred until the single-house version earns its keep.
 - **Not an analytics product.** It shows the current week's totals and split. Trend analysis across weeks is out of scope for this build.
 - **Not a replacement for the daily manager log.** Narrative, incidents, and guest issues stay wherever they live today.
 
@@ -77,6 +77,7 @@ The problem compounds across managers. An opening manager and a closing manager 
 | Works on a phone | Usable at roughly 400px wide, with the position column fixed and the grid scrolling horizontally. |
 | Print a blank or filled week | The week prints legibly in landscape without app controls. |
 | Export | A week can be copied as formatted text for messaging, or exported as CSV including the events and attribution rows. |
+| Manager-only access | The sheet is private. Only people explicitly granted access can open it, and only those granted edit access can enter numbers. A viewer without edit rights sees the week read-only with every field locked. |
 | Offline-tolerant fallback | Opened as a local file with no shared store, the app still works and saves to that browser. |
 
 ### Nice-to-Have (P1)
@@ -121,7 +122,7 @@ The problem compounds across managers. An opening manager and a closing manager 
 - **Typed names are a convention, not a control.** Anyone can type any name. It is enough for "who do I ask", and not enough for anything that has to hold up.
 - **Manager-entered hours are estimates.** They must not be treated as payroll data, and the interface should not imply they can be.
 - **Same-cell collisions still resolve last-writer-wins.** Different days, shifts, and positions are safe; two managers typing the same box at the same moment are not.
-- **Access is tied to the workspace the sheet is shared from.** A manager without access cannot fill in their shift, which makes onboarding new managers to the sheet part of the rollout, not an afterthought.
+- **Access is a managed list, not a link.** The sheet is private. Managers are granted edit access individually; nobody else can open it. Onboarding a new manager to the sheet is therefore part of the rollout, and off-boarding one means removing their access the same day.
 - **Data lives in the app's own store.** Retention, backup, and what happens to a week when the artifact is deleted are undefined and need an owner.
 
 ## Open Questions
