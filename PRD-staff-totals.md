@@ -49,7 +49,7 @@ The problem compounds across managers. An opening manager and a closing manager 
 - As an opening manager, I want to fill in AM on a phone, so I do not have to go to the office to do it.
 - As either manager, I want to see the other's numbers appear as they type, so we do not duplicate or contradict each other.
 - As a manager, I want to record that Friday was a home game or a 40-cover wine dinner, so next quarter nobody wonders why we ran six servers.
-- As a GM, I want to see who entered each day, so a question about Thursday PM goes to the right person.
+- As a GM, I want to see who entered each number and when, so a question about Thursday PM goes to the right person and I can tell what changed after the fact.
 - As a GM, I want to know a week is finished and not still being filled in, so I can read it as final.
 - As a GM, I want to see the AM versus PM split for the week, so I can tell whether the day is balanced the way I think it is.
 - As a manager, I want to track hours or tips in the same grid when I need to, without a second tool.
@@ -68,7 +68,7 @@ The problem compounds across managers. An opening manager and a closing manager 
 | Position, shift, and week totals | Row totals per position, subtotals per day-shift, a week total, and an AM/PM split summary — all recalculating as numbers are typed. |
 | Concurrent multi-manager entry | Two managers editing different days, shifts, or positions in the same week never overwrite one another. Each entry writes only the value it changed. |
 | Live updates | A manager sees another manager's entries appear without reloading, with a brief highlight on what changed. |
-| Per-day attribution | Each day records who last entered it and when. The name shows under the date and in a recent-entries list. |
+| Per-entry attribution | Every cell records who entered it, what they entered, and when. The cell carries a marker and shows it on hover, and a week-level edit history lists each change with name, value, date, and time. The day header still shows who last touched that day. |
 | Events per day | Each date has a free-text line for what was on the books that day, visible in the grid and carried into copy and CSV output. |
 | Week notes | A single free-text field per week for anything that explains the numbers as a whole. |
 | Week completion marker | A manager can mark the week complete, stamping their name; the state is visible in the header and reversible. |
