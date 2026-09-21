@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Bar Build Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,10 +195,43 @@
   footer p { margin: 0 0 6px; }
 
   @media print {
-    body { background: #fff; color: #000; font-size: 11pt; }
-    .wrap { padding-block: 0; max-width: none; }
-    .spec { box-shadow: none; border-color: #bbb; page-break-inside: avoid; padding: 16px 0; border-left: none; border-right: none; border-top: none; border-radius: 0; }
-    .notes { break-inside: avoid; }
+    @page { size: letter portrait; margin: 0.55in 0.6in 0.5in; }
+    /* lock the light palette — a dark-mode viewer must still print on white */
+    :root, :root[data-theme="dark"] {
+      --bg: #FFFFFF; --card: #FFFFFF; --ink: #16160F; --muted: #55554A;
+      --faint: #76766A; --line: #C9C5B6; --rule: #E2DED1;
+      --accent: #2A4834; --accent-ink: #2A4834; --accent-soft: #E7EFE8;
+      --copper: #7A4E1C; --copper-soft: #F6ECDC; --shadow: none;
+    }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 10.2pt; line-height: 1.42; }
+    .wrap { max-width: none; padding: 0; }
+
+    .mast { padding-bottom: 12pt; }
+    h1 { font-size: 26pt; }
+    .mast-sub { font-size: 9pt; margin-top: 8pt; }
+    .notes { margin-top: 16pt; gap: 10pt; grid-template-columns: repeat(2, 1fr); break-inside: avoid; }
+    .note p { font-size: 9pt; }
+
+    .specs { margin-top: 18pt; gap: 0; }
+    .spec {
+      box-shadow: none; border: none; border-radius: 0; padding: 0;
+      border-top: 1px solid var(--line); padding-top: 14pt; margin-top: 14pt;
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .spec:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    .spec-head h2 { font-size: 16pt; }
+    .chip { font-size: 7.5pt; padding: 2pt 5pt; }
+    .spec-body { gap: 20pt; padding-top: 11pt; }
+    h4 { font-size: 7.5pt; margin-bottom: 6pt; }
+    td { padding: 4pt 0; }
+    .amt { font-size: 10.5pt; }
+    .ing .sub { font-size: 8.5pt; }
+    ol li { font-size: 9.5pt; margin-bottom: 5pt; }
+    .fin-row { font-size: 9.5pt; }
+    .pour { font-size: 8pt; }
+
+    footer { margin-top: 20pt; padding-top: 10pt; font-size: 8.5pt; break-inside: avoid; }
   }
 </style>
 
@@ -219,7 +253,7 @@
       <p class="stock">Channel Orange &middot; Pear Chai &middot; DWAIS &middot; Cider Mix &middot; Titos Chai &middot; Spritz &middot; Goddess &middot; LMF 2.0 &middot; NNF</p>
     </div>
     <div class="note">
-      <h3>Fresh &amp; à la minute</h3>
+      <h3>Fresh &amp; &agrave; la minute</h3>
       <p class="stock">Lemon juice &middot; Lime juice &middot; Spicy cucumber juice &middot; Turmeric juice &middot; Espresso (blonde for Chai Hard) &middot; Simple syrup &middot; Pecan brown sugar syrup &middot; Himalayan salt &middot; Prosecco &middot; Soda water &middot; Pernod (rinse)</p>
     </div>
     <div class="note">
