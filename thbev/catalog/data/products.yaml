@@ -290,11 +290,12 @@ products:
       - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL)."
 
   - key: pamplemousse_750
-    name: Pamplemousse Liqueur 750ml
+    name: Giffard Pamplemousse Liqueur 750ml
     category: liqueur
     conversion: spirit_pour
     pack_size: 1
     unit_size_oz: 25.36
+    season: fall_winter
     unit_label: bottle
     pack_label: bottle
     order_critical: true
@@ -305,6 +306,11 @@ products:
       - "Arena is email-only: send to arenaliquor@gmail.com, never call or text."
       - "pack_size 1 assumes Arena sells by the bottle. Change to 12 if they
          require case quantities."
+      - "Brand confirmed as Giffard by the Fall 2026 cocktail prep sheet (Rev 11).
+         Note you already stock Giffard Abricot and Giffard Rhubarb - Pamplemousse
+         is a third, different Giffard and is not currently purchased."
+      - "Used in SW-2 (Sweetheart cider mix) at 25 oz per 1X batch - almost exactly
+         one 750ml bottle (25.36 oz), which supports ordering by the bottle."
       - "Does not appear in the 2026-07-20..08-28 purchase report, so there is no
          observed cost or depletion rate yet."
 
