@@ -1,6 +1,6 @@
-# Bar Taste Plate — Spring / Summer 2026
+# Bar Taste Plate — Fall / Winter 2026
 
-`BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx` is the daily bar count sheet:
+`BAR_TASTE_PLATE_FALL-WINTER-2026.xlsx` is the daily bar count sheet:
 **one sheet of paper, printed double-sided.**
 
 The workbook has two tabs because a sheet of paper has two sides:
@@ -37,7 +37,7 @@ that way the layout, formulas, drop-downs and print setup can't drift.
 
    ```
    python3 bar-taste-plate/build_taste_plate.py
-   python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx 120
+   python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_FALL-WINTER-2026.xlsx 120
    ```
 
 Each side holds roughly 24 line items per column before it needs to shrink to fit, so there's
@@ -45,13 +45,13 @@ room to add a few cocktails or syrups without the layout changing.
 
 ## Open items — pars still to set
 
-Two sets of PAR boxes are blank on purpose and print as yellow fill-ins:
+Two sets of PAR boxes print as blank yellow fill-ins, by decision — the bar writes these in
+on the printed sheet:
 
-- **The seven new batches** (Channel Orange, Pear Chai, Don't Worry About It Sweetheart,
-  Cider Mix, Chai Hard, Pecan Brown Simple, Scarlett Spritz) — no par was given for these yet.
-- **Bar tools** — the original sheet had no tool counts to carry over. Set them once with the
-  bar lead (per well plus back-ups).
+- **The seven new batches** — Channel Orange, Pear Chai, Don't Worry About It Sweetheart,
+  Cider Mix, Chai Hard, Pecan Brown Simple, Scarlett Spritz.
+- **Bar tools** — the original sheet had no tool counts to carry over.
 
 NEED stays blank until both PAR and ON HAND are filled in, so a missing par never reads as
-"you're fully stocked." Once a par is set in `build_taste_plate.py` it prints as a fixed
-blue number like the rest.
+"you're fully stocked." If a par later becomes permanent, set it in `build_taste_plate.py`
+and it prints as a fixed blue number like the carried-over items.

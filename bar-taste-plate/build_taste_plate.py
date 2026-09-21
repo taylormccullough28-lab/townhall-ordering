@@ -5,7 +5,7 @@ Two tabs, one per physical side: each is set to print as exactly one page.
 Print the whole workbook double-sided and you get one front-and-back sheet.
 
     python3 bar-taste-plate/build_taste_plate.py
-    python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx
+    python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_FALL-WINTER-2026.xlsx
 
 SIDE 1  count & order   - batches + mixers (left), fresh & garnish (right)
 SIDE 2  tools & set-up  - bar tools + set-up walk (left), communication (right)
@@ -25,10 +25,11 @@ from openpyxl.formatting.rule import CellIsRule, FormulaRule
 from openpyxl.comments import Comment
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   "BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx")
+                   "BAR_TASTE_PLATE_FALL-WINTER-2026.xlsx")
 
 # ---------------------------------------------------------------- content ---
-# PARs carried over from the original BAR_TASTE_PLATE_SPRING-SUMMER2026.xlsx.
+# PARs on the carried-over items came from the original
+# BAR_TASTE_PLATE_SPRING-SUMMER2026.xlsx. New items have no par yet - see below.
 
 BATCHES = [
     ("Green Goddess Biz",                   8, "BTL"),
@@ -299,7 +300,7 @@ wb.remove(wb.active)
 ws = new_side("SIDE 1 - FRONT")
 
 # ------------------------------------------------------- SIDE 1 (front) -----
-title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   SPRING / SUMMER 2026")
+title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   FALL / WINTER 2026")
 subtitle(ws, 2, "SIDE 1 of 2      COUNT & ORDER      Batches + Mixers  /  Fresh + Garnish")
 
 # date / shift / name
@@ -397,7 +398,7 @@ ws.freeze_panes = "A8"
 # -------------------------------------------------------- SIDE 2 (back) -----
 ws = new_side("SIDE 2 - BACK")
 
-title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   SPRING / SUMMER 2026")
+title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   FALL / WINTER 2026")
 subtitle(ws, 2, "SIDE 2 of 2      BAR TOOLS, SET-UP & DAILY COMMUNICATION")
 # same sheet of paper as side 1, so the date and name carry over
 ws.row_dimensions[3].height = 16
