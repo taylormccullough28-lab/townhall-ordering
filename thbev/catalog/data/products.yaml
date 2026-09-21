@@ -263,10 +263,11 @@ products:
 # labelled unverified. Do not treat these amounts as house specs - PRD open
 # question 6 ("do cocktail recipes exist in writing?") is still open, and
 # spirit and prep forecasting is only as good as the answer.
-  # --- Named SKUs on otherwise style-only vendors -----------------------------
-  # Cavalier's standing rule is rotating 1/6 bbl only. These are specific products
-  # it also carries, confirmed by the operator 2026-09-21. Both carry named_sku so
-  # the rotating-line collapse does not swallow them into a style-and-count.
+  # --- Named SKU on an otherwise style-only vendor ----------------------------
+  # Cavalier's standing rule is rotating 1/6 bbl only. Bumble Berry is a specific
+  # product it also carries, confirmed by the operator 2026-09-21. It carries
+  # named_sku so the rotating-line collapse does not swallow it into a
+  # style-and-count.
 
   - key: fat_heads_bumble_berry
     name: "Fat Head's Bumble Berry Keg"
@@ -288,26 +289,24 @@ products:
          exception or the rule is stale."
       - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL)."
 
-  - key: pamplemousse
-    name: Pamplemousse
-    category: unclassified
-    conversion: packaged
+  - key: pamplemousse_750
+    name: Pamplemousse Liqueur 750ml
+    category: liqueur
+    conversion: spirit_pour
     pack_size: 1
-    unit_label: unit
-    pack_label: unit
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
     order_critical: true
-    vendor: cavalier
-    alt_vendors: ["arena"]
+    vendor: arena
     vendor_confidence: confirmed
-    named_sku: true
     notes:
-      - "INCOMPLETE - do not forecast from this entry yet. Dual-sourced from
-         Cavalier and Arena, confirmed by the operator 2026-09-21."
-      - "UNKNOWN: product type, container and size. No 'pamplemousse' line
-         appears anywhere in the 2026-07-20..08-28 purchase report, so there is
-         no observed unit, pack size or cost to derive. conversion and pack_size
-         above are placeholders, not measurements."
-      - "Arena is email-only, so the alternate source is an email order, never a call."
+      - "Arena only (corrected 2026-09-21 - an earlier draft had this on Cavalier)."
+      - "Arena is email-only: send to arenaliquor@gmail.com, never call or text."
+      - "pack_size 1 assumes Arena sells by the bottle. Change to 12 if they
+         require case quantities."
+      - "Does not appear in the 2026-07-20..08-28 purchase report, so there is no
+         observed cost or depletion rate yet."
 
 
 recipes:

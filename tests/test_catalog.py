@@ -133,7 +133,7 @@ def test_prep_ingredients_are_indirect_only(seed_catalog):
     assert seed_catalog.product("chinola").conversion is ConversionType.PREP_INGREDIENT
 
 
-class TestNamedSkusOnStyleOnlyVendors:
+class TestNamedSkusAndSeasonalProducts:
     """Cavalier is style-only, but carries specific products too.
 
     A named SKU must survive the rotating-line collapse, or the manager never
@@ -149,10 +149,13 @@ class TestNamedSkusOnStyleOnlyVendors:
         assert bumble.named_sku is True
         assert bumble.keg_size == "half_barrel"
 
-        pamp = catalog.products["pamplemousse"]
-        assert pamp.vendor == "cavalier"
-        assert pamp.alt_vendors == ("arena",)
-        assert pamp.named_sku is True
+        # Pamplemousse is a 750ml liqueur from Arena only - corrected 2026-09-21.
+        pamp = catalog.products["pamplemousse_750"]
+        assert pamp.vendor == "arena"
+        assert pamp.unit_size_oz == 25.36
+        assert "pamplemousse" not in {
+            k for k, p in catalog.products.items() if p.vendor == "cavalier"
+        }
 
     def test_superior_second_window_is_wednesday(self):
         from thbev.catalog.loader import load_catalog

@@ -343,6 +343,7 @@ def _load_products(doc: dict[str, Any]) -> dict[str, Product]:
             style=entry.get("style"),
             named_sku=bool(entry.get("named_sku", False)),
             alt_vendors=tuple(entry.get("alt_vendors", []) or []),
+            season=entry.get("season", "year_round"),
             notes=list(entry.get("notes", []) or []),
         )
     if not products:

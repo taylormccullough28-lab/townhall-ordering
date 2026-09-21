@@ -159,6 +159,10 @@ class Product:
             manager still sees the product by name.
         alt_vendors: Other vendors that can supply this product. Advisory only -
             the order is still built against `vendor`.
+        season: year_round, summer, or fall_winter. A seasonal product carries
+            no trailing sales in the weeks before its launch, so the baseline
+            forecast is zero and the engine would order nothing. Seasonal items
+            fall back to par for their first order - see `needs_par_first_order`.
     """
 
     key: str
@@ -180,6 +184,7 @@ class Product:
     style: str | None = None
     named_sku: bool = False
     alt_vendors: tuple[str, ...] = ()
+    season: str = "year_round"
     notes: list[str] = field(default_factory=list)
 
 
