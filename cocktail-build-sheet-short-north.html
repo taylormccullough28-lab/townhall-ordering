@@ -119,17 +119,16 @@
             color:var(--faint); }
   .fin dd { margin:0; font-weight:500; }
 
+  /* two-column card: stacked on screen, side by side in print */
+  .drink-cols { display:flex; flex-direction:column; gap:24px; }
+  .drink-cols > .col { min-width:0; }
+
   /* finished-drink photo */
-  .finish-wrap { display:flex; gap:22px; align-items:flex-start; }
-  .finish-wrap .finish { flex:1 1 auto; min-width:0; }
-  .shot { flex:none; width:168px; margin:0; }
+  .shot { width:200px; margin:0 0 24px; }
   .shot img { display:block; width:100%; height:auto; border-radius:4px;
               border:1px solid var(--line); background:var(--rule); }
   .shot figcaption { margin-top:7px; font-size:11.5px; line-height:1.35; color:var(--faint); }
-  @media (max-width:560px) {
-    .finish-wrap { flex-direction:column; gap:18px; }
-    .shot { width:100%; max-width:240px; }
-  }
+  @media (max-width:560px) { .shot { width:100%; max-width:240px; } }
 
   /* watch out */
   .flag { margin-top:24px; background:var(--flag-soft); border:1px solid var(--flag-line);
@@ -193,9 +192,12 @@
     .moves { gap:5.5pt; } .moves li { font-size:11pt; }
     .pattern h2 { font-size:15pt; } .pattern .sub { font-size:9.5pt; margin-bottom:11pt; }
     .pattern .after { margin-top:12pt; padding-top:9pt; font-size:9.5pt; }
-    .shot { width:108pt; }
+    .drink-cols { flex-direction:row; align-items:flex-start; gap:16pt; }
+    .drink-cols > .col-a { flex:1 1 0; }
+    .drink-cols > .col-b { flex:1.2 1 0; }
+    .drink-cols > .col-c { flex:0 0 104pt; }
+    .shot { width:100%; max-width:none; margin:0; }
     .shot figcaption { font-size:7.5pt; margin-top:4pt; }
-    .finish-wrap { gap:14pt; }
     .flag { margin-top:10pt; padding:8pt 10pt; break-inside:avoid; }
     .flag p { font-size:9.5pt; }
     .recap { margin-top:26pt; break-inside:avoid; }
@@ -236,7 +238,9 @@
 
     <article class="drink">
       <h3>Channel Orange</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">Channel Orange Biz</span></div>
@@ -244,34 +248,39 @@
           <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>4.25 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake.</li>
           <li>Strain over fresh ice in a rocks glass.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
-        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Rocks</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div>
         </dl>
-        <figure class="shot">
+        </div>
+        </div>
+        <div class="col col-c">
+         <figure class="shot">
           <img src="images/channel-orange.jpg" alt="Channel Orange, pale amber over ice, garnished with a sage leaf and a cinnamon stick">
           <figcaption>What it should look like</figcaption>
         </figure>
-      </div>
-      
+        </div>
       </div>
     </article>
 
     <article class="drink">
       <h3>Don't Worry About It Sweetheart</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">DWAIS Biz</span></div>
@@ -279,40 +288,45 @@
           <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>6.00 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake.</li>
           <li>Strain over fresh ice in a rocks glass.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
-        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Rocks</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Rosemary sprig</dd></div>
         </dl>
-        <figure class="shot">
+        </div>
+        </div>
+        <div class="col col-c">
+         <figure class="shot">
           <img src="images/dwais.jpg" alt="Don't Worry About It Sweetheart, deep red over ice, garnished with a rosemary sprig">
           <figcaption>What it should look like</figcaption>
         </figure>
-      </div>
-      
+        </div>
       </div>
     </article>
 
     <article class="drink">
       <h3>Green Goddess</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>First, prep the glass</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">rinse</span><span class="what">Pernod<em>Coat the inside of a rocks glass, then dump the excess</em></span></div>
         </div>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">2.75 <span class="u">oz</span></span><span class="what">Goddess Biz</span></div>
@@ -320,21 +334,25 @@
           <div class="pour-row"><span class="qty">1.00 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>4.25 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake.</li>
           <li>Strain over fresh ice in the rinsed glass.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Rocks &mdash; Pernod-rinsed</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Mint bushel</dd></div>
         </dl>
+        </div>
+        </div>
       </div>
       <div class="flag">
         <h4>Watch out</h4>
@@ -344,7 +362,9 @@
 
     <article class="drink">
       <h3>LMF 2.0</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">4.00 <span class="u">oz</span></span><span class="what">LMF 2.0 Biz</span></div>
@@ -352,8 +372,10 @@
           <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>4.75 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake vigorously.</li>
@@ -361,21 +383,22 @@
           <li>Dust lightly with dragonfruit powder.</li>
           <li>Add a small pinch of calendula flowers.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
-        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Rocks</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Light dusting of dragonfruit powder, then a small pinch of calendula flowers</dd></div>
         </dl>
-        <figure class="shot">
+        </div>
+        </div>
+        <div class="col col-c">
+         <figure class="shot">
           <img src="images/lmf-2-0.jpg" alt="LMF 2.0, turmeric-yellow over ice, dusted with magenta dragonfruit powder and topped with a pinch of yellow calendula petals">
           <figcaption>What it should look like</figcaption>
         </figure>
-      </div>
-      
+        </div>
       </div>
       <div class="flag">
         <h4>Watch out</h4>
@@ -385,29 +408,35 @@
 
     <article class="drink">
       <h3>No New Friends</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">3.00 <span class="u">oz</span></span><span class="what">NNF Biz</span></div>
           <div class="pour-row"><span class="qty">1.00 <span class="u">oz</span></span><span class="what">Lime juice<em>Fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>4.00 oz + soda</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake vigorously.</li>
           <li>Strain over fresh ice into the 12 oz tall glass.</li>
           <li>Top with soda water.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>12 oz tall</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Hibiscus leaves + tarragon sprig</dd></div>
         </dl>
+        </div>
+        </div>
       </div>
       <div class="flag">
         <h4>Watch out</h4>
@@ -426,7 +455,9 @@
 
     <article class="drink">
       <h3>Chai Hard</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">2.25 <span class="u">oz</span></span><span class="what">Titos Chai Biz</span></div>
@@ -435,34 +466,39 @@
           <div class="pour-row"><span class="qty">pinch</span><span class="what">Himalayan salt</span></div>
         </div>
         <p class="total">Total pour <b>4.75 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake.</li>
           <li>Strain up into a chilled coupe.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
-        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Coupe / martini</dd></div>
           <div class="fin"><dt>Ice</dt><dd>None &mdash; served up</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>1 star anise</dd></div>
         </dl>
-        <figure class="shot">
+        </div>
+        </div>
+        <div class="col col-c">
+         <figure class="shot">
           <img src="images/chai-hard.jpg" alt="Chai Hard served up in a coupe with a foamed top, garnished with a single star anise">
           <figcaption>What it should look like</figcaption>
         </figure>
-      </div>
-      
+        </div>
       </div>
     </article>
 
     <article class="drink">
       <h3>Espresso Martini</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Pour into the tin</h4>
         <div class="pours">
           <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">Liquor of choice<em>The guest picks &mdash; ask before you build</em></span></div>
@@ -470,29 +506,32 @@
           <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">Espresso<em>Pulled fresh</em></span></div>
         </div>
         <p class="total">Total pour <b>5.00 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Then</h4>
         <ol class="steps">
           <li>Add ice and shake.</li>
           <li>Strain up into a chilled martini coupe.</li>
           <li>Float 3 espresso beans.</li>
         </ol>
-      </div>
-      <div class="block">
+        </div>
+        <div class="block">
         <h4>Finish</h4>
-        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Martini coupe</dd></div>
           <div class="fin"><dt>Ice</dt><dd>None &mdash; served up</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>3 espresso beans</dd></div>
         </dl>
-        <figure class="shot">
+        </div>
+        </div>
+        <div class="col col-c">
+         <figure class="shot">
           <img src="images/espresso-martini.jpg" alt="Espresso Martini served up in a coupe with a pale foam cap">
           <figcaption>What it should look like</figcaption>
         </figure>
-      </div>
-      
+        </div>
       </div>
       <div class="flag">
         <h4>Watch out</h4>
@@ -511,7 +550,9 @@
 
     <article class="drink">
       <h3>Scarlett Spritz</h3>
-      <div class="block">
+      <div class="drink-cols">
+        <div class="col col-a">
+        <div class="block">
         <h4>Build in this order</h4>
         <ol class="steps">
           <li>Pack a wine glass with ice.</li>
@@ -520,14 +561,18 @@
           <li>Stir once with a bar spoon, lifting from the bottom.</li>
         </ol>
         <p class="total">Total pour <b>7.50 oz</b></p>
-      </div>
-      <div class="block">
+        </div>
+        </div>
+        <div class="col col-b">
+        <div class="block">
         <h4>Finish</h4>
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Wine</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Packed</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Rosemary</dd></div>
         </dl>
+        </div>
+        </div>
       </div>
       <div class="flag">
         <h4>Watch out</h4>
