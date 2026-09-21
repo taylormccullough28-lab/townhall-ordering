@@ -14,6 +14,7 @@
     --ink:#1B1C14; --ink-2:#4E5040; --ink-3:#7E806C;
     --rule:#D8D2C2; --rule-soft:#EDE9DE;
     --olive:#55643D; --aqua:#3F6F69; --clay:#96351F; --clay-soft:#F6E8E2;
+    --ch:#6B4A2F; --sw:#C0447A; --co:#D2761B; --ss:#9C1F35;
     --display:"Oswald","Arial Narrow",sans-serif;
     --body:"Source Sans 3",Helvetica,Arial,sans-serif;
     --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
@@ -22,12 +23,14 @@
     --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
     --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
     --rule:#35362C; --rule-soft:#262720;
-    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; } }
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
+    --ch:#C09A72; --sw:#EE8FB4; --co:#F0A257; --ss:#E8768C; } }
   :root[data-theme="dark"] {
     --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
     --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
     --rule:#35362C; --rule-soft:#262720;
-    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; }
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
+    --ch:#C09A72; --sw:#EE8FB4; --co:#F0A257; --ss:#E8768C; }
 
   body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 14.5px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
   .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
@@ -46,13 +49,14 @@
   h2 { font-size: 17px; text-transform: uppercase; letter-spacing: .08em; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin-top: 36px; }
   h2 em { font-family: var(--body); font-style: italic; font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--ink-3); text-transform: none; }
 
-  .card { background: var(--surface); border: 1px solid var(--rule); margin-top: 14px; padding: 14px 16px 15px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-left: 4px solid var(--accent, var(--rule)); margin-top: 14px; padding: 14px 16px 15px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .card-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--rule-soft); padding-bottom: 8px; }
   .card-top h3 { font-size: 17px; text-transform: uppercase; letter-spacing: .02em; }
   .card-top .es-name { font-style: italic; color: var(--ink-3); font-size: 13px; }
   .facts { margin-left: auto; font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ink-2); white-space: nowrap; }
   .tag { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--ink-3); color: var(--ink-3); padding: 1px 5px; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 11px; }
+  .grid2 { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; margin-top: 11px; align-items: start; }
+  .rules-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 11px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .scroll { overflow-x: auto; }
@@ -72,30 +76,40 @@
   .sig .line { border-bottom: 1px solid var(--rule); height: 26px; margin-bottom: 5px; }
   footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 11.5px; color: var(--ink-3); }
 
-  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; gap: 12px; } .facts { margin-left: 0; white-space: normal; } }
+  @media screen and (max-width: 900px) { .grid2 { grid-template-columns: 1fr; gap: 12px; } }
+  @media screen and (max-width: 720px) { .rules-2 { grid-template-columns: 1fr; gap: 12px; } .facts { margin-left: 0; white-space: normal; } }
 
 
+
+  .d-ch { --accent: var(--ch); } .d-sw { --accent: var(--sw); }
+  .d-co { --accent: var(--co); } .d-ss { --accent: var(--ss); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 9px 20px; margin-top: 16px; padding: 11px 14px; border: 1px solid var(--rule); background: var(--surface); }
+  .legend .lg-label { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); width: 100%; }
+  .key { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .dot { width: 13px; height: 13px; border-radius: 3px; background: var(--accent); flex: 0 0 auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .key .mono { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-3); }
 
   .drink { margin-top: 34px; }
-  .drink-head { background: var(--field); color: var(--field-ink); padding: 11px 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .drink-head { background: var(--accent, var(--field)); color: #fff; padding: 11px 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .drink-head h2 { border: 0; margin: 0; padding: 0; font-size: 21px; color: inherit; }
   .drink-head .es-h { font-family: var(--body); font-style: italic; font-size: 13px; opacity: .72; }
   .drink-head .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; opacity: .75; }
-  .code { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--olive); }
-  .build { border: 1px solid var(--rule); border-top: 3px solid var(--olive); background: var(--surface); padding: 12px 16px 13px; margin-top: 14px; }
+  .code { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .07em; color: #fff; background: var(--accent, var(--olive)); padding: 2px 6px; border-radius: 3px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .build { border: 1px solid var(--rule); border-top: 3px solid var(--accent, var(--olive)); border-left: 4px solid var(--accent, var(--rule)); background: var(--surface); padding: 12px 16px 13px; margin-top: 14px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .build-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; margin-top: 6px; font-size: 13px; }
   .build-row .k { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; }
-  @media (max-width: 720px) { .build-row { grid-template-columns: 1fr; } .drink-head .count { margin-left: 0; } }
+  @media screen and (max-width: 720px) { .build-row { grid-template-columns: 1fr; } .drink-head .count { margin-left: 0; } }
   @media print {
     @page { size: letter; margin: 0.45in 0.5in; }
     :root { --paper:#fff; --surface:#fff; --ink:#000; --ink-2:#2b2b2b; --ink-3:#555; --rule:#999; --rule-soft:#ccc; --clay:#000; --clay-soft:#fff; --olive:#000; --aqua:#000; }
-    body { font-size: 8.6pt; line-height: 1.38; }
+    body { font-size: 9pt; line-height: 1.38; }
     .wrap { max-width: none; padding-inline: 0; padding-block: 0; }
-    li { margin-bottom: 1.5px; }
-    .card { margin-top: 9px; padding: 10px 12px 11px; }
+    li { margin-bottom: 2px; }
+    .card { margin-top: 10px; padding: 11px 13px 12px; }
     .card-top { padding-bottom: 6px; }
-    .card-top h3 { font-size: 12.5pt; }
-    .grid2 { gap: 6px 14px; margin-top: 8px; }
+    .card-top h3 { font-size: 13pt; }
+    .grid2 { gap: 6px 13px; margin-top: 7px; }
     table { font-size: .95em; }
     td { padding: 3.5px 7px 3.5px 0; }
     .steps ol, .build-row { font-size: .95em; }
@@ -108,20 +122,27 @@
     /* paper, not screen: no filled bands, no wasted toner */
     .masthead { background: #fff; color: #000; margin-inline: 0; padding: 0 0 8px; border-bottom: 3px solid #000; }
     .mark { opacity: 1; }
-    .masthead h1 { font-size: 17pt; }
+    .masthead h1 { font-size: 14.5pt; }
     .masthead h1 .es { opacity: 1; }
     .stamp { opacity: 1; margin-top: 8px; }
 
-    .drink-head { background: #fff; color: #000; padding: 0 0 5px; border-bottom: 2.5px solid #000; }
+    .drink-head { background: #fff; color: #000; padding: 0 0 5px; border-bottom: 3px solid var(--accent, #000); }
     .drink-head h2 { font-size: 14pt; }
     .drink-head .es-h, .drink-head .count { opacity: 1; }
 
     /* one cocktail per page */
     .drink { margin-top: 0; break-before: page; page-break-before: always; }
-    .drink:first-of-type { break-before: auto; page-break-before: auto; }
+    .legend + .drink { break-before: auto; page-break-before: auto; }
     .card, .build, .drink-head { break-inside: avoid; page-break-inside: avoid; }
     .drink-head { break-after: avoid; page-break-after: avoid; }
-    .card { border-color: #999; }
+    .card { border-color: #999; border-left: 4px solid var(--accent, #999); }
+    .legend { border-color: #999; padding: 4px 8px; gap: 2px 12px; margin-top: 7px; }
+    .legend .lg-label { font-size: 7pt; width: auto; }
+    .key { font-size: .86em; gap: 5px; }
+    .dot { width: 9px; height: 9px; }
+    .legend + .drink { margin-top: 9px; }
+    .masthead { padding: 0 0 6px; }
+    .stamp { margin-top: 4px; font-size: 7.5pt; }
     .build { border-top-width: 2.5px; }
     .flag { border-left-width: 2.5px; background: #fff; }
     h2 { margin-top: 18px; }
@@ -142,12 +163,20 @@
         <div>BAR · 09.2026</div>
         <div>4 COCKTAILS / CÓCTELES</div>
         <div>10 COMPONENTS / COMPONENTES</div>
-        <div>REV 10</div>
+        <div>REV 11</div>
       </div>
     </div>
   </header>
 
-<div class="drink">
+  <div class="legend">
+    <div class="lg-label">Colour code / Código de color — match the label tape on every container</div>
+    <div class="key d-ch"><span class="dot"></span><b>Chai Hard</b><span class="mono">CH · BROWN / CAFÉ</span></div>
+    <div class="key d-sw"><span class="dot"></span><b>Sweetheart</b><span class="mono">SW · PINK / ROSA</span></div>
+    <div class="key d-co"><span class="dot"></span><b>Channel Orange</b><span class="mono">CO · ORANGE / NARANJA</span></div>
+    <div class="key d-ss"><span class="dot"></span><b>Scarlett Spritz</b><span class="mono">SS · RED / ROJO</span></div>
+  </div>
+
+<div class="drink d-ch">
   <div class="drink-head">
     <h2>Chai Hard</h2>
     <span class="es-h">· Chai, avellana, pecana, espresso</span>
@@ -179,7 +208,8 @@
           <li>Add hazelnut liqueur.</li>
           <li>Bottle, label, date.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos</h4>
           <ol>
             <li>Infusione vodka + chai <b>45 min</b>. Use temporizador.</li>
@@ -187,7 +217,6 @@
             <li>Agregue el licor de avellana.</li>
             <li>Embotelle, etiquete, feche.</li>
           </ol>
-        </div>
       </div>
     </div>
     <p class="flag"><b>Nut / Nuez</b> — Hazelnut is in the batch. Label CONTAINS HAZELNUT. Over 45 min = bitter = dump it. <span lang="es"><em>La avellana va en el lote. Etiquete CONTIENE AVELLANA. Más de 45 min = amargo = se desecha.</em></span></p>
@@ -220,7 +249,8 @@
           <li>Strain through a chinois, pressing out all excess liquid.</li>
           <li>Cool, label, date, mark CONTAINS PECAN.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos</h4>
           <ol>
             <li>Azúcar moreno + agua hirviendo de la llave caliente del café al cambro. Bata hasta disolver.</li>
@@ -229,7 +259,6 @@
             <li>Cuele por colador chino, presionando para sacar todo el líquido.</li>
             <li>Enfríe, etiquete, feche, marque CONTIENE PECANA.</li>
           </ol>
-        </div>
       </div>
     </div>
     <p class="flag"><b>Confirm / Confirmar</b> — The steps do not say where the pumpkin pie spice goes, and step 5 was cut off in the recipe app. <span lang="es"><em>Los pasos no indican dónde entra la especia de calabaza, y el paso 5 quedó cortado en la aplicación.</em></span></p>
@@ -244,7 +273,7 @@
   </div>
 </div>
 
-<div class="drink">
+<div class="drink d-sw">
   <div class="drink-head">
     <h2>Don't Worry About It Sweetheart</h2>
     <span class="es-h">· Fresa, sidra, saúco, pomelo</span>
@@ -276,7 +305,8 @@
           <li>Strain through a chinois.</li>
           <li>Label, date, refrigerate.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos</h4>
           <ol>
             <li>Mida todos los ingredientes.</li>
@@ -284,7 +314,6 @@
             <li>Cuele por colador chino.</li>
             <li>Etiquete, feche y refrigere.</li>
           </ol>
-        </div>
       </div>
     </div>
     <p class="flag"><b>Vodka / Vodka</b> — Brand is by location: OYO in Columbus, Absolut in Cleveland. <span lang="es"><em>La marca depende de la ubicación: OYO en Columbus, Absolut en Cleveland.</em></span></p>
@@ -315,7 +344,8 @@
           <li>Bottle into a glass bottle using a funnel.</li>
           <li>Label <b>"Cider Sweetheart mix"</b> on a Fusion prep label.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos</h4>
           <ol>
             <li>Combine todo en un cambro limpio.</li>
@@ -323,7 +353,6 @@
             <li>Embotelle en botella de vidrio con embudo.</li>
             <li>Etiquete <b>«Cider Sweetheart mix»</b> en etiqueta Fusion.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -337,7 +366,7 @@
   </div>
 </div>
 
-<div class="drink">
+<div class="drink d-co">
   <div class="drink-head">
     <h2>Channel Orange</h2>
     <span class="es-h">· Naranja sanguina, pera, chai, saúco</span>
@@ -368,7 +397,8 @@
           <li>Strain through a chinois.</li>
           <li>Label <b>"Pear Simple Syrup"</b>, date, refrigerate.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos <span class="tag">Proposed</span></h4>
           <ol>
             <li>Descorazone las peras.</li>
@@ -376,7 +406,6 @@
             <li>Cuele por colador chino.</li>
             <li>Etiquete <b>«Pear Simple Syrup»</b>, feche y refrigere.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -406,7 +435,8 @@
           <li>Whisk until the honey fully dissolves.</li>
           <li>Bottle, label, date, refrigerate.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos <span class="tag">Proposed</span></h4>
           <ol>
             <li>Prepare primero <b>CO-1</b>.</li>
@@ -414,7 +444,6 @@
             <li>Bata hasta disolver la miel por completo.</li>
             <li>Embotelle, etiquete, feche y refrigere.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -443,14 +472,14 @@
           <li>Whisk.</li>
           <li>Bottle using a funnel. Label, date.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos <span class="tag">Proposed</span></h4>
           <ol>
             <li>Combine todo en un cambro limpio.</li>
             <li>Bata con el batidor.</li>
             <li>Embotelle con embudo. Etiquete, feche.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -464,7 +493,7 @@
   </div>
 </div>
 
-<div class="drink">
+<div class="drink d-ss">
   <div class="drink-head">
     <h2>Scarlett Spritz</h2>
     <span class="es-h">· Arándano, saúco, sal rosa, romero</span>
@@ -494,14 +523,14 @@
           <li>Whisk until fully blended.</li>
           <li>Bottle, label, date, refrigerate.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos <span class="tag">Proposed</span></h4>
           <ol>
             <li>Combine en un cambro limpio. Sin calor.</li>
             <li>Bata hasta integrar por completo.</li>
             <li>Embotelle, etiquete, feche y refrigere.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -528,13 +557,13 @@
           <li>Dissolve fully. Cool.</li>
           <li>Into a dasher bottle. Label, date.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos</h4>
           <ol>
             <li>Disuelva por completo. Enfríe.</li>
             <li>Pase a un gotero. Etiquete, feche.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -564,7 +593,8 @@
           <li>Whisk.</li>
           <li>Bottle, label, date, refrigerate.</li>
         </ol>
-        <div class="es" lang="es" style="margin-top:8px;">
+      </div>
+      <div class="steps es" lang="es">
           <h4>Pasos <span class="tag">Proposed</span></h4>
           <ol>
             <li>Prepare primero <b>SS-1</b> y <b>SS-2</b>.</li>
@@ -572,7 +602,6 @@
             <li>Bata con el batidor.</li>
             <li>Embotelle, etiquete, feche y refrigere.</li>
           </ol>
-        </div>
       </div>
     </div>
   </div>
@@ -587,11 +616,12 @@
 </div>
 
   <h2>Rules <em>· Reglas</em></h2>
-  <div class="grid2">
+  <div class="rules-2">
     <div>
       <h4>English</h4>
       <ol>
         <li><b>Label everything:</b> product, date, use-by, initials. FIFO.</li>
+        <li><b>Colour-code the container</b> to its cocktail: CH brown, SW pink, CO orange, SS red. Write the code (CH-1, SS-3) on the label too.</li>
         <li><b>Taste every batch</b> before service. Off = dump it. Never thin, never re-sugar.</li>
         <li><b>Chai infusion is 45 min.</b> Timer, not a guess.</li>
         <li><b>Nut allergy:</b> CH-1 has hazelnut, CH-2 has pecan. Mark both containers.</li>
@@ -602,6 +632,7 @@
       <h4>Español</h4>
       <ol>
         <li><b>Etiquete todo:</b> producto, fecha, caducidad, iniciales. PEPS.</li>
+        <li><b>Marque el recipiente con el color</b> de su cóctel: CH café, SW rosa, CO naranja, SS rojo. Escriba también el código (CH-1, SS-3).</li>
         <li><b>Pruebe cada lote</b> antes del servicio. Si está mal, deséchelo. No diluya ni agregue azúcar.</li>
         <li><b>La infusión de chai es de 45 min.</b> Con temporizador, no a ojo.</li>
         <li><b>Alergia a frutos secos:</b> CH-1 lleva avellana, CH-2 lleva pecana. Marque ambos recipientes.</li>
@@ -616,7 +647,7 @@
     <div class="sig"><div class="line"></div>BAR LEAD / ENCARGADO</div>
   </div>
 
-  <footer>TownHall · Fall 2026 · Rev 10. Items tagged <span class="tag">Proposed</span> are not yet official specs. <span lang="es">Los marcados como propuestos aún no son especificaciones oficiales.</span></footer>
+  <footer>TownHall · Fall 2026 · Rev 11. Items tagged <span class="tag">Proposed</span> are not yet official specs. <span lang="es">Los marcados como propuestos aún no son especificaciones oficiales.</span></footer>
 </div>
 </body>
 </html>
