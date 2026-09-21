@@ -1,35 +1,41 @@
 """
-Build the TownHall BAR TASTE PLATE workbook (Spring/Summer 2026).
+Build the TownHall BAR TASTE PLATE - one sheet of paper, printed double-sided.
 
-Rebuild after editing the lists below:
+Two tabs, one per physical side: each is set to print as exactly one page.
+Print the whole workbook double-sided and you get one front-and-back sheet.
+
     python3 bar-taste-plate/build_taste_plate.py
     python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx
 
-Everything a bartender/barback fills in is a yellow cell. NEED columns are
-formulas (PAR minus ON HAND) - never type in them.
+SIDE 1  count & order   - batches + mixers (left), fresh & garnish (right)
+SIDE 2  tools & set-up  - bar tools + set-up walk (left), communication (right)
+
+Everything a bartender/barback fills in is a yellow cell. NEED is a formula
+(PAR minus ON HAND) - never type in it. To change the sheet, edit the lists
+below and rebuild; the layout, formulas and print setup take care of themselves.
 """
 
 import os
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
-from openpyxl.formatting.rule import CellIsRule, FormulaRule
 from openpyxl.worksheet.properties import PageSetupProperties
+from openpyxl.formatting.rule import CellIsRule, FormulaRule
 from openpyxl.comments import Comment
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx")
 
 # ---------------------------------------------------------------- content ---
-# PAR values carried over from the original BAR_TASTE_PLATE_SPRING-SUMMER2026.xlsx.
-# (par_number, unit_label) -> unit shows in the cell, the number stays math-able.
+# PARs carried over from the original BAR_TASTE_PLATE_SPRING-SUMMER2026.xlsx.
 
 BATCHES = [
     ("Green Goddess Biz",            8, "BTL"),
     ("Spicy Cucumber Biz",           8, "BTL"),
     ("Say Less",                     6, "BTL"),
     ("Light My Fire 2.0 Biz",        6, "BTL"),
-    ("Turmeric Juice (LMF 2.0)",     6, "BTL"),
+    ("Turmeric Juice (LMF 2.0) *",   6, "BTL"),
     ("No New Friends Biz",           6, "BTL"),
     ("Hot Girl Simmer Biz",          6, "BTL"),
     ("Alter Ego Biz",                6, "BTL"),
@@ -37,9 +43,9 @@ BATCHES = [
     ("Not Your Average Spritz",      6, "BTL"),
     ("Strawberry Allulose",          6, "BTL"),
     ("Tart Cherry Allulose",         3, "BTL"),
-    ("Nitro Espresso Martini",       1, "CAMBRO"),
+    ("Nitro Espresso Martini",       1, "CMB"),
 ]
-BATCH_NOTE = "Turmeric Juice is for Light My Fire 2.0 - this is NOT the wellness shot."
+BATCH_NOTE = "* Turmeric Juice is for Light My Fire 2.0 - NOT the wellness shot."
 
 MIXERS = [
     ("Pineapple Juice",   4, "BTL"),
@@ -55,11 +61,9 @@ MIXERS = [
     ("Espresso",          4, "BTL"),
 ]
 
-FRESH_COUNT = [   # counted items (have a number par)
-    ("Limes",   8, "PANS"),
-    ("Lemons",  8, "PANS"),
-]
-FRESH_YN = [      # yes / low / 86 items
+FRESH_COUNT = [("Limes", 8, "PAN"), ("Lemons", 8, "PAN")]
+
+FRESH_YN = [
     "Olives", "Mint", "Parsley", "Basil", "Tarragon",
     "Dehydrated Strawberries", "Dried Calendula Flowers", "Thai Chili",
     "Hibiscus Leaves", "Cherries", "Espresso Beans", "Dried Dragonfruit",
@@ -67,494 +71,491 @@ FRESH_YN = [      # yes / low / 86 items
     "Angostura Bitters",
 ]
 
-# Bar tools - PARs intentionally left blank; set them once with the bar lead.
-TOOLS = [
-    "Jiggers", "Stir Spoons", "Hand Strainers", "Muddlers",
-    "Scraper", "Strainers", "Double Strainers",
-]
+TOOLS = ["Jiggers", "Stir Spoons", "Hand Strainers", "Muddlers",
+         "Scraper", "Strainers", "Double Strainers"]
 
 SETUP = [
-    ("Glasses",          "Spot check - clean, no chips"),
-    ("Coolers",          "Stocked + clean"),
-    ("Silverware",       "Stocked / full"),
-    ("Napkins",          "Stocked"),
-    ("Side Plates",      "Clean + stocked"),
-    ("Sriracha",         "Wiped clean, enough on hand"),
-    ("Salt and Pepper",  "Full + wiped clean"),
-    ("Register Paper",   "Back-up at each printer"),
-    ("Ice Scoops",       "In place"),
-    ("Shaker Tins",      "In place at every well"),
-    ("Pens",             "Stocked"),
-    ("Crowlers",         "Labeled + stocked"),
-    ("Crowler Machine",  "Cleaned"),
-    ("Sharpies",         "By crowler machine"),
-    ("Wine Pourer",      "In place"),
-    ("Wine Opener",      "In place"),
+    ("Glasses",         "Spot check - clean, no chips"),
+    ("Coolers",         "Stocked + clean"),
+    ("Silverware",      "Stocked / full"),
+    ("Napkins",         "Stocked"),
+    ("Side Plates",     "Clean + stocked"),
+    ("Sriracha",        "Wiped clean, enough on hand"),
+    ("Salt and Pepper", "Full + wiped clean"),
+    ("Register Paper",  "Back-up at each printer"),
+    ("Ice Scoops",      "In place"),
+    ("Shaker Tins",     "In place at every well"),
+    ("Pens",            "Stocked"),
+    ("Crowlers",        "Labeled + stocked"),
+    ("Crowler Machine", "Cleaned"),
+    ("Sharpies",        "By crowler machine"),
+    ("Wine Pourer",     "In place"),
+    ("Wine Opener",     "In place"),
 ]
 
-# ----------------------------------------------------------------- styling ---
+COMMS = [
+    ("New drafts poured through at every beer tower?", ["YES", "NO"], "NO"),
+    ("8 oz pour beer taps marked?",                    ["YES", "NO"], "NO"),
+    ("Anything 86'd today?  (list it below)",          ["NO", "YES"], "YES"),
+]
+
+# ---------------------------------------------------------------- styling ---
 FONT = "Arial"
 NAVY = "1F3A5F"
 TEAL = "2E6F6A"
-AMBER = "FFF2CC"
-AMBER_STRONG = "FFD966"
-RED_FILL = "F8CBAD"
-GREY = "F2F2F2"
-INPUT_FILL = PatternFill("solid", fgColor="FFFDE7")   # every fill-in cell
-HDR_FILL = PatternFill("solid", fgColor=NAVY)
-SUB_FILL = PatternFill("solid", fgColor=TEAL)
-BAND_FILL = PatternFill("solid", fgColor=GREY)
+GOLD = "FFD966"
+REDF = "F8CBAD"
+REDT = "9C0006"
+GREY = "EDEFF2"
+INPUT = PatternFill("solid", fgColor="FFFDE7")
 
-thin = Side(style="thin", color="BFBFBF")
+thin = Side(style="thin", color="B7BEC8")
 med = Side(style="medium", color=NAVY)
 BOX = Border(left=thin, right=thin, top=thin, bottom=thin)
+
+LEFT_C, GUT_C, RIGHT_C = 1, 6, 7        # A..E | F | G..K
+LAST_C = 11
+WIDTHS = {1: 21.5, 2: 6.2, 3: 6.2, 4: 6.2, 5: 7.0, 6: 1.2,
+          7: 21.5, 8: 6.2, 9: 6.2, 10: 6.2, 11: 7.0}
+
 
 def f(size=10, bold=False, color="000000", italic=False):
     return Font(name=FONT, size=size, bold=bold, color=color, italic=italic)
 
-CENTER = Alignment(horizontal="center", vertical="center")
-LEFT = Alignment(horizontal="left", vertical="center", indent=1)
-WRAP = Alignment(horizontal="left", vertical="center", wrap_text=True, indent=1)
+
+CTR = Alignment(horizontal="center", vertical="center")
+LFT = Alignment(horizontal="left", vertical="center", indent=1)
+WRP = Alignment(horizontal="left", vertical="center", wrap_text=True, indent=1)
 
 
-def page(ws, landscape=False):
-    ws.sheet_view.showGridLines = False
-    ws.sheet_properties.pageSetUpPr = PageSetupProperties(fitToPage=True)
-    ws.page_setup.orientation = "landscape" if landscape else "portrait"
-    ws.page_setup.fitToWidth = 1
-    ws.page_setup.fitToHeight = 1
-    ws.print_options.horizontalCentered = True
-    ws.page_margins.left = ws.page_margins.right = 0.4
-    ws.page_margins.top = ws.page_margins.bottom = 0.45
+def L(col):
+    return get_column_letter(col)
 
 
-def title_block(ws, subtitle, step, last_col="F", first_sheet=False, stacked=False):
-    """Title + section name + the date/shift/name line. Returns the next free row."""
-    ws.merge_cells(f"A1:{last_col}1")
-    c = ws["A1"]
-    c.value = "TOWNHALL  |  BAR TASTE PLATE  -  SPRING / SUMMER 2026"
-    c.font = f(15, True, "FFFFFF")
-    c.fill = HDR_FILL
-    c.alignment = CENTER
-    ws.row_dimensions[1].height = 30
-
-    ws.merge_cells(f"A2:{last_col}2")
-    c = ws["A2"]
-    c.value = f"{step}   {subtitle}"
-    c.font = f(11, True, "FFFFFF")
-    c.fill = SUB_FILL
-    c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
-    ws.row_dimensions[2].height = 22
-
-    # Date / shift / name. Entered once on page 1, pulled through on pages 2-4.
-    fields = ["DATE", "SHIFT (AM/PM)", "COMPLETED BY"]
-    srcs = ["$B$3", "$D$3", "$F$3"]
-    if stacked:                      # narrow sheets: one field per row
-        slots = [("A3", "B3"), ("A4", "B4"), ("A5", "B5")]
-    else:
-        slots = [("A3", "B3"), ("C3", "D3"), ("E3", "F3")]
-
-    for i, (lbl_ref, val_ref) in enumerate(slots):
-        lb = ws[lbl_ref]
-        lb.value = fields[i]
-        lb.font = f(9, True, NAVY)
-        lb.alignment = Alignment(horizontal="right", vertical="center")
-        cell = ws[val_ref]
-        if not first_sheet:
-            cell.value = (f"=IF('1. Batches & Mixers'!{srcs[i]}=\"\",\"\","
-                          f"'1. Batches & Mixers'!{srcs[i]})")
-        cell.font = f(10, True)
-        cell.fill = INPUT_FILL
-        cell.border = Border(bottom=Side(style="medium", color=NAVY))
-        cell.alignment = CENTER
-        if stacked:
-            ws.merge_cells(start_row=cell.row, start_column=2, end_row=cell.row, end_column=3)
-        ws.row_dimensions[cell.row].height = 22
-
-    spacer = 6 if stacked else 4
-    ws.row_dimensions[spacer].height = 6
-    return spacer + 1
+def span(ws, row, c0, c1):
+    ws.merge_cells(start_row=row, start_column=c0, end_row=row, end_column=c1)
+    return ws.cell(row=row, column=c0)
 
 
-def legend(ws, row, text, last_col="F"):
-    ws.merge_cells(f"A{row}:{last_col}{row}")
-    c = ws[f"A{row}"]
+def title(ws, row, text):
+    c = span(ws, row, 1, LAST_C)
     c.value = text
-    c.font = f(9, italic=True, color="595959")
-    c.alignment = WRAP
+    c.font = f(14, True, "FFFFFF")
+    c.fill = PatternFill("solid", fgColor=NAVY)
+    c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
     ws.row_dimensions[row].height = 26
-    return row + 1
+    for col in range(1, LAST_C + 1):
+        ws.cell(row=row, column=col).fill = PatternFill("solid", fgColor=NAVY)
 
 
-def table_header(ws, row, cols):
-    for i, (label, width) in enumerate(cols, start=1):
-        c = ws.cell(row=row, column=i, value=label)
-        c.font = f(9, True, "FFFFFF")
+def subtitle(ws, row, text):
+    c = span(ws, row, 1, LAST_C)
+    c.value = text
+    c.font = f(10, True, "FFFFFF")
+    c.fill = PatternFill("solid", fgColor=TEAL)
+    c.alignment = Alignment(horizontal="left", vertical="center", indent=1, wrap_text=True)
+    ws.row_dimensions[row].height = 19
+    for col in range(1, LAST_C + 1):
+        ws.cell(row=row, column=col).fill = PatternFill("solid", fgColor=TEAL)
+
+
+def band(ws, row, c0, c1, text):
+    c = span(ws, row, c0, c1)
+    c.value = text
+    c.font = f(9.5, True, NAVY)
+    c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
+    for col in range(c0, c1 + 1):
+        cell = ws.cell(row=row, column=col)
+        cell.fill = PatternFill("solid", fgColor=GREY)
+        cell.border = Border(top=med, bottom=thin, left=thin, right=thin)
+    ws.row_dimensions[row].height = 19
+
+
+def col_header(ws, row, c0, labels):
+    for i, text in enumerate(labels):
+        c = ws.cell(row=row, column=c0 + i, value=text)
+        c.font = f(8.5, True, "FFFFFF")
         c.fill = PatternFill("solid", fgColor=NAVY)
         c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
         c.border = Border(left=thin, right=thin, top=med, bottom=med)
-    ws.row_dimensions[row].height = 30
-    return row + 1
+    ws.row_dimensions[row].height = 24
 
 
-def band(ws, row, text, last_col="F"):
-    ws.merge_cells(f"A{row}:{last_col}{row}")
-    c = ws[f"A{row}"]
-    c.value = text
-    c.font = f(10, True, NAVY)
-    c.fill = BAND_FILL
-    c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
-    c.border = Border(top=med, bottom=thin)
-    last_idx = ord(last_col) - ord("A") + 1
-    for col in range(2, last_idx + 1):
-        ws.cell(row=row, column=col).fill = BAND_FILL
-        ws.cell(row=row, column=col).border = Border(top=med, bottom=thin)
-    ws.row_dimensions[row].height = 20
-    return row + 1
+def count_row(ws, row, c0, name, par, unit):
+    """ITEM | PAR | HAVE | NEED | STATUS  - only HAVE and STATUS get typed in."""
+    it = ws.cell(row=row, column=c0, value=name)
+    it.font = f(9.5)
+    it.alignment = LFT
 
-
-def note(ws, row, text, last_col="F"):
-    ws.merge_cells(f"A{row}:{last_col}{row}")
-    c = ws[f"A{row}"]
-    c.value = text
-    c.font = f(9, True, "9C0006")
-    c.alignment = WRAP
-    ws.row_dimensions[row].height = 18
-    return row + 1
-
-
-def count_row(ws, row, name, par, unit, example=False):
-    """ITEM | PAR | ON HAND | NEED | TASTED & DATED | POSTED IN GM"""
-    it = ws.cell(row=row, column=1, value=name)
-    it.font = f(10, italic=example, color="808080" if example else "000000")
-    it.alignment = LEFT
-
-    p = ws.cell(row=row, column=2, value=par)
+    p = ws.cell(row=row, column=c0 + 1, value=par)
     p.number_format = f'0" {unit}"'
-    p.font = f(10, bold=not example, color="808080" if example else "0000FF")
-    p.alignment = CENTER
+    p.font = f(9.5, True, "0000FF")
+    p.alignment = CTR
 
-    oh = ws.cell(row=row, column=3)
-    oh.font = f(10, bold=True, color="808080" if example else "000000")
-    oh.alignment = CENTER
-    if example:
-        oh.value = 5
-    else:
-        oh.fill = INPUT_FILL
+    have = ws.cell(row=row, column=c0 + 2)
+    have.fill = INPUT
+    have.font = f(9.5, True)
+    have.alignment = CTR
 
-    nd = ws.cell(row=row, column=4, value=f'=IF(C{row}="","",MAX(0,B{row}-C{row}))')
-    nd.font = f(10, True)
-    nd.alignment = CENTER
+    hl, pl = L(c0 + 2), L(c0 + 1)
+    need = ws.cell(row=row, column=c0 + 3,
+                   value=f'=IF({hl}{row}="","",MAX(0,{pl}{row}-{hl}{row}))')
+    need.font = f(9.5, True)
+    need.alignment = CTR
 
-    for col in (5, 6):
-        c = ws.cell(row=row, column=col)
-        c.alignment = CENTER
-        c.font = f(10, color="808080" if example else "000000")
-        if not example:
-            c.fill = INPUT_FILL
-    if example:
-        ws.cell(row=row, column=5).value = "OK"
-        ws.cell(row=row, column=6).value = "N/A"
+    st = ws.cell(row=row, column=c0 + 4)
+    st.fill = INPUT
+    st.font = f(9.5)
+    st.alignment = CTR
 
-    for col in range(1, 7):
-        cell = ws.cell(row=row, column=col)
-        cell.border = BOX
-        if example:
-            cell.fill = PatternFill("solid", fgColor="F2F2F2")
+    for col in range(c0, c0 + 5):
+        ws.cell(row=row, column=col).border = BOX
     ws.row_dimensions[row].height = 20
-    return row + 1
 
 
-def add_dv(ws, options, cells, prompt=None):
-    dv = DataValidation(type="list", formula1='"%s"' % ",".join(options),
-                        allow_blank=True, showDropDown=False)
-    dv.error = "Pick one from the drop-down."
-    dv.errorTitle = "Not on the list"
-    if prompt:
-        dv.prompt = prompt
-        dv.promptTitle = "Fill this in"
-    ws.add_data_validation(dv)
-    for rng in cells:
-        dv.add(rng)
+def status_row(ws, row, c0, name):
+    """ITEM | (no count) | STATUS - for garnish and dry goods."""
+    it = ws.cell(row=row, column=c0, value=name)
+    it.font = f(9.5)
+    it.alignment = LFT
+    dash = span(ws, row, c0 + 1, c0 + 3)
+    dash.value = "-"
+    dash.font = f(9, color="C2C8D2")
+    dash.alignment = CTR
+    st = ws.cell(row=row, column=c0 + 4)
+    st.fill = INPUT
+    st.font = f(9.5)
+    st.alignment = CTR
+    for col in range(c0, c0 + 5):
+        ws.cell(row=row, column=col).border = BOX
+    ws.row_dimensions[row].height = 20
 
 
-def need_formatting(ws, rng_need, rng_status):
-    """NEED > 0 lights up amber; an 86 lights up red."""
-    ws.conditional_formatting.add(
-        rng_need,
-        CellIsRule(operator="greaterThan", formula=["0"],
-                   fill=PatternFill("solid", fgColor=AMBER_STRONG),
-                   font=Font(name=FONT, size=10, bold=True, color="9C0006")))
-    if rng_status:
-        ws.conditional_formatting.add(
-            rng_status,
-            CellIsRule(operator="equal", formula=['"86"'],
-                       fill=PatternFill("solid", fgColor=RED_FILL),
-                       font=Font(name=FONT, size=10, bold=True, color="9C0006")))
+def note(ws, row, c0, c1, text, color=REDT, bold=True, size=8.5):
+    c = span(ws, row, c0, c1)
+    c.value = text
+    c.font = f(size, bold, color)
+    c.alignment = WRP   # wrapped, so long notes cannot bleed past the last column
+    ws.row_dimensions[row].height = 16
 
 
-def widths(ws, spec):
-    for col, w in spec.items():
-        ws.column_dimensions[col].width = w
+def dv(ws, options, ranges):
+    v = DataValidation(type="list", formula1='"%s"' % ",".join(options),
+                       allow_blank=True, showDropDown=False)
+    v.errorTitle, v.error = "Not on the list", "Pick one from the drop-down."
+    ws.add_data_validation(v)
+    for rng in ranges:
+        v.add(rng)
 
 
-COUNT_COLS = [("ITEM", 34), ("PAR", 11), ("ON HAND", 11), ("NEED", 10),
-              ("TASTED &\nDATED", 13), ("POSTED IN GM /\nPREP TOLD", 16)]
+def gold_when_short(ws, rng):
+    ws.conditional_formatting.add(rng, CellIsRule(
+        operator="greaterThan", formula=["0"],
+        fill=PatternFill("solid", fgColor=GOLD),
+        font=Font(name=FONT, size=9.5, bold=True, color=REDT)))
 
+
+def red_when(ws, rng, values):
+    for val in values:
+        ws.conditional_formatting.add(rng, CellIsRule(
+            operator="equal", formula=['"%s"' % val],
+            fill=PatternFill("solid", fgColor=REDF),
+            font=Font(name=FONT, size=9.5, bold=True, color=REDT)))
+
+
+# ================================================================== build ===
 wb = Workbook()
 
-# =========================================================== 1. BATCHES =====
-ws = wb.active
-ws.title = "1. Batches & Mixers"
-page(ws)
-widths(ws, {"A": 34, "B": 11, "C": 11, "D": 10, "E": 13, "F": 16})
-r = title_block(ws, "BATCHES, COCKTAIL PRODUCTS & MIXERS", "STEP 1 of 4", first_sheet=True)
-r = legend(ws, r,
-           "Fill in the YELLOW cells only. NEED does the math for you (PAR minus ON HAND) and turns "
-           "gold when you have to make or order more. TASTED & DATED: OK / LOW / 86.")
-r = table_header(ws, r, COUNT_COLS)
-example_row = r
-r = count_row(ws, r, "EXAMPLE - do not count this row", 8, "BTL", example=True)
 
-r = band(ws, r, "COCKTAIL PRODUCTS  /  BATCHES")
-batch_start = r
+def new_side(name):
+    """A sheet set up to print as exactly one page: fit-to-width, one page tall."""
+    ws = wb.create_sheet(name)
+    ws.sheet_view.showGridLines = False
+    for col, w in WIDTHS.items():
+        ws.column_dimensions[L(col)].width = w
+    ws.sheet_properties.pageSetUpPr = PageSetupProperties(fitToPage=True)
+    ws.page_setup.orientation = "portrait"
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 1
+    ws.print_options.horizontalCentered = True
+    ws.page_margins.left = ws.page_margins.right = 0.3
+    ws.page_margins.top = ws.page_margins.bottom = 0.35
+    ws.page_margins.header = ws.page_margins.footer = 0.15
+    ws.oddFooter.center.text = "One sheet, printed double-sided (flip on long edge)  -  &A"
+    ws.oddFooter.center.size = 7
+    ws.oddFooter.center.font = "Arial,Italic"
+    return ws
+
+
+wb.remove(wb.active)
+ws = new_side("SIDE 1 - FRONT")
+
+# ------------------------------------------------------- SIDE 1 (front) -----
+title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   SPRING / SUMMER 2026")
+subtitle(ws, 2, "SIDE 1 of 2      COUNT & ORDER      Batches + Mixers  /  Fresh + Garnish")
+
+# date / shift / name
+ws.row_dimensions[3].height = 21
+for lbl_c, val_c0, val_c1, text in [(1, 2, 3, "DATE"), (4, 5, 6, "SHIFT"),
+                                    (7, 8, 11, "COMPLETED BY")]:
+    lb = ws.cell(row=3, column=lbl_c, value=text)
+    lb.font = f(8.5, True, NAVY)
+    lb.alignment = Alignment(horizontal="right", vertical="center")
+    cell = span(ws, 3, val_c0, val_c1)
+    cell.fill = INPUT
+    cell.font = f(10, True)
+    cell.alignment = CTR
+    for col in range(val_c0, val_c1 + 1):
+        ws.cell(row=3, column=col).border = Border(bottom=Side(style="medium", color=NAVY))
+
+for lrow, ltext in [
+        (4, "Fill in the YELLOW boxes only.   NEED = PAR minus ON HAND, e.g. PAR 8 + ON HAND 5 "
+            "= NEED 3.   Gold means make or order more."),
+        (5, "STATUS:   OK = good to go   /   LOW = running out, tell prep   /   86 = out, tell a "
+            "manager + post in GroupMe")]:
+    c = span(ws, lrow, 1, LAST_C)
+    c.value = ltext
+    c.font = f(8, False, "404040")
+    c.alignment = Alignment(horizontal="left", vertical="center", indent=1, wrap_text=True)
+    ws.row_dimensions[lrow].height = 14
+ws.row_dimensions[6].height = 6
+
+HDR = 7
+col_header(ws, HDR, LEFT_C, ["ITEM", "PAR", "ON\nHAND", "NEED", "STATUS"])
+col_header(ws, HDR, RIGHT_C, ["ITEM", "PAR", "ON\nHAND", "NEED", "STATUS"])
+
+# left: batches then mixers
+r = HDR + 1
+band(ws, r, LEFT_C, LEFT_C + 4, "COCKTAIL BATCHES")
+r += 1
+lb_start = r
 for name, par, unit in BATCHES:
-    r = count_row(ws, r, name, par, unit)
-batch_end = r - 1
-r = note(ws, r, "* " + BATCH_NOTE)
-
-r = band(ws, r, "JUICES & MIXERS")
-mix_start = r
-for name, par, unit in MIXERS:
-    r = count_row(ws, r, name, par, unit)
-mix_end = r - 1
-
-r += 1
-r = note(ws, r, "86'd ANYTHING? Tell a manager AND post it in GroupMe before you leave the bar.")
-ws.freeze_panes = "A%d" % (example_row + 1)
-ws.print_area = f"A1:F{r}"
-
-add_dv(ws, ["OK", "LOW", "86"], [f"E{batch_start}:E{batch_end}", f"E{mix_start}:E{mix_end}"])
-add_dv(ws, ["YES", "NO", "N/A"], [f"F{batch_start}:F{batch_end}", f"F{mix_start}:F{mix_end}"])
-need_formatting(ws, f"D{batch_start}:D{mix_end}", f"E{batch_start}:E{mix_end}")
-ws["B%d" % batch_start].comment = Comment(
-    "PAR values carried over from the original Spring/Summer 2026 taste plate. "
-    "Change a PAR here and the NEED column updates itself.", "TownHall")
-
-# ============================================================= 2. FRESH =====
-ws = wb.create_sheet("2. Fresh & Garnish")
-page(ws)
-widths(ws, {"A": 34, "B": 11, "C": 11, "D": 10, "E": 13, "F": 16})
-r = title_block(ws, "FRESH FRUIT, HERBS & GARNISH", "STEP 2 of 4")
-r = legend(ws, r,
-           "BARBACKS FILL THIS PAGE OUT. Limes and lemons get counted in sixth pans. Everything "
-           "else is just a status: OK / LOW / 86. Anything LOW or 86 - tell a manager and post in GroupMe.")
-r = table_header(ws, r, [("ITEM", 34), ("PAR", 11), ("ON HAND", 11), ("NEED", 10),
-                         ("STATUS", 13), ("POSTED IN GM /\nPREP TOLD", 16)])
-r = band(ws, r, "COUNTED - SIXTH PANS")
-fc_start = r
-for name, par, unit in FRESH_COUNT:
-    r = count_row(ws, r, name, par, unit)
-fc_end = r - 1
-
-r = band(ws, r, "GARNISH & DRY GOODS  -  OK / LOW / 86")
-yn_start = r
-for name in FRESH_YN:
-    it = ws.cell(row=r, column=1, value=name)
-    it.font = f(10)
-    it.alignment = LEFT
-    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
-    mid = ws.cell(row=r, column=2, value="-")
-    mid.alignment = CENTER
-    mid.font = f(9, color="A6A6A6")
-    for col in (5, 6):
-        c = ws.cell(row=r, column=col)
-        c.fill = INPUT_FILL
-        c.alignment = CENTER
-        c.font = f(10)
-    for col in range(1, 7):
-        ws.cell(row=r, column=col).border = BOX
-    ws.row_dimensions[r].height = 20
+    count_row(ws, r, LEFT_C, name, par, unit)
     r += 1
-yn_end = r - 1
-
+band(ws, r, LEFT_C, LEFT_C + 4, "JUICES & MIXERS")
 r += 1
-r = note(ws, r, "86'd ANYTHING? Tell a manager AND post it in GroupMe before you leave the bar.")
-ws.freeze_panes = "A7"
-ws.print_area = f"A1:F{r}"
-add_dv(ws, ["OK", "LOW", "86"], [f"E{fc_start}:E{yn_end}"])
-add_dv(ws, ["YES", "NO", "N/A"], [f"F{fc_start}:F{yn_end}"])
-need_formatting(ws, f"D{fc_start}:D{fc_end}", f"E{fc_start}:E{yn_end}")
+for name, par, unit in MIXERS:
+    count_row(ws, r, LEFT_C, name, par, unit)
+    r += 1
+lb_end = r - 1
+left_bottom = r
 
-# ============================================================= 3. TOOLS =====
-ws = wb.create_sheet("3. Bar Tools")
-page(ws)
-widths(ws, {"A": 26, "B": 11, "C": 11, "D": 10, "E": 13, "F": 24})
-r = title_block(ws, "BAR TOOL COUNT", "STEP 3 of 4")
-r = legend(ws, r,
-           "Count every well plus the back-up drawer. PAR is blank on purpose - set it once with "
-           "your bar lead and it stays put. NEED fills itself in. Use NOTES for anything broken, "
-           "bent, or walked off.")
-r = table_header(ws, r, [("TOOL", 26), ("PAR", 11), ("ON HAND", 11), ("NEED", 10),
-                         ("CONDITION", 13), ("NOTES  (broken / missing / where)", 24)])
+# right: fresh counted then garnish status
+r = HDR + 1
+band(ws, r, RIGHT_C, RIGHT_C + 4, "FRESH - COUNT IN SIXTH PANS")
+r += 1
+rb_start = r
+for name, par, unit in FRESH_COUNT:
+    count_row(ws, r, RIGHT_C, name, par, unit)
+    r += 1
+fresh_count_end = r - 1
+band(ws, r, RIGHT_C, RIGHT_C + 4, "GARNISH & DRY GOODS")
+r += 1
+for name in FRESH_YN:
+    status_row(ws, r, RIGHT_C, name)
+    r += 1
+rb_end = r - 1
+right_bottom = r
+
+side1_bottom = max(left_bottom, right_bottom)
+note(ws, side1_bottom, LEFT_C, LEFT_C + 4, BATCH_NOTE)
+note(ws, side1_bottom, RIGHT_C, RIGHT_C + 4,
+     "Anything LOW or 86 -> tell prep + a manager.", color=REDT)
+side1_bottom += 1
+turn = span(ws, side1_bottom, 1, LAST_C)
+turn.value = "TURN OVER  ->  SIDE 2:  BAR TOOLS, SET-UP & DAILY COMMUNICATION"
+turn.font = f(9, True, NAVY)
+turn.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+turn.fill = PatternFill("solid", fgColor=GREY)
+for col in range(1, LAST_C + 1):
+    ws.cell(row=side1_bottom, column=col).fill = PatternFill("solid", fgColor=GREY)
+ws.row_dimensions[side1_bottom].height = 18
+
+# validation + highlighting, side 1
+left_status = f"{L(LEFT_C+4)}{lb_start}:{L(LEFT_C+4)}{lb_end}"
+right_status = f"{L(RIGHT_C+4)}{rb_start}:{L(RIGHT_C+4)}{rb_end}"
+dv(ws, ["OK", "LOW", "86"], [left_status, right_status])
+gold_when_short(ws, f"{L(LEFT_C+3)}{lb_start}:{L(LEFT_C+3)}{lb_end}")
+gold_when_short(ws, f"{L(RIGHT_C+3)}{rb_start}:{L(RIGHT_C+3)}{fresh_count_end}")
+red_when(ws, left_status, ["86"])
+red_when(ws, right_status, ["86"])
+ws.cell(row=lb_start, column=LEFT_C + 1).comment = Comment(
+    "PARs carried over from the original Spring/Summer 2026 taste plate. "
+    "Change a PAR and NEED updates itself.", "TownHall")
+
+ws.print_area = f"A1:{L(LAST_C)}{side1_bottom}"
+ws.freeze_panes = "A8"
+
+# -------------------------------------------------------- SIDE 2 (back) -----
+ws = new_side("SIDE 2 - BACK")
+
+title(ws, 1, "TOWNHALL   |   BAR TASTE PLATE   -   SPRING / SUMMER 2026")
+subtitle(ws, 2, "SIDE 2 of 2      BAR TOOLS, SET-UP & DAILY COMMUNICATION")
+# same sheet of paper as side 1, so the date and name carry over
+ws.row_dimensions[3].height = 16
+c = span(ws, 3, 1, LAST_C)
+c.value = ("=\"Date: \"&IF('SIDE 1 - FRONT'!B3=\"\",\"__________\",'SIDE 1 - FRONT'!B3)"
+           "&\"     Shift: \"&IF('SIDE 1 - FRONT'!E3=\"\",\"______\",'SIDE 1 - FRONT'!E3)"
+           "&\"     Completed by: \"&IF('SIDE 1 - FRONT'!H3=\"\",\"__________________\","
+           "'SIDE 1 - FRONT'!H3)")
+c.font = f(8.5, True, "404040")
+c.alignment = Alignment(horizontal="left", vertical="center", indent=1, wrap_text=True)
+ws.row_dimensions[4].height = 5
+r = 5
+side2_top = r
+
+# --- left: bar tools
+band(ws, r, LEFT_C, LEFT_C + 4, "BAR TOOL COUNT")
+r += 1
+col_header(ws, r, LEFT_C, ["TOOL", "PAR", "ON\nHAND", "NEED", "COND."])
+r += 1
 tool_start = r
 for name in TOOLS:
-    it = ws.cell(row=r, column=1, value=name)
-    it.font = f(10)
-    it.alignment = LEFT
-    p = ws.cell(row=r, column=2)
-    p.fill = INPUT_FILL
-    p.font = f(10, True, "0000FF")
-    p.alignment = CENTER
-    oh = ws.cell(row=r, column=3)
-    oh.fill = INPUT_FILL
-    oh.font = f(10, True)
-    oh.alignment = CENTER
-    nd = ws.cell(row=r, column=4, value=f'=IF(OR(B{r}="",C{r}=""),"",MAX(0,B{r}-C{r}))')
-    nd.font = f(10, True)
-    nd.alignment = CENTER
-    for col in (5, 6):
-        c = ws.cell(row=r, column=col)
-        c.fill = INPUT_FILL
-        c.alignment = CENTER if col == 5 else LEFT
-        c.font = f(10)
-    for col in range(1, 7):
+    it = ws.cell(row=r, column=LEFT_C, value=name)
+    it.font = f(9.5)
+    it.alignment = LFT
+    par = ws.cell(row=r, column=LEFT_C + 1)
+    par.fill = INPUT
+    par.font = f(9.5, True, "0000FF")
+    par.alignment = CTR
+    have = ws.cell(row=r, column=LEFT_C + 2)
+    have.fill = INPUT
+    have.font = f(9.5, True)
+    have.alignment = CTR
+    pl, hl = L(LEFT_C + 1), L(LEFT_C + 2)
+    need = ws.cell(row=r, column=LEFT_C + 3,
+                   value=f'=IF(OR({pl}{r}="",{hl}{r}=""),"",MAX(0,{pl}{r}-{hl}{r}))')
+    need.font = f(9.5, True)
+    need.alignment = CTR
+    cond = ws.cell(row=r, column=LEFT_C + 4)
+    cond.fill = INPUT
+    cond.font = f(9.5)
+    cond.alignment = CTR
+    for col in range(LEFT_C, LEFT_C + 5):
         ws.cell(row=r, column=col).border = BOX
-    ws.row_dimensions[r].height = 24
+    ws.row_dimensions[r].height = 22
     r += 1
 tool_end = r - 1
 
-r += 1
-tot_lbl = ws.cell(row=r, column=1, value="TOOLS SHORT TODAY")
-tot_lbl.font = f(10, True, NAVY)
-tot_lbl.alignment = LEFT
-ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=3)
-tot = ws.cell(row=r, column=4, value=f"=SUM(D{tool_start}:D{tool_end})")
-tot.font = f(11, True, "9C0006")
-tot.alignment = CENTER
+tl = span(ws, r, LEFT_C, LEFT_C + 2)
+tl.value = "TOOLS SHORT TODAY"
+tl.font = f(9.5, True, NAVY)
+tl.alignment = Alignment(horizontal="right", vertical="center")
+tot = ws.cell(row=r, column=LEFT_C + 3,
+              value=f"=SUM({L(LEFT_C+3)}{tool_start}:{L(LEFT_C+3)}{tool_end})")
+tot.font = f(10, True, REDT)
+tot.alignment = CTR
 tot.border = BOX
-ws.merge_cells(start_row=r, start_column=5, end_row=r, end_column=6)
-ws.cell(row=r, column=5, value="Anything short or broken -> tell a manager").font = f(9, italic=True, color="595959")
-ws.cell(row=r, column=5).alignment = LEFT
-r += 2
-r = note(ws, r, "Tools go in the dish pit dirty, not in the trash. A missing jigger is a comp'd drink.")
-ws.freeze_panes = "A7"
-ws.print_area = f"A1:F{r}"
-add_dv(ws, ["OK", "DIRTY", "BROKEN", "MISSING"], [f"E{tool_start}:E{tool_end}"])
-need_formatting(ws, f"D{tool_start}:D{tool_end}", None)
-ws.conditional_formatting.add(
-    f"E{tool_start}:E{tool_end}",
-    FormulaRule(formula=[f'OR($E{tool_start}="BROKEN",$E{tool_start}="MISSING")'],
-                fill=PatternFill("solid", fgColor=RED_FILL),
-                font=Font(name=FONT, size=10, bold=True, color="9C0006")))
-ws["B%d" % tool_start].comment = Comment(
-    "Bar tool PARs were not on the original sheet. Set them once (per well + back-ups) "
-    "and the NEED column takes care of the rest.", "TownHall")
+ws.cell(row=r, column=LEFT_C + 4).border = BOX
+ws.row_dimensions[r].height = 20
+r += 1
+note(ws, r, LEFT_C, LEFT_C + 4,
+     "PAR is blank on purpose - set it once with your bar lead.")
+ws.row_dimensions[r].height = 16
+r += 1
 
-# ==================================================== 4. SETUP & COMMS ======
-ws = wb.create_sheet("4. Setup & Comms")
-page(ws)
-widths(ws, {"A": 24, "B": 34, "C": 10})
-r = title_block(ws, "BAR SET-UP CHECK + DAILY COMMUNICATION", "STEP 4 of 4",
-                last_col="C", stacked=True)
-r = legend(ws, r, "Walk the bar, check each line off, then finish the communication box at the bottom.",
-           last_col="C")
-r = table_header(ws, r, [("ITEM", 24), ("WHAT TO CHECK", 34), ("DONE", 10)])
+# --- left: set-up walk
+band(ws, r, LEFT_C, LEFT_C + 4, "BAR SET-UP WALK")
+r += 1
+col_header(ws, r, LEFT_C, ["ITEM", "WHAT TO CHECK", "", "", "DONE"])
+ws.merge_cells(start_row=r, start_column=LEFT_C + 1, end_row=r, end_column=LEFT_C + 3)
+r += 1
 setup_start = r
 for name, action in SETUP:
-    ws.cell(row=r, column=1, value=name).font = f(10)
-    ws.cell(row=r, column=1).alignment = LEFT
-    ws.cell(row=r, column=2, value=action).font = f(10, color="404040")
-    ws.cell(row=r, column=2).alignment = LEFT
-    c = ws.cell(row=r, column=3)
-    c.fill = INPUT_FILL
-    c.alignment = CENTER
-    c.font = f(10, True)
-    for col in range(1, 4):
+    it = ws.cell(row=r, column=LEFT_C, value=name)
+    it.font = f(9.5)
+    it.alignment = LFT
+    act = span(ws, r, LEFT_C + 1, LEFT_C + 3)
+    act.value = action
+    act.font = f(8.5, color="404040")
+    act.alignment = LFT
+    done = ws.cell(row=r, column=LEFT_C + 4)
+    done.fill = INPUT
+    done.font = f(9.5, True)
+    done.alignment = CTR
+    for col in range(LEFT_C, LEFT_C + 5):
         ws.cell(row=r, column=col).border = BOX
-    ws.row_dimensions[r].height = 19
-    r += 1
-setup_end = r - 1
-add_dv(ws, ["YES", "NO"], [f"C{setup_start}:C{setup_end}"])
-ws.conditional_formatting.add(
-    f"C{setup_start}:C{setup_end}",
-    CellIsRule(operator="equal", formula=['"NO"'],
-               fill=PatternFill("solid", fgColor=RED_FILL),
-               font=Font(name=FONT, size=10, bold=True, color="9C0006")))
-
-r += 1
-r = band(ws, r, "DAILY COMMUNICATION", last_col="C")
-COMMS = [
-    ("New drafts poured through at every beer tower?", ["YES", "NO"]),
-    ("8 oz pour beer taps marked?", ["YES", "NO"]),
-    ("Anything 86'd? (list it below + post in GroupMe)", ["NO", "YES"]),
-]
-comm_rows = []
-for q, opts in COMMS:
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
-    c = ws.cell(row=r, column=1, value=q)
-    c.font = f(10, True)
-    c.alignment = LEFT
-    c.border = BOX
-    ws.cell(row=r, column=2).border = BOX
-    a = ws.cell(row=r, column=3)
-    a.fill = INPUT_FILL
-    a.alignment = CENTER
-    a.font = f(10, True)
-    a.border = BOX
-    add_dv(ws, opts, [f"C{r}"])
-    comm_rows.append(r)
     ws.row_dimensions[r].height = 20
     r += 1
-ws.conditional_formatting.add(
-    f"C{comm_rows[0]}:C{comm_rows[1]}",
-    CellIsRule(operator="equal", formula=['"NO"'],
-               fill=PatternFill("solid", fgColor=RED_FILL),
-               font=Font(name=FONT, size=10, bold=True, color="9C0006")))
-ws.conditional_formatting.add(
-    f"C{comm_rows[2]}",
-    CellIsRule(operator="equal", formula=['"YES"'],
-               fill=PatternFill("solid", fgColor=AMBER_STRONG),
-               font=Font(name=FONT, size=10, bold=True, color="9C0006")))
+setup_end = r - 1
+left2_bottom = r
 
+# --- right: daily communication
+r = side2_top
+band(ws, r, RIGHT_C, RIGHT_C + 4, "DAILY COMMUNICATION")
 r += 1
-ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
-c = ws.cell(row=r, column=1, value="86'd ITEMS / NOTES FOR THE NEXT SHIFT")
-c.font = f(10, True, NAVY)
-c.alignment = LEFT
-c.fill = BAND_FILL
-r += 1
-for _ in range(3):
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
-    c = ws.cell(row=r, column=1)
-    c.fill = INPUT_FILL
-    c.border = Border(bottom=thin, left=thin, right=thin, top=thin)
-    ws.row_dimensions[r].height = 22
+comm_rows = []
+for question, options, flag in COMMS:
+    q = span(ws, r, RIGHT_C, RIGHT_C + 3)
+    q.value = question
+    q.font = f(9.5, True)
+    q.alignment = WRP
+    a = ws.cell(row=r, column=RIGHT_C + 4)
+    a.fill = INPUT
+    a.font = f(9.5, True)
+    a.alignment = CTR
+    for col in range(RIGHT_C, RIGHT_C + 5):
+        ws.cell(row=r, column=col).border = BOX
+    ws.row_dimensions[r].height = 24
+    dv(ws, options, [f"{L(RIGHT_C+4)}{r}"])
+    comm_rows.append((r, flag))
     r += 1
-
 r += 1
-ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=3)
-c = ws.cell(row=r, column=1, value="SIGN OFF")
-c.font = f(10, True, "FFFFFF")
-c.fill = SUB_FILL
-c.alignment = Alignment(horizontal="left", vertical="center", indent=1)
+
+band(ws, r, RIGHT_C, RIGHT_C + 4, "86'd ITEMS  +  NOTES FOR THE NEXT SHIFT")
+r += 1
+for _ in range(11):
+    line = span(ws, r, RIGHT_C, RIGHT_C + 4)
+    line.fill = INPUT
+    line.alignment = LFT
+    line.font = f(9.5)
+    for col in range(RIGHT_C, RIGHT_C + 5):
+        ws.cell(row=r, column=col).border = BOX
+    ws.row_dimensions[r].height = 21
+    r += 1
+r += 1
+
+band(ws, r, RIGHT_C, RIGHT_C + 4, "SIGN OFF")
 r += 1
 for label in ("Bartender / barback", "Time finished", "Manager verified"):
-    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
-    lb = ws.cell(row=r, column=1, value=label)
-    lb.font = f(10, True)
-    lb.alignment = LEFT
-    lb.border = BOX
-    ws.cell(row=r, column=2).border = BOX
-    sg = ws.cell(row=r, column=3)
-    sg.fill = INPUT_FILL
-    sg.border = BOX
-    ws.row_dimensions[r].height = 22
+    lb = span(ws, r, RIGHT_C, RIGHT_C + 2)
+    lb.value = label
+    lb.font = f(9.5, True)
+    lb.alignment = LFT
+    sig = span(ws, r, RIGHT_C + 3, RIGHT_C + 4)
+    sig.fill = INPUT
+    for col in range(RIGHT_C, RIGHT_C + 5):
+        ws.cell(row=r, column=col).border = BOX
+    ws.row_dimensions[r].height = 24
     r += 1
+right2_bottom = r
 
-r += 1
-r = note(ws, r, "A manager must be told about every 86'd item AND it gets posted in GroupMe.", last_col="C")
-ws.print_area = f"A1:C{r}"
+bottom = max(left2_bottom, right2_bottom)
+note(ws, bottom, 1, LAST_C,
+     "EVERY 86'd ITEM:  tell a manager AND post it in GroupMe before you leave the bar.")
+ws.row_dimensions[bottom].height = 18
+
+# validation + highlighting, side 2
+dv(ws, ["OK", "DIRTY", "BROKEN", "MISSING"],
+   [f"{L(LEFT_C+4)}{tool_start}:{L(LEFT_C+4)}{tool_end}"])
+dv(ws, ["YES", "NO"], [f"{L(LEFT_C+4)}{setup_start}:{L(LEFT_C+4)}{setup_end}"])
+gold_when_short(ws, f"{L(LEFT_C+3)}{tool_start}:{L(LEFT_C+3)}{tool_end}")
+red_when(ws, f"{L(LEFT_C+4)}{tool_start}:{L(LEFT_C+4)}{tool_end}", ["BROKEN", "MISSING"])
+red_when(ws, f"{L(LEFT_C+4)}{setup_start}:{L(LEFT_C+4)}{setup_end}", ["NO"])
+for row, flag in comm_rows:
+    cell_rng = f"{L(RIGHT_C+4)}{row}"
+    if flag == "NO":
+        red_when(ws, cell_rng, ["NO"])
+    else:
+        ws.conditional_formatting.add(cell_rng, CellIsRule(
+            operator="equal", formula=['"YES"'],
+            fill=PatternFill("solid", fgColor=GOLD),
+            font=Font(name=FONT, size=9.5, bold=True, color=REDT)))
+ws.cell(row=tool_start, column=LEFT_C + 1).comment = Comment(
+    "Bar tool PARs were not on the original sheet. Set them once (per well plus "
+    "back-ups) and NEED takes care of the rest.", "TownHall")
+
+ws.print_area = f"A1:{L(LAST_C)}{bottom}"
 
 wb.save(OUT)
-print("wrote", OUT)
+print("wrote", OUT, "| side 1 rows 1-%d | side 2 rows 1-%d" % (side1_bottom, bottom))

@@ -1,38 +1,47 @@
 # Bar Taste Plate — Spring / Summer 2026
 
-`BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx` is the daily bar count sheet. It replaces the
-single 73-row sheet with four short pages, each one printable on a single sheet of paper.
+`BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx` is the daily bar count sheet:
+**one sheet of paper, printed double-sided.**
 
-| Tab | Who fills it out | What it covers |
+The workbook has two tabs because a sheet of paper has two sides:
+
+| Tab | Side | What's on it |
 |---|---|---|
-| 1. Batches & Mixers | Bartender | Cocktail products/batches + juices & mixers |
-| 2. Fresh & Garnish | Barback | Limes/lemons counted, garnish + dry goods status |
-| 3. Bar Tools | Bartender | Jiggers, stir spoons, hand strainers, muddlers, scraper, strainers, double strainers |
-| 4. Setup & Comms | Bartender | Bar set-up walk, daily communication, sign-off |
+| `SIDE 1 - FRONT` | Front | Cocktail batches + juices/mixers (left), fresh + garnish (right) |
+| `SIDE 2 - BACK` | Back | Bar tool count + bar set-up walk (left), daily communication + notes + sign-off (right) |
+
+## Printing
+
+File → Print → **Print Entire Workbook**, and turn on double-sided (flip on long edge).
+Each tab is set to print as exactly one page, so you get one front-and-back sheet every time.
+Don't switch the print setting to "fit to 2 pages" — each side is already sized to its page.
 
 ## How it works
 
 - **Yellow cells are the only cells anyone types in.** Everything else is a label or a formula.
-- **NEED is automatic** — `PAR − ON HAND`, floored at zero. It turns gold the moment you're short,
-  so the order list is whatever is highlighted.
-- **Drop-downs everywhere** instead of free typing: `OK / LOW / 86`, `YES / NO`,
-  `OK / DIRTY / BROKEN / MISSING`.
-- **Date, shift and name are entered once** on tab 1 and carry through tabs 2–4.
-- A `NO` on a set-up line or an `86` on a product turns red on its own.
+- **NEED is automatic** — `PAR − ON HAND`, floored at zero so an over-par count never goes negative.
+  It turns gold the moment you're short, so the order list is whatever is highlighted.
+- **Drop-downs instead of free typing**: `OK / LOW / 86`, `YES / NO`, `OK / DIRTY / BROKEN / MISSING`.
+- **Date, shift and name are typed once** on the front and print across the top of the back.
+- A `NO` on a set-up line, an `86` on a product, or a `BROKEN`/`MISSING` tool turns red on its own.
+- Bar tools total up "TOOLS SHORT TODAY" so a missing jigger doesn't get lost in the grid.
 
 ## Adjusting the lists
 
 The workbook is generated, so item and PAR changes go in the script, not the spreadsheet —
-that way the formatting, formulas, drop-downs and print setup can't drift.
+that way the layout, formulas, drop-downs and print setup can't drift.
 
 1. Edit the lists at the top of `build_taste_plate.py` (`BATCHES`, `MIXERS`, `FRESH_COUNT`,
-   `FRESH_YN`, `TOOLS`, `SETUP`).
+   `FRESH_YN`, `TOOLS`, `SETUP`, `COMMS`).
 2. Rebuild and recalculate:
 
    ```
    python3 bar-taste-plate/build_taste_plate.py
-   python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx 300
+   python3 <xlsx-skill>/scripts/recalc.py bar-taste-plate/BAR_TASTE_PLATE_SPRING-SUMMER-2026.xlsx 120
    ```
+
+Each side holds roughly 24 line items per column before it needs to shrink to fit, so there's
+room to add a few cocktails or syrups without the layout changing.
 
 ## Open item
 
