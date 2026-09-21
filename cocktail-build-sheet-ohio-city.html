@@ -1,0 +1,487 @@
+<meta charset="utf-8">
+<title>Ohio City Cocktail Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg:#F7F5EE; --card:#FFFFFF; --ink:#1B1B16; --muted:#63635A; --faint:#93937F;
+    --line:#E1DCCC; --rule:#EEEADC;
+    --accent:#33593F; --accent-ink:#2A4834; --accent-soft:#E7EFE8;
+    --flag:#8A5A22; --flag-soft:#FBF1E2; --flag-line:#E3C79C;
+    --shadow:0 1px 2px rgba(27,27,22,.04), 0 10px 30px -22px rgba(27,27,22,.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#121309; --card:#1C1E15; --ink:#F1EEE1; --muted:#ACAA9B; --faint:#82806F;
+      --line:#34372B; --rule:#2A2D22;
+      --accent:#8FBE9C; --accent-ink:#B6D8BF; --accent-soft:#22301F;
+      --flag:#E0AC72; --flag-soft:#2C2417; --flag-line:#4E3D24;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -22px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#121309; --card:#1C1E15; --ink:#F1EEE1; --muted:#ACAA9B; --faint:#82806F;
+    --line:#34372B; --rule:#2A2D22;
+    --accent:#8FBE9C; --accent-ink:#B6D8BF; --accent-soft:#22301F;
+    --flag:#E0AC72; --flag-soft:#2C2417; --flag-line:#4E3D24;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -22px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing:border-box; }
+  body {
+    background:var(--bg); color:var(--ink); margin:0;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap { max-width:720px; margin:0 auto; padding-inline:20px; padding-block:44px 72px; }
+
+  /* masthead */
+  .eyebrow { font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+             color:var(--accent); margin:0 0 12px; }
+  h1 { font-family:'Fraunces',Georgia,serif; font-weight:600;
+       font-size:clamp(34px,8vw,52px); line-height:1.02; letter-spacing:-.02em;
+       margin:0; text-wrap:balance; }
+  .lede { margin:16px 0 0; font-size:17px; color:var(--muted); max-width:34em; }
+
+  /* the pattern */
+  .pattern { margin-top:36px; background:var(--card); border:1px solid var(--line);
+             border-radius:4px; box-shadow:var(--shadow); padding:26px 24px; }
+  .pattern h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:24px;
+                margin:0 0 4px; letter-spacing:-.01em; }
+  .pattern .sub { margin:0 0 20px; color:var(--muted); font-size:15px; }
+  .moves { display:grid; gap:10px; margin:0; padding:0; list-style:none; counter-reset:m; }
+  .moves li { counter-increment:m; display:flex; gap:14px; align-items:baseline;
+              font-size:16.5px; font-weight:500; }
+  .moves li::before {
+    content:counter(m); flex:none;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    color:var(--accent-ink); background:var(--accent-soft);
+    width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+    transform:translateY(2px);
+  }
+  .moves li span { font-weight:400; color:var(--muted); }
+  .pattern .after { margin:20px 0 0; padding-top:16px; border-top:1px solid var(--rule);
+                    font-size:15px; color:var(--muted); }
+  .pattern .after b { color:var(--ink); font-weight:600; }
+
+  /* group headers */
+  .group { margin-top:52px; }
+  .group-head { border-bottom:2px solid var(--ink); padding-bottom:10px; }
+  .group-head h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:27px;
+                   margin:0; letter-spacing:-.01em; }
+  .group-head p { margin:6px 0 0; font-size:14.5px; color:var(--muted); }
+  .group-count { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+                 color:var(--faint); display:block; margin-bottom:6px; }
+
+  /* drink */
+  .drink { margin-top:26px; background:var(--card); border:1px solid var(--line);
+           border-radius:4px; box-shadow:var(--shadow); padding:26px 24px; break-inside:avoid; }
+  .drink h3 { font-family:'Fraunces',Georgia,serif; font-weight:600;
+              font-size:clamp(24px,5.5vw,30px); line-height:1.1; letter-spacing:-.01em;
+              margin:0 0 20px; text-wrap:balance; }
+
+  h4 { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+       color:var(--faint); margin:0 0 12px; }
+  .block + .block { margin-top:24px; }
+
+  /* measures */
+  .pours { display:grid; gap:0; }
+  .pour-row { display:flex; gap:16px; align-items:baseline;
+              padding:9px 0; border-bottom:1px solid var(--rule); }
+  .pour-row:last-child { border-bottom:none; }
+  .qty { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:17px;
+         font-variant-numeric:tabular-nums; color:var(--accent);
+         flex:none; width:82px; text-align:right; }
+  .qty .u { font-size:11px; font-weight:500; color:var(--muted); letter-spacing:.04em; }
+  .what { font-size:16.5px; font-weight:500; }
+  .what em { display:block; font-style:normal; font-weight:400; font-size:14px; color:var(--muted); }
+  .total { margin-top:12px; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+           color:var(--faint); }
+  .total b { font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums;
+             letter-spacing:0; color:var(--muted); }
+
+  /* steps */
+  .steps { list-style:none; margin:0; padding:0; counter-reset:s; display:grid; gap:12px; }
+  .steps li { counter-increment:s; display:flex; gap:14px; align-items:baseline; font-size:16px; }
+  .steps li::before {
+    content:counter(s); flex:none;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--muted);
+    width:24px; height:24px; border:1px solid var(--line); border-radius:50%;
+    display:grid; place-items:center; transform:translateY(2px);
+  }
+
+  /* finish */
+  .finish { display:grid; gap:11px; margin:0; }
+  .fin { display:flex; gap:16px; align-items:baseline; font-size:16px; }
+  .fin dt { flex:none; width:82px; text-align:right;
+            font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+            color:var(--faint); }
+  .fin dd { margin:0; font-weight:500; }
+
+  /* watch out */
+  .flag { margin-top:24px; background:var(--flag-soft); border:1px solid var(--flag-line);
+          border-radius:4px; padding:15px 17px; }
+  .flag h4 { color:var(--flag); margin-bottom:7px; }
+  .flag p { margin:0; font-size:15.5px; }
+
+  /* recap */
+  .recap { margin-top:56px; }
+  .scroller { overflow-x:auto; margin-top:18px; border:1px solid var(--line);
+              border-radius:4px; background:var(--card); }
+  table { border-collapse:collapse; width:100%; min-width:560px; font-size:14.5px; }
+  th { text-align:left; font-size:10.5px; font-weight:600; letter-spacing:.12em;
+       text-transform:uppercase; color:var(--faint);
+       padding:13px 16px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  td { padding:13px 16px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  tbody tr:last-child td { border-bottom:none; }
+  td:first-child { font-weight:600; white-space:nowrap; }
+  .t-glass { white-space:nowrap; }
+
+  footer { margin-top:52px; padding-top:20px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:15px; }
+  footer p { margin:0 0 8px; }
+  footer p:last-child { margin-bottom:0; }
+
+  @media (max-width:520px) {
+    .qty, .fin dt { width:66px; }
+    .pour-row, .fin { gap:12px; }
+  }
+
+  @media print {
+    @page { size:letter portrait; margin:0.6in 0.65in 0.55in; }
+    :root, :root[data-theme="dark"] {
+      --bg:#FFFFFF; --card:#FFFFFF; --ink:#16160F; --muted:#4F4F45; --faint:#75756A;
+      --line:#C7C3B4; --rule:#E4E0D3;
+      --accent:#2A4834; --accent-ink:#2A4834; --accent-soft:#E7EFE8;
+      --flag:#754A18; --flag-soft:#FBF1E2; --flag-line:#D5B682; --shadow:none;
+    }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body { background:#fff; font-size:10.5pt; line-height:1.48; }
+    .wrap { max-width:none; padding:0; }
+    h1 { font-size:28pt; }
+    .lede { font-size:11pt; }
+    .pattern, .drink { box-shadow:none; border:1px solid var(--line); padding:11pt 13pt;
+                       break-inside:avoid; page-break-inside:avoid; }
+    .pattern { margin-top:20pt; }
+    .group { margin-top:22pt; break-before:auto; }
+    .group-head h2 { font-size:17pt; }
+    .group-head p { font-size:9.5pt; }
+    .drink { margin-top:11pt; }
+    .drink h3 { font-size:16pt; margin-bottom:8pt; }
+    h4 { font-size:7.5pt; margin-bottom:6pt; }
+    .block + .block { margin-top:10pt; }
+    .pour-row { padding:3.5pt 0; }
+    .qty, .fin dt { width:62pt; }
+    .qty { font-size:11pt; } .what { font-size:10.5pt; }
+    .what em { font-size:9pt; }
+    .total { margin-top:7pt; font-size:8pt; }
+    .steps li, .fin { font-size:10.5pt; } .steps { gap:5.5pt; } .finish { gap:5pt; }
+    .steps li::before, .moves li::before { width:15pt; height:15pt; font-size:8pt; }
+    .moves { gap:5.5pt; } .moves li { font-size:11pt; }
+    .pattern h2 { font-size:15pt; } .pattern .sub { font-size:9.5pt; margin-bottom:11pt; }
+    .pattern .after { margin-top:12pt; padding-top:9pt; font-size:9.5pt; }
+    .flag { margin-top:10pt; padding:8pt 10pt; break-inside:avoid; }
+    .flag p { font-size:9.5pt; }
+    .recap { margin-top:26pt; break-inside:avoid; }
+    .scroller { overflow:visible; } table { min-width:0; font-size:9.5pt; }
+    th, td { padding:7pt 9pt; }
+    footer { margin-top:22pt; font-size:9.5pt; break-inside:avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">TownHall Ohio City &middot; Bar Training</p>
+    <h1>Fall Cocktails</h1>
+    <p class="lede">Seven drinks. Learn the pattern first &mdash; five of them are the exact same five moves, and the other two break it in one place each. Once you know where they break, you know the menu.</p>
+  </header>
+
+  <section class="pattern">
+    <h2>The five moves</h2>
+    <p class="sub">This is the whole job on most of these drinks.</p>
+    <ol class="moves">
+      <li>Combine everything in the shaker tin</li>
+      <li>Add ice</li>
+      <li>Shake <span>&mdash; hard, 10&ndash;12 seconds, until the tin frosts</span></li>
+      <li>Strain into the glass</li>
+      <li>Garnish</li>
+    </ol>
+    <p class="after">Three things change from drink to drink: <b>what goes in the tin</b>, <b>what glass it lands in</b>, and <b>what goes on top</b>. Everything else is the same. Where a drink genuinely breaks the pattern, there's an orange <b>Watch out</b> box &mdash; those are the four things that actually get sent back.</p>
+  </section>
+
+  <!-- ============ GROUP 1 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span class="group-count">Group 1 of 3 &middot; Five drinks</span>
+      <h2>Shaken, served over fresh ice</h2>
+      <p>The five moves, straight through. Always fresh ice in the glass &mdash; never the ice you shook with.</p>
+    </div>
+
+    <article class="drink">
+      <h3>Channel Orange</h3>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">Channel Orange Biz</span></div>
+          <div class="pour-row"><span class="qty">1.75 <span class="u">oz</span></span><span class="what">Pear Chai Biz</span></div>
+          <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
+        </div>
+        <p class="total">Total pour <b>4.25 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake.</li>
+          <li>Strain over fresh ice in an emulsive glass.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Emulsive</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="drink">
+      <h3>Don't Worry About It Sweetheart</h3>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">2.00 <span class="u">oz</span></span><span class="what">DWAIS Biz</span></div>
+          <div class="pour-row"><span class="qty">3.50 <span class="u">oz</span></span><span class="what">Cider Mix Biz</span></div>
+          <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
+        </div>
+        <p class="total">Total pour <b>6.00 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake.</li>
+          <li>Strain over fresh ice in an emulsive glass.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Emulsive</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Rosemary sprig</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="drink">
+      <h3>Green Goddess</h3>
+      <div class="block">
+        <h4>First, prep the glass</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">rinse</span><span class="what">Pernod<em>Coat the inside of an emulsive glass, then dump the excess</em></span></div>
+        </div>
+      </div>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">2.75 <span class="u">oz</span></span><span class="what">Goddess Biz</span></div>
+          <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Spicy cucumber juice</span></div>
+          <div class="pour-row"><span class="qty">1.00 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
+        </div>
+        <p class="total">Total pour <b>4.25 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake.</li>
+          <li>Strain over fresh ice in the rinsed glass.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Emulsive &mdash; Pernod-rinsed</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Mint bushel</dd></div>
+        </dl>
+      </div>
+      <div class="flag">
+        <h4>Watch out</h4>
+        <p>The Pernod never goes in the tin. It coats the glass and gets dumped &mdash; you're after the aroma, not the pour. Rinse the glass <em>before</em> you shake, so the drink isn't sitting while you do it.</p>
+      </div>
+    </article>
+
+    <article class="drink">
+      <h3>LMF 2.0</h3>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">4.00 <span class="u">oz</span></span><span class="what">LMF 2.0 Biz</span></div>
+          <div class="pour-row"><span class="qty">0.25 <span class="u">oz</span></span><span class="what">Turmeric juice</span></div>
+          <div class="pour-row"><span class="qty">0.50 <span class="u">oz</span></span><span class="what">Lemon juice<em>Fresh</em></span></div>
+        </div>
+        <p class="total">Total pour <b>4.75 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake vigorously.</li>
+          <li>Strain into an emulsive glass over fresh ice.</li>
+          <li>Dust lightly with dragonfruit powder.</li>
+          <li>Add a small pinch of calendula flowers.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Emulsive</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Light dusting of dragonfruit powder, then a small pinch of calendula flowers</dd></div>
+        </dl>
+      </div>
+      <div class="flag">
+        <h4>Watch out</h4>
+        <p>The garnish is two separate motions, in order: dust first, then the pinch of calendula on top. Dusting over the flowers buries them. Keep the dusting light &mdash; you're tinting the surface, not coating it.</p>
+      </div>
+    </article>
+
+    <article class="drink">
+      <h3>No New Friends</h3>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">3.00 <span class="u">oz</span></span><span class="what">NNF Biz</span></div>
+          <div class="pour-row"><span class="qty">1.00 <span class="u">oz</span></span><span class="what">Lime juice<em>Fresh</em></span></div>
+        </div>
+        <p class="total">Total pour <b>4.00 oz + soda</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake vigorously.</li>
+          <li>Strain over fresh ice into the 12 oz tall glass.</li>
+          <li>Top with soda water.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>12 oz tall</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Hibiscus leaves + tarragon sprig</dd></div>
+        </dl>
+      </div>
+      <div class="flag">
+        <h4>Watch out</h4>
+        <p>The soda goes in <em>after</em> the shake, in the glass &mdash; never in the tin. Shaking soda kills the bubbles and can blow the tin apart in your hands. The soda isn't measured: it tops the glass, which is why this is the only drink here without a fixed total.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ GROUP 2 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span class="group-count">Group 2 of 3 &middot; One drink</span>
+      <h2>Shaken, served up</h2>
+      <p>Same five moves, but nothing lands in the glass except the drink. Chill the coupe before you start.</p>
+    </div>
+
+    <article class="drink">
+      <h3>Chai Hard</h3>
+      <div class="block">
+        <h4>Pour into the tin</h4>
+        <div class="pours">
+          <div class="pour-row"><span class="qty">2.25 <span class="u">oz</span></span><span class="what">Titos Chai Biz</span></div>
+          <div class="pour-row"><span class="qty">1.00 <span class="u">oz</span></span><span class="what">Blonde espresso</span></div>
+          <div class="pour-row"><span class="qty">1.50 <span class="u">oz</span></span><span class="what">Pecan brown sugar syrup</span></div>
+          <div class="pour-row"><span class="qty">pinch</span><span class="what">Himalayan salt</span></div>
+        </div>
+        <p class="total">Total pour <b>4.75 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Then</h4>
+        <ol class="steps">
+          <li>Add ice and shake.</li>
+          <li>Strain up into a chilled coupe.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Coupe / martini</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>None &mdash; served up</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>1 star anise</dd></div>
+        </dl>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ============ GROUP 3 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span class="group-count">Group 3 of 3 &middot; One drink</span>
+      <h2>Built in the glass</h2>
+      <p>No tin, no shake. Everything happens in the glass the guest drinks from.</p>
+    </div>
+
+    <article class="drink">
+      <h3>Scarlett Spritz</h3>
+      <div class="block">
+        <h4>Build in this order</h4>
+        <ol class="steps">
+          <li>Pack a wine glass with ice.</li>
+          <li>Pour <b>2.50 oz Spritz Biz</b> over the ice.</li>
+          <li>Top with <b>5.00 oz Prosecco</b>.</li>
+          <li>Stir once with a bar spoon, lifting from the bottom.</li>
+        </ol>
+        <p class="total">Total pour <b>7.50 oz</b></p>
+      </div>
+      <div class="block">
+        <h4>Finish</h4>
+        <dl class="finish">
+          <div class="fin"><dt>Glass</dt><dd>Wine</dd></div>
+          <div class="fin"><dt>Ice</dt><dd>Packed</dd></div>
+          <div class="fin"><dt>Garnish</dt><dd>Rosemary</dd></div>
+        </dl>
+      </div>
+      <div class="flag">
+        <h4>Watch out</h4>
+        <p>Never shake this one. Order matters: ice, then biz, then Prosecco &mdash; the biz sits underneath and the bubbles lift it as you stir. One gentle lift from the bottom is the whole stir; whipping it flattens the Prosecco and you've made a warm, flat spritz.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ RECAP ============ -->
+  <section class="recap">
+    <div class="group-head">
+      <span class="group-count">Quick reference</span>
+      <h2>All seven at a glance</h2>
+      <p>Cover the right-hand columns and work down the list. If you can call the glass and the garnish from the name, you know the menu.</p>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Drink</th><th>Base</th><th>Glass</th><th>Garnish</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Channel Orange</td><td>Channel Orange + Pear Chai Biz</td><td class="t-glass">Emulsive</td><td>Sage + cinnamon stick</td></tr>
+          <tr><td>Don't Worry About It Sweetheart</td><td>DWAIS + Cider Mix Biz</td><td class="t-glass">Emulsive</td><td>Rosemary sprig</td></tr>
+          <tr><td>Green Goddess</td><td>Goddess Biz</td><td class="t-glass">Emulsive, Pernod-rinsed</td><td>Mint bushel</td></tr>
+          <tr><td>LMF 2.0</td><td>LMF 2.0 Biz</td><td class="t-glass">Emulsive</td><td>Dragonfruit powder + calendula</td></tr>
+          <tr><td>No New Friends</td><td>NNF Biz, topped with soda</td><td class="t-glass">12 oz tall</td><td>Hibiscus leaves + tarragon</td></tr>
+          <tr><td>Chai Hard</td><td>Titos Chai Biz + espresso</td><td class="t-glass">Coupe, up</td><td>1 star anise</td></tr>
+          <tr><td>Scarlett Spritz</td><td>Spritz Biz + Prosecco</td><td class="t-glass">Wine</td><td>Rosemary</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Build to spec every time &mdash; no free-pouring the biz. If a batch runs low, call it before you're out.</p>
+    <p>Spec changes go through the bar lead. Mark up a printed copy rather than changing the build on the fly.</p>
+  </footer>
+
+</div>
