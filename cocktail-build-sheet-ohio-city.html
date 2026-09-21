@@ -119,6 +119,18 @@
             color:var(--faint); }
   .fin dd { margin:0; font-weight:500; }
 
+  /* finished-drink photo */
+  .finish-wrap { display:flex; gap:22px; align-items:flex-start; }
+  .finish-wrap .finish { flex:1 1 auto; min-width:0; }
+  .shot { flex:none; width:168px; margin:0; }
+  .shot img { display:block; width:100%; height:auto; border-radius:4px;
+              border:1px solid var(--line); background:var(--rule); }
+  .shot figcaption { margin-top:7px; font-size:11.5px; line-height:1.35; color:var(--faint); }
+  @media (max-width:560px) {
+    .finish-wrap { flex-direction:column; gap:18px; }
+    .shot { width:100%; max-width:240px; }
+  }
+
   /* watch out */
   .flag { margin-top:24px; background:var(--flag-soft); border:1px solid var(--flag-line);
           border-radius:4px; padding:15px 17px; }
@@ -181,6 +193,9 @@
     .moves { gap:5.5pt; } .moves li { font-size:11pt; }
     .pattern h2 { font-size:15pt; } .pattern .sub { font-size:9.5pt; margin-bottom:11pt; }
     .pattern .after { margin-top:12pt; padding-top:9pt; font-size:9.5pt; }
+    .shot { width:108pt; }
+    .shot figcaption { font-size:7.5pt; margin-top:4pt; }
+    .finish-wrap { gap:14pt; }
     .flag { margin-top:10pt; padding:8pt 10pt; break-inside:avoid; }
     .flag p { font-size:9.5pt; }
     .recap { margin-top:26pt; break-inside:avoid; }
@@ -239,11 +254,18 @@
       </div>
       <div class="block">
         <h4>Finish</h4>
+        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Emulsive</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div>
         </dl>
+        <figure class="shot">
+          <img src="images/channel-orange.jpg" alt="Channel Orange, pale amber over ice, garnished with a sage leaf and a cinnamon stick">
+          <figcaption>What it should look like</figcaption>
+        </figure>
+      </div>
+      
       </div>
     </article>
 
@@ -267,11 +289,18 @@
       </div>
       <div class="block">
         <h4>Finish</h4>
+        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Emulsive</dd></div>
           <div class="fin"><dt>Ice</dt><dd>Fresh ice</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>Rosemary sprig</dd></div>
         </dl>
+        <figure class="shot">
+          <img src="images/dwais.jpg" alt="Don't Worry About It Sweetheart, deep red over ice, garnished with a rosemary sprig">
+          <figcaption>What it should look like</figcaption>
+        </figure>
+      </div>
+      
       </div>
     </article>
 
@@ -409,11 +438,18 @@
       </div>
       <div class="block">
         <h4>Finish</h4>
+        <div class="finish-wrap">
         <dl class="finish">
           <div class="fin"><dt>Glass</dt><dd>Coupe / martini</dd></div>
           <div class="fin"><dt>Ice</dt><dd>None &mdash; served up</dd></div>
           <div class="fin"><dt>Garnish</dt><dd>1 star anise</dd></div>
         </dl>
+        <figure class="shot">
+          <img src="images/chai-hard.jpg" alt="Chai Hard served up in a coupe with a foamed top, garnished with a single star anise">
+          <figcaption>What it should look like</figcaption>
+        </figure>
+      </div>
+      
       </div>
     </article>
 
