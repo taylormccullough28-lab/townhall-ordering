@@ -64,7 +64,41 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
-  .sheet { max-width: 880px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 64px; }
+  .sheet { max-width: 900px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+
+  /* --- bilingual pairing --- */
+  .es { display: block; }
+  .en {
+    display: block;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 400;
+  }
+  body[data-lang="es"] .en { display: none; }
+  body[data-lang="en"] .es { display: none; }
+  body[data-lang="en"] .en { color: inherit; font-style: normal; font-weight: inherit; }
+
+  /* --- language switch --- */
+  .lang-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .lang-bar .lbl {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--faint); margin-right: 2px;
+  }
+  .lang-btn {
+    font: inherit; font-size: 12.5px; font-weight: 600;
+    padding: 5px 12px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  }
+  .lang-btn:hover { border-color: var(--accent); color: var(--accent-dark); }
+  .lang-btn[aria-pressed="true"] {
+    background: var(--accent); border-color: var(--accent); color: #FFFFFF;
+  }
+  :root[data-theme="dark"] .lang-btn[aria-pressed="true"],
+  .lang-btn[aria-pressed="true"] { color: #FFFFFF; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .eyebrow {
     font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
@@ -72,82 +106,112 @@
   }
   h1 {
     font-family: 'Fraunces', Georgia, serif;
-    font-size: clamp(28px, 6vw, 38px); font-weight: 600;
-    margin: 6px 0 4px; line-height: 1.12; text-wrap: balance;
+    font-size: clamp(27px, 5.6vw, 37px); font-weight: 600;
+    margin: 6px 0 2px; line-height: 1.12; text-wrap: balance;
   }
-  .deck { color: var(--muted); font-size: 14px; max-width: 62ch; margin: 0; }
+  h1 .en {
+    font-family: 'Inter', sans-serif; font-size: 15px; font-style: normal;
+    letter-spacing: 0.02em; margin-top: 4px;
+  }
+  .deck { font-size: 14px; max-width: 64ch; margin: 10px 0 0; }
+  .deck .es { color: var(--muted); }
+  .deck b { color: var(--ink); font-weight: 600; }
+  .deck .en { margin-top: 3px; font-size: 13px; }
   .meta-row {
     display: flex; flex-wrap: wrap; gap: 8px 18px;
-    margin-top: 14px; padding-top: 14px; border-top: 2px solid var(--ink);
-    font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase;
+    margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--ink);
+    font-size: 12px; letter-spacing: 0.02em;
     color: var(--muted); font-weight: 600;
   }
   .meta-row b { color: var(--ink); font-weight: 600; }
+  .meta-row .es, .eyebrow .es { display: inline; }
+  .meta-row .en, .eyebrow .en { display: inline; font-style: normal; color: inherit; }
+  body[data-lang="both"] .meta-row .en::before,
+  body[data-lang="both"] .eyebrow .en::before { content: " / "; }
 
-  /* Reglas generales */
+  /* --- reglas --- */
   .rules { margin-top: 26px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); padding: 18px 20px; }
   .rules h2 {
     font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 600;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
   }
-  .rules ol { margin: 0; padding-left: 20px; display: grid; gap: 7px; }
+  .rules h2 .en { font-family: 'Inter', sans-serif; font-size: 12.5px; margin-top: 2px; }
+  .rules ol { margin: 0; padding-left: 20px; display: grid; gap: 11px; }
   .rules li { padding-left: 2px; }
   .rules strong { font-weight: 600; }
+  .rules .en { font-size: 13px; margin-top: 1px; }
   .flag {
-    margin-top: 14px; border-left: 3px solid var(--flag); background: var(--flag-soft);
-    color: var(--flag); padding: 10px 14px; font-size: 13px; border-radius: 0 6px 6px 0;
+    margin-top: 16px; border-left: 3px solid var(--flag); background: var(--flag-soft);
+    color: var(--flag); padding: 11px 14px; font-size: 13px; border-radius: 0 6px 6px 0;
   }
-  .flag b { color: inherit; }
+  .flag .en { color: inherit; opacity: 0.85; margin-top: 2px; }
 
-  /* Fichas */
+  /* --- fichas --- */
   .fichas { margin-top: 30px; display: grid; gap: 22px; }
   .ficha { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .ficha-head {
     display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
-    gap: 6px 16px; padding: 16px 20px 14px; border-bottom: 1px solid var(--line);
+    gap: 6px 16px; padding: 15px 20px 13px; border-bottom: 1px solid var(--line);
     background: var(--accent-soft);
   }
   .ficha-name { font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 600; line-height: 1.2; }
-  .ficha-name .n { color: var(--accent); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; margin-right: 8px; letter-spacing: 0.04em; }
-  .ficha-yield {
-    font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-    color: var(--accent-dark); white-space: nowrap;
+  .ficha-name .n {
+    color: var(--accent); font-family: 'Inter', sans-serif; font-size: 13px;
+    font-weight: 700; margin-right: 8px; letter-spacing: 0.04em;
   }
-  .ficha-yield span { font-variant-numeric: tabular-nums; font-size: 15px; }
+  .ficha-yield {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.03em;
+    color: var(--accent-dark); white-space: nowrap; text-align: right;
+  }
+  .ficha-yield .g { font-size: 16px; font-variant-numeric: tabular-nums; }
+  .ficha-yield .en { color: inherit; opacity: 0.75; font-style: normal; }
 
-  .ficha-body { padding: 16px 20px 20px; display: grid; gap: 18px; }
-  @media (min-width: 720px) {
-    .ficha-body { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .ficha-body { padding: 16px 20px 20px; display: grid; gap: 20px; }
+  @media (min-width: 760px) {
+    .ficha-body { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 26px; align-items: start; }
   }
 
   .block-label {
     font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--faint); margin-bottom: 8px;
+    color: var(--faint); margin-bottom: 9px;
   }
+  .block-label .en { display: block; font-style: normal; color: inherit; opacity: 0.8; margin-top: 1px; }
+
   .tbl-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line-soft); }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
   th {
-    font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
     color: var(--muted); border-bottom: 1px solid var(--line);
   }
+  th .en { font-style: normal; font-size: 9.5px; letter-spacing: 0.05em; }
+  td .es { font-weight: 500; }
+  td .en { font-size: 12px; margin-top: 1px; }
   td.g, th.g { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   td.g { font-weight: 600; }
   th.g:last-child, td.g:last-child { color: var(--muted); font-weight: 500; }
   tfoot td {
     border-bottom: none; border-top: 2px solid var(--ink); font-weight: 700;
-    font-size: 13.5px; padding-top: 9px;
+    padding-top: 9px;
   }
+  tfoot td .en { font-weight: 500; }
   tfoot td.g:last-child { font-weight: 600; }
 
-  ol.pasos { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; }
+  ol.pasos { margin: 0; padding-left: 18px; display: grid; gap: 9px; font-size: 13.5px; }
   ol.pasos li { padding-left: 2px; }
+  ol.pasos .en { font-size: 12.5px; margin-top: 1px; }
+  ol.pasos b { font-weight: 600; }
 
   .etiqueta {
     margin-top: 16px; border: 1px dashed var(--line); border-radius: 6px;
     padding: 10px 12px; font-size: 12.5px; color: var(--muted); line-height: 1.6;
   }
   .etiqueta .t { color: var(--ink); font-weight: 600; }
+  .etiqueta .es, .conteo .es { display: inline; }
+  .etiqueta .en, .conteo .en { display: inline; font-style: italic; color: inherit; font-weight: inherit; }
+  .etiqueta .t .en { color: var(--muted); font-weight: 400; }
+  body[data-lang="both"] .etiqueta .en::before,
+  body[data-lang="both"] .conteo .en::before { content: " / "; }
   .etiqueta .fill { border-bottom: 1px solid var(--line); display: inline-block; min-width: 68px; }
 
   .conteo {
@@ -162,244 +226,402 @@
     margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line);
     font-size: 12px; color: var(--faint); line-height: 1.6;
   }
+  footer .en { margin-top: 6px; }
 
   @media print {
-    @page { size: letter portrait; margin: 14mm 12mm; }
-    body { background: #fff; color: #000; font-size: 11.5pt; }
+    @page { size: letter portrait; margin: 13mm 12mm; }
+    body { background: #FFFFFF; color: #000000; font-size: 11pt; }
     .sheet { max-width: none; padding: 0; }
-    .ficha, .rules { break-inside: avoid; page-break-inside: avoid; border-color: #999; }
-    .ficha-head { background: #F2F2F2; }
-    .conteo { background: #fff; }
+    .lang-bar { display: none; }
+    .ficha, .rules { break-inside: avoid; page-break-inside: avoid; border-color: #999999; }
+    .ficha-head { background: #F1F1F1; }
+    .conteo { background: #FFFFFF; }
     .fichas { gap: 14px; }
+    .en { color: #444444; }
   }
 </style>
 </head>
-<body>
+<body data-lang="both">
 <div class="sheet">
 
+  <div class="lang-bar">
+    <span class="lbl">Idioma / Language</span>
+    <button type="button" class="lang-btn" id="lang-both" data-set="both" aria-pressed="true">Ambos · Both</button>
+    <button type="button" class="lang-btn" id="lang-es" data-set="es" aria-pressed="false">Español</button>
+    <button type="button" class="lang-btn" id="lang-en" data-set="en" aria-pressed="false">English</button>
+  </div>
+
   <header>
-    <div class="eyebrow">TownHall · Cocina · Hoja de Prep</div>
-    <h1>Prep Congelado de Batidos</h1>
-    <p class="deck">Bolsas congeladas porcionadas, una bolsa por batido. Esta hoja cubre <b>únicamente la porción congelada</b> de cada receta; los líquidos, polvos y suplementos se agregan al momento de licuar.</p>
+    <div class="eyebrow">TownHall · <span class="es">Cocina</span><span class="en">Kitchen</span></div>
+    <h1>
+      <span class="es">Prep Congelado de Batidos</span>
+      <span class="en">Frozen Smoothie Prep Sheet</span>
+    </h1>
+    <p class="deck">
+      <span class="es">Bolsas congeladas porcionadas, una bolsa por batido. Esta hoja cubre <b>únicamente la porción congelada</b> de cada receta; los líquidos, polvos y suplementos se agregan al momento de licuar.</span>
+      <span class="en">Portioned frozen bags, one bag per smoothie. This sheet covers the <b>frozen portion only</b>; liquids, powders, and supplements are added at blend time.</span>
+    </p>
     <div class="meta-row">
-      <div>Revisión: <b>21/09/2026</b></div>
-      <div>Recetas: <b>4</b></div>
-      <div>Unidad: <b>gramos (g)</b></div>
-      <div>Rinde: <b>1 bolsa = 1 batido</b></div>
+      <div>Rev. <b>21/09/2026</b></div>
+      <div><span class="es">Recetas</span><span class="en">Recipes</span>: <b>4</b></div>
+      <div><span class="es">Unidad</span><span class="en">Unit</span>: <b>gramos (g)</b></div>
+      <div><span class="es">1 bolsa = 1 batido</span><span class="en">1 bag = 1 smoothie</span></div>
     </div>
   </header>
 
   <section class="rules">
-    <h2>Reglas generales</h2>
+    <h2>
+      <span class="es">Reglas generales</span>
+      <span class="en">General rules</span>
+    </h2>
     <ol>
-      <li><strong>Pesa cada ingrediente por separado</strong> en báscula de gramos. No calcules a ojo ni por tazas.</li>
-      <li>Verifica la báscula en cero antes de cada bolsa.</li>
-      <li><strong>Lava todo el producto fresco</strong> antes de cortarlo.</li>
-      <li>Usa bolsa tipo sándwich, saca el aire y ciérrala bien.</li>
-      <li><strong>Etiqueta cada bolsa</strong> con el nombre del batido, la fecha de preparación y tus iniciales. Sin etiqueta no entra al congelador.</li>
-      <li>Acomoda en el congelador por PEPS (primeras entradas, primeras salidas): lo nuevo va atrás.</li>
-      <li>El aguacate se corta y se pesa al último para que no se oxide.</li>
+      <li>
+        <span class="es"><strong>Pesa cada ingrediente por separado</strong> en báscula de gramos. No calcules a ojo ni por tazas.</span>
+        <span class="en"><strong>Weigh every ingredient separately</strong> on a gram scale. No eyeballing, no measuring cups.</span>
+      </li>
+      <li>
+        <span class="es">Verifica que la báscula esté en cero antes de cada bolsa.</span>
+        <span class="en">Zero the scale before each bag.</span>
+      </li>
+      <li>
+        <span class="es"><strong>Lava todo el producto fresco</strong> antes de cortarlo.</span>
+        <span class="en"><strong>Wash all fresh produce</strong> before cutting.</span>
+      </li>
+      <li>
+        <span class="es">Usa bolsa tipo sándwich, saca el aire y ciérrala bien.</span>
+        <span class="en">Use a sandwich bag, press the air out, and seal it fully.</span>
+      </li>
+      <li>
+        <span class="es"><strong>Etiqueta cada bolsa</strong> con el nombre del batido, la fecha de preparación y tus iniciales. Sin etiqueta no entra al congelador.</span>
+        <span class="en"><strong>Label every bag</strong> with the smoothie name, prep date, and your initials. No label, no freezer.</span>
+      </li>
+      <li>
+        <span class="es">Acomoda por PEPS (primeras entradas, primeras salidas): lo nuevo va atrás.</span>
+        <span class="en">Rotate FIFO (first in, first out): new bags go in back.</span>
+      </li>
+      <li>
+        <span class="es">El aguacate se corta y se pesa al último para que no se oxide.</span>
+        <span class="en">Cut and weigh the avocado last so it doesn't brown.</span>
+      </li>
     </ol>
-    <div class="flag"><b>No sustituyas ingredientes.</b> Si falta algo, avisa al gerente antes de armar las bolsas — no cambies fruta, variedad de manzana ni tipo de coco por tu cuenta.</div>
+    <div class="flag">
+      <span class="es"><b>No sustituyas ingredientes.</b> Si falta algo, avisa al gerente antes de armar las bolsas — no cambies fruta, variedad de manzana ni tipo de coco por tu cuenta.</span>
+      <span class="en"><b>Do not substitute ingredients.</b> If something is out, tell the manager before building bags — no swapping fruit, apple variety, or coconut type on your own.</span>
+    </div>
   </section>
 
   <div class="fichas">
 
-    <!-- 1 -->
+    <!-- 01 -->
     <article class="ficha">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">01</span>Strawberry Skin Renewal</div>
-        <div class="ficha-yield">Total por bolsa · <span>338 g</span></div>
+        <div class="ficha-yield">
+          <span class="es">Total por bolsa · <span class="g">338 g</span></span>
+          <span class="en">Total per bag · <span class="g">338 g</span></span>
+        </div>
       </div>
       <div class="ficha-body">
         <div>
-          <div class="block-label">Ingredientes</div>
+          <div class="block-label"><span class="es">Ingredientes</span><span class="en">Ingredients</span></div>
           <div class="tbl-wrap">
             <table>
               <thead>
-                <tr><th>Ingrediente</th><th class="g">Por bolsa</th><th class="g">× 10 bolsas</th></tr>
+                <tr>
+                  <th><span class="es">Ingrediente</span><span class="en">Ingredient</span></th>
+                  <th class="g"><span class="es">Por bolsa</span><span class="en">Per bag</span></th>
+                  <th class="g"><span class="es">× 10 bolsas</span><span class="en">× 10 bags</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Fresas congeladas</td><td class="g">150 g</td><td class="g">1 500 g</td></tr>
-                <tr><td>Plátano congelado</td><td class="g">70 g</td><td class="g">700 g</td></tr>
-                <tr><td>Aguacate picado</td><td class="g">25 g</td><td class="g">250 g</td></tr>
-                <tr><td>Dátiles orgánicos</td><td class="g">30 g</td><td class="g">300 g</td></tr>
-                <tr><td>Hielo</td><td class="g">63 g</td><td class="g">630 g</td></tr>
+                <tr><td><span class="es">Fresas congeladas</span><span class="en">Frozen strawberries</span></td><td class="g">150 g</td><td class="g">1 500 g</td></tr>
+                <tr><td><span class="es">Plátano congelado</span><span class="en">Frozen banana</span></td><td class="g">70 g</td><td class="g">700 g</td></tr>
+                <tr><td><span class="es">Aguacate picado</span><span class="en">Avocado, chopped</span></td><td class="g">25 g</td><td class="g">250 g</td></tr>
+                <tr><td><span class="es">Dátiles orgánicos</span><span class="en">Organic dates</span></td><td class="g">30 g</td><td class="g">300 g</td></tr>
+                <tr><td><span class="es">Hielo</span><span class="en">Ice</span></td><td class="g">63 g</td><td class="g">630 g</td></tr>
               </tbody>
               <tfoot>
-                <tr><td>Total</td><td class="g">338 g</td><td class="g">3 380 g (3.38 kg)</td></tr>
+                <tr><td><span class="es">Total</span><span class="en">Total</span></td><td class="g">338 g</td><td class="g">3 380 g (3.38 kg)</td></tr>
               </tfoot>
             </table>
           </div>
         </div>
         <div>
-          <div class="block-label">Procedimiento</div>
+          <div class="block-label"><span class="es">Procedimiento</span><span class="en">Procedure</span></div>
           <ol class="pasos">
-            <li>Pesa las fresas y el plátano congelados directamente en la bolsa.</li>
-            <li>Pica el aguacate y pésalo; agrégalo con los dátiles.</li>
-            <li>Agrega el hielo al final y verifica que el total sea 338 g.</li>
-            <li>Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</li>
+            <li>
+              <span class="es">Pesa las fresas y el plátano congelados directamente en la bolsa.</span>
+              <span class="en">Weigh the frozen strawberries and banana straight into the bag.</span>
+            </li>
+            <li>
+              <span class="es">Pica el aguacate y pésalo; agrégalo junto con los dátiles.</span>
+              <span class="en">Chop and weigh the avocado; add it along with the dates.</span>
+            </li>
+            <li>
+              <span class="es">Agrega el hielo al final y verifica que el total sea 338 g.</span>
+              <span class="en">Add the ice last and confirm the bag totals 338 g.</span>
+            </li>
+            <li>
+              <span class="es">Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</span>
+              <span class="en">Press out the air, seal, label, and store in the freezer.</span>
+            </li>
           </ol>
           <div class="etiqueta">
-            <span class="t">Etiqueta:</span> Strawberry Skin Renewal · 338 g · Fecha <span class="fill"></span> · Iniciales <span class="fill"></span>
+            <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
+            Strawberry Skin Renewal · 338 g ·
+            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
+            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
           </div>
         </div>
       </div>
       <div class="conteo">
-        <div>Bolsas hechas: <span class="fill"></span></div>
-        <div>Fecha: <span class="fill"></span></div>
-        <div>Preparó: <span class="fill"></span></div>
-        <div>Revisó: <span class="fill"></span></div>
+        <div><span class="es">Bolsas hechas</span><span class="en">Bags made</span>: <span class="fill"></span></div>
+        <div><span class="es">Fecha</span><span class="en">Date</span>: <span class="fill"></span></div>
+        <div><span class="es">Preparó</span><span class="en">Prepped by</span>: <span class="fill"></span></div>
+        <div><span class="es">Revisó</span><span class="en">Checked by</span>: <span class="fill"></span></div>
       </div>
     </article>
 
-    <!-- 2 -->
+    <!-- 02 -->
     <article class="ficha">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">02</span>Keto Protein Powerhouse 2.0</div>
-        <div class="ficha-yield">Total por bolsa · <span>235 g</span></div>
+        <div class="ficha-yield">
+          <span class="es">Total por bolsa · <span class="g">235 g</span></span>
+          <span class="en">Total per bag · <span class="g">235 g</span></span>
+        </div>
       </div>
       <div class="ficha-body">
         <div>
-          <div class="block-label">Ingredientes</div>
+          <div class="block-label"><span class="es">Ingredientes</span><span class="en">Ingredients</span></div>
           <div class="tbl-wrap">
             <table>
               <thead>
-                <tr><th>Ingrediente</th><th class="g">Por bolsa</th><th class="g">× 10 bolsas</th></tr>
+                <tr>
+                  <th><span class="es">Ingrediente</span><span class="en">Ingredient</span></th>
+                  <th class="g"><span class="es">Por bolsa</span><span class="en">Per bag</span></th>
+                  <th class="g"><span class="es">× 10 bolsas</span><span class="en">× 10 bags</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Aguacate en cubos</td><td class="g">50 g</td><td class="g">500 g</td></tr>
-                <tr><td>Hielo</td><td class="g">185 g</td><td class="g">1 850 g</td></tr>
+                <tr><td><span class="es">Aguacate en cubos</span><span class="en">Avocado, diced</span></td><td class="g">50 g</td><td class="g">500 g</td></tr>
+                <tr><td><span class="es">Hielo</span><span class="en">Ice</span></td><td class="g">185 g</td><td class="g">1 850 g</td></tr>
               </tbody>
               <tfoot>
-                <tr><td>Total</td><td class="g">235 g</td><td class="g">2 350 g (2.35 kg)</td></tr>
+                <tr><td><span class="es">Total</span><span class="en">Total</span></td><td class="g">235 g</td><td class="g">2 350 g (2.35 kg)</td></tr>
               </tfoot>
             </table>
           </div>
         </div>
         <div>
-          <div class="block-label">Procedimiento</div>
+          <div class="block-label"><span class="es">Procedimiento</span><span class="en">Procedure</span></div>
           <ol class="pasos">
-            <li>Corta el aguacate en cubos parejos y pesa 50 g en la bolsa.</li>
-            <li>Agrega 185 g de hielo encima del aguacate.</li>
-            <li>Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</li>
+            <li>
+              <span class="es">Corta el aguacate en cubos parejos y pesa 50 g en la bolsa.</span>
+              <span class="en">Dice the avocado evenly and weigh 50 g into the bag.</span>
+            </li>
+            <li>
+              <span class="es">Agrega 185 g de hielo encima del aguacate.</span>
+              <span class="en">Add 185 g of ice on top of the avocado.</span>
+            </li>
+            <li>
+              <span class="es">Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</span>
+              <span class="en">Press out the air, seal, label, and store in the freezer.</span>
+            </li>
           </ol>
           <div class="etiqueta">
-            <span class="t">Etiqueta:</span> Keto Protein Powerhouse 2.0 · 235 g · Fecha <span class="fill"></span> · Iniciales <span class="fill"></span>
+            <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
+            Keto Protein Powerhouse 2.0 · 235 g ·
+            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
+            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
           </div>
         </div>
       </div>
       <div class="conteo">
-        <div>Bolsas hechas: <span class="fill"></span></div>
-        <div>Fecha: <span class="fill"></span></div>
-        <div>Preparó: <span class="fill"></span></div>
-        <div>Revisó: <span class="fill"></span></div>
+        <div><span class="es">Bolsas hechas</span><span class="en">Bags made</span>: <span class="fill"></span></div>
+        <div><span class="es">Fecha</span><span class="en">Date</span>: <span class="fill"></span></div>
+        <div><span class="es">Preparó</span><span class="en">Prepped by</span>: <span class="fill"></span></div>
+        <div><span class="es">Revisó</span><span class="en">Checked by</span>: <span class="fill"></span></div>
       </div>
     </article>
 
-    <!-- 3 -->
+    <!-- 03 -->
     <article class="ficha">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">03</span>Being Brigid 2.0</div>
-        <div class="ficha-yield">Total por bolsa · <span>196 g</span></div>
+        <div class="ficha-yield">
+          <span class="es">Total por bolsa · <span class="g">196 g</span></span>
+          <span class="en">Total per bag · <span class="g">196 g</span></span>
+        </div>
       </div>
       <div class="ficha-body">
         <div>
-          <div class="block-label">Ingredientes</div>
+          <div class="block-label"><span class="es">Ingredientes</span><span class="en">Ingredients</span></div>
           <div class="tbl-wrap">
             <table>
               <thead>
-                <tr><th>Ingrediente</th><th class="g">Por bolsa</th><th class="g">× 10 bolsas</th></tr>
+                <tr>
+                  <th><span class="es">Ingrediente</span><span class="en">Ingredient</span></th>
+                  <th class="g"><span class="es">Por bolsa</span><span class="en">Per bag</span></th>
+                  <th class="g"><span class="es">× 10 bolsas</span><span class="en">× 10 bags</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Pepino inglés</td><td class="g">55 g</td><td class="g">550 g</td></tr>
-                <tr><td>Trozos de piña orgánica congelada</td><td class="g">55 g</td><td class="g">550 g</td></tr>
-                <tr><td>Manzana Granny Smith</td><td class="g">65 g</td><td class="g">650 g</td></tr>
-                <tr><td>Aguacate picado</td><td class="g">21 g</td><td class="g">210 g</td></tr>
+                <tr><td><span class="es">Pepino inglés</span><span class="en">English cucumber</span></td><td class="g">55 g</td><td class="g">550 g</td></tr>
+                <tr><td><span class="es">Trozos de piña orgánica congelada</span><span class="en">Organic frozen pineapple chunks</span></td><td class="g">55 g</td><td class="g">550 g</td></tr>
+                <tr><td><span class="es">Manzana Granny Smith</span><span class="en">Granny Smith apple</span></td><td class="g">65 g</td><td class="g">650 g</td></tr>
+                <tr><td><span class="es">Aguacate picado</span><span class="en">Avocado, chopped</span></td><td class="g">21 g</td><td class="g">210 g</td></tr>
               </tbody>
               <tfoot>
-                <tr><td>Total</td><td class="g">196 g</td><td class="g">1 960 g (1.96 kg)</td></tr>
+                <tr><td><span class="es">Total</span><span class="en">Total</span></td><td class="g">196 g</td><td class="g">1 960 g (1.96 kg)</td></tr>
               </tfoot>
             </table>
           </div>
         </div>
         <div>
-          <div class="block-label">Procedimiento</div>
+          <div class="block-label"><span class="es">Procedimiento</span><span class="en">Procedure</span></div>
           <ol class="pasos">
-            <li>Lava todo el producto fresco antes de cortarlo.</li>
-            <li>Corta el pepino en trozos de 1/2" (aprox. 1.3 cm).</li>
-            <li>Corta el aguacate en trozos de 1/2" (aprox. 1.3 cm).</li>
-            <li>Corta la manzana Granny Smith; <b>no la peles ni le quites el corazón</b> salvo que el gerente indique lo contrario.</li>
-            <li>Pesa cada ingrediente dentro de la bolsa y verifica que el total sea 196 g.</li>
-            <li>Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</li>
+            <li>
+              <span class="es">Lava todo el producto fresco antes de cortarlo.</span>
+              <span class="en">Wash all fresh produce before cutting.</span>
+            </li>
+            <li>
+              <span class="es">Corta el pepino en trozos de 1/2" (aprox. 1.3 cm).</span>
+              <span class="en">Cut the cucumber into 1/2" pieces.</span>
+            </li>
+            <li>
+              <span class="es">Corta el aguacate en trozos de 1/2" (aprox. 1.3 cm).</span>
+              <span class="en">Cut the avocado into 1/2" pieces.</span>
+            </li>
+            <li>
+              <span class="es">Corta la manzana Granny Smith; <b>no la peles ni le quites el corazón</b> salvo que el gerente indique lo contrario.</span>
+              <span class="en">Cut the Granny Smith apple; <b>leave the skin on and the core in</b> unless the manager says otherwise.</span>
+            </li>
+            <li>
+              <span class="es">Pesa cada ingrediente dentro de la bolsa y verifica que el total sea 196 g.</span>
+              <span class="en">Weigh each ingredient into the bag and confirm it totals 196 g.</span>
+            </li>
+            <li>
+              <span class="es">Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</span>
+              <span class="en">Press out the air, seal, label, and store in the freezer.</span>
+            </li>
           </ol>
           <div class="etiqueta">
-            <span class="t">Etiqueta:</span> Being Brigid 2.0 · 196 g · Fecha <span class="fill"></span> · Iniciales <span class="fill"></span>
+            <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
+            Being Brigid 2.0 · 196 g ·
+            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
+            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
           </div>
         </div>
       </div>
       <div class="conteo">
-        <div>Bolsas hechas: <span class="fill"></span></div>
-        <div>Fecha: <span class="fill"></span></div>
-        <div>Preparó: <span class="fill"></span></div>
-        <div>Revisó: <span class="fill"></span></div>
+        <div><span class="es">Bolsas hechas</span><span class="en">Bags made</span>: <span class="fill"></span></div>
+        <div><span class="es">Fecha</span><span class="en">Date</span>: <span class="fill"></span></div>
+        <div><span class="es">Preparó</span><span class="en">Prepped by</span>: <span class="fill"></span></div>
+        <div><span class="es">Revisó</span><span class="en">Checked by</span>: <span class="fill"></span></div>
       </div>
     </article>
 
-    <!-- 4 -->
+    <!-- 04 -->
     <article class="ficha">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">04</span>Longevity Smoothie</div>
-        <div class="ficha-yield">Total por bolsa · <span>280 g</span></div>
+        <div class="ficha-yield">
+          <span class="es">Total por bolsa · <span class="g">280 g</span></span>
+          <span class="en">Total per bag · <span class="g">280 g</span></span>
+        </div>
       </div>
       <div class="ficha-body">
         <div>
-          <div class="block-label">Ingredientes</div>
+          <div class="block-label"><span class="es">Ingredientes</span><span class="en">Ingredients</span></div>
           <div class="tbl-wrap">
             <table>
               <thead>
-                <tr><th>Ingrediente</th><th class="g">Por bolsa</th><th class="g">× 10 bolsas</th></tr>
+                <tr>
+                  <th><span class="es">Ingrediente</span><span class="en">Ingredient</span></th>
+                  <th class="g"><span class="es">Por bolsa</span><span class="en">Per bag</span></th>
+                  <th class="g"><span class="es">× 10 bolsas</span><span class="en">× 10 bags</span></th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>Arándanos congelados</td><td class="g">100 g</td><td class="g">1 000 g</td></tr>
-                <tr><td>Coco orgánico congelado (paquete)</td><td class="g">45 g</td><td class="g">450 g</td></tr>
-                <tr><td>Plátano picado</td><td class="g">90 g</td><td class="g">900 g</td></tr>
-                <tr><td>Hielo</td><td class="g">45 g</td><td class="g">450 g</td></tr>
+                <tr><td><span class="es">Arándanos congelados</span><span class="en">Frozen blueberries</span></td><td class="g">100 g</td><td class="g">1 000 g</td></tr>
+                <tr><td><span class="es">Coco orgánico congelado (paquete)</span><span class="en">Frozen organic coconut packet</span></td><td class="g">45 g</td><td class="g">450 g</td></tr>
+                <tr><td><span class="es">Plátano picado</span><span class="en">Banana, chopped</span></td><td class="g">90 g</td><td class="g">900 g</td></tr>
+                <tr><td><span class="es">Hielo</span><span class="en">Ice</span></td><td class="g">45 g</td><td class="g">450 g</td></tr>
               </tbody>
               <tfoot>
-                <tr><td>Total</td><td class="g">280 g</td><td class="g">2 800 g (2.8 kg)</td></tr>
+                <tr><td><span class="es">Total</span><span class="en">Total</span></td><td class="g">280 g</td><td class="g">2 800 g (2.8 kg)</td></tr>
               </tfoot>
             </table>
           </div>
         </div>
         <div>
-          <div class="block-label">Procedimiento</div>
+          <div class="block-label"><span class="es">Procedimiento</span><span class="en">Procedure</span></div>
           <ol class="pasos">
-            <li>Pesa los arándanos congelados en la bolsa.</li>
-            <li>Agrega el paquete de coco orgánico congelado (45 g).</li>
-            <li>Pica el plátano y pesa 90 g; agrégalo.</li>
-            <li>Agrega el hielo al final y verifica que el total sea 280 g.</li>
-            <li>Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</li>
+            <li>
+              <span class="es">Pesa los arándanos congelados en la bolsa.</span>
+              <span class="en">Weigh the frozen blueberries into the bag.</span>
+            </li>
+            <li>
+              <span class="es">Agrega el paquete de coco orgánico congelado (45 g).</span>
+              <span class="en">Add the frozen organic coconut packet (45 g).</span>
+            </li>
+            <li>
+              <span class="es">Pica el plátano y pesa 90 g; agrégalo.</span>
+              <span class="en">Chop the banana, weigh 90 g, and add it.</span>
+            </li>
+            <li>
+              <span class="es">Agrega el hielo al final y verifica que el total sea 280 g.</span>
+              <span class="en">Add the ice last and confirm the bag totals 280 g.</span>
+            </li>
+            <li>
+              <span class="es">Saca el aire, cierra la bolsa, etiquétala y guárdala en el congelador.</span>
+              <span class="en">Press out the air, seal, label, and store in the freezer.</span>
+            </li>
           </ol>
           <div class="etiqueta">
-            <span class="t">Etiqueta:</span> Longevity Smoothie · 280 g · Fecha <span class="fill"></span> · Iniciales <span class="fill"></span>
+            <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
+            Longevity Smoothie · 280 g ·
+            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
+            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
           </div>
         </div>
       </div>
       <div class="conteo">
-        <div>Bolsas hechas: <span class="fill"></span></div>
-        <div>Fecha: <span class="fill"></span></div>
-        <div>Preparó: <span class="fill"></span></div>
-        <div>Revisó: <span class="fill"></span></div>
+        <div><span class="es">Bolsas hechas</span><span class="en">Bags made</span>: <span class="fill"></span></div>
+        <div><span class="es">Fecha</span><span class="en">Date</span>: <span class="fill"></span></div>
+        <div><span class="es">Preparó</span><span class="en">Prepped by</span>: <span class="fill"></span></div>
+        <div><span class="es">Revisó</span><span class="en">Checked by</span>: <span class="fill"></span></div>
       </div>
     </article>
 
   </div>
 
   <footer>
-    Los nombres de los batidos se mantienen en inglés porque así aparecen en las etiquetas, en el menú y en las comandas. Traducido de las diapositivas de prep congelado (Pt. 2) del 21/09/2026. Cualquier cambio de receta o de gramaje debe confirmarse con el gerente de cocina antes de prepararse.
+    <span class="es">Los nombres de los batidos se mantienen en inglés porque así aparecen en las etiquetas, el menú y las comandas. Traducido de las diapositivas de prep congelado (Pt. 2) del 21/09/2026. Cualquier cambio de receta o de gramaje debe confirmarse con el gerente de cocina antes de prepararse.</span>
+    <span class="en">Smoothie names stay in English because that is how they appear on labels, the menu, and tickets. Translated from the 9/21/2026 frozen prep slides (Pt. 2). Any recipe or weight change must be confirmed with the kitchen manager before prepping.</span>
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var body = document.body;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('.lang-btn'));
+    function setLang(lang) {
+      body.setAttribute('data-lang', lang);
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === lang));
+      });
+      try { localStorage.setItem('th-prep-lang', lang); } catch (e) {}
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); });
+    });
+    var saved = null;
+    try { saved = localStorage.getItem('th-prep-lang'); } catch (e) {}
+    if (saved === 'es' || saved === 'en' || saved === 'both') { setLang(saved); }
+  })();
+</script>
 </body>
 </html>
