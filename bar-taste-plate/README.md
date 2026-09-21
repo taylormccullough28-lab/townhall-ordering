@@ -43,7 +43,15 @@ that way the layout, formulas, drop-downs and print setup can't drift.
 Each side holds roughly 24 line items per column before it needs to shrink to fit, so there's
 room to add a few cocktails or syrups without the layout changing.
 
-## Open item
+## Open items — pars still to set
 
-Bar tool PARs are intentionally blank — the original sheet had no tool counts to carry over.
-Set them once with the bar lead (per well plus back-ups) and the NEED column handles the rest.
+Two sets of PAR boxes are blank on purpose and print as yellow fill-ins:
+
+- **The seven new batches** (Channel Orange, Pear Chai, Don't Worry About It Sweetheart,
+  Cider Mix, Chai Hard, Pecan Brown Simple, Scarlett Spritz) — no par was given for these yet.
+- **Bar tools** — the original sheet had no tool counts to carry over. Set them once with the
+  bar lead (per well plus back-ups).
+
+NEED stays blank until both PAR and ON HAND are filled in, so a missing par never reads as
+"you're fully stocked." Once a par is set in `build_taste_plate.py` it prints as a fixed
+blue number like the rest.

@@ -31,19 +31,19 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 # PARs carried over from the original BAR_TASTE_PLATE_SPRING-SUMMER2026.xlsx.
 
 BATCHES = [
-    ("Green Goddess Biz",            8, "BTL"),
-    ("Spicy Cucumber Biz",           8, "BTL"),
-    ("Say Less",                     6, "BTL"),
-    ("Light My Fire 2.0 Biz",        6, "BTL"),
-    ("Turmeric Juice (LMF 2.0) *",   6, "BTL"),
-    ("No New Friends Biz",           6, "BTL"),
-    ("Hot Girl Simmer Biz",          6, "BTL"),
-    ("Alter Ego Biz",                6, "BTL"),
-    ("Coconut Blue Spirulina",       6, "BTL"),
-    ("Not Your Average Spritz",      6, "BTL"),
-    ("Strawberry Allulose",          6, "BTL"),
-    ("Tart Cherry Allulose",         3, "BTL"),
-    ("Nitro Espresso Martini",       1, "CMB"),
+    ("Green Goddess Biz",                   8, "BTL"),
+    ("Spicy Cucumber Biz",                  8, "BTL"),
+    ("Light My Fire 2.0 Biz",               6, "BTL"),
+    ("Turmeric Juice (LMF 2.0) *",          6, "BTL"),
+    ("No New Friends Biz",                  6, "BTL"),
+    # New for this menu - PAR not set yet, so the PAR box is a fill-in.
+    ("Channel Orange Biz",                  None, "BTL"),
+    ("Pear Chai Biz",                       None, "BTL"),
+    ("Don't Worry About It Sweetheart Biz", None, "BTL"),
+    ("Cider Mix Biz",                       None, "BTL"),
+    ("Chai Hard Biz",                       None, "BTL"),
+    ("Pecan Brown Simple",                  None, "BTL"),
+    ("Scarlett Spritz Biz",                 None, "BTL"),
 ]
 BATCH_NOTE = "* Turmeric Juice is for Light My Fire 2.0 - NOT the wellness shot."
 
@@ -182,15 +182,21 @@ def col_header(ws, row, c0, labels):
 
 
 def count_row(ws, row, c0, name, par, unit):
-    """ITEM | PAR | HAVE | NEED | STATUS  - only HAVE and STATUS get typed in."""
+    """ITEM | PAR | HAVE | NEED | STATUS  - only HAVE and STATUS get typed in.
+
+    par=None leaves the PAR box as a yellow fill-in (a new item with no par set yet).
+    """
     it = ws.cell(row=row, column=c0, value=name)
     it.font = f(9.5)
-    it.alignment = LFT
+    it.alignment = Alignment(horizontal="left", vertical="center", indent=1,
+                             shrink_to_fit=True)   # long drink names stay readable
 
     p = ws.cell(row=row, column=c0 + 1, value=par)
     p.number_format = f'0" {unit}"'
     p.font = f(9.5, True, "0000FF")
     p.alignment = CTR
+    if par is None:
+        p.fill = INPUT
 
     have = ws.cell(row=row, column=c0 + 2)
     have.fill = INPUT
@@ -199,7 +205,8 @@ def count_row(ws, row, c0, name, par, unit):
 
     hl, pl = L(c0 + 2), L(c0 + 1)
     need = ws.cell(row=row, column=c0 + 3,
-                   value=f'=IF({hl}{row}="","",MAX(0,{pl}{row}-{hl}{row}))')
+                   value=f'=IF(OR({pl}{row}="",{hl}{row}=""),"",'
+                         f'MAX(0,{pl}{row}-{hl}{row}))')
     need.font = f(9.5, True)
     need.alignment = CTR
 
@@ -217,7 +224,8 @@ def status_row(ws, row, c0, name):
     """ITEM | (no count) | STATUS - for garnish and dry goods."""
     it = ws.cell(row=row, column=c0, value=name)
     it.font = f(9.5)
-    it.alignment = LFT
+    it.alignment = Alignment(horizontal="left", vertical="center", indent=1,
+                             shrink_to_fit=True)
     dash = span(ws, row, c0 + 1, c0 + 3)
     dash.value = "-"
     dash.font = f(9, color="C2C8D2")
@@ -360,7 +368,7 @@ right_bottom = r
 side1_bottom = max(left_bottom, right_bottom)
 note(ws, side1_bottom, LEFT_C, LEFT_C + 4, BATCH_NOTE)
 note(ws, side1_bottom, RIGHT_C, RIGHT_C + 4,
-     "Anything LOW or 86 -> tell prep + a manager.", color=REDT)
+     "Blank PAR = new item, set its par.   LOW or 86 -> tell prep + a manager.", color=REDT)
 side1_bottom += 1
 turn = span(ws, side1_bottom, 1, LAST_C)
 turn.value = "TURN OVER  ->  SIDE 2:  BAR TOOLS, SET-UP & DAILY COMMUNICATION"
@@ -413,7 +421,8 @@ tool_start = r
 for name in TOOLS:
     it = ws.cell(row=r, column=LEFT_C, value=name)
     it.font = f(9.5)
-    it.alignment = LFT
+    it.alignment = Alignment(horizontal="left", vertical="center", indent=1,
+                             shrink_to_fit=True)
     par = ws.cell(row=r, column=LEFT_C + 1)
     par.fill = INPUT
     par.font = f(9.5, True, "0000FF")
