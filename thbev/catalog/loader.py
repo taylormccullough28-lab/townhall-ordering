@@ -341,6 +341,8 @@ def _load_products(doc: dict[str, Any]) -> dict[str, Product]:
             ),
             vendor_confidence=entry.get("vendor_confidence", "unconfirmed"),
             style=entry.get("style"),
+            named_sku=bool(entry.get("named_sku", False)),
+            alt_vendors=tuple(entry.get("alt_vendors", []) or []),
             notes=list(entry.get("notes", []) or []),
         )
     if not products:

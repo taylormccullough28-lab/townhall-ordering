@@ -58,10 +58,12 @@ def test_full_pipeline_from_source_to_vendor_output(fixtures_dir, catalog):
 
 
 def test_seed_vendor_calendar_matches_the_order_guide(seed_catalog):
-    """Six windows across four days. Missing one costs a week of that vendor."""
+    """Seven cutoffs across four days. Missing one costs a week of that vendor."""
     expected = {
         ("superior", "superior_sunday"): (6, "19:00", 0),
-        ("superior", "superior_thursday"): (3, "17:00", 4),
+        # Second window moved Thursday 5pm -> Wednesday 7pm (2026-09-21).
+        # Delivery day is unchanged, so cover math is unaffected.
+        ("superior", "superior_wednesday"): (2, "19:00", 4),
         ("columbus_distributing", "columbus_sunday"): (6, "19:00", 0),
         ("arena", "arena_sunday"): (6, "17:00", 0),
         ("arena", "arena_wednesday"): (2, "21:00", 3),

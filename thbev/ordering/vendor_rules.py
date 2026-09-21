@@ -67,8 +67,15 @@ def _apply_style_only(order: "VendorOrder") -> None:
     from .engine import StyleRecommendation
 
     rules = order.vendor.rules
-    total_units = sum(line.final_packs for line in order.lines)
-    styles = sorted({line.product.style for line in order.lines if line.product.style})
+    # A style-only vendor can still carry specific products. Those are ordered by
+    # name; only the rotating remainder collapses into a style-and-count.
+    named = [line for line in order.lines if line.product.named_sku]
+    rotating = [line for line in order.lines if not line.product.named_sku]
+    if not rotating:
+        order.lines = named
+        return
+    total_units = sum(line.final_packs for line in rotating)
+    styles = sorted({line.product.style for line in rotating if line.product.style})
     contact = order.vendor.contact.name if order.vendor.contact else "the rep"
     order.style_recommendations.append(
         StyleRecommendation(
@@ -77,14 +84,18 @@ def _apply_style_only(order: "VendorOrder") -> None:
             unit=rules.style_unit or "keg",
             styles=styles,
             ask=f"ask {contact} what's available",
-            reasoning=[line.reasoning for line in order.lines],
+            reasoning=[line.reasoning for line in rotating],
         )
     )
     order.notes.append(
         "Rotating line: no specific SKU is suggested. The count comes from forecast depletion; "
         "the styles are a preference, not an order."
     )
-    order.lines = []
+    if named:
+        order.notes.append(
+            "Named products below are ordered by SKU and are separate from the rotating count."
+        )
+    order.lines = named
 
 
 def _recommend_superior_window(

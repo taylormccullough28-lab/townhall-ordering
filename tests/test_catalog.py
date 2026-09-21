@@ -131,3 +131,37 @@ def test_effective_yield_applies_overpour(seed_catalog):
 
 def test_prep_ingredients_are_indirect_only(seed_catalog):
     assert seed_catalog.product("chinola").conversion is ConversionType.PREP_INGREDIENT
+
+
+class TestNamedSkusOnStyleOnlyVendors:
+    """Cavalier is style-only, but carries specific products too.
+
+    A named SKU must survive the rotating-line collapse, or the manager never
+    sees the product on the order sheet.
+    """
+
+    def test_named_sku_and_alt_vendors_load(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        bumble = catalog.products["fat_heads_bumble_berry"]
+        assert bumble.vendor == "cavalier"
+        assert bumble.named_sku is True
+        assert bumble.keg_size == "half_barrel"
+
+        pamp = catalog.products["pamplemousse"]
+        assert pamp.vendor == "cavalier"
+        assert pamp.alt_vendors == ("arena",)
+        assert pamp.named_sku is True
+
+    def test_superior_second_window_is_wednesday(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        keys = {w.key for w in catalog.vendors["superior"].windows}
+        assert "superior_wednesday" in keys
+        assert "superior_thursday" not in keys
+        wed = next(w for w in catalog.vendors["superior"].windows if w.key == "superior_wednesday")
+        assert wed.order_weekday == 2          # Wednesday
+        assert wed.delivery_weekday == 4       # Friday
+        assert str(wed.order_time).startswith("19:00")

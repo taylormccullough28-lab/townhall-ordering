@@ -154,6 +154,11 @@ class Product:
         order_critical: Whether this product is on the weekly count list.
         excluded_from_baseline: True for bottle-service SKUs, which are forecast
             from the events calendar instead of trailing sales.
+        named_sku: True for a specific product carried by an otherwise
+            style-only vendor. These survive the rotating-line collapse so the
+            manager still sees the product by name.
+        alt_vendors: Other vendors that can supply this product. Advisory only -
+            the order is still built against `vendor`.
     """
 
     key: str
@@ -173,6 +178,8 @@ class Product:
     max_order_units: float | None = None
     vendor_confidence: str = "unconfirmed"
     style: str | None = None
+    named_sku: bool = False
+    alt_vendors: tuple[str, ...] = ()
     notes: list[str] = field(default_factory=list)
 
 

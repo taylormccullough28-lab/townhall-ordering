@@ -189,9 +189,11 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 
 - **Arena Liquor** — output is an email body to arenaliquor@gmail.com. The system will not produce a text or call script for Arena. Gursev's number appears only under an "emergency" label.
 - **OYO Vodka** — always routes to Arena. Zack's contact is hidden unless the manager marks Arena out of stock.
-- **Sixth City and Cavalier** — rotating lines, no fixed SKUs. Output is a style-and-count recommendation ("4 × 1/6 bbl, sours and pale ales — ask Jenna what's available"), never a specific product.
+- **Sixth City and Cavalier** — rotating lines. Output is a style-and-count recommendation ("4 × 1/6 bbl, sours and pale ales — ask Jenna what's available"), never a specific product.
+- **Named SKUs on a style-only vendor** — a rotating vendor can still carry specific products. Any product flagged `named_sku` is ordered by name and **survives the rotating-line collapse**; only the remainder becomes a style-and-count. Cavalier currently carries two: Fat Head's Bumble Berry and Pamplemousse.
+- **Dual-sourced products** — a product may list `alt_vendors`. This is advisory: the order is still built against the primary vendor, and the alternate is surfaced as a note. Pamplemousse is sourced from Cavalier with Arena as the alternate — and Arena is email-only, so the fallback is an email, never a call.
 - **Southern Glazer's** — if the Tuesday order won't cover to next Tuesday, the system offers the Wednesday follow-up, flagged **"confirm with Bethany first — not guaranteed."**
-- **Superior Beverage** — two windows. The system picks Sunday-only or Sunday-plus-Thursday based on whether a four-day cover meaningfully reduces the order size.
+- **Superior Beverage** — two windows: Sunday 7pm for Monday, and **Wednesday 7pm for Friday** (moved from Thursday 5pm, confirmed 2026-09-21). The system picks Sunday-only or Sunday-plus-Wednesday based on whether a four-day cover meaningfully reduces the order size.
 - **Heidelberg** — delivery note "after 9am, hallway behind bar" appears on the receiving checklist.
 - **All keg vendors** — empty-keg return count is a required field before a delivery can be marked received.
 
@@ -269,6 +271,8 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 14. **How is a bottle-service forecast entered?** "Forecast from the events calendar" has no defined input. Currently wired to explicit booked-bottle counts per event day. Confirm that matches how bookings actually arrive.
 15. **What triggers the Southern Glazer's Wednesday follow-up?** "When Tuesday won't cover" is not a condition the engine can evaluate — with round-up-to-pack, an uncapped order always covers. Currently triggered by a real shortfall against a per-delivery cap, or a manager override.
 16. **Buyout per-head consumption rates.** The formula is specced; the rates are not. A buyout event currently raises rather than silently forecasting zero.
+17. **Does Cavalier's "1/6 bbl only" rule still hold?** Fat Head's Bumble Berry is carried as a **1/2 bbl** — confirmed by purchasing, 3 units at $169.99 in the 2026-07-20..08-28 window — which contradicts the standing rule in the order guide. Either the rule has exceptions or it is stale. The catalog currently models the product as it is actually bought.
+18. **What is Pamplemousse?** Confirmed as dual-sourced from Cavalier and Arena, but it appears nowhere in the purchase report, so its product type, container and pack size are unknown. Its catalog entry carries placeholder values and is explicitly marked not to forecast from until the real unit and cost are known.
 
 ## Timeline Considerations
 
@@ -387,11 +391,11 @@ Seed data for the scheduling engine. Source: `TH_ORDER_GUIDE.docx`.
 
 | Vendor | Order due | Delivers | Channel | Notes |
 |---|---|---|---|---|
-| Superior Beverage | Sun 7:00 PM | Mon | Phone — Shane (614) 306-4582 | Second window: Thu 5:00 PM → Fri |
+| Superior Beverage | Sun 7:00 PM | Mon | Phone — Shane (614) 306-4582 | Second window: **Wed 7:00 PM → Fri** |
 | The Columbus Dist. Co. | Sun 7:00 PM | Mon | Phone — Conner (937) 581-1234 | |
 | Arena Liquor | Sun 5:00 PM | Mon | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM |
 | Southern Glazer's of OH | Mon 4:00 PM | Tue | Phone — Bethany (740) 507-1973 | Wed follow-up → Fri possible, confirm first |
 | Sixth City Distributors | Mon 5:00 PM | Tue | Phone — Jenna Carelly (614) 301-4877 | Rotating 1/6 bbl only |
-| Cavalier Distributing | Mon 5:00 PM | Tue | Phone — Dan (614) 582-0014 | Rotating 1/6 bbl only |
+| Cavalier Distributing | Mon 5:00 PM | Tue | Phone — Dan (614) 582-0014 | Rotating 1/6 bbl, **plus named SKUs** |
 | Heidelberg / Wine Trends | Wed 5:00 PM | Thu PM | Phone — Tess Canby (740) 583-4555 | Deliver after 9am, hallway behind bar |
 | OYO Vodka | As needed | As needed | Phone — Zack (614) 981-9341 | **Order through Arena first** |

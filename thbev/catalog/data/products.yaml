@@ -263,6 +263,53 @@ products:
 # labelled unverified. Do not treat these amounts as house specs - PRD open
 # question 6 ("do cocktail recipes exist in writing?") is still open, and
 # spirit and prep forecasting is only as good as the answer.
+  # --- Named SKUs on otherwise style-only vendors -----------------------------
+  # Cavalier's standing rule is rotating 1/6 bbl only. These are specific products
+  # it also carries, confirmed by the operator 2026-09-21. Both carry named_sku so
+  # the rotating-line collapse does not swallow them into a style-and-count.
+
+  - key: fat_heads_bumble_berry
+    name: "Fat Head's Bumble Berry Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "CONFLICT TO RESOLVE: this is a 1/2 bbl, but Cavalier's vendor rule is
+         'stick to 1/6 kegs'. Purchasing confirms the 1/2 bbl - 3 units at
+         $169.99 over 2026-07-20..08-28. Either the 1/6-only rule has an
+         exception or the rule is stale."
+      - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL)."
+
+  - key: pamplemousse
+    name: Pamplemousse
+    category: unclassified
+    conversion: packaged
+    pack_size: 1
+    unit_label: unit
+    pack_label: unit
+    order_critical: true
+    vendor: cavalier
+    alt_vendors: ["arena"]
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "INCOMPLETE - do not forecast from this entry yet. Dual-sourced from
+         Cavalier and Arena, confirmed by the operator 2026-09-21."
+      - "UNKNOWN: product type, container and size. No 'pamplemousse' line
+         appears anywhere in the 2026-07-20..08-28 purchase report, so there is
+         no observed unit, pack size or cost to derive. conversion and pack_size
+         above are placeholders, not measurements."
+      - "Arena is email-only, so the alternate source is an email order, never a call."
+
+
 recipes:
   - key: passionpunch_margarita
     description: "UNVERIFIED placeholder spec - replace with the house build."

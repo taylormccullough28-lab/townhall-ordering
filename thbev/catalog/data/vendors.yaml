@@ -18,20 +18,20 @@ vendors:
       keg_return_required: true
       notes:
         - "Two windows. The engine compares a 7-day cover against a 4-day cover and
-           recommends the Thursday window only when it meaningfully reduces the order."
+           recommends the Wednesday window only when it meaningfully reduces the order."
     windows:
       - key: superior_sunday
         order_weekday: sunday
         order_time: "19:00"
         delivery_weekday: monday
         delivery_time: "09:00"
-      - key: superior_thursday
-        order_weekday: thursday
-        order_time: "17:00"
+      - key: superior_wednesday
+        order_weekday: wednesday
+        order_time: "19:00"
         delivery_weekday: friday
         delivery_time: "09:00"
-        optional: true
-        note: "Second window. Using it turns a 7-day cover into 4 days Mon->Fri."
+        note: "Second window, moved from Thursday 5pm to Wednesday 7pm (confirmed
+               2026-09-21). Using it turns a 7-day cover into 4 days Mon->Fri."
 
   - key: columbus_distributing
     name: The Columbus Distributing Co.
