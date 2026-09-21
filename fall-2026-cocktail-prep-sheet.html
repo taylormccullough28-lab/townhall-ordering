@@ -7,118 +7,79 @@
 <title>Fall 2026 Cocktail Prep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root {
     --paper:#FBF9F4; --surface:#FFFFFF; --field:#16170F; --field-ink:#FBF9F4;
-    --ink:#1B1C14; --ink-2:#51533F; --ink-3:#7E806C;
-    --rule:#DCD6C6; --rule-soft:#EDE9DE;
-    --olive:#5C6B43; --aqua:#4F817B; --clay:#9B3B26; --clay-soft:#F6E8E2;
-    --display:"Oswald","Haettenschweiler","Arial Narrow",sans-serif;
-    --body:"Source Sans 3","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --ink:#1B1C14; --ink-2:#4E5040; --ink-3:#7E806C;
+    --rule:#D8D2C2; --rule-soft:#EDE9DE;
+    --olive:#55643D; --aqua:#3F6F69; --clay:#96351F; --clay-soft:#F6E8E2;
+    --display:"Oswald","Arial Narrow",sans-serif;
+    --body:"Source Sans 3",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
-      --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
-      --rule:#35362C; --rule-soft:#262720;
-      --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
-    }
-  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
+    --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
+    --rule:#35362C; --rule-soft:#262720;
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; } }
   :root[data-theme="dark"] {
     --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
     --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
     --rule:#35362C; --rule-soft:#262720;
-    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
-  }
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; }
 
-  body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; -webkit-text-size-adjust: 100%; }
-  .wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 0 72px; }
-  h1,h2,h3,h4 { font-family: var(--display); font-weight: 500; letter-spacing: .01em; margin: 0; text-wrap: balance; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 14.5px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
+  h1,h2,h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
   p { margin: 0; }
-  ol, ul { margin: 0; padding-left: 1.15em; }
-  li { margin-bottom: 5px; }
-  .eyebrow { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+  ol { margin: 0; padding-left: 1.1em; }
+  li { margin-bottom: 3px; }
 
-  /* masthead */
-  .masthead { background: var(--field); color: var(--field-ink); margin-inline: -20px; padding: 34px 20px 28px; }
-  .masthead-in { max-width: 1020px; margin: 0 auto; }
-  .mark { font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: .34em; text-transform: uppercase; color: var(--field-ink); opacity: .82; }
-  .masthead h1 { font-size: clamp(30px, 6.4vw, 46px); font-weight: 600; text-transform: uppercase; letter-spacing: .015em; line-height: 1.04; margin-top: 10px; }
-  .masthead h1 .es { display: block; font-weight: 400; font-size: .54em; letter-spacing: .05em; opacity: .74; margin-top: 8px; }
-  .stamp { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .05em; color: var(--field-ink); opacity: .78; }
+  .masthead { background: var(--field); color: var(--field-ink); margin-inline: -20px; padding: 24px 20px 20px; }
+  .masthead-in { max-width: 960px; margin: 0 auto; }
+  .mark { font-family: var(--display); font-weight: 600; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .8; }
+  .masthead h1 { font-size: clamp(24px,5vw,34px); font-weight: 600; text-transform: uppercase; line-height: 1.05; margin-top: 7px; }
+  .masthead h1 .es { display: block; font-weight: 500; font-size: .52em; letter-spacing: .04em; opacity: .72; margin-top: 5px; }
+  .stamp { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 13px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; opacity: .78; }
 
-  .alert { border-left: 3px solid var(--clay); background: var(--clay-soft); color: var(--ink); padding: 13px 16px; margin-top: 26px; font-size: 13.5px; }
-  .alert b { color: var(--clay); font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+  h2 { font-size: 17px; text-transform: uppercase; letter-spacing: .08em; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin-top: 36px; }
+  h2 em { font-family: var(--body); font-style: italic; font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--ink-3); text-transform: none; }
 
-  section { margin-top: 48px; }
-  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 7px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-  .sec-head h2 { font-size: 21px; text-transform: uppercase; letter-spacing: .07em; }
-  .sec-head .es-head { font-family: var(--body); font-style: italic; font-size: 14px; color: var(--ink-3); }
-  .sec-note { color: var(--ink-2); font-size: 14px; margin-top: 12px; max-width: 66ch; }
+  .card { background: var(--surface); border: 1px solid var(--rule); margin-top: 14px; padding: 14px 16px 15px; }
+  .card-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--rule-soft); padding-bottom: 8px; }
+  .card-top h3 { font-size: 17px; text-transform: uppercase; letter-spacing: .02em; }
+  .card-top .es-name { font-style: italic; color: var(--ink-3); font-size: 13px; }
+  .facts { margin-left: auto; font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ink-2); white-space: nowrap; }
+  .tag { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--ink-3); color: var(--ink-3); padding: 1px 5px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 11px; }
 
-  /* prep components */
-  .batch { border-top: 1px solid var(--rule); padding-top: 18px; margin-top: 22px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 26px; }
-  .batch-id h3 { font-size: 18px; text-transform: uppercase; letter-spacing: .03em; }
-  .batch-id .es-name { font-style: italic; color: var(--ink-3); font-size: 14px; margin-top: 2px; }
-  .batch-facts { font-family: var(--mono); font-size: 11.5px; line-height: 1.85; margin-top: 12px; color: var(--ink-2); }
-  .batch-facts span { color: var(--ink-3); display: inline-block; min-width: 74px; }
-  .batch-facts b { color: var(--ink); font-weight: 500; }
-  .batch-body h4, .steps h4 { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--olive); margin-bottom: 6px; }
-  .batch-body ol { font-size: 14px; }
-  .batch-es { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); }
-  .batch-es h4 { color: var(--aqua); }
-
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .scroll { overflow-x: auto; }
-  th { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 0 10px 6px 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
-  td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
-  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; width: 1%; }
-  .ing-es { display: block; font-style: italic; font-size: 12.5px; color: var(--ink-3); }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 0 8px 4px 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; width: 1%; text-align: right; }
+  .es-i { display: block; font-style: italic; font-size: 12px; color: var(--ink-3); }
+  h4 { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--olive); margin: 0 0 5px; }
+  .es h4 { color: var(--aqua); }
+  .steps ol { font-size: 13px; }
 
-  /* cocktail spec cards */
-  .spec { background: var(--surface); border: 1px solid var(--rule); margin-top: 22px; }
-  .spec-head { background: var(--field); color: var(--field-ink); padding: 16px 20px 15px; }
-  .spec-head .eyebrow { color: var(--field-ink); opacity: .7; }
-  .spec-head h3 { font-size: 25px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; margin-top: 5px; }
-  .spec-head .tagline { font-size: 13.5px; opacity: .8; margin-top: 3px; }
-  .spec-meta { display: flex; flex-wrap: wrap; gap: 6px 26px; margin-top: 13px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; }
-  .spec-meta div { color: var(--field-ink); }
-  .spec-meta span { opacity: .6; }
-  .spec-body { padding: 18px 20px 20px; }
-  .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); }
-  .steps ol { font-size: 13.5px; }
-  .steps .es h4 { color: var(--aqua); }
-  .garnish { margin-top: 10px; font-size: 13px; color: var(--ink-2); }
-  .garnish b { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; }
-  .flag { margin-top: 16px; border-left: 3px solid var(--clay); padding: 9px 14px; background: var(--clay-soft); font-size: 13px; }
-  .flag b { color: var(--clay); font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
-  .zero .spec-head { background: var(--olive); }
+  .flag { margin-top: 10px; border-left: 3px solid var(--clay); background: var(--clay-soft); padding: 7px 11px; font-size: 12.5px; }
+  .flag b { color: var(--clay); font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; }
+  .build-note { font-size: 12.5px; color: var(--ink-2); margin-top: 9px; }
+  .signoff { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 18px; }
+  .sig { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--ink-3); }
+  .sig .line { border-bottom: 1px solid var(--rule); height: 26px; margin-bottom: 5px; }
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 11.5px; color: var(--ink-3); }
 
-  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 18px; }
-  .rules h4 { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; color: var(--olive); }
-  .rules .es h4 { color: var(--aqua); }
-  .rules li { font-size: 13.5px; }
-
-  .signoff { margin-top: 44px; border-top: 2px solid var(--ink); padding-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
-  .sig { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink-3); }
-  .sig .line { border-bottom: 1px solid var(--rule); height: 30px; margin-bottom: 6px; }
-  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-3); }
-
-  @media (max-width: 760px) {
-    .batch, .steps, .rules { grid-template-columns: 1fr; gap: 16px; }
-    .spec-head h3 { font-size: 21px; }
-  }
-
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; gap: 12px; } .facts { margin-left: 0; white-space: normal; } }
   @media print {
-    :root { --paper:#fff; --surface:#fff; --field:#16170F; --field-ink:#fff; --ink:#000; --ink-2:#333; --ink-3:#555; --rule:#bbb; --rule-soft:#ddd; --clay-soft:#f4f4f4; }
-    body { font-size: 10.5pt; }
-    .wrap { max-width: none; padding-block: 0 0; }
-    .masthead, .spec-head { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .spec, .batch, section { break-inside: avoid; page-break-inside: avoid; }
-    section { margin-top: 26px; }
-    .no-print { display: none; }
+    :root { --paper:#fff; --surface:#fff; --ink:#000; --ink-2:#333; --ink-3:#555; --rule:#bbb; --rule-soft:#ddd; --clay-soft:#f2f2f2; }
+    body { font-size: 9.5pt; }
+    .wrap { max-width: none; padding-block: 0; }
+    .masthead { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card, h2 { break-inside: avoid; page-break-inside: avoid; }
+    h2 { margin-top: 20px; }
   }
 </style>
 
@@ -129,693 +90,411 @@
   <header class="masthead">
     <div class="masthead-in">
       <div class="mark">TownHall</div>
-      <h1>Fall 2026 Cocktail Prep Sheet
-        <span class="es">Hoja de Preparación · Cócteles Otoño 2026</span>
+      <h1>Fall 2026 Cocktail Prep
+        <span class="es">Preparación · Cócteles Otoño 2026</span>
       </h1>
       <div class="stamp">
-        <div>EFFECTIVE / VIGENTE: 09.2026</div>
-        <div>STATION / ESTACIÓN: BAR</div>
-        <div>REV: DRAFT 03</div>
-        <div>4 NEW BUILDS · 9 PREPPED COMPONENTS</div>
+        <div>BAR · 09.2026</div>
+        <div>9 COMPONENTS / COMPONENTES</div>
+        <div>4 COCKTAILS / CÓCTELES</div>
+        <div>REV 04</div>
       </div>
     </div>
   </header>
 
-  <div class="alert">
-    <b>Pours are proposed — confirm before printing / Medidas propuestas — confirmar antes de imprimir</b>
-    The four cocktails and their ingredients are confirmed. The <em>quantities</em>, infusion times and brand calls below are
-    proposed by build and still need the bar lead's taste-test and sign-off. Section 5 lists what has to be answered first.
-    <span lang="es"><em>Los cuatro cócteles y sus ingredientes están confirmados. Las cantidades, tiempos de infusión y marcas
-    son propuestas y requieren la prueba y aprobación del encargado de barra. La Sección 5 indica qué falta definir.</em></span>
+  <h2>Prep <em>· Preparar</em></h2>
+
+  <div class="card">
+    <div class="card-top">
+      <h3>A · Chai Hard Biz</h3>
+      <div class="es-name">Base «Chai Hard»</div>
+      <div class="facts">1X = 112.5 fl oz · 60 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Masala chai tea, loose<span class="es-i">Té masala chai en hoja</span></td><td class="num">60</td><td>Grams</td></tr>
+            <tr><td>Tito's vodka<span class="es-i">Vodka Tito's</span></td><td class="num">100</td><td>Fl Oz</td></tr>
+            <tr><td>Hazelnut liqueur (Frangelico / Fratello)<span class="es-i">Licor de avellana</span></td><td class="num">12.5</td><td>Fl Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Infuse vodka + chai <b>45 min</b>. Set a timer.</li>
+          <li>Strain out all leaf.</li>
+          <li>Add hazelnut liqueur.</li>
+          <li>Bottle, label, date.</li>
+        </ol>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
+          <ol>
+            <li>Infusione vodka + chai <b>45 min</b>. Use temporizador.</li>
+            <li>Cuele toda la hoja.</li>
+            <li>Agregue el licor de avellana.</li>
+            <li>Embotelle, etiquete, feche.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <p class="flag"><b>Nut / Nuez</b> — Hazelnut is in the batch. Label CONTAINS HAZELNUT. Over 45 min = bitter = dump it.
+    <span lang="es"><em>La avellana va en el lote. Etiquete CONTIENE AVELLANA. Más de 45 min = amargo = se desecha.</em></span></p>
   </div>
 
-  <section>
-    <div class="sec-head">
-      <h2>How to use this sheet</h2>
-      <div class="es-head">Cómo usar esta hoja</div>
+  <div class="card">
+    <div class="card-top">
+      <h3>B · Pecan Brown Sugar Simple</h3>
+      <div class="es-name">Jarabe de azúcar moreno y pecana</div>
+      <div class="facts">yield TBD · 7 days</div>
     </div>
-    <div class="rules">
-      <div>
-        <h4>English</h4>
-        <ul>
-          <li><b>Section 1</b> is everything that must exist before a ticket lands — the Chai Hard biz, the syrups, brewed chai, strawberry purée, saline. Start the infusions 48 hours out.</li>
-          <li><b>Section 2</b> is the build. Pours are the same in any language: read the ounce column, confirm against millilitres.</li>
-          <li>Taste every batch before service. Adjust with citrus, never with water.</li>
-          <li>Label every container: product, date made, use-by, initials. FIFO — oldest first.</li>
-          <li>Component out means the drink is 86'd. No substitutions without the bar lead.</li>
-        </ul>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Dark brown sugar<span class="es-i">Azúcar moreno oscuro</span></td><td class="num">64</td><td>Oz</td></tr>
+            <tr><td>RO water<span class="es-i">Agua de ósmosis inversa</span></td><td class="num">64</td><td>Fl Oz</td></tr>
+            <tr><td>Pecans, whole<span class="es-i">Nueces pecanas enteras</span></td><td class="num">175</td><td>Grams</td></tr>
+            <tr><td>Frontier pumpkin pie spice<span class="es-i">Especia de calabaza Frontier</span></td><td class="num">24</td><td>Grams</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="es" lang="es">
-        <h4>Español</h4>
-        <ul>
-          <li>La <b>Sección 1</b> es todo lo que debe existir antes del primer ticket: tres infusiones, tres jarabes, té chai, puré de fresa y salmuera. Comience las infusiones 48 horas antes.</li>
-          <li>La <b>Sección 2</b> es el armado. Las medidas son iguales en cualquier idioma: lea la columna de onzas y confirme en la de mililitros.</li>
-          <li>Pruebe cada lote antes del servicio. Ajuste con cítrico, nunca con agua.</li>
-          <li>Etiquete cada recipiente: producto, fecha de elaboración, caducidad e iniciales. PEPS — lo más viejo primero.</li>
-          <li>Si falta un componente, se cancela (86) el cóctel. No se sustituye nada sin el encargado de barra.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>1 · Components to prep</h2>
-      <div class="es-head">Componentes a preparar</div>
-    </div>
-    <p class="sec-note">Order of operations: infusions first (they take 2–48 hours), then syrups, then day-of items. All syrups cool to 40°F / 4°C before they go in a labeled container.</p>
-
-    <div class="batch">
-      <div class="batch-id">
-        <h3>A · Chai Hard Biz</h3>
-        <div class="es-name">Base preparada «Chai Hard»</div>
-        <div class="batch-facts">
-          <div><span>YIELD 1X</span><b>112.5 fl oz</b></div>
-          <div><span>SCALES</span><b>¼X – 5X</b></div>
-          <div><span>INFUSION</span><b>45 minutes</b></div>
-          <div><span>USED IN</span><b>01 Chai Hard</b></div>
-        </div>
-        <div class="scroll" style="margin-top:14px;">
-          <table>
-            <thead><tr><th>1X batch / Lote 1X</th><th>Qty</th><th>Unit</th></tr></thead>
-            <tbody>
-              <tr><td>Masala chai tea, loose<span class="ing-es">Té masala chai en hoja</span></td><td class="num">60</td><td>Grams</td></tr>
-              <tr><td>Tito's vodka<span class="ing-es">Vodka Tito's</span></td><td class="num">100</td><td>Fl Oz</td></tr>
-              <tr><td>Hazelnut liqueur — Frangelico or Fratello<span class="ing-es">Licor de avellana — Frangelico o Fratello</span></td><td class="num">12.5</td><td>Fl Oz</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="batch-body">
-        <h4>Method</h4>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
         <ol>
-          <li>Combine the Tito's and the loose masala chai. Infuse <b>45 minutes</b>.</li>
-          <li>Strain through a fine strainer — pull every bit of leaf out.</li>
-          <li>Add the hazelnut liqueur to the strained mixture.</li>
-          <li>Bottle, label and date.</li>
-          <li><b>45 minutes is the spec, not a minimum.</b> Set a timer. Left longer, the tea tannin takes over and the batch turns bitter and dry — there is no fixing it.</li>
+          <li>Toast pecans 8 min @ 350°F.</li>
+          <li>Heat water, dissolve sugar. No hard boil.</li>
+          <li>Add pecans + spice. Steep 30 min off heat.</li>
+          <li>Strain twice: chinois, then cheesecloth.</li>
+          <li>Cool, label, date, mark CONTAINS PECAN.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos <span class="tag">Propuesto</span></h4>
           <ol>
-            <li>Combine el vodka Tito's con el té masala chai en hoja. Infusione <b>45 minutos</b>.</li>
-            <li>Cuele por colador fino — retire toda la hoja.</li>
-            <li>Agregue el licor de avellana a la mezcla colada.</li>
-            <li>Embotelle, etiquete y feche.</li>
-            <li><b>45 minutos es la medida exacta, no un mínimo.</b> Use temporizador. Más tiempo y el tanino del té domina: el lote queda amargo y seco, y no tiene arreglo.</li>
-          </ol>
-        </div>
-        <p class="flag"><b>Allergen / Alérgeno</b> — The hazelnut liqueur is batched into this biz, so <b>the batch itself contains tree nut</b>. Mark the container CONTAINS HAZELNUT.
-        <span lang="es"><em>El licor de avellana va dentro de esta base, así que <b>el lote contiene fruto seco</b>. Marque el recipiente CONTIENE AVELLANA.</em></span></p>
-      </div>
-    </div>
-
-    <div class="batch">
-      <div class="batch-id">
-        <h3>B · Inca Spiced Berry Vanilla Vodka</h3>
-        <div class="es-name">Vodka de vainilla con bayas incas especiadas</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>750 ml</b></div>
-          <div><span>TIME</span><b>48 hours</b></div>
-          <div><span>HOLD</span><b>60 days</b></div>
-          <div><span>USED IN</span><b>02 Sweetheart</b></div>
-        </div>
-      </div>
-      <div class="batch-body">
-        <h4>Method</h4>
-        <ol>
-          <li>To 750 ml vanilla vodka add 1 cup dried Inca berries (golden berries), 1 cinnamon stick, 2 cloves, 1 star anise.</li>
-          <li>Seal and infuse 48 hours at room temperature, out of direct light. Shake once a day.</li>
-          <li>Taste at 24 hours — if the clove is pushing forward, pull the spices early and leave the berries.</li>
-          <li>Strain, re-bottle, label and date.</li>
-        </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
-          <ol>
-            <li>A 750 ml de vodka de vainilla agregue 1 taza de uchuva (aguaymanto) deshidratada, 1 raja de canela, 2 clavos y 1 anís estrellado.</li>
-            <li>Selle e infusione 48 horas a temperatura ambiente, sin luz directa. Agite una vez al día.</li>
-            <li>Pruebe a las 24 horas — si el clavo domina, retire las especias antes y deje las bayas.</li>
-            <li>Cuele, re-embotelle, etiquete y feche.</li>
+            <li>Tueste las pecanas 8 min a 175°C.</li>
+            <li>Caliente el agua, disuelva el azúcar. Sin hervir fuerte.</li>
+            <li>Agregue pecanas + especia. Infusione 30 min fuera del fuego.</li>
+            <li>Cuele dos veces: colador chino y manta de cielo.</li>
+            <li>Enfríe, etiquete, feche, marque CONTIENE PECANA.</li>
           </ol>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="batch">
-      <div class="batch-id">
-        <h3>C · Blood Orange Gin</h3>
-        <div class="es-name">Ginebra infusionada con naranja sanguina</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>750 ml</b></div>
-          <div><span>TIME</span><b>24 hours</b></div>
-          <div><span>HOLD</span><b>30 days</b></div>
-          <div><span>USED IN</span><b>03 Channel Orange</b></div>
-        </div>
-      </div>
-      <div class="batch-body">
-        <h4>Method</h4>
-        <ol>
-          <li>Peel 3 blood oranges wide, avoiding the white pith — pith turns it bitter. Segment the fruit.</li>
-          <li>Add peel and segments to 750 ml gin. Infuse 24 hours refrigerated.</li>
-          <li>Strain, re-bottle, label and date. Colour fades with light — store in the well, not on the back bar.</li>
-        </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
-          <ol>
-            <li>Pele 3 naranjas sanguinas en tiras anchas, evitando la parte blanca — amarga. Separe los gajos.</li>
-            <li>Agregue cáscara y gajos a 750 ml de ginebra. Infusione 24 horas en refrigeración.</li>
-            <li>Cuele, re-embotelle, etiquete y feche. El color se pierde con la luz — guarde en la estación, no en la barra trasera.</li>
-          </ol>
-        </div>
-        <p class="garnish"><b>Note / Nota</b>Skip this component entirely if the bar is buying a bottled blood orange gin — see Section 5. <span lang="es"><em>Omita este componente si se compra ginebra de naranja sanguina embotellada — ver Sección 5.</em></span></p>
-      </div>
+  <div class="card">
+    <div class="card-top">
+      <h3>C · Inca Berry Vanilla Vodka</h3>
+      <div class="es-name">Vodka de vainilla con bayas incas</div>
+      <div class="facts"><span class="tag">Proposed</span> 750 ml · 60 days</div>
     </div>
-
-    <div class="batch">
-      <div class="batch-id">
-        <h3>D · Pecan Brown Sugar Simple</h3>
-        <div class="es-name">Jarabe simple de azúcar moreno y pecana</div>
-        <div class="batch-facts">
-          <div><span>YIELD 1X</span><b>not set — see §5</b></div>
-          <div><span>SCALES</span><b>¼X – 5X</b></div>
-          <div><span>HOLD</span><b>7 days · 40°F</b></div>
-          <div><span>USED IN</span><b>01 Chai Hard</b></div>
-        </div>
-        <div class="scroll" style="margin-top:14px;">
-          <table>
-            <thead><tr><th>1X batch / Lote 1X</th><th>Qty</th><th>Unit</th></tr></thead>
-            <tbody>
-              <tr><td>Dark brown sugar<span class="ing-es">Azúcar moreno oscuro</span></td><td class="num">64</td><td>Oz</td></tr>
-              <tr><td>RO water<span class="ing-es">Agua por ósmosis inversa</span></td><td class="num">64</td><td>Fl Oz</td></tr>
-              <tr><td>Pecans, whole<span class="ing-es">Nueces pecanas enteras</span></td><td class="num">175</td><td>Grams</td></tr>
-              <tr><td>Frontier Co-op pumpkin pie spice<span class="ing-es">Especia para pay de calabaza Frontier Co-op</span></td><td class="num">24</td><td>Grams</td></tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Vanilla vodka<span class="es-i">Vodka de vainilla</span></td><td class="num">750</td><td>ml</td></tr>
+            <tr><td>Dried Inca berries<span class="es-i">Uchuva deshidratada</span></td><td class="num">1</td><td>Cup</td></tr>
+            <tr><td>Cinnamon stick / cloves / star anise<span class="es-i">Canela / clavo / anís estrellado</span></td><td class="num">1 / 2 / 1</td><td>ea</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="batch-body">
-        <h4>Method — proposed, awaiting the written steps</h4>
+      <div class="steps">
+        <h4>Steps</h4>
         <ol>
-          <li>Toast the whole pecans dry, 8 min at 350°F / 175°C, until they smell nutty. Do not walk away from them.</li>
-          <li>Heat the RO water and dissolve the dark brown sugar fully — whisk, do not boil hard.</li>
-          <li>Add the toasted pecans and the pumpkin pie spice. Steep 30 minutes off heat.</li>
-          <li>Strain through a chinois, then again through cheesecloth. The spice sediment will clog a pour spout if it only goes through once.</li>
-          <li>Cool, label, date, and mark the container <b>CONTAINS PECAN</b>.</li>
+          <li>Combine, seal, infuse 48 h at room temp.</li>
+          <li>Shake once a day, keep out of light.</li>
+          <li>Strain, bottle, label, date.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método — propuesto, pendiente de los pasos oficiales</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
           <ol>
-            <li>Tueste las pecanas enteras en seco, 8 min a 175°C / 350°F, hasta que huelan a nuez. No se aleje.</li>
-            <li>Caliente el agua y disuelva por completo el azúcar moreno — bata, sin hervir fuerte.</li>
-            <li>Agregue las pecanas tostadas y la especia de calabaza. Infusione 30 minutos fuera del fuego.</li>
-            <li>Cuele por colador chino y después por manta de cielo. El sedimento de la especia tapa el pico vertedor si solo se cuela una vez.</li>
-            <li>Enfríe, etiquete, feche y marque el recipiente <b>CONTIENE NUEZ PECANA</b>.</li>
-          </ol>
-        </div>
-        <p class="flag"><b>Confirm / Confirmar</b> — The written method and the 1X yield are blank in the recipe app. The steps above are proposed so the sheet is usable; replace them with the official ones.
-        <span lang="es"><em>El método escrito y el rendimiento 1X están vacíos en la aplicación. Los pasos de arriba son propuestos para que la hoja sirva; reemplácelos con los oficiales.</em></span></p>
-      </div>
-    </div>
-
-    <div class="batch">
-      <div class="batch-id">
-        <h3>E · Pear Syrup</h3>
-        <div class="es-name">Jarabe de pera</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>~1 qt / 950 ml</b></div>
-          <div><span>HOLD</span><b>10 days · 40°F</b></div>
-          <div><span>USED IN</span><b>03 Channel Orange</b></div>
-          <div><span>BATCH</span><b>Mon + Thu</b></div>
-        </div>
-      </div>
-      <div class="batch-body">
-        <h4>Method</h4>
-        <ol>
-          <li>Warm 2 cups pear purée, 2 cups cane sugar and 1 cup water to 160°F / 71°C. Do not boil.</li>
-          <li>Hold 10 minutes, whisking until the sugar is fully dissolved.</li>
-          <li>Fine strain, cool, label and date.</li>
-        </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
-          <ol>
-            <li>Caliente 2 tazas de puré de pera, 2 tazas de azúcar de caña y 1 taza de agua a 71°C / 160°F. No hierva.</li>
-            <li>Mantenga 10 minutos, batiendo hasta disolver el azúcar por completo.</li>
-            <li>Cuele fino, enfríe, etiquete y feche.</li>
+            <li>Combine, selle, infusione 48 h a temperatura ambiente.</li>
+            <li>Agite una vez al día, sin luz directa.</li>
+            <li>Cuele, embotelle, etiquete, feche.</li>
           </ol>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="batch">
-      <div class="batch-id">
-        <h3>F · Cranberry Allulose Syrup</h3>
-        <div class="es-name">Jarabe de arándano rojo con alulosa</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>~1.5 qt / 1.4 L</b></div>
-          <div><span>HOLD</span><b>7 days · 40°F</b></div>
-          <div><span>USED IN</span><b>04 Scarlett Spritz</b></div>
-          <div><span>BATCH</span><b>Mon + Thu</b></div>
-        </div>
+  <div class="card">
+    <div class="card-top">
+      <h3>D · Blood Orange Gin</h3>
+      <div class="es-name">Ginebra de naranja sanguina</div>
+      <div class="facts"><span class="tag">Proposed</span> 750 ml · 30 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Gin<span class="es-i">Ginebra</span></td><td class="num">750</td><td>ml</td></tr>
+            <tr><td>Blood oranges — peel + segments<span class="es-i">Naranja sanguina — cáscara y gajos</span></td><td class="num">3</td><td>ea</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="batch-body">
-        <h4>Method</h4>
+      <div class="steps">
+        <h4>Steps</h4>
         <ol>
-          <li>Simmer 1 lb fresh cranberries, 2 cups allulose and 2 cups water for 12 minutes, until the berries burst.</li>
-          <li>Fine strain. Let it drip — do not press the pulp or it goes cloudy.</li>
-          <li>Cool, label and date.</li>
-          <li><b>Seven days, not fourteen.</b> Allulose does not preserve a syrup the way cane sugar does, so this one turns faster than a standard syrup. Smell it every service.</li>
+          <li>Peel wide, no white pith — pith = bitter.</li>
+          <li>Infuse 24 h refrigerated.</li>
+          <li>Strain, bottle, label, date. Store out of light.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
           <ol>
-            <li>Hierva a fuego lento 450 g de arándanos rojos frescos, 2 tazas de alulosa y 2 tazas de agua por 12 minutos, hasta que revienten.</li>
-            <li>Cuele fino. Deje escurrir — no presione la pulpa o queda turbio.</li>
-            <li>Enfríe, etiquete y feche.</li>
-            <li><b>Siete días, no catorce.</b> La alulosa no conserva como el azúcar de caña, así que este jarabe se echa a perder más rápido. Huélalo en cada servicio.</li>
+            <li>Pele en tiras anchas, sin parte blanca — amarga.</li>
+            <li>Infusione 24 h en refrigeración.</li>
+            <li>Cuele, embotelle, etiquete, feche. Guarde sin luz.</li>
           </ol>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="batch">
-      <div class="batch-id">
-        <h3>G · Brewed Chai Tea</h3>
-        <div class="es-name">Té chai preparado</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>1 qt / 950 ml</b></div>
-          <div><span>HOLD</span><b>3 days · 40°F</b></div>
-          <div><span>USED IN</span><b>03 Channel Orange</b></div>
-          <div><span>BATCH</span><b>Every other day</b></div>
-        </div>
+  <div class="card">
+    <div class="card-top">
+      <h3>E · Pear Syrup</h3>
+      <div class="es-name">Jarabe de pera</div>
+      <div class="facts"><span class="tag">Proposed</span> 1 qt · 10 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Pear purée<span class="es-i">Puré de pera</span></td><td class="num">2</td><td>Cups</td></tr>
+            <tr><td>Cane sugar<span class="es-i">Azúcar de caña</span></td><td class="num">2</td><td>Cups</td></tr>
+            <tr><td>Water<span class="es-i">Agua</span></td><td class="num">1</td><td>Cup</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="batch-body">
-        <h4>Method</h4>
+      <div class="steps">
+        <h4>Steps</h4>
         <ol>
-          <li>Steep 4 chai tea bags in 1 quart of water at 200°F / 93°C for exactly 5 minutes. Set a timer.</li>
-          <li>Pull the bags — do not squeeze them, that is where the bitterness comes from.</li>
-          <li>Cool to 40°F / 4°C before it goes on the rail. Label and date.</li>
-          <li>Unsweetened. The sugar in this drink comes from the pear syrup.</li>
+          <li>Warm to 160°F. Do not boil.</li>
+          <li>Whisk 10 min until sugar fully dissolves.</li>
+          <li>Fine strain, cool, label, date.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
           <ol>
-            <li>Infusione 4 bolsas de té chai en 1 litro de agua a 93°C / 200°F por exactamente 5 minutos. Use temporizador.</li>
-            <li>Retire las bolsas — no las exprima, de ahí viene el amargor.</li>
-            <li>Enfríe a 4°C / 40°F antes de llevarlo a la estación. Etiquete y feche.</li>
-            <li>Sin azúcar. El dulzor de este cóctel viene del jarabe de pera.</li>
+            <li>Caliente a 71°C. No hierva.</li>
+            <li>Bata 10 min hasta disolver el azúcar.</li>
+            <li>Cuele fino, enfríe, etiquete, feche.</li>
           </ol>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="batch">
-      <div class="batch-id">
-        <h3>H · Strawberry Purée</h3>
-        <div class="es-name">Puré de fresa</div>
-        <div class="batch-facts">
-          <div><span>YIELD</span><b>~24 oz / 710 ml</b></div>
-          <div><span>HOLD</span><b>2 days · 40°F</b></div>
-          <div><span>USED IN</span><b>02 Sweetheart</b></div>
-          <div><span>BATCH</span><b>Daily</b></div>
-        </div>
+  <div class="card">
+    <div class="card-top">
+      <h3>F · Cranberry Allulose Syrup</h3>
+      <div class="es-name">Jarabe de arándano con alulosa</div>
+      <div class="facts"><span class="tag">Proposed</span> 1.5 qt · 7 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Fresh cranberries<span class="es-i">Arándanos rojos frescos</span></td><td class="num">1</td><td>lb</td></tr>
+            <tr><td>Allulose<span class="es-i">Alulosa</span></td><td class="num">2</td><td>Cups</td></tr>
+            <tr><td>Water<span class="es-i">Agua</span></td><td class="num">2</td><td>Cups</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="batch-body">
-        <h4>Method</h4>
+      <div class="steps">
+        <h4>Steps</h4>
         <ol>
-          <li>Hull 2 lb ripe strawberries. Blend smooth with no water and no sugar.</li>
-          <li>Fine strain to pull the seeds — seeds float in the glass and read as sloppy.</li>
-          <li>Label and date. Two days maximum; it ferments fast and you will smell it before you taste it.</li>
+          <li>Simmer 12 min until berries burst.</li>
+          <li>Fine strain. Let it drip — do not press.</li>
+          <li>Cool, label, date.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
           <ol>
-            <li>Quite el cabito a 900 g de fresas maduras. Licúe sin agua y sin azúcar.</li>
-            <li>Cuele fino para retirar las semillas — flotan en la copa y se ve descuidado.</li>
-            <li>Etiquete y feche. Máximo dos días; fermenta rápido y se huele antes de probarse.</li>
+            <li>Hierva a fuego lento 12 min hasta que revienten.</li>
+            <li>Cuele fino. Deje escurrir — no presione.</li>
+            <li>Enfríe, etiquete, feche.</li>
           </ol>
         </div>
       </div>
     </div>
+    <p class="flag"><b>7 days / 7 días</b> — Allulose spoils faster than sugar. Smell it every shift.
+    <span lang="es"><em>La alulosa se echa a perder más rápido que el azúcar. Huélalo cada turno.</em></span></p>
+  </div>
 
-    <div class="batch">
-      <div class="batch-id">
-        <h3>I · Pink Salt Saline &amp; Day-Of Items</h3>
-        <div class="es-name">Salmuera de sal rosa y preparación del día</div>
-        <div class="batch-facts">
-          <div><span>SALINE</span><b>30 days</b></div>
-          <div><span>CITRUS</span><b>24 hours</b></div>
-          <div><span>USED IN</span><b>All builds</b></div>
-          <div><span>BATCH</span><b>Daily, pre-shift</b></div>
-        </div>
+  <div class="card">
+    <div class="card-top">
+      <h3>G · Chai Tea, brewed</h3>
+      <div class="es-name">Té chai preparado</div>
+      <div class="facts"><span class="tag">Proposed</span> 1 qt · 3 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Chai tea bags<span class="es-i">Bolsas de té chai</span></td><td class="num">4</td><td>ea</td></tr>
+            <tr><td>Water @ 200°F<span class="es-i">Agua a 93°C</span></td><td class="num">1</td><td>Qt</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="batch-body">
-        <h4>Method</h4>
+      <div class="steps">
+        <h4>Steps</h4>
         <ol>
-          <li><b>Pink salt saline:</b> dissolve 20 g pink Himalayan salt in 80 g warm water. Cool, into a dasher bottle, label. Three drops season a spritz — a pinch of dry salt does not dissolve in a cold drink and lands as grit.</li>
-          <li><b>Citrus:</b> juice lemon fresh each morning. 24 hours from the press, then it is gone.</li>
-          <li><b>Espresso:</b> pulled to order only. Never batched, never held — see Section 4.</li>
-          <li><b>Garnish:</b> dehydrate blood orange wheels 2 h at 135°F / 57°C. Rinse rosemary and dry fully. Fan strawberries to order.</li>
+          <li>Steep exactly 5 min. Timer.</li>
+          <li>Pull bags — do not squeeze.</li>
+          <li>Chill to 40°F. Unsweetened. Label, date.</li>
         </ol>
-        <div class="batch-es" lang="es">
-          <h4>Método</h4>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
           <ol>
-            <li><b>Salmuera de sal rosa:</b> disuelva 20 g de sal rosa del Himalaya en 80 g de agua tibia. Enfríe, pase a un gotero y etiquete. Tres gotas sazonan un spritz — la sal seca no se disuelve en frío y se siente arenosa.</li>
-            <li><b>Cítricos:</b> exprima limón amarillo cada mañana. 24 horas desde que se exprime y se desecha.</li>
-            <li><b>Espresso:</b> solo al momento. Nunca en lote, nunca guardado — ver Sección 4.</li>
-            <li><b>Guarniciones:</b> deshidrate rodajas de naranja sanguina 2 h a 57°C / 135°F. Lave el romero y séquelo bien. Haga el abanico de fresa al momento.</li>
+            <li>Infusione exactamente 5 min. Temporizador.</li>
+            <li>Retire las bolsas — no las exprima.</li>
+            <li>Enfríe a 4°C. Sin azúcar. Etiquete, feche.</li>
           </ol>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <div class="sec-head">
-      <h2>2 · Cocktails to be prepped · New</h2>
-      <div class="es-head">Cócteles a preparar · Nuevos</div>
+  <div class="card">
+    <div class="card-top">
+      <h3>H · Strawberry Purée</h3>
+      <div class="es-name">Puré de fresa</div>
+      <div class="facts"><span class="tag">Proposed</span> 24 oz · 2 days</div>
     </div>
-    <p class="sec-note">Shake 12 seconds hard on fresh ice — 15 on the Chai Hard, it needs the foam. Every shaken build gets a double strain: Hawthorne plus fine mesh.</p>
-
-    <article class="spec">
-      <div class="spec-head">
-        <div class="eyebrow">01 · Chai Hard biz + espresso</div>
-        <h3>Chai Hard</h3>
-        <div class="tagline">Chai Hard biz, pecan brown sugar simple, fresh espresso</div>
-        <div class="spec-meta">
-          <div><span>GLASS /</span> Coupe, chilled · copa fría</div>
-          <div><span>ICE /</span> None, served up · sin hielo</div>
-          <div><span>METHOD /</span> Shake hard · agitar fuerte</div>
-        </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Ripe strawberries, hulled<span class="es-i">Fresas maduras, sin cabito</span></td><td class="num">2</td><td>lb</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="spec-body">
-        <div class="scroll">
-          <table>
-            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
-            <tbody>
-              <tr><td>Chai Hard biz <b>(A)</b> — vodka, chai, hazelnut, pre-batched<span class="ing-es">Base «Chai Hard» (A) — vodka, chai y avellana, ya mezclados</span></td><td class="num">2.00</td><td class="num">60</td></tr>
-              <tr><td>Pecan brown sugar simple <b>(D)</b><span class="ing-es">Jarabe de azúcar moreno y pecana (D)</span></td><td class="num">0.75</td><td class="num">22</td></tr>
-              <tr><td>Espresso, fresh double shot<span class="ing-es">Espresso doble, recién extraído</span></td><td class="num">1.00</td><td class="num">30</td></tr>
-            </tbody>
-          </table>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Blend smooth. No water, no sugar.</li>
+          <li>Fine strain to pull the seeds.</li>
+          <li>Label, date. 2 days max — ferments fast.</li>
+        </ol>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
+          <ol>
+            <li>Licúe. Sin agua, sin azúcar.</li>
+            <li>Cuele fino para quitar semillas.</li>
+            <li>Etiquete, feche. Máximo 2 días — fermenta rápido.</li>
+          </ol>
         </div>
-        <div class="steps">
-          <div>
-            <h4>Method</h4>
-            <ol>
-              <li>Chill the coupe first — this one is served up and warms fast.</li>
-              <li>Pull the espresso to order and use it hot, straight into the tin. Held espresso goes flat and sour and it will not foam.</li>
-              <li>Shake very hard, 15 seconds, on fresh ice. You are building the crema.</li>
-              <li>Double strain into the chilled coupe and let the foam set for a beat before you garnish.</li>
-            </ol>
-            <p class="garnish"><b>Garnish</b>Three coffee beans set on the foam; micro-grate of nutmeg.</p>
-          </div>
-          <div class="es" lang="es">
-            <h4>Método</h4>
-            <ol>
-              <li>Enfríe la copa primero — se sirve sin hielo y se calienta rápido.</li>
-              <li>Extraiga el espresso al momento y úselo caliente, directo al vaso mezclador. El espresso guardado se aplana, se agria y no hace espuma.</li>
-              <li>Agite muy fuerte, 15 segundos, con hielo fresco. Así se forma la crema.</li>
-              <li>Cuele doble en la copa fría y deje asentar la espuma antes de decorar.</li>
-            </ol>
-            <p class="garnish"><b>Guarnición</b>Tres granos de café sobre la espuma; un toque de nuez moscada rallada.</p>
-          </div>
-        </div>
-        <p class="flag"><b>Allergen / Alérgeno</b> — <b>Tree nut, twice over:</b> hazelnut liqueur and pecan syrup. Ask every guest about nut allergies before you take this order, not after. Contains caffeine.
-        <span lang="es"><em><b>Frutos secos, por partida doble:</b> licor de avellana y jarabe de pecana. Pregunte por alergia a frutos secos antes de tomar la orden, no después. Contiene cafeína.</em></span></p>
-      </div>
-    </article>
-
-    <article class="spec">
-      <div class="spec-head">
-        <div class="eyebrow">02 · Berry vanilla vodka</div>
-        <h3>Don't Worry About It Sweetheart</h3>
-        <div class="tagline">Apple cider, elderflower, pamplemousse, strawberry, lemon</div>
-        <div class="spec-meta">
-          <div><span>GLASS /</span> Rocks · vaso bajo</div>
-          <div><span>ICE /</span> Fresh cubes · cubos frescos</div>
-          <div><span>METHOD /</span> Shake · agitar</div>
-        </div>
-      </div>
-      <div class="spec-body">
-        <div class="scroll">
-          <table>
-            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
-            <tbody>
-              <tr><td>Inca spiced berry vanilla vodka <b>(B)</b><span class="ing-es">Vodka de vainilla con bayas incas (B)</span></td><td class="num">1.50</td><td class="num">45</td></tr>
-              <tr><td>Apple cider, unfiltered<span class="ing-es">Sidra de manzana sin filtrar (sin alcohol)</span></td><td class="num">1.00</td><td class="num">30</td></tr>
-              <tr><td>Strawberry purée <b>(H)</b><span class="ing-es">Puré de fresa (H)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
-              <tr><td>Elderflower liqueur<span class="ing-es">Licor de flor de saúco</span></td><td class="num">0.50</td><td class="num">15</td></tr>
-              <tr><td>Pamplemousse liqueur<span class="ing-es">Licor de pomelo (pamplemousse)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
-              <tr><td>Lemon juice, fresh<span class="ing-es">Jugo de limón amarillo, fresco</span></td><td class="num">0.75</td><td class="num">22</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="steps">
-          <div>
-            <h4>Method</h4>
-            <ol>
-              <li>Combine everything in the tin with ice.</li>
-              <li>Shake hard 12 seconds.</li>
-              <li>Double strain over fresh cubes — never shake ice into the glass, the purée clouds the melt.</li>
-              <li>Check the colour: it should read soft pink-red. Grey or brown means the purée is past its two days.</li>
-            </ol>
-            <p class="garnish"><b>Garnish</b>Strawberry fan on the rim; lemon wheel.</p>
-          </div>
-          <div class="es" lang="es">
-            <h4>Método</h4>
-            <ol>
-              <li>Combine todo en el vaso mezclador con hielo.</li>
-              <li>Agite fuerte 12 segundos.</li>
-              <li>Cuele doble sobre cubos frescos — nunca pase el hielo del mezclador, el puré enturbia la bebida.</li>
-              <li>Revise el color: debe verse rosa-rojo suave. Gris o café significa que el puré pasó sus dos días.</li>
-            </ol>
-            <p class="garnish"><b>Guarnición</b>Abanico de fresa en el borde; rueda de limón.</p>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="spec">
-      <div class="spec-head">
-        <div class="eyebrow">03 · Blood orange gin</div>
-        <h3>Channel Orange</h3>
-        <div class="tagline">Elderflower, pear, chai tea, peach bitters, lemon</div>
-        <div class="spec-meta">
-          <div><span>GLASS /</span> Coupe, chilled · copa fría</div>
-          <div><span>ICE /</span> None, served up · sin hielo</div>
-          <div><span>METHOD /</span> Shake · agitar</div>
-        </div>
-      </div>
-      <div class="spec-body">
-        <div class="scroll">
-          <table>
-            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
-            <tbody>
-              <tr><td>Blood orange gin <b>(C)</b><span class="ing-es">Ginebra de naranja sanguina (C)</span></td><td class="num">1.50</td><td class="num">45</td></tr>
-              <tr><td>Chai tea, brewed &amp; chilled <b>(G)</b><span class="ing-es">Té chai frío (G)</span></td><td class="num">1.00</td><td class="num">30</td></tr>
-              <tr><td>Lemon juice, fresh<span class="ing-es">Jugo de limón amarillo, fresco</span></td><td class="num">0.75</td><td class="num">22</td></tr>
-              <tr><td>Pear syrup <b>(E)</b><span class="ing-es">Jarabe de pera (E)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
-              <tr><td>Elderflower liqueur<span class="ing-es">Licor de flor de saúco</span></td><td class="num">0.50</td><td class="num">15</td></tr>
-              <tr><td>Peach bitters<span class="ing-es">Amargo de durazno</span></td><td class="num">2 dash</td><td class="num">2 gotas</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="steps">
-          <div>
-            <h4>Method</h4>
-            <ol>
-              <li>Chill the coupe.</li>
-              <li>Combine everything in the tin with ice. The chai goes in cold — warm tea melts the ice and the drink lands watery.</li>
-              <li>Shake hard 12 seconds.</li>
-              <li>Double strain into the chilled coupe.</li>
-            </ol>
-            <p class="garnish"><b>Garnish</b>Dehydrated blood orange wheel, floated.</p>
-          </div>
-          <div class="es" lang="es">
-            <h4>Método</h4>
-            <ol>
-              <li>Enfríe la copa.</li>
-              <li>Combine todo en el vaso mezclador con hielo. El chai entra frío — el té tibio derrite el hielo y el cóctel queda aguado.</li>
-              <li>Agite fuerte 12 segundos.</li>
-              <li>Cuele doble en la copa fría.</li>
-            </ol>
-            <p class="garnish"><b>Guarnición</b>Rodaja de naranja sanguina deshidratada, flotando.</p>
-          </div>
-        </div>
-        <p class="flag"><b>Note / Nota</b> — Contains caffeine from the chai tea. Worth mentioning on a late-night order. <span lang="es"><em>Contiene cafeína por el té chai. Vale la pena mencionarlo en órdenes de noche.</em></span></p>
-      </div>
-    </article>
-
-    <article class="spec">
-      <div class="spec-head">
-        <div class="eyebrow">04 · Prosecco</div>
-        <h3>Scarlett Spritz</h3>
-        <div class="tagline">Cranberry allulose, elderflower, pink salt, rosemary</div>
-        <div class="spec-meta">
-          <div><span>GLASS /</span> Wine · copa de vino</div>
-          <div><span>ICE /</span> Cubes · cubos</div>
-          <div><span>METHOD /</span> Build in glass · armar en copa</div>
-        </div>
-      </div>
-      <div class="spec-body">
-        <div class="scroll">
-          <table>
-            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
-            <tbody>
-              <tr><td>Cranberry allulose syrup <b>(F)</b><span class="ing-es">Jarabe de arándano con alulosa (F)</span></td><td class="num">0.75</td><td class="num">22</td></tr>
-              <tr><td>Elderflower liqueur<span class="ing-es">Licor de flor de saúco</span></td><td class="num">1.00</td><td class="num">30</td></tr>
-              <tr><td>Pink salt saline <b>(I)</b><span class="ing-es">Salmuera de sal rosa (I)</span></td><td class="num">3 drops</td><td class="num">3 gotas</td></tr>
-              <tr><td>Prosecco, to top<span class="ing-es">Prosecco, para rematar</span></td><td class="num">3.00</td><td class="num">90</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="steps">
-          <div>
-            <h4>Method</h4>
-            <ol>
-              <li>Fill the wine glass with cubed ice.</li>
-              <li>Build the cranberry syrup, elderflower and saline directly in the glass. Stir twice.</li>
-              <li>Top with cold prosecco. <b>Never stir after the bubbles go in.</b></li>
-              <li>Clap the rosemary once between your palms to wake the oil, then stand it in the glass.</li>
-            </ol>
-            <p class="garnish"><b>Garnish</b>Rosemary sprig, clapped; three cranberries.</p>
-          </div>
-          <div class="es" lang="es">
-            <h4>Método</h4>
-            <ol>
-              <li>Llene la copa de vino con cubos de hielo.</li>
-              <li>Arme el jarabe de arándano, el licor de saúco y la salmuera directamente en la copa. Remueva dos veces.</li>
-              <li>Remate con prosecco frío. <b>Nunca remueva después de la burbuja.</b></li>
-              <li>Golpee el romero una vez entre las palmas para despertar el aceite y colóquelo en la copa.</li>
-            </ol>
-            <p class="garnish"><b>Guarnición</b>Ramita de romero golpeada; tres arándanos rojos.</p>
-          </div>
-        </div>
-        <p class="flag"><b>Allergen / Alérgeno</b> — Prosecco contains sulfites. <span lang="es"><em>El prosecco contiene sulfitos.</em></span></p>
-      </div>
-    </article>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>3 · Par levels</h2>
-      <div class="es-head">Niveles par por servicio</div>
-    </div>
-    <p class="sec-note">Count at pre-shift and again at close. Anything below par goes on the prep list before you leave — and the infusions need a 24–48 hour head start, so they get counted first.</p>
-    <div class="scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Component / Componente</th>
-            <th>Par</th>
-            <th>Prep day / Día</th>
-            <th>Hold / Vida útil</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Chai Hard biz <b>(A)</b><span class="ing-es">Base «Chai Hard»</span></td><td class="num">1X · 112.5 oz</td><td>Mon</td><td class="num">60 d</td></tr>
-          <tr><td>Inca berry vanilla vodka <b>(B)</b><span class="ing-es">Vodka de vainilla con bayas incas</span></td><td class="num">2 × 750 ml</td><td>Sat (48 h)</td><td class="num">60 d</td></tr>
-          <tr><td>Blood orange gin <b>(C)</b><span class="ing-es">Ginebra de naranja sanguina</span></td><td class="num">2 × 750 ml</td><td>Sun (24 h)</td><td class="num">30 d</td></tr>
-          <tr><td>Pecan brown sugar simple <b>(D)</b><span class="ing-es">Jarabe de azúcar moreno y pecana</span></td><td class="num">1X</td><td>Mon + Thu</td><td class="num">7 d</td></tr>
-          <tr><td>Pear syrup <b>(E)</b><span class="ing-es">Jarabe de pera</span></td><td class="num">16 oz</td><td>Mon + Thu</td><td class="num">10 d</td></tr>
-          <tr><td>Cranberry allulose syrup <b>(F)</b><span class="ing-es">Jarabe de arándano con alulosa</span></td><td class="num">24 oz</td><td>Mon + Thu</td><td class="num">7 d</td></tr>
-          <tr><td>Brewed chai tea <b>(G)</b><span class="ing-es">Té chai preparado</span></td><td class="num">32 oz</td><td>Every other day</td><td class="num">3 d</td></tr>
-          <tr><td>Strawberry purée <b>(H)</b><span class="ing-es">Puré de fresa</span></td><td class="num">16 oz</td><td>Daily / Diario</td><td class="num">2 d</td></tr>
-          <tr><td>Pink salt saline <b>(I)</b><span class="ing-es">Salmuera de sal rosa</span></td><td class="num">4 oz</td><td>Monthly / Mensual</td><td class="num">30 d</td></tr>
-          <tr><td>Lemon juice<span class="ing-es">Jugo de limón amarillo</span></td><td class="num">32 oz</td><td>Daily / Diario</td><td class="num">24 h</td></tr>
-          <tr><td>Apple cider<span class="ing-es">Sidra de manzana</span></td><td class="num">64 oz</td><td>Delivery / Entrega</td><td>Per label</td></tr>
-          <tr><td>Espresso beans<span class="ing-es">Café en grano</span></td><td class="num">2 lb</td><td>Delivery / Entrega</td><td>Per label</td></tr>
-          <tr><td>Dehydrated blood orange<span class="ing-es">Naranja sanguina deshidratada</span></td><td class="num">40 ct</td><td>Mon</td><td class="num">14 d</td></tr>
-          <tr><td>Strawberries<span class="ing-es">Fresas</span></td><td class="num">4 lb</td><td>Daily / Diario</td><td class="num">2 d</td></tr>
-          <tr><td>Rosemary<span class="ing-es">Romero</span></td><td>2 bunches</td><td>Tue + Fri</td><td class="num">3 d</td></tr>
-          <tr><td>Cranberries, fresh<span class="ing-es">Arándanos rojos frescos</span></td><td class="num">3 lb</td><td>Mon + Thu</td><td class="num">7 d</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>4 · Standards at the bar</h2>
-      <div class="es-head">Estándares en la barra</div>
-    </div>
-    <div class="rules">
-      <div>
-        <h4>English</h4>
-        <ul>
-          <li><b>Nut allergy is the first question on 01.</b> Chai Hard carries hazelnut liqueur and pecan syrup. Ask before the order goes in. TownHall is not a nut- or gluten-free kitchen and we cannot guarantee against cross-contact.</li>
-          <li><b>Espresso to order, always.</b> No batching, no holding, no reusing a shot that has sat. A held shot will not foam and the drink arrives flat and sour.</li>
-          <li><b>Time the chai infusion.</b> 45 minutes, timer set, then strain. Over-infused vodka is bitter and cannot be fixed — that batch gets dumped.</li>
-          <li><b>Allulose is the short clock.</b> The cranberry syrup gets seven days, not the usual fourteen. Smell it before every service.</li>
-          <li><b>Taste before service.</b> Every batch, every day. Flat or fermented gets dumped — never thinned, never sugared back.</li>
-          <li><b>Measure every pour.</b> Jigger every time, including the half and quarter ounce. These four are balanced tight; free-pouring breaks them.</li>
-          <li><b>Label everything.</b> Product, date made, use-by, initials. The pecan syrup also gets CONTAINS PECAN on the container.</li>
-          <li><b>86 protocol.</b> Component out, drink off. Tell the bar lead and the floor before the next ticket lands.</li>
-        </ul>
-      </div>
-      <div class="es" lang="es">
-        <h4>Español</h4>
-        <ul>
-          <li><b>La alergia a frutos secos es la primera pregunta en el 01.</b> El Chai Hard lleva licor de avellana y jarabe de pecana. Pregunte antes de ingresar la orden. TownHall no es una cocina libre de frutos secos ni de gluten y no podemos garantizar que no haya contacto cruzado.</li>
-          <li><b>Espresso siempre al momento.</b> No se prepara en lote, no se guarda, no se reutiliza un shot que ya reposó. El espresso guardado no hace espuma y el cóctel llega plano y agrio.</li>
-          <li><b>Cronometre la infusión de chai.</b> 45 minutos con temporizador y se cuela. El vodka sobre-infusionado queda amargo y no se puede corregir — ese lote se desecha.</li>
-          <li><b>La alulosa dura menos.</b> El jarabe de arándano dura siete días, no los catorce habituales. Huélalo antes de cada servicio.</li>
-          <li><b>Pruebe antes del servicio.</b> Cada lote, todos los días. Lo plano o fermentado se desecha — nunca se diluye ni se le agrega azúcar.</li>
-          <li><b>Mida cada servida.</b> Use el jigger siempre, incluso ½ y ¼ de onza. Estos cuatro están balanceados al límite; servir a ojo los arruina.</li>
-          <li><b>Etiquete todo.</b> Producto, fecha de elaboración, caducidad e iniciales. El jarabe de pecana lleva además CONTIENE NUEZ PECANA en el recipiente.</li>
-          <li><b>Protocolo 86.</b> Si falta un componente, se cancela el cóctel. Avise al encargado de barra y al piso antes del siguiente ticket.</li>
-        </ul>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <div class="sec-head">
-      <h2>5 · Confirm before sign-off</h2>
-      <div class="es-head">Confirmar antes de la aprobación</div>
+  <div class="card">
+    <div class="card-top">
+      <h3>I · Pink Salt Saline</h3>
+      <div class="es-name">Salmuera de sal rosa</div>
+      <div class="facts"><span class="tag">Proposed</span> 4 oz · 30 days</div>
     </div>
-    <p class="sec-note">Six open items. Answer these and this sheet is final.</p>
-    <div class="rules">
-      <div>
-        <h4>English</h4>
-        <ul>
-          <li><b>Scarlett Spritz base.</b> No spirit was listed — is it prosecco and elderflower only, or does a vodka or gin pour go in?</li>
-          <li><b>Pecan brown sugar simple.</b> The 1X yield and the written method are blank in the recipe app. Send both and Section 1D becomes official.</li>
-          <li><b>Remaining component specs.</b> Builds 02, 03 and 04 still need their biz prep sheets the way Chai Hard has one — the Section 1 entries for them are proposed, not yours.</li>
-          <li><b>Infusions vs. bottles.</b> Inca berry vanilla vodka and blood orange gin are written as house infusions. If either is a purchased bottle, say which and that component drops out of Section 1.</li>
-          <li><b>Elderflower.</b> Written as liqueur (St-Germain style) in all three drinks. Confirm it is not an elderflower syrup.</li>
-          <li><b>Pamplemousse.</b> Written as grapefruit liqueur. Confirm the brand call.</li>
-          <li><b>Spritz soda.</b> Not listed. Confirm whether a soda top goes in or the prosecco carries it alone.</li>
-          <li><b>Pours.</b> Every quantity here is proposed. Taste all four and mark the changes on this page.</li>
-        </ul>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Pink Himalayan salt<span class="es-i">Sal rosa del Himalaya</span></td><td class="num">20</td><td>Grams</td></tr>
+            <tr><td>Warm water<span class="es-i">Agua tibia</span></td><td class="num">80</td><td>Grams</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="es" lang="es">
-        <h4>Español</h4>
-        <ul>
-          <li><b>Base del Scarlett Spritz.</b> No se indicó licor destilado — ¿es solo prosecco y saúco, o lleva vodka o ginebra?</li>
-          <li><b>Jarabe de azúcar moreno y pecana.</b> El rendimiento 1X y el método escrito están vacíos en la aplicación. Envíe ambos y la Sección 1D queda oficial.</li>
-          <li><b>Especificaciones pendientes.</b> Los cócteles 02, 03 y 04 aún necesitan sus hojas de base como la que tiene el Chai Hard — sus entradas en la Sección 1 son propuestas, no suyas.</li>
-          <li><b>Infusiones o botella comprada.</b> El vodka de vainilla con bayas incas y la ginebra de naranja sanguina están escritos como infusiones de la casa. Si alguno se compra ya hecho, indíquelo y ese componente sale de la Sección 1.</li>
-          <li><b>Saúco.</b> Escrito como licor (tipo St-Germain) en los tres cócteles. Confirme que no es jarabe de saúco.</li>
-          <li><b>Pamplemousse.</b> Escrito como licor de pomelo. Confirme la marca.</li>
-          <li><b>Agua mineral en el spritz.</b> No estaba en la lista. Confirme si lleva o si el prosecco va solo.</li>
-          <li><b>Medidas.</b> Todas las cantidades son propuestas. Pruebe los cuatro y marque los cambios en esta hoja.</li>
-        </ul>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Dissolve fully. Cool.</li>
+          <li>Into a dasher bottle. Label, date.</li>
+        </ol>
+        <div class="es" lang="es" style="margin-top:8px;">
+          <h4>Pasos</h4>
+          <ol>
+            <li>Disuelva por completo. Enfríe.</li>
+            <li>Pase a un gotero. Etiquete, feche.</li>
+          </ol>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="signoff">
-      <div class="sig"><div class="line"></div>BAR LEAD / ENCARGADO DE BARRA</div>
-      <div class="sig"><div class="line"></div>PREPARED BY / PREPARADO POR</div>
-      <div class="sig"><div class="line"></div>DATE / FECHA</div>
+  <h2>Builds <em>· Armado — reference only / solo referencia</em></h2>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Cocktail</th><th>Pour / Medidas (oz)</th><th>Glass · Ice · Method</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Chai Hard</b></td>
+          <td>Chai Hard biz <b>(A)</b> 2.0 · Pecan simple <b>(B)</b> 0.75 · Espresso 1.0<span class="es-i">Espresso al momento, nunca guardado</span></td>
+          <td>Coupe, chilled · up · shake 15 s<span class="es-i">Copa fría · sin hielo · agitar 15 s</span></td>
+        </tr>
+        <tr>
+          <td><b>Don't Worry About It Sweetheart</b></td>
+          <td>Inca berry vodka <b>(C)</b> 1.5 · Apple cider 1.0 · Lemon 0.75 · Strawberry <b>(H)</b> 0.5 · Elderflower 0.5 · Pamplemousse 0.5</td>
+          <td>Rocks · fresh cubes · shake 12 s<span class="es-i">Vaso bajo · cubos frescos · agitar 12 s</span></td>
+        </tr>
+        <tr>
+          <td><b>Channel Orange</b></td>
+          <td>Blood orange gin <b>(D)</b> 1.5 · Chai tea <b>(G)</b> 1.0 · Lemon 0.75 · Pear syrup <b>(E)</b> 0.5 · Elderflower 0.5 · Peach bitters 2 dash</td>
+          <td>Coupe, chilled · up · shake 12 s<span class="es-i">Copa fría · sin hielo · agitar 12 s</span></td>
+        </tr>
+        <tr>
+          <td><b>Scarlett Spritz</b></td>
+          <td>Elderflower 1.0 · Cranberry allulose <b>(F)</b> 0.75 · Pink salt saline <b>(I)</b> 3 drops · Prosecco 3.0</td>
+          <td>Wine · cubes · build, no stir after bubbles<span class="es-i">Copa de vino · cubos · no remover tras la burbuja</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="build-note">Pours are proposed and awaiting bar lead sign-off. <span lang="es"><em>Medidas propuestas, pendientes de aprobación.</em></span></p>
+
+  <h2>Rules <em>· Reglas</em></h2>
+  <div class="grid2">
+    <div>
+      <h4>English</h4>
+      <ol>
+        <li><b>Label everything:</b> product, date, use-by, initials. FIFO.</li>
+        <li><b>Taste every batch</b> before service. Off = dump it. Never thin, never re-sugar.</li>
+        <li><b>Time the infusions.</b> Chai 45 min. Timer, not a guess.</li>
+        <li><b>Nut allergy:</b> Chai Hard biz has hazelnut, pecan simple has pecan. Mark both containers.</li>
+        <li><b>Component out = drink 86'd.</b> Tell the bar lead. No swaps.</li>
+      </ol>
     </div>
-  </section>
+    <div class="es" lang="es">
+      <h4>Español</h4>
+      <ol>
+        <li><b>Etiquete todo:</b> producto, fecha, caducidad, iniciales. PEPS.</li>
+        <li><b>Pruebe cada lote</b> antes del servicio. Si está mal, deséchelo. No diluya ni agregue azúcar.</li>
+        <li><b>Cronometre las infusiones.</b> Chai 45 min. Con temporizador, no a ojo.</li>
+        <li><b>Alergia a frutos secos:</b> la base Chai Hard lleva avellana; el jarabe lleva pecana. Marque ambos recipientes.</li>
+        <li><b>Sin componente = cóctel cancelado (86).</b> Avise al encargado. No se sustituye.</li>
+      </ol>
+    </div>
+  </div>
 
-  <footer>
-    TownHall · Fall 2026 bar program · Draft 03 — Chai Hard components from the recipe app; remaining pours proposed, pending bar lead approval.
-    Laid out for letter and A4; print with ⌘P / Ctrl-P.
-    <span lang="es">Diseñada para tamaño carta y A4.</span>
-  </footer>
+  <div class="signoff">
+    <div class="sig"><div class="line"></div>PREPPED BY / PREPARADO POR</div>
+    <div class="sig"><div class="line"></div>DATE / FECHA</div>
+    <div class="sig"><div class="line"></div>BAR LEAD / ENCARGADO</div>
+  </div>
+
+  <footer>TownHall · Fall 2026 · Rev 04. Items tagged <span class="tag">Proposed</span> are not yet official specs. <span lang="es">Los marcados como propuestos aún no son especificaciones oficiales.</span></footer>
 </div>
 </body>
 </html>
