@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0;padding:0}img{max-width:100%}</style>
+<title>Fall 2026 Cocktail Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper:#FBF9F4; --surface:#FFFFFF; --field:#16170F; --field-ink:#FBF9F4;
+    --ink:#1B1C14; --ink-2:#51533F; --ink-3:#7E806C;
+    --rule:#DCD6C6; --rule-soft:#EDE9DE;
+    --olive:#5C6B43; --aqua:#4F817B; --clay:#9B3B26; --clay-soft:#F6E8E2;
+    --display:"Oswald","Haettenschweiler","Arial Narrow",sans-serif;
+    --body:"Source Sans 3","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
+      --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
+      --rule:#35362C; --rule-soft:#262720;
+      --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
+    --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
+    --rule:#35362C; --rule-soft:#262720;
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14;
+  }
+
+  body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 0 72px; }
+  h1,h2,h3,h4 { font-family: var(--display); font-weight: 500; letter-spacing: .01em; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  ol, ul { margin: 0; padding-left: 1.15em; }
+  li { margin-bottom: 5px; }
+  .eyebrow { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* masthead */
+  .masthead { background: var(--field); color: var(--field-ink); margin-inline: -20px; padding: 34px 20px 28px; }
+  .masthead-in { max-width: 1020px; margin: 0 auto; }
+  .mark { font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: .34em; text-transform: uppercase; color: var(--field-ink); opacity: .82; }
+  .masthead h1 { font-size: clamp(30px, 6.4vw, 46px); font-weight: 600; text-transform: uppercase; letter-spacing: .015em; line-height: 1.04; margin-top: 10px; }
+  .masthead h1 .es { display: block; font-weight: 400; font-size: .54em; letter-spacing: .05em; opacity: .74; margin-top: 8px; }
+  .stamp { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .05em; color: var(--field-ink); opacity: .78; }
+
+  .alert { border-left: 3px solid var(--clay); background: var(--clay-soft); color: var(--ink); padding: 13px 16px; margin-top: 26px; font-size: 13.5px; }
+  .alert b { color: var(--clay); font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
+  section { margin-top: 48px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 7px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .sec-head h2 { font-size: 21px; text-transform: uppercase; letter-spacing: .07em; }
+  .sec-head .es-head { font-family: var(--body); font-style: italic; font-size: 14px; color: var(--ink-3); }
+  .sec-note { color: var(--ink-2); font-size: 14px; margin-top: 12px; max-width: 66ch; }
+
+  /* prep components */
+  .batch { border-top: 1px solid var(--rule); padding-top: 18px; margin-top: 22px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 26px; }
+  .batch-id h3 { font-size: 18px; text-transform: uppercase; letter-spacing: .03em; }
+  .batch-id .es-name { font-style: italic; color: var(--ink-3); font-size: 14px; margin-top: 2px; }
+  .batch-facts { font-family: var(--mono); font-size: 11.5px; line-height: 1.85; margin-top: 12px; color: var(--ink-2); }
+  .batch-facts span { color: var(--ink-3); display: inline-block; min-width: 74px; }
+  .batch-facts b { color: var(--ink); font-weight: 500; }
+  .batch-body h4, .steps h4 { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--olive); margin-bottom: 6px; }
+  .batch-body ol { font-size: 14px; }
+  .batch-es { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+  .batch-es h4 { color: var(--aqua); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .scroll { overflow-x: auto; }
+  th { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 0 10px 6px 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; width: 1%; }
+  .ing-es { display: block; font-style: italic; font-size: 12.5px; color: var(--ink-3); }
+
+  /* cocktail spec cards */
+  .spec { background: var(--surface); border: 1px solid var(--rule); margin-top: 22px; }
+  .spec-head { background: var(--field); color: var(--field-ink); padding: 16px 20px 15px; }
+  .spec-head .eyebrow { color: var(--field-ink); opacity: .7; }
+  .spec-head h3 { font-size: 25px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; margin-top: 5px; }
+  .spec-head .tagline { font-size: 13.5px; opacity: .8; margin-top: 3px; }
+  .spec-meta { display: flex; flex-wrap: wrap; gap: 6px 26px; margin-top: 13px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; }
+  .spec-meta div { color: var(--field-ink); }
+  .spec-meta span { opacity: .6; }
+  .spec-body { padding: 18px 20px 20px; }
+  .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .steps ol { font-size: 13.5px; }
+  .steps .es h4 { color: var(--aqua); }
+  .garnish { margin-top: 10px; font-size: 13px; color: var(--ink-2); }
+  .garnish b { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; }
+  .flag { margin-top: 16px; border-left: 3px solid var(--clay); padding: 9px 14px; background: var(--clay-soft); font-size: 13px; }
+  .flag b { color: var(--clay); font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
+  .zero .spec-head { background: var(--olive); }
+
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 18px; }
+  .rules h4 { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; color: var(--olive); }
+  .rules .es h4 { color: var(--aqua); }
+  .rules li { font-size: 13.5px; }
+
+  .signoff { margin-top: 44px; border-top: 2px solid var(--ink); padding-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
+  .sig { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink-3); }
+  .sig .line { border-bottom: 1px solid var(--rule); height: 30px; margin-bottom: 6px; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-3); }
+
+  @media (max-width: 760px) {
+    .batch, .steps, .rules { grid-template-columns: 1fr; gap: 16px; }
+    .spec-head h3 { font-size: 21px; }
+  }
+
+  @media print {
+    :root { --paper:#fff; --surface:#fff; --field:#16170F; --field-ink:#fff; --ink:#000; --ink-2:#333; --ink-3:#555; --rule:#bbb; --rule-soft:#ddd; --clay-soft:#f4f4f4; }
+    body { font-size: 10.5pt; }
+    .wrap { max-width: none; padding-block: 0 0; }
+    .masthead, .spec-head { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .spec, .batch, section { break-inside: avoid; page-break-inside: avoid; }
+    section { margin-top: 26px; }
+    .no-print { display: none; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-in">
+      <div class="mark">TownHall</div>
+      <h1>Fall 2026 Cocktail Prep Sheet
+        <span class="es">Hoja de Preparación · Cócteles Otoño 2026</span>
+      </h1>
+      <div class="stamp">
+        <div>EFFECTIVE / VIGENTE: 09.2026</div>
+        <div>STATION / ESTACIÓN: BAR</div>
+        <div>REV: DRAFT 01</div>
+        <div>6 BUILDS · 5 BATCHED COMPONENTS</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="alert">
+    <b>Draft specs — confirm before printing / Especificaciones preliminares — confirmar antes de imprimir</b>
+    These builds have not been signed off by the bar lead. Verify every spirit, brand, pour cost and price against the
+    approved fall menu before this sheet goes on the wall.
+    <span lang="es"><em>Estas recetas no han sido aprobadas por el encargado de la barra. Verifique cada licor, marca, costo
+    y precio con el menú de otoño aprobado antes de colocar esta hoja en la estación.</em></span>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <h2>How to use this sheet</h2>
+      <div class="es-head">Cómo usar esta hoja</div>
+    </div>
+    <div class="rules">
+      <div>
+        <h4>English</h4>
+        <ul>
+          <li>Batch every component in <b>Section 1</b> before service. No build starts until its components are made, cooled, labeled and dated.</li>
+          <li><b>Section 2</b> is the build. Pour amounts are the same in any language — read them off the ounce column, confirm with the millilitre column.</li>
+          <li>Taste every batch before service. Adjust balance with citrus, never with water.</li>
+          <li>Label every container: product, date made, use-by, your initials. FIFO — oldest first.</li>
+          <li>If a component is out, 86 the drink. No substitutions without the bar lead.</li>
+        </ul>
+      </div>
+      <div class="es" lang="es">
+        <h4>Español</h4>
+        <ul>
+          <li>Prepare todos los componentes de la <b>Sección 1</b> antes del servicio. Ningún cóctel se arma hasta que sus componentes estén hechos, fríos, etiquetados y fechados.</li>
+          <li>La <b>Sección 2</b> es el armado. Las medidas son iguales en cualquier idioma: léalas en la columna de onzas y confirme en la de mililitros.</li>
+          <li>Pruebe cada lote antes del servicio. Ajuste el balance con cítrico, nunca con agua.</li>
+          <li>Etiquete cada recipiente: producto, fecha de elaboración, fecha de caducidad y sus iniciales. PEPS — lo más viejo primero.</li>
+          <li>Si falta un componente, se cancela (86) el cóctel. No se sustituye nada sin el encargado de la barra.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>1 · Batched components</h2>
+      <div class="es-head">Componentes preparados</div>
+    </div>
+    <p class="sec-note">Make in this order — the honey syrup touches four of the six builds, so it goes first. All syrups cool to 40°F / 4°C before they go in a labeled container.</p>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>A · Spiced Honey Syrup</h3>
+        <div class="es-name">Jarabe de miel especiada</div>
+        <div class="batch-facts">
+          <div><span>YIELD</span><b>1 qt / 950 ml</b></div>
+          <div><span>HOLD</span><b>14 days · 40°F</b></div>
+          <div><span>USED IN</span><b>01, 02, 05, 06</b></div>
+          <div><span>BATCH</span><b>Mon + Thu, 2 qt</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Heat 2 cups water to 165°F / 74°C. Do not boil.</li>
+          <li>Whisk in 2 cups wildflower honey until fully dissolved.</li>
+          <li>Off heat, add 4 cinnamon sticks, 6 allspice berries, 2 star anise, peel of 1 orange. Steep 30 min.</li>
+          <li>Fine strain, cool, label and date.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Caliente 2 tazas de agua a 74°C / 165°F. No deje hervir.</li>
+            <li>Bata 2 tazas de miel de flores hasta disolver por completo.</li>
+            <li>Fuera del fuego agregue 4 rajas de canela, 6 pimientas de Jamaica, 2 anís estrellado y la cáscara de 1 naranja. Infusione 30 min.</li>
+            <li>Cuele fino, enfríe, etiquete y feche.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>B · Maple–Cardamom Syrup</h3>
+        <div class="es-name">Jarabe de arce y cardamomo</div>
+        <div class="batch-facts">
+          <div><span>YIELD</span><b>1 qt / 950 ml</b></div>
+          <div><span>HOLD</span><b>10 days · 40°F</b></div>
+          <div><span>USED IN</span><b>04</b></div>
+          <div><span>BATCH</span><b>Mon, 1 qt</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Combine 3 cups Grade A dark maple syrup with 1 cup water.</li>
+          <li>Crack 12 cardamom pods with the back of a knife, add to pot.</li>
+          <li>Warm to 160°F / 71°C — never boil, it turns bitter. Steep 20 min off heat.</li>
+          <li>Fine strain, cool, label and date.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Combine 3 tazas de jarabe de arce oscuro (Grado A) con 1 taza de agua.</li>
+            <li>Rompa 12 vainas de cardamomo con el lomo del cuchillo y agréguelas.</li>
+            <li>Caliente a 71°C / 160°F — nunca hierva, amarga. Infusione 20 min fuera del fuego.</li>
+            <li>Cuele fino, enfríe, etiquete y feche.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>C · Cranberry–Sage Cordial</h3>
+        <div class="es-name">Cordial de arándano rojo y salvia</div>
+        <div class="batch-facts">
+          <div><span>YIELD</span><b>1.5 qt / 1.4 L</b></div>
+          <div><span>HOLD</span><b>10 days · 40°F</b></div>
+          <div><span>USED IN</span><b>03</b></div>
+          <div><span>BATCH</span><b>Mon + Thu</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Simmer 1 lb fresh cranberries, 2 cups cane sugar and 2 cups water 12 min, until the berries burst.</li>
+          <li>Off heat, add 10 sage leaves. Steep 10 min — longer turns it medicinal.</li>
+          <li>Fine strain. Let it drip; do not press the pulp or the cordial goes cloudy.</li>
+          <li>Cool, label and date.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Hierva a fuego lento 450 g de arándanos rojos frescos, 2 tazas de azúcar de caña y 2 tazas de agua por 12 min, hasta que revienten.</li>
+            <li>Fuera del fuego agregue 10 hojas de salvia. Infusione 10 min — más tiempo sabe a medicina.</li>
+            <li>Cuele fino. Deje escurrir; no presione la pulpa o el cordial queda turbio.</li>
+            <li>Enfríe, etiquete y feche.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>D · Fresh Ginger Juice</h3>
+        <div class="es-name">Jugo de jengibre fresco</div>
+        <div class="batch-facts">
+          <div><span>YIELD</span><b>~12 oz per 1 lb</b></div>
+          <div><span>HOLD</span><b>5 days · 40°F</b></div>
+          <div><span>USED IN</span><b>02, 06</b></div>
+          <div><span>BATCH</span><b>Tue + Fri</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Scrub ginger well. Do not peel — the skin carries the heat.</li>
+          <li>Run through the juicer, then fine strain.</li>
+          <li>Rest 1 hour refrigerated; decant the clear juice off the starch at the bottom and discard the starch.</li>
+          <li>Label and date.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Lave bien el jengibre. No lo pele — la cáscara da el picor.</li>
+            <li>Pase por el extractor y cuele fino.</li>
+            <li>Repose 1 hora en refrigeración; decante el jugo limpio y deseche el almidón del fondo.</li>
+            <li>Etiquete y feche.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>E · Smoked Cinnamon Rim</h3>
+        <div class="es-name">Sal-azúcar de canela ahumada</div>
+        <div class="batch-facts">
+          <div><span>YIELD</span><b>~¾ cup</b></div>
+          <div><span>HOLD</span><b>30 days · dry</b></div>
+          <div><span>USED IN</span><b>01</b></div>
+          <div><span>BATCH</span><b>Mon</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Blend ½ cup cane sugar, 2 tbsp kosher salt, 1 tbsp ground cinnamon, 1 tsp smoked paprika.</li>
+          <li>Store sealed and dry. If it clumps, it has taken moisture — remake it.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Mezcle ½ taza de azúcar de caña, 2 cdas de sal kosher, 1 cda de canela molida y 1 cdta de pimentón ahumado.</li>
+            <li>Guarde sellado y seco. Si se apelmaza, tomó humedad — vuelva a prepararlo.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch">
+      <div class="batch-id">
+        <h3>F · Daily Citrus &amp; Garnish</h3>
+        <div class="es-name">Cítricos y guarniciones del día</div>
+        <div class="batch-facts">
+          <div><span>HOLD</span><b>24 h — citrus</b></div>
+          <div><span>USED IN</span><b>All builds</b></div>
+          <div><span>BATCH</span><b>Daily, pre-shift</b></div>
+        </div>
+      </div>
+      <div class="batch-body">
+        <h4>Method</h4>
+        <ol>
+          <li>Juice lime, lemon and grapefruit fresh each morning. Discard at the end of the next service — 24 hours, no exceptions.</li>
+          <li>Dehydrate apple and orange wheels 2 hours at 135°F / 57°C. Hold dry, 14 days.</li>
+          <li>Shuck pomegranate arils daily, hold 2 days covered.</li>
+          <li>Rinse sage and rosemary, dry fully, roll in a dry towel. 3 days.</li>
+        </ol>
+        <div class="batch-es" lang="es">
+          <h4>Método</h4>
+          <ol>
+            <li>Exprima limón verde, limón amarillo y toronja cada mañana. Deseche al final del siguiente servicio — 24 horas, sin excepción.</li>
+            <li>Deshidrate rodajas de manzana y naranja 2 horas a 57°C / 135°F. Guarde en seco, 14 días.</li>
+            <li>Desgrane la granada a diario, guarde tapada 2 días.</li>
+            <li>Lave salvia y romero, seque bien y envuelva en un paño seco. 3 días.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>2 · Cocktail builds</h2>
+      <div class="es-head">Armado de cócteles</div>
+    </div>
+    <p class="sec-note">Shake 12 seconds hard on fresh ice. Stir 30 rotations. Every shaken build with citrus gets a double strain — Hawthorne plus fine mesh.</p>
+
+    <article class="spec">
+      <div class="spec-head">
+        <div class="eyebrow">01 · Mezcal + Reposado</div>
+        <h3>Orchard Smoke</h3>
+        <div class="tagline">Honeycrisp cider, spiced honey, smoked cinnamon rim</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Rocks · vaso bajo</div>
+          <div><span>ICE /</span> Big cube · cubo grande</div>
+          <div><span>METHOD /</span> Shake · agitar</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Mezcal, espadín<span class="ing-es">Mezcal espadín</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+              <tr><td>Reposado tequila<span class="ing-es">Tequila reposado</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Honeycrisp cider, unfiltered<span class="ing-es">Sidra de manzana sin filtrar (sin alcohol)</span></td><td class="num">1.50</td><td class="num">45</td></tr>
+              <tr><td>Lemon juice, fresh<span class="ing-es">Jugo de limón amarillo, fresco</span></td><td class="num">0.75</td><td class="num">22</td></tr>
+              <tr><td>Spiced honey syrup <b>(A)</b><span class="ing-es">Jarabe de miel especiada (A)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Rim half the glass only: lemon wedge on the outside edge, roll in smoked cinnamon <b>(E)</b>. Never rim the inside.</li>
+              <li>Combine all ingredients in a shaker tin with ice.</li>
+              <li>Shake hard 12 seconds.</li>
+              <li>Double strain over one big cube in the rimmed glass.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>Dehydrated apple wheel on the unrimmed side.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Escarche solo la mitad del vaso: pase una rodaja de limón por el borde exterior y gire sobre la canela ahumada <b>(E)</b>. Nunca escarche por dentro.</li>
+              <li>Combine todos los ingredientes en el vaso mezclador con hielo.</li>
+              <li>Agite fuerte 12 segundos.</li>
+              <li>Cuele doble sobre un cubo grande en el vaso escarchado.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Rodaja de manzana deshidratada en el lado sin escarchar.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="spec">
+      <div class="spec-head">
+        <div class="eyebrow">02 · Vodka</div>
+        <h3>Harvest Mule</h3>
+        <div class="tagline">Pressed pear, fresh ginger, rosemary</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Copper mug · tarro de cobre</div>
+          <div><span>ICE /</span> Pebble · granizado</div>
+          <div><span>METHOD /</span> Shake + top</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Vodka<span class="ing-es">Vodka</span></td><td class="num">2.00</td><td class="num">60</td></tr>
+              <tr><td>Pear purée, unsweetened<span class="ing-es">Puré de pera sin azúcar</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+              <tr><td>Lime juice, fresh<span class="ing-es">Jugo de limón verde, fresco</span></td><td class="num">0.75</td><td class="num">22</td></tr>
+              <tr><td>Ginger juice <b>(D)</b><span class="ing-es">Jugo de jengibre (D)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Spiced honey syrup <b>(A)</b><span class="ing-es">Jarabe de miel especiada (A)</span></td><td class="num">0.25</td><td class="num">7</td></tr>
+              <tr><td>Soda water, to top<span class="ing-es">Agua mineral, para rematar</span></td><td class="num">1.50</td><td class="num">45</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Shake everything except the soda, 12 seconds.</li>
+              <li>Strain into the mug, then pack with pebble ice to the rim.</li>
+              <li>Top with soda and lift once with a bar spoon to fold it through.</li>
+              <li>Cap with more pebble ice so it domes.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>Rosemary sprig, clapped once between the palms; pear fan.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Agite todo menos el agua mineral, 12 segundos.</li>
+              <li>Cuele al tarro y llene con hielo granizado hasta el borde.</li>
+              <li>Remate con agua mineral y levante una vez con la cuchara para integrar.</li>
+              <li>Corone con más hielo granizado en forma de domo.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Ramita de romero, golpeada una vez entre las palmas; abanico de pera.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="spec">
+      <div class="spec-head">
+        <div class="eyebrow">03 · Gin + Sparkling</div>
+        <h3>Cranberry Sage Spritz</h3>
+        <div class="tagline">House cranberry–sage cordial, lemon, bubbles</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Wine · copa de vino</div>
+          <div><span>ICE /</span> Cubes · cubos</div>
+          <div><span>METHOD /</span> Build in glass</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Gin, London dry<span class="ing-es">Ginebra London dry</span></td><td class="num">1.50</td><td class="num">45</td></tr>
+              <tr><td>Cranberry–sage cordial <b>(C)</b><span class="ing-es">Cordial de arándano y salvia (C)</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+              <tr><td>Lemon juice, fresh<span class="ing-es">Jugo de limón amarillo, fresco</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Dry sparkling wine<span class="ing-es">Vino espumoso seco</span></td><td class="num">2.00</td><td class="num">60</td></tr>
+              <tr><td>Soda water<span class="ing-es">Agua mineral</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Fill the wine glass with cubed ice.</li>
+              <li>Build gin, cordial and lemon directly in the glass; stir twice.</li>
+              <li>Add sparkling wine, then soda. Never stir after the bubbles go in.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>One sage leaf and three cranberries speared.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Llene la copa de vino con cubos de hielo.</li>
+              <li>Arme ginebra, cordial y limón directamente en la copa; remueva dos veces.</li>
+              <li>Agregue el espumoso y luego el agua mineral. Nunca remueva después de la burbuja.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Una hoja de salvia y tres arándanos en pincho.</p>
+          </div>
+        </div>
+        <p class="flag"><b>Allergen / Alérgeno</b> — Sparkling wine contains sulfites. <span lang="es"><em>El vino espumoso contiene sulfitos.</em></span></p>
+      </div>
+    </article>
+
+    <article class="spec">
+      <div class="spec-head">
+        <div class="eyebrow">04 · Bourbon</div>
+        <h3>Maple Old Fashioned</h3>
+        <div class="tagline">Cardamom maple, black walnut bitters, orange oil</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Rocks · vaso bajo</div>
+          <div><span>ICE /</span> Big cube · cubo grande</div>
+          <div><span>METHOD /</span> Stir · remover</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Bourbon<span class="ing-es">Bourbon</span></td><td class="num">2.00</td><td class="num">60</td></tr>
+              <tr><td>Maple–cardamom syrup <b>(B)</b><span class="ing-es">Jarabe de arce y cardamomo (B)</span></td><td class="num">0.25</td><td class="num">7</td></tr>
+              <tr><td>Angostura bitters<span class="ing-es">Amargo de Angostura</span></td><td class="num">2 dash</td><td class="num">2 gotas</td></tr>
+              <tr><td>Black walnut bitters<span class="ing-es">Amargo de nuez negra</span></td><td class="num">1 dash</td><td class="num">1 gota</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Build in the mixing glass with ice.</li>
+              <li>Stir 30 rotations — the dilution is the drink.</li>
+              <li>Strain over one big cube.</li>
+              <li>Express the orange peel oil over the surface, then rest the peel on the ice.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>Wide orange peel, expressed.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Arme en el vaso mezclador con hielo.</li>
+              <li>Remueva 30 vueltas — la dilución es parte del cóctel.</li>
+              <li>Cuele sobre un cubo grande.</li>
+              <li>Exprima el aceite de la cáscara de naranja sobre la superficie y déjela sobre el hielo.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Cáscara ancha de naranja, exprimida.</p>
+          </div>
+        </div>
+        <p class="flag"><b>Allergen / Alérgeno</b> — Black walnut bitters are tree-nut derived. Ask every guest about nut allergies before serving this build.
+        <span lang="es"><em>El amargo de nuez negra deriva de un fruto seco. Pregunte a cada cliente por alergia a frutos secos antes de servir este cóctel.</em></span></p>
+      </div>
+    </article>
+
+    <article class="spec">
+      <div class="spec-head">
+        <div class="eyebrow">05 · Blanco Tequila</div>
+        <h3>Pomegranate Paloma</h3>
+        <div class="tagline">Fresh grapefruit, pomegranate, sea salt</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Highball · vaso alto</div>
+          <div><span>ICE /</span> Cubes · cubos</div>
+          <div><span>METHOD /</span> Shake + top</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Blanco tequila<span class="ing-es">Tequila blanco</span></td><td class="num">2.00</td><td class="num">60</td></tr>
+              <tr><td>Grapefruit juice, fresh<span class="ing-es">Jugo de toronja, fresco</span></td><td class="num">1.50</td><td class="num">45</td></tr>
+              <tr><td>Pomegranate juice, 100%<span class="ing-es">Jugo de granada, 100%</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+              <tr><td>Lime juice, fresh<span class="ing-es">Jugo de limón verde, fresco</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Spiced honey syrup <b>(A)</b><span class="ing-es">Jarabe de miel especiada (A)</span></td><td class="num">0.25</td><td class="num">7</td></tr>
+              <tr><td>Soda water, to top<span class="ing-es">Agua mineral, para rematar</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Rim half the glass with sea salt, outside edge only.</li>
+              <li>Shake everything except the soda, 12 seconds.</li>
+              <li>Strain into the glass over fresh cubes.</li>
+              <li>Top with soda.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>Grapefruit twist and a spoon of pomegranate arils.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Escarche media copa con sal de mar, solo el borde exterior.</li>
+              <li>Agite todo menos el agua mineral, 12 segundos.</li>
+              <li>Cuele en el vaso sobre hielo fresco.</li>
+              <li>Remate con agua mineral.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Rizo de toronja y una cucharada de granos de granada.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="spec zero">
+      <div class="spec-head">
+        <div class="eyebrow">06 · Zero proof · Sin alcohol</div>
+        <h3>Golden Hour</h3>
+        <div class="tagline">Turmeric, ginger, pineapple, cayenne edge</div>
+        <div class="spec-meta">
+          <div><span>GLASS /</span> Highball · vaso alto</div>
+          <div><span>ICE /</span> Pebble · granizado</div>
+          <div><span>METHOD /</span> Shake + top</div>
+        </div>
+      </div>
+      <div class="spec-body">
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Ingredient / Ingrediente</th><th>oz</th><th>ml</th></tr></thead>
+            <tbody>
+              <tr><td>Pineapple juice, fresh<span class="ing-es">Jugo de piña, fresco</span></td><td class="num">2.00</td><td class="num">60</td></tr>
+              <tr><td>Lemon juice, fresh<span class="ing-es">Jugo de limón amarillo, fresco</span></td><td class="num">0.75</td><td class="num">22</td></tr>
+              <tr><td>Ginger juice <b>(D)</b><span class="ing-es">Jugo de jengibre (D)</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Wellness shot base — turmeric, ginger, lemon, cayenne<span class="ing-es">Base del wellness shot — cúrcuma, jengibre, limón, cayena</span></td><td class="num">0.50</td><td class="num">15</td></tr>
+              <tr><td>Spiced honey syrup <b>(A)</b><span class="ing-es">Jarabe de miel especiada (A)</span></td><td class="num">0.25</td><td class="num">7</td></tr>
+              <tr><td>Soda water, to top<span class="ing-es">Agua mineral, para rematar</span></td><td class="num">1.00</td><td class="num">30</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="steps">
+          <div>
+            <h4>Method</h4>
+            <ol>
+              <li>Shake everything except the soda, 12 seconds.</li>
+              <li>Strain over pebble ice.</li>
+              <li>Top with soda, cap with more pebble ice.</li>
+              <li>Turmeric stains — wipe the tin and the rail immediately.</li>
+            </ol>
+            <p class="garnish"><b>Garnish</b>Dehydrated orange wheel.</p>
+          </div>
+          <div class="es" lang="es">
+            <h4>Método</h4>
+            <ol>
+              <li>Agite todo menos el agua mineral, 12 segundos.</li>
+              <li>Cuele sobre hielo granizado.</li>
+              <li>Remate con agua mineral y corone con más hielo granizado.</li>
+              <li>La cúrcuma mancha — limpie el vaso mezclador y la barra de inmediato.</li>
+            </ol>
+            <p class="garnish"><b>Guarnición</b>Rodaja de naranja deshidratada.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>3 · Par levels</h2>
+      <div class="es-head">Niveles par por servicio</div>
+    </div>
+    <p class="sec-note">Count at pre-shift and again at close. Anything below par goes on the prep list before you leave.</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Component / Componente</th>
+            <th>Par / servicio</th>
+            <th>Batch day / Día</th>
+            <th>Hold / Vida útil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Spiced honey syrup <b>(A)</b><span class="ing-es">Jarabe de miel especiada</span></td><td class="num">32 oz</td><td>Mon + Thu</td><td class="num">14 d</td></tr>
+          <tr><td>Maple–cardamom syrup <b>(B)</b><span class="ing-es">Jarabe de arce y cardamomo</span></td><td class="num">16 oz</td><td>Mon</td><td class="num">10 d</td></tr>
+          <tr><td>Cranberry–sage cordial <b>(C)</b><span class="ing-es">Cordial de arándano y salvia</span></td><td class="num">24 oz</td><td>Mon + Thu</td><td class="num">10 d</td></tr>
+          <tr><td>Ginger juice <b>(D)</b><span class="ing-es">Jugo de jengibre</span></td><td class="num">12 oz</td><td>Tue + Fri</td><td class="num">5 d</td></tr>
+          <tr><td>Smoked cinnamon rim <b>(E)</b><span class="ing-es">Sal-azúcar de canela ahumada</span></td><td class="num">1 cup</td><td>Mon</td><td class="num">30 d</td></tr>
+          <tr><td>Lime juice<span class="ing-es">Jugo de limón verde</span></td><td class="num">32 oz</td><td>Daily / Diario</td><td class="num">24 h</td></tr>
+          <tr><td>Lemon juice<span class="ing-es">Jugo de limón amarillo</span></td><td class="num">24 oz</td><td>Daily / Diario</td><td class="num">24 h</td></tr>
+          <tr><td>Grapefruit juice<span class="ing-es">Jugo de toronja</span></td><td class="num">24 oz</td><td>Daily / Diario</td><td class="num">24 h</td></tr>
+          <tr><td>Pear purée<span class="ing-es">Puré de pera</span></td><td class="num">32 oz</td><td>Delivery / Entrega</td><td>Per label</td></tr>
+          <tr><td>Honeycrisp cider<span class="ing-es">Sidra de manzana</span></td><td class="num">64 oz</td><td>Delivery / Entrega</td><td>Per label</td></tr>
+          <tr><td>Pomegranate arils<span class="ing-es">Granos de granada</span></td><td class="num">2 cups</td><td>Daily / Diario</td><td class="num">2 d</td></tr>
+          <tr><td>Dehydrated apple wheels<span class="ing-es">Rodajas de manzana deshidratada</span></td><td class="num">40 ct</td><td>Mon</td><td class="num">14 d</td></tr>
+          <tr><td>Dehydrated orange wheels<span class="ing-es">Rodajas de naranja deshidratada</span></td><td class="num">40 ct</td><td>Mon</td><td class="num">14 d</td></tr>
+          <tr><td>Sage / rosemary<span class="ing-es">Salvia / romero</span></td><td>1 bunch ea.</td><td>Tue + Fri</td><td class="num">3 d</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>4 · Standards at the bar</h2>
+      <div class="es-head">Estándares en la barra</div>
+    </div>
+    <div class="rules">
+      <div>
+        <h4>English</h4>
+        <ul>
+          <li><b>Taste before service.</b> Every batch, every day. If a syrup tastes flat or fermented, dump it — do not thin it or sugar it back.</li>
+          <li><b>Fresh citrus only.</b> Nothing bottled goes in these builds. 24 hours from the press, then it is gone.</li>
+          <li><b>Label everything.</b> Product, date made, use-by, initials. Unlabeled containers get dumped at line check.</li>
+          <li><b>Measure every pour.</b> Jigger every time, including the quarter ounce. Free-pouring breaks the balance and the cost.</li>
+          <li><b>Allergens.</b> Ask before you serve 04 — black walnut bitters. TownHall is not a nut- or gluten-free kitchen, and we cannot guarantee against cross-contact.</li>
+          <li><b>86 protocol.</b> Component out, drink off. Tell the bar lead and the floor before the next ticket lands.</li>
+        </ul>
+      </div>
+      <div class="es" lang="es">
+        <h4>Español</h4>
+        <ul>
+          <li><b>Pruebe antes del servicio.</b> Cada lote, todos los días. Si un jarabe sabe plano o fermentado, deséchelo — no lo diluya ni le agregue azúcar.</li>
+          <li><b>Solo cítrico fresco.</b> Nada embotellado entra en estas recetas. 24 horas desde que se exprime y se desecha.</li>
+          <li><b>Etiquete todo.</b> Producto, fecha de elaboración, fecha de caducidad e iniciales. El recipiente sin etiqueta se desecha en la revisión de línea.</li>
+          <li><b>Mida cada servida.</b> Use el jigger siempre, incluso para ¼ de onza. Servir a ojo rompe el balance y el costo.</li>
+          <li><b>Alérgenos.</b> Pregunte antes de servir el 04 — amargo de nuez negra. TownHall no es una cocina libre de frutos secos ni de gluten, y no podemos garantizar que no haya contacto cruzado.</li>
+          <li><b>Protocolo 86.</b> Si falta un componente, se cancela el cóctel. Avise al encargado de barra y al piso antes del siguiente ticket.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="signoff">
+      <div class="sig"><div class="line"></div>BAR LEAD / ENCARGADO DE BARRA</div>
+      <div class="sig"><div class="line"></div>PREPARED BY / PREPARADO POR</div>
+      <div class="sig"><div class="line"></div>DATE / FECHA</div>
+    </div>
+  </section>
+
+  <footer>
+    TownHall · Fall 2026 bar program · Draft 01 — specs pending bar lead approval.
+    Laid out for letter and A4; print with ⌘P / Ctrl-P.
+    <span lang="es">Diseñada para tamaño carta y A4.</span>
+  </footer>
+</div>
+</body>
+</html>
