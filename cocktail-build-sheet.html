@@ -1,0 +1,380 @@
+<title>Bar Build Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg:        #F7F5EE;
+    --card:      #FFFFFF;
+    --ink:       #1B1B16;
+    --muted:     #6B6B60;
+    --faint:     #9C9C90;
+    --line:      #E3DFD1;
+    --rule:      #EFEBDE;
+    --accent:    #33593F;
+    --accent-ink:#2A4834;
+    --accent-soft:#E7EFE8;
+    --copper:    #8A5A22;
+    --copper-soft:#F6ECDC;
+    --shadow:    0 1px 2px rgba(27,27,22,.05), 0 8px 24px -16px rgba(27,27,22,.22);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #131409;
+      --card:      #1C1E15;
+      --ink:       #F1EEE1;
+      --muted:     #A5A395;
+      --faint:     #7C7A6D;
+      --line:      #33362A;
+      --rule:      #292C21;
+      --accent:    #8FBE9C;
+      --accent-ink:#B6D8BF;
+      --accent-soft:#22301F;
+      --copper:    #D9A56A;
+      --copper-soft:#2E2618;
+      --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #131409;
+    --card:      #1C1E15;
+    --ink:       #F1EEE1;
+    --muted:     #A5A395;
+    --faint:     #7C7A6D;
+    --line:      #33362A;
+    --rule:      #292C21;
+    --accent:    #8FBE9C;
+    --accent-ink:#B6D8BF;
+    --accent-soft:#22301F;
+    --copper:    #D9A56A;
+    --copper-soft:#2E2618;
+    --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 40px 64px;
+  }
+
+  /* ---- masthead ---- */
+  .mast { border-bottom: 2px solid var(--ink); padding-bottom: 18px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 10px;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600; font-size: clamp(32px, 7vw, 46px); line-height: 1.04;
+    letter-spacing: -.015em; margin: 0; text-wrap: balance;
+  }
+  .mast-sub {
+    display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline;
+    margin-top: 12px; color: var(--muted); font-size: 13.5px;
+  }
+  .mast-sub b { color: var(--ink); font-weight: 600; }
+
+  /* ---- station notes ---- */
+  .notes {
+    margin-top: 28px;
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+  .note {
+    border-left: 2px solid var(--line);
+    padding: 2px 0 2px 14px;
+  }
+  .note h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 6px;
+  }
+  .note p { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .note .stock { color: var(--ink); }
+
+  /* ---- spec cards ---- */
+  .specs { margin-top: 38px; display: flex; flex-direction: column; gap: 22px; }
+  .spec {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    break-inside: avoid;
+  }
+  .spec-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+  }
+  .spec-head h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600; font-size: clamp(22px, 4.4vw, 27px); line-height: 1.1;
+    letter-spacing: -.01em; margin: 0; flex: 1 1 auto; text-wrap: balance;
+  }
+  .chip {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 2px; white-space: nowrap;
+  }
+  .chip-shake { background: var(--accent-soft); color: var(--accent-ink); }
+  .chip-build { background: var(--copper-soft); color: var(--copper); }
+
+  .spec-body {
+    display: grid; gap: 26px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding-top: 18px;
+  }
+  @media (max-width: 620px) { .spec-body { grid-template-columns: 1fr; gap: 22px; } }
+
+  h4 {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 10px;
+  }
+
+  /* measures */
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 7px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+  tr:last-child td { border-bottom: none; }
+  .amt {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-weight: 600; font-size: 15px; font-variant-numeric: tabular-nums;
+    color: var(--accent); white-space: nowrap;
+    width: 1%; padding-right: 14px;
+  }
+  .amt .u { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: .04em; }
+  .ing { font-weight: 500; }
+  .ing .sub { display: block; font-weight: 400; font-size: 12.5px; color: var(--muted); }
+
+  .pour {
+    margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 10px;
+    font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint);
+  }
+  .pour b { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; color: var(--muted); letter-spacing: 0; }
+
+  /* method steps — genuinely sequential, so numbered */
+  ol { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  ol li {
+    counter-increment: step;
+    position: relative; padding-left: 26px; margin-bottom: 9px; font-size: 14px;
+  }
+  ol li:last-child { margin-bottom: 0; }
+  ol li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 1px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--muted);
+    width: 17px; height: 17px; border: 1px solid var(--line); border-radius: 50%;
+    display: grid; place-items: center;
+  }
+
+  .finish { margin-top: 20px; display: grid; gap: 10px; }
+  .fin-row { display: flex; gap: 12px; align-items: baseline; font-size: 14px; }
+  .fin-row dt {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--faint); width: 66px; flex: none;
+  }
+  .fin-row dd { margin: 0; font-weight: 500; }
+  dl { margin: 0; }
+
+  footer {
+    margin-top: 42px; padding-top: 18px; border-top: 1px solid var(--line);
+    color: var(--faint); font-size: 12.5px;
+  }
+  footer p { margin: 0 0 6px; }
+
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    .wrap { padding-block: 0; max-width: none; }
+    .spec { box-shadow: none; border-color: #bbb; page-break-inside: avoid; padding: 16px 0; border-left: none; border-right: none; border-top: none; border-radius: 0; }
+    .notes { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Bar &middot; Build Sheet</p>
+    <h1>Fall Cocktails</h1>
+    <div class="mast-sub">
+      <span><b>4</b> specs</span>
+      <span>All measures in <b>oz</b></span>
+      <span>Shake hard, <b>10&ndash;12 sec</b>, until the tin frosts</span>
+    </div>
+  </header>
+
+  <section class="notes">
+    <div class="note">
+      <h3>Biz to have on station</h3>
+      <p class="stock">Channel Orange &middot; Pear Chai &middot; DWAIS &middot; Cider Mix &middot; Titos Chai &middot; Spritz</p>
+    </div>
+    <div class="note">
+      <h3>Fresh &amp; à la minute</h3>
+      <p class="stock">Lemon juice &middot; Blonde espresso &middot; Pecan brown sugar syrup &middot; Himalayan salt &middot; Prosecco</p>
+    </div>
+    <div class="note">
+      <h3>Garnish mise</h3>
+      <p class="stock">Sage &middot; Cinnamon sticks &middot; Rosemary sprigs (2 specs) &middot; Star anise</p>
+    </div>
+    <div class="note">
+      <h3>Glassware</h3>
+      <p class="stock">Rocks (2) &middot; Coupe/martini &middot; Wine</p>
+    </div>
+  </section>
+
+  <div class="specs">
+
+    <!-- 1 -->
+    <article class="spec">
+      <div class="spec-head">
+        <h2>Channel Orange</h2>
+        <span class="chip chip-shake">Shake &amp; strain</span>
+      </div>
+      <div class="spec-body">
+        <div>
+          <h4>In the tin</h4>
+          <table>
+            <tbody>
+              <tr><td class="amt">2.00 <span class="u">oz</span></td><td class="ing">Channel Orange Biz</td></tr>
+              <tr><td class="amt">2.25 <span class="u">oz</span></td><td class="ing">Pear Chai Biz</td></tr>
+            </tbody>
+          </table>
+          <p class="pour"><span>Total pour</span><b>4.25 oz</b></p>
+        </div>
+        <div>
+          <h4>Build</h4>
+          <ol>
+            <li>Combine both biz in a shaker tin.</li>
+            <li>Add ice; shake.</li>
+            <li>Strain over fresh ice in a rocks glass.</li>
+          </ol>
+          <dl class="finish">
+            <div class="fin-row"><dt>Glass</dt><dd>Rocks</dd></div>
+            <div class="fin-row"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
+            <div class="fin-row"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div>
+          </dl>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="spec">
+      <div class="spec-head">
+        <h2>Don't Worry About It Sweetheart</h2>
+        <span class="chip chip-shake">Shake &amp; strain</span>
+      </div>
+      <div class="spec-body">
+        <div>
+          <h4>In the tin</h4>
+          <table>
+            <tbody>
+              <tr><td class="amt">2.00 <span class="u">oz</span></td><td class="ing">DWAIS Biz</td></tr>
+              <tr><td class="amt">3.50 <span class="u">oz</span></td><td class="ing">Cider Mix Biz</td></tr>
+              <tr><td class="amt">0.50 <span class="u">oz</span></td><td class="ing">Lemon juice<span class="sub">Fresh</span></td></tr>
+            </tbody>
+          </table>
+          <p class="pour"><span>Total pour</span><b>6.00 oz</b></p>
+        </div>
+        <div>
+          <h4>Build</h4>
+          <ol>
+            <li>Combine biz and lemon in a shaker tin.</li>
+            <li>Add ice; shake.</li>
+            <li>Strain over fresh ice in a rocks glass.</li>
+          </ol>
+          <dl class="finish">
+            <div class="fin-row"><dt>Glass</dt><dd>Rocks</dd></div>
+            <div class="fin-row"><dt>Ice</dt><dd>Fresh rocks ice</dd></div>
+            <div class="fin-row"><dt>Garnish</dt><dd>Rosemary sprig</dd></div>
+          </dl>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="spec">
+      <div class="spec-head">
+        <h2>Chai Hard</h2>
+        <span class="chip chip-shake">Shake &amp; strain up</span>
+      </div>
+      <div class="spec-body">
+        <div>
+          <h4>In the tin</h4>
+          <table>
+            <tbody>
+              <tr><td class="amt">2.25 <span class="u">oz</span></td><td class="ing">Titos Chai Biz</td></tr>
+              <tr><td class="amt">1.00 <span class="u">oz</span></td><td class="ing">Blonde espresso</td></tr>
+              <tr><td class="amt">1.50 <span class="u">oz</span></td><td class="ing">Pecan brown sugar syrup</td></tr>
+              <tr><td class="amt">pinch</td><td class="ing">Himalayan salt</td></tr>
+            </tbody>
+          </table>
+          <p class="pour"><span>Total pour</span><b>4.75 oz</b></p>
+        </div>
+        <div>
+          <h4>Build</h4>
+          <ol>
+            <li>Combine chai biz, espresso, syrup and a pinch of salt in a shaker tin.</li>
+            <li>Add ice; shake.</li>
+            <li>Strain up into a chilled coupe &mdash; no ice in the glass.</li>
+          </ol>
+          <dl class="finish">
+            <div class="fin-row"><dt>Glass</dt><dd>Coupe / martini</dd></div>
+            <div class="fin-row"><dt>Ice</dt><dd>None &mdash; served up</dd></div>
+            <div class="fin-row"><dt>Garnish</dt><dd>1 star anise</dd></div>
+          </dl>
+        </div>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="spec">
+      <div class="spec-head">
+        <h2>Scarlett Spritz</h2>
+        <span class="chip chip-build">Build in glass</span>
+      </div>
+      <div class="spec-body">
+        <div>
+          <h4>In the glass</h4>
+          <table>
+            <tbody>
+              <tr><td class="amt">2.50 <span class="u">oz</span></td><td class="ing">Spritz Biz<span class="sub">Goes in first, under the Prosecco</span></td></tr>
+              <tr><td class="amt">5.00 <span class="u">oz</span></td><td class="ing">Prosecco</td></tr>
+            </tbody>
+          </table>
+          <p class="pour"><span>Total pour</span><b>7.50 oz</b></p>
+        </div>
+        <div>
+          <h4>Build</h4>
+          <ol>
+            <li>Pack a wine glass with ice.</li>
+            <li>Pour the Spritz Biz over the ice.</li>
+            <li>Top with Prosecco.</li>
+            <li>Stir once with a bar spoon &mdash; lift from the bottom, don't whip the bubbles out.</li>
+          </ol>
+          <dl class="finish">
+            <div class="fin-row"><dt>Glass</dt><dd>Wine</dd></div>
+            <div class="fin-row"><dt>Ice</dt><dd>Packed</dd></div>
+            <div class="fin-row"><dt>Garnish</dt><dd>Rosemary</dd></div>
+          </dl>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>
+    <p>Build to spec every time &mdash; no free-pouring the biz. If a batch runs low, call it before you're out.</p>
+    <p>Spec changes go through the bar lead; mark up a printed copy rather than changing the build on the fly.</p>
+  </footer>
+
+</div>
