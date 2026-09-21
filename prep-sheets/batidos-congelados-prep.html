@@ -212,7 +212,8 @@
   .etiqueta .t .en { color: var(--muted); font-weight: 400; }
   body[data-lang="both"] .etiqueta .en::before,
   body[data-lang="both"] .conteo .en::before { content: " / "; }
-  .etiqueta .fill { border-bottom: 1px solid var(--line); display: inline-block; min-width: 68px; }
+  .etiqueta .fill { border-bottom: 1px solid var(--line); display: inline-block; min-width: 58px; }
+  .etiqueta .fld { white-space: nowrap; display: inline-block; }
 
   .conteo {
     display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 11px 20px;
@@ -228,13 +229,93 @@
   }
   footer .en { margin-top: 6px; }
 
+
+  /* --- codigo de color por batido / per-smoothie colour code --- */
+  .c1 { --c: #C0395B; --c-soft: #FBEAEF; --c-ink: #8E2440; }
+  .c2 { --c: #2E7DA6; --c-soft: #E7F2F8; --c-ink: #1F5B7A; }
+  .c3 { --c: #4A8B3B; --c-soft: #EDF5E9; --c-ink: #35682A; }
+  .c4 { --c: #6B4E9B; --c-soft: #F0EBF8; --c-ink: #4E3775; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .c1 { --c: #E0748F; --c-soft: #2E1A20; --c-ink: #F0A9BA; }
+    :root:not([data-theme="light"]) .c2 { --c: #6FB6D8; --c-soft: #16242C; --c-ink: #A5D4E8; }
+    :root:not([data-theme="light"]) .c3 { --c: #85C071; --c-soft: #1A2417; --c-ink: #B0DBA0; }
+    :root:not([data-theme="light"]) .c4 { --c: #A88BD4; --c-soft: #221C2E; --c-ink: #C7B3E6; }
+  }
+  :root[data-theme="dark"] .c1 { --c: #E0748F; --c-soft: #2E1A20; --c-ink: #F0A9BA; }
+  :root[data-theme="dark"] .c2 { --c: #6FB6D8; --c-soft: #16242C; --c-ink: #A5D4E8; }
+  :root[data-theme="dark"] .c3 { --c: #85C071; --c-soft: #1A2417; --c-ink: #B0DBA0; }
+  :root[data-theme="dark"] .c4 { --c: #A88BD4; --c-soft: #221C2E; --c-ink: #C7B3E6; }
+
+  .ficha { border-left: 7px solid var(--c); }
+  .ficha .ficha-head { background: var(--c-soft); border-bottom-color: var(--c); }
+  .ficha .ficha-name .n {
+    background: var(--c); color: #FFFFFF; border-radius: 4px;
+    padding: 3px 7px; margin-right: 10px; font-size: 11.5px;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .ficha .ficha-yield { color: var(--c-ink); }
+  .ficha ol.pasos li::marker { color: var(--c-ink); font-weight: 700; }
+  .ficha tfoot td { border-top-color: var(--c); }
+  .ficha .block-label { color: var(--c-ink); opacity: 0.9; }
+  .ficha .etiqueta { border-color: var(--c); }
+
+  /* --- leyenda de colores / colour key --- */
+  .leyenda {
+    margin-top: 22px; display: grid; gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .leyenda-item {
+    display: flex; align-items: center; gap: 9px;
+    border: 1px solid var(--line); border-left: 7px solid var(--c);
+    border-radius: 6px; padding: 8px 11px; background: var(--card);
+  }
+  .leyenda-item .dot {
+    width: 13px; height: 13px; border-radius: 3px; background: var(--c); flex: none;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .leyenda-item .nm { font-size: 12.5px; font-weight: 600; line-height: 1.25; }
+  .leyenda-item .gm {
+    margin-left: auto; font-size: 12px; font-weight: 600;
+    color: var(--c-ink); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
   @media print {
-    @page { size: letter portrait; margin: 13mm 12mm; }
-    body { background: #FFFFFF; color: #000000; font-size: 11pt; }
+    @page { size: letter portrait; margin: 11mm 10mm; }
+    body { background: #FFFFFF; color: #000000; font-size: 9.5pt; line-height: 1.38; }
     .sheet { max-width: none; padding: 0; }
     .lang-bar { display: none; }
-    .ficha, .rules { break-inside: avoid; page-break-inside: avoid; border-color: #999999; }
-    .ficha-head { background: #F1F1F1; }
+    h1 { font-size: 21pt; }
+    h1 .en { font-size: 11pt; }
+    .deck { font-size: 9pt; max-width: none; margin-top: 7px; }
+    .meta-row { margin-top: 10px; padding-top: 9px; font-size: 8.5pt; }
+    .leyenda { margin-top: 12px; gap: 6px; grid-template-columns: repeat(4, 1fr); }
+    .leyenda-item { padding: 6px 8px; gap: 6px; }
+    .leyenda-item .nm { font-size: 8pt; }
+    .leyenda-item .gm { font-size: 8pt; }
+    .rules { margin-top: 14px; padding: 12px 14px; }
+    .rules h2 { font-size: 13pt; margin-bottom: 8px; }
+    .rules ol { gap: 5px; }
+    .rules .en { font-size: 8.5pt; }
+    .flag { margin-top: 10px; padding: 8px 11px; font-size: 8.5pt; }
+    .fichas { margin-top: 14px; gap: 10px; }
+    .ficha-head { padding: 9px 13px 8px; }
+    .ficha-name { font-size: 14pt; }
+    .ficha-body { padding: 11px 13px 13px; gap: 8px 20px; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+    .block-label { margin-bottom: 5px; font-size: 7.5pt; }
+    table { font-size: 9pt; }
+    th, td { padding: 4px 6px; }
+    td .en { font-size: 8pt; }
+    ol.pasos { font-size: 9pt; gap: 5px; }
+    ol.pasos .en { font-size: 8pt; }
+    .etiqueta { margin-top: 9px; padding: 7px 9px; font-size: 8.5pt; }
+    .conteo { padding: 7px 13px; font-size: 8pt; gap: 6px 16px; }
+    footer { margin-top: 14px; padding-top: 10px; font-size: 8pt; }
+    .ficha, .rules { break-inside: avoid; page-break-inside: avoid; }
+    .rules { border-color: #999999; }
+    .ficha { border-color: #BBBBBB; border-left-color: var(--c); }
+    .ficha-head, .leyenda-item .dot, .ficha-name .n {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
     .conteo { background: #FFFFFF; }
     .fichas { gap: 14px; }
     .en { color: #444444; }
@@ -266,6 +347,12 @@
       <div><span class="es">Recetas</span><span class="en">Recipes</span>: <b>4</b></div>
       <div><span class="es">Unidad</span><span class="en">Unit</span>: <b>gramos (g)</b></div>
       <div><span class="es">1 bolsa = 1 batido</span><span class="en">1 bag = 1 smoothie</span></div>
+    </div>
+    <div class="leyenda">
+      <div class="leyenda-item c1"><span class="dot"></span><span class="nm">01 · Strawberry Skin Renewal</span><span class="gm">338 g</span></div>
+      <div class="leyenda-item c2"><span class="dot"></span><span class="nm">02 · Keto Protein Powerhouse 2.0</span><span class="gm">235 g</span></div>
+      <div class="leyenda-item c3"><span class="dot"></span><span class="nm">03 · Being Brigid 2.0</span><span class="gm">196 g</span></div>
+      <div class="leyenda-item c4"><span class="dot"></span><span class="nm">04 · Longevity Smoothie</span><span class="gm">280 g</span></div>
     </div>
   </header>
 
@@ -313,7 +400,7 @@
   <div class="fichas">
 
     <!-- 01 -->
-    <article class="ficha">
+    <article class="ficha c1">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">01</span>Strawberry Skin Renewal</div>
         <div class="ficha-yield">
@@ -369,8 +456,8 @@
           <div class="etiqueta">
             <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
             Strawberry Skin Renewal · 338 g ·
-            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
-            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
+            <span class="fld"><span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span></span> ·
+            <span class="fld"><span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span></span>
           </div>
         </div>
       </div>
@@ -383,7 +470,7 @@
     </article>
 
     <!-- 02 -->
-    <article class="ficha">
+    <article class="ficha c2">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">02</span>Keto Protein Powerhouse 2.0</div>
         <div class="ficha-yield">
@@ -432,8 +519,8 @@
           <div class="etiqueta">
             <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
             Keto Protein Powerhouse 2.0 · 235 g ·
-            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
-            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
+            <span class="fld"><span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span></span> ·
+            <span class="fld"><span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span></span>
           </div>
         </div>
       </div>
@@ -446,7 +533,7 @@
     </article>
 
     <!-- 03 -->
-    <article class="ficha">
+    <article class="ficha c3">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">03</span>Being Brigid 2.0</div>
         <div class="ficha-yield">
@@ -509,8 +596,8 @@
           <div class="etiqueta">
             <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
             Being Brigid 2.0 · 196 g ·
-            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
-            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
+            <span class="fld"><span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span></span> ·
+            <span class="fld"><span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span></span>
           </div>
         </div>
       </div>
@@ -523,7 +610,7 @@
     </article>
 
     <!-- 04 -->
-    <article class="ficha">
+    <article class="ficha c4">
       <div class="ficha-head">
         <div class="ficha-name"><span class="n">04</span>Longevity Smoothie</div>
         <div class="ficha-yield">
@@ -582,8 +669,8 @@
           <div class="etiqueta">
             <span class="t"><span class="es">Etiqueta:</span><span class="en">Label:</span></span>
             Longevity Smoothie · 280 g ·
-            <span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span> ·
-            <span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span>
+            <span class="fld"><span class="es">Fecha</span><span class="en">Date</span> <span class="fill"></span></span> ·
+            <span class="fld"><span class="es">Iniciales</span><span class="en">Initials</span> <span class="fill"></span></span>
           </div>
         </div>
       </div>
@@ -618,9 +705,12 @@
     buttons.forEach(function (b) {
       b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); });
     });
+    var valid = { es: 1, en: 1, both: 1 };
+    var forced = (location.search.match(/[?&]lang=(es|en|both)/) || [])[1];
     var saved = null;
     try { saved = localStorage.getItem('th-prep-lang'); } catch (e) {}
-    if (saved === 'es' || saved === 'en' || saved === 'both') { setLang(saved); }
+    if (forced) { setLang(forced); }
+    else if (saved && valid[saved]) { setLang(saved); }
   })();
 </script>
 </body>
