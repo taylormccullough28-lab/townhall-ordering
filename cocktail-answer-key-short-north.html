@@ -1,0 +1,272 @@
+<meta charset="utf-8">
+<title>Short North Answer Key</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg:#F7F5EE; --card:#FFFFFF; --ink:#1B1B16; --muted:#5F5F55; --faint:#8E8E7C;
+    --line:#D8D3C2; --rule:#BDB8A6; --hair:#EBE7D9;
+    --accent:#33593F; --accent-ink:#2A4834; --accent-soft:#E7EFE8;
+    --flag:#8A5A22; --flag-soft:#FBF1E2; --flag-line:#E3C79C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#121309; --card:#1C1E15; --ink:#F1EEE1; --muted:#ACAA9B; --faint:#82806F;
+      --line:#3A3D30; --rule:#4E5142; --hair:#2A2D22;
+      --accent:#8FBE9C; --accent-ink:#B6D8BF; --accent-soft:#22301F;
+      --flag:#E0AC72; --flag-soft:#2C2417; --flag-line:#4E3D24;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#121309; --card:#1C1E15; --ink:#F1EEE1; --muted:#ACAA9B; --faint:#82806F;
+    --line:#3A3D30; --rule:#4E5142; --hair:#2A2D22;
+    --accent:#8FBE9C; --accent-ink:#B6D8BF; --accent-soft:#22301F;
+    --flag:#E0AC72; --flag-soft:#2C2417; --flag-line:#4E3D24;
+  }
+
+  * { box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); margin:0;
+         font-family:'Inter',system-ui,-apple-system,sans-serif;
+         font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:840px; margin:0 auto; padding-inline:20px; padding-block:40px 64px; }
+
+  .eyebrow { font-size:10.5px; font-weight:600; letter-spacing:.18em;
+             text-transform:uppercase; color:var(--accent); margin:0 0 10px; }
+  h1 { font-family:'Fraunces',Georgia,serif; font-weight:600;
+       font-size:clamp(30px,6.5vw,42px); line-height:1.04; letter-spacing:-.02em;
+       margin:0; text-wrap:balance; }
+  .standard { margin:14px 0 0; font-size:15px; color:var(--muted); max-width:38em; }
+  .standard b { color:var(--ink); font-weight:600; }
+
+  /* candidate details */
+  .details { margin-top:24px; padding:18px 20px; border:1.5px solid var(--ink);
+             border-radius:3px; display:grid; gap:16px 26px;
+             grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); }
+  .field { display:flex; align-items:baseline; gap:10px; }
+  .field .lab { flex:none; font-size:10px; font-weight:600; letter-spacing:.13em;
+                text-transform:uppercase; color:var(--faint); }
+  .field .ln { flex:1 1 auto; min-width:60px; border-bottom:1px solid var(--rule); height:19px; }
+  .attempt { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .box { display:inline-block; width:13px; height:13px; border:1.5px solid var(--rule);
+         border-radius:2px; vertical-align:-2px; margin-right:5px; }
+
+  h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:24px;
+       margin:0; letter-spacing:-.01em; }
+  .sec { margin-top:40px; }
+  .sec-head { border-bottom:2px solid var(--ink); padding-bottom:9px;
+              display:flex; align-items:flex-end; justify-content:space-between; gap:16px; }
+  .sec-num { font-size:10.5px; font-weight:600; letter-spacing:.14em;
+             text-transform:uppercase; color:var(--faint); display:block; margin-bottom:5px; }
+  .sec-pts { flex:none; font-size:11px; font-weight:600; letter-spacing:.08em;
+             text-transform:uppercase; color:var(--faint); white-space:nowrap; }
+  .sec-note { margin:10px 0 0; font-size:13.5px; color:var(--muted); }
+
+  /* spec blocks */
+  .specs { margin-top:18px; display:grid; gap:16px;
+           grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+  .spec { border:1px solid var(--line); border-radius:3px; padding:14px 15px 12px;
+          background:var(--card); break-inside:avoid; }
+  .spec h3 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:17px;
+             line-height:1.15; margin:0 0 10px; letter-spacing:-.01em; }
+  .colhead { display:flex; gap:10px; font-size:9px; font-weight:600; letter-spacing:.13em;
+             text-transform:uppercase; color:var(--faint); margin-bottom:3px; }
+  .colhead .a { flex:none; width:58px; }
+  .wrow { display:flex; gap:10px; margin-bottom:9px; }
+  .wrow .a { flex:none; width:58px; border-bottom:1px solid var(--rule); height:20px; }
+  .wrow .b { flex:1 1 auto; border-bottom:1px solid var(--rule); height:20px; }
+  .frow { display:flex; align-items:baseline; gap:9px; margin-top:8px; }
+  .frow .lab { flex:none; width:58px; text-align:right; font-size:9.5px; font-weight:600;
+               letter-spacing:.1em; text-transform:uppercase; color:var(--faint); }
+  .frow .ln { flex:1 1 auto; border-bottom:1px solid var(--rule); height:20px; }
+  .score { margin-top:11px; padding-top:8px; border-top:1px solid var(--hair);
+           display:flex; justify-content:flex-end; align-items:baseline; gap:7px;
+           font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+           color:var(--faint); }
+  .score .slot { display:inline-block; width:30px; border-bottom:1px solid var(--rule);
+                 height:16px; }
+
+  /* questions */
+  .qs { margin-top:18px; display:grid; gap:15px; counter-reset:q; }
+  .q { counter-increment:q; break-inside:avoid; }
+  .q p { margin:0 0 7px; font-size:14.5px; font-weight:500;
+         display:flex; gap:10px; align-items:baseline; }
+  .q p::before { content:counter(q); flex:none; font-family:'IBM Plex Mono',monospace;
+                 font-size:10px; font-weight:600; color:var(--muted);
+                 width:19px; height:19px; border:1px solid var(--line); border-radius:50%;
+                 display:grid; place-items:center; transform:translateY(2px); }
+  .ans { border-bottom:1px solid var(--rule); height:21px; margin-left:29px; }
+  .ans + .ans { margin-top:9px; }
+
+  /* practical checklist */
+  table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13.5px; }
+  th { text-align:left; font-size:9.5px; font-weight:600; letter-spacing:.11em;
+       text-transform:uppercase; color:var(--faint); padding:0 8px 7px;
+       border-bottom:1.5px solid var(--ink); }
+  th.c, td.c { text-align:center; width:74px; }
+  td { padding:9px 8px; border-bottom:1px solid var(--hair); vertical-align:middle; }
+  td.build { border-bottom:1px solid var(--rule); }
+
+  .result { margin-top:26px; border:1.5px solid var(--ink); border-radius:3px; padding:18px 20px; }
+  .result h3 { font-family:'Fraunces',Georgia,serif; font-size:18px; font-weight:600;
+               margin:0 0 12px; }
+  .tally { display:grid; gap:10px 26px;
+           grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); }
+  .tally .field .lab { width:auto; }
+  .verdict { margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+             display:flex; flex-wrap:wrap; gap:14px 30px; align-items:baseline;
+             font-size:14px; font-weight:500; }
+  .sign { margin-top:18px; display:grid; gap:18px 30px;
+          grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); }
+
+  .rule-note { margin-top:22px; background:var(--flag-soft); border:1px solid var(--flag-line);
+               border-radius:3px; padding:14px 16px; break-inside:avoid; }
+  .rule-note h4 { font-size:10px; font-weight:600; letter-spacing:.14em;
+                  text-transform:uppercase; color:var(--flag); margin:0 0 6px; }
+  .rule-note p { margin:0; font-size:14px; }
+
+  /* answer key */
+  .key { margin-top:26px; }
+  .key-banner { background:var(--ink); color:var(--bg); border-radius:3px;
+                padding:13px 16px; display:flex; flex-wrap:wrap; gap:6px 16px;
+                align-items:baseline; justify-content:space-between; }
+  .key-banner strong { font-size:13px; font-weight:600; letter-spacing:.13em;
+                       text-transform:uppercase; }
+  .key-banner span { font-size:12.5px; opacity:.82; }
+  .key-grid { margin-top:16px; display:grid; gap:14px;
+              grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
+  .key-card { border:1px solid var(--line); border-radius:3px; padding:12px 14px;
+              background:var(--card); break-inside:avoid; }
+  .key-card h3 { font-family:'Fraunces',Georgia,serif; font-size:15.5px; font-weight:600;
+                 margin:0 0 8px; }
+  .key-card dl { margin:0; display:grid; gap:4px; }
+  .key-card .kr { display:flex; gap:9px; font-size:13px; align-items:baseline; }
+  .key-card .kr dt { flex:none; width:52px; text-align:right; font-size:9.5px;
+                     font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+                     color:var(--faint); }
+  .key-card .kr dd { margin:0; }
+  .key-card .amt { font-family:'IBM Plex Mono',monospace; font-weight:600;
+                   font-variant-numeric:tabular-nums; color:var(--accent); }
+  .key-qs { margin-top:16px; display:grid; gap:9px; }
+  .key-q { font-size:13.5px; break-inside:avoid; }
+  .key-q b { font-weight:600; }
+  .key-q span { color:var(--muted); }
+
+  footer { margin-top:44px; padding-top:16px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:13px; }
+
+  @media print {
+    @page { size:letter portrait; margin:0.5in 0.55in 0.45in; }
+    :root, :root[data-theme="dark"] {
+      --bg:#FFFFFF; --card:#FFFFFF; --ink:#141410; --muted:#4A4A40; --faint:#6E6E62;
+      --line:#B6B2A2; --rule:#8E8A7A; --hair:#DEDACD;
+      --accent:#2A4834; --accent-ink:#2A4834; --accent-soft:#E7EFE8;
+      --flag:#6F4715; --flag-soft:#FBF1E2; --flag-line:#D5B682;
+    }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body { background:#fff; font-size:9.6pt; line-height:1.4; }
+    .wrap { max-width:none; padding:0; }
+    h1 { font-size:23pt; }
+    .standard { font-size:9.5pt; margin-top:9pt; }
+    .details { margin-top:13pt; padding:10pt 12pt; gap:11pt 20pt; }
+    .sec { margin-top:20pt; }
+    .sec h2 { font-size:15pt; }
+    .sec-note { font-size:9pt; margin-top:6pt; }
+    .specs { margin-top:11pt; gap:10pt; grid-template-columns:1fr 1fr; }
+    .spec { padding:9pt 10pt 8pt; }
+    .spec h3 { font-size:12pt; margin-bottom:7pt; }
+    .wrow { margin-bottom:6pt; } .wrow .a, .wrow .b, .frow .ln { height:15pt; }
+    .frow { margin-top:5pt; }
+    .qs { margin-top:11pt; gap:10pt; }
+    .q p { font-size:9.6pt; margin-bottom:5pt; }
+    .ans { height:15pt; } .ans + .ans { margin-top:6pt; }
+    table { margin-top:10pt; font-size:9pt; } td { padding:6pt; }
+    .result { margin-top:16pt; padding:11pt 13pt; break-inside:avoid; }
+    .sign { margin-top:12pt; }
+    .rule-note { margin-top:13pt; padding:9pt 11pt; } .rule-note p { font-size:9pt; }
+    .key-grid { grid-template-columns:1fr 1fr; gap:9pt; }
+    .key-card { padding:8pt 10pt; } .key-card h3 { font-size:11pt; }
+    .key-card .kr { font-size:8.6pt; }
+    .key-q { font-size:8.8pt; }
+    footer { margin-top:16pt; font-size:8.5pt; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">TownHall Short North &middot; Bar Certification</p>
+    <h1>Answer Key</h1>
+  </header>
+
+  <div class="key-banner">
+    <strong>Manager copy</strong>
+    <span>Grade from this sheet. It is printed separately from the test &mdash;
+      keep it off the bar while anyone is being certified.</span>
+  </div>
+
+  <p class="standard">Section 1 is worth <b>41</b>, Section 2 <b>18</b>,
+    for <b>59</b> written points. A bartender certifies at <b>54</b>
+    plus three correct builds, each finished within <b>2:00</b> from called ticket
+    to the rail.</p>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div><span class="sec-num">Section 1</span><h2>The specs</h2></div>
+      <span class="sec-pts">41 points</span>
+    </div>
+    <p class="sec-note">One point per line, amount and ingredient both correct.
+      One point each for glass and garnish. Ice is not scored on its own &mdash;
+      it is checked on the bar in Section 3.</p>
+    <div class="key-grid">
+        <div class="key-card">
+          <h3>Channel Orange</h3>
+          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Channel Orange Biz</dd></div><div class="kr"><dt><span class="amt">1.75</span></dt><dd>Pear Chai Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.25 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>Don't Worry About It Sweetheart</h3>
+          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>DWAIS Biz</dd></div><div class="kr"><dt><span class="amt">3.50</span></dt><dd>Cider Mix Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>6.00 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Rosemary sprig</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>Green Goddess</h3>
+          <dl><div class="kr"><dt><span class="amt">rinse</span></dt><dd>Pernod — in the glass, not the tin</dd></div><div class="kr"><dt><span class="amt">2.75</span></dt><dd>Goddess Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Spicy cucumber juice</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.25 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks — Pernod-rinsed</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Mint bushel</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>LMF 2.0</h3>
+          <dl><div class="kr"><dt><span class="amt">4.00</span></dt><dd>LMF 2.0 Biz</dd></div><div class="kr"><dt><span class="amt">0.25</span></dt><dd>Turmeric juice</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.75 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Dragonfruit powder dusting, then a pinch of calendula</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>No New Friends</h3>
+          <dl><div class="kr"><dt><span class="amt">3.00</span></dt><dd>NNF Biz</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Lime juice</dd></div><div class="kr"><dt><span class="amt">top</span></dt><dd>Soda water — after the shake</dd></div><div class="kr"><dt>Total</dt><dd>4.00 oz + soda</dd></div><div class="kr"><dt>Glass</dt><dd>12 oz tall</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Hibiscus leaves + tarragon sprig</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>Chai Hard</h3>
+          <dl><div class="kr"><dt><span class="amt">2.25</span></dt><dd>Titos Chai Biz</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Blonde espresso</dd></div><div class="kr"><dt><span class="amt">1.50</span></dt><dd>Pecan brown sugar syrup</dd></div><div class="kr"><dt><span class="amt">pinch</span></dt><dd>Himalayan salt</dd></div><div class="kr"><dt>Total</dt><dd>4.75 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Coupe / martini</dd></div><div class="kr"><dt>Ice</dt><dd>None — served up</dd></div><div class="kr"><dt>Garnish</dt><dd>1 star anise</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>Espresso Martini</h3>
+          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Liquor of choice — ask the guest</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Simple syrup</dd></div><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Espresso</dd></div><div class="kr"><dt>Total</dt><dd>5.00 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Martini coupe</dd></div><div class="kr"><dt>Ice</dt><dd>None — served up</dd></div><div class="kr"><dt>Garnish</dt><dd>3 espresso beans</dd></div></dl>
+        </div>
+        <div class="key-card">
+          <h3>Scarlett Spritz</h3>
+          <dl><div class="kr"><dt><span class="amt">2.50</span></dt><dd>Spritz Biz — in first, under the Prosecco</dd></div><div class="kr"><dt><span class="amt">5.00</span></dt><dd>Prosecco</dd></div><div class="kr"><dt>Total</dt><dd>7.50 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Wine</dd></div><div class="kr"><dt>Ice</dt><dd>Packed</dd></div><div class="kr"><dt>Garnish</dt><dd>Rosemary</dd></div></dl>
+        </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div><span class="sec-num">Section 2</span><h2>What gets sent back</h2></div>
+      <span class="sec-pts">18 points</span>
+    </div>
+    <p class="sec-note">Two points each. Award the full two if they have the
+      substance &mdash; the wording will not match.</p>
+    <div class="key-qs"><div class="key-q"><b>1. Which drink on this menu is never shaken, and what happens if you shake it?</b><span>Scarlett Spritz. It is built in the glass. Shaking flattens the Prosecco.</span></div><div class="key-q"><b>2. Where does the Pernod go on a Green Goddess, and at what point in the build?</b><span>In the glass, not the tin. Rinse and dump the excess before you shake.</span></div><div class="key-q"><b>3. When is the soda added to a No New Friends, and why never in the tin?</b><span>After the shake, in the glass. Shaking soda kills the bubbles and can blow the tin apart.</span></div><div class="key-q"><b>4. Which two drinks are served up, and what does that mean for the glass?</b><span>Chai Hard and Espresso Martini. Chilled coupe, no ice in the glass.</span></div><div class="key-q"><b>5. What must you do before you start building an Espresso Martini?</b><span>Ask the guest which liquor they want. It is the only spec with no liquor written into it.</span></div><div class="key-q"><b>6. In what order do the two LMF 2.0 garnishes go on, and why does it matter?</b><span>Dragonfruit powder first, then the calendula. Dusting over the flowers buries them.</span></div><div class="key-q"><b>7. Why do you strain over fresh ice instead of the ice you shook with?</b><span>Shaken ice is chipped and already melting; it waters the drink down in the glass.</span></div><div class="key-q"><b>8. Which drink has no fixed total pour, and why?</b><span>No New Friends. The soda tops the glass rather than being measured.</span></div><div class="key-q"><b>9. A guest orders a drink and you are out of the biz. What do you do?</b><span>Tell the guest it is unavailable and call it to the bar lead. Never substitute or free-pour a replacement.</span></div></div>
+  </section>
+
+  <footer>
+    <p>Specs change. Re-print this key whenever the build sheet changes, and
+      re-certify the bar team.</p>
+  </footer>
+
+</div>

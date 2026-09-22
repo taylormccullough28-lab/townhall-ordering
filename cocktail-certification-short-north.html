@@ -126,7 +126,7 @@
   .rule-note p { margin:0; font-size:14px; }
 
   /* answer key */
-  .key { margin-top:52px; }
+  .key { margin-top:26px; }
   .key-banner { background:var(--ink); color:var(--bg); border-radius:3px;
                 padding:13px 16px; display:flex; flex-wrap:wrap; gap:6px 16px;
                 align-items:baseline; justify-content:space-between; }
@@ -184,7 +184,6 @@
     .result { margin-top:16pt; padding:11pt 13pt; break-inside:avoid; }
     .sign { margin-top:12pt; }
     .rule-note { margin-top:13pt; padding:9pt 11pt; } .rule-note p { font-size:9pt; }
-    .key { break-before:page; margin-top:0; }
     .key-grid { grid-template-columns:1fr 1fr; gap:9pt; }
     .key-card { padding:8pt 10pt; } .key-card h3 { font-size:11pt; }
     .key-card .kr { font-size:8.6pt; }
@@ -201,7 +200,8 @@
     <p class="standard">Closed book. No build sheet, no phone, no asking the
       bartender next to you. A bartender is certified on this menu at
       <b>54 of 59 written points</b> and <b>three correct builds
-      on the bar</b>. Anything less is a re-test, not a pass.</p>
+      on the bar, each finished within 2:00</b>. Anything less is a re-test,
+      not a pass.</p>
   </header>
 
   <div class="details">
@@ -314,18 +314,20 @@
       <span class="sec-pts">Pass / fail</span>
     </div>
     <p class="sec-note">The certifying manager picks three drinks at random and
-      watches the full build. Every line has to be checked for the build to
-      count. One missed line is a failed build.</p>
+      watches the full build. Start the clock when the ticket is called and stop
+      it when the drink hits the rail &mdash; the standard is <b>2:00</b>, garnish
+      included. Every line has to be checked for the build to count. One missed
+      line is a failed build.</p>
     <table>
       <thead><tr><th>Checked on every build</th><th class="c">Pass</th><th class="c">Fail</th></tr></thead>
-      <tbody><tr><td class="build" colspan="3"><b>Build 1</b> &nbsp; Drink: <span style="display:inline-block;width:190px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td class="build" colspan="3"><b>Build 2</b> &nbsp; Drink: <span style="display:inline-block;width:190px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td class="build" colspan="3"><b>Build 3</b> &nbsp; Drink: <span style="display:inline-block;width:190px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr></tbody>
+      <tbody><tr><td class="build" colspan="3"><b>Build 1</b> &nbsp; Drink: <span style="display:inline-block;width:150px;border-bottom:1px solid var(--rule)"></span>&nbsp;&nbsp; Time: <span style="display:inline-block;width:62px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Finished and on the rail within 2:00</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td class="build" colspan="3"><b>Build 2</b> &nbsp; Drink: <span style="display:inline-block;width:150px;border-bottom:1px solid var(--rule)"></span>&nbsp;&nbsp; Time: <span style="display:inline-block;width:62px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Finished and on the rail within 2:00</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td class="build" colspan="3"><b>Build 3</b> &nbsp; Drink: <span style="display:inline-block;width:150px;border-bottom:1px solid var(--rule)"></span>&nbsp;&nbsp; Time: <span style="display:inline-block;width:62px;border-bottom:1px solid var(--rule)"></span></td></tr><tr><td>Correct glass, chilled or iced as specced</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Every pour measured — no free-pouring</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct build order</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Shaken hard until the tin frosts</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Correct garnish, placed cleanly</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Finished and on the rail within 2:00</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr><tr><td>Station left clean</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td></tr></tbody>
     </table>
 
     <div class="rule-note">
       <h4>Automatic re-test</h4>
-      <p>Wrong glass, wrong garnish, a missed ingredient, or any free-poured
-        measure fails that build outright, whatever the written score. Specs are
-        not a matter of judgement.</p>
+      <p>Wrong glass, wrong garnish, a missed ingredient, any free-poured
+        measure, or a build over 2:00 fails that build outright, whatever the
+        written score. Specs are not a matter of judgement.</p>
     </div>
   </section>
 
@@ -342,7 +344,7 @@
         <span class="lab">/ 3</span></div>
     </div>
     <div class="verdict">
-      <span><span class="box"></span>Certified &mdash; 54+ written and 3 of 3 builds</span>
+      <span><span class="box"></span>Certified &mdash; 54+ written and 3 of 3 builds under 2:00</span>
       <span><span class="box"></span>Re-test &mdash; date set:
         <span style="display:inline-block;width:120px;border-bottom:1px solid var(--rule)"></span></span>
     </div>
@@ -356,47 +358,5 @@
     <p>Keep the signed sheet in the bartender's file. Re-certify the whole bar
       team whenever the menu changes.</p>
   </footer>
-
-  <section class="key">
-    <div class="key-banner">
-      <strong>Answer key &mdash; manager copy</strong>
-      <span>Do not hand these pages to the candidate. Print pages 1&ndash;4 for the test.</span>
-    </div>
-    <div class="key-grid">
-        <div class="key-card">
-          <h3>Channel Orange</h3>
-          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Channel Orange Biz</dd></div><div class="kr"><dt><span class="amt">1.75</span></dt><dd>Pear Chai Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.25 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Sage + cinnamon stick</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>Don't Worry About It Sweetheart</h3>
-          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>DWAIS Biz</dd></div><div class="kr"><dt><span class="amt">3.50</span></dt><dd>Cider Mix Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>6.00 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Rosemary sprig</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>Green Goddess</h3>
-          <dl><div class="kr"><dt><span class="amt">rinse</span></dt><dd>Pernod — in the glass, not the tin</dd></div><div class="kr"><dt><span class="amt">2.75</span></dt><dd>Goddess Biz</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Spicy cucumber juice</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.25 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks — Pernod-rinsed</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Mint bushel</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>LMF 2.0</h3>
-          <dl><div class="kr"><dt><span class="amt">4.00</span></dt><dd>LMF 2.0 Biz</dd></div><div class="kr"><dt><span class="amt">0.25</span></dt><dd>Turmeric juice</dd></div><div class="kr"><dt><span class="amt">0.50</span></dt><dd>Lemon juice</dd></div><div class="kr"><dt>Total</dt><dd>4.75 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Rocks</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh rocks ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Dragonfruit powder dusting, then a pinch of calendula</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>No New Friends</h3>
-          <dl><div class="kr"><dt><span class="amt">3.00</span></dt><dd>NNF Biz</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Lime juice</dd></div><div class="kr"><dt><span class="amt">top</span></dt><dd>Soda water — after the shake</dd></div><div class="kr"><dt>Total</dt><dd>4.00 oz + soda</dd></div><div class="kr"><dt>Glass</dt><dd>12 oz tall</dd></div><div class="kr"><dt>Ice</dt><dd>Fresh ice</dd></div><div class="kr"><dt>Garnish</dt><dd>Hibiscus leaves + tarragon sprig</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>Chai Hard</h3>
-          <dl><div class="kr"><dt><span class="amt">2.25</span></dt><dd>Titos Chai Biz</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Blonde espresso</dd></div><div class="kr"><dt><span class="amt">1.50</span></dt><dd>Pecan brown sugar syrup</dd></div><div class="kr"><dt><span class="amt">pinch</span></dt><dd>Himalayan salt</dd></div><div class="kr"><dt>Total</dt><dd>4.75 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Coupe / martini</dd></div><div class="kr"><dt>Ice</dt><dd>None — served up</dd></div><div class="kr"><dt>Garnish</dt><dd>1 star anise</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>Espresso Martini</h3>
-          <dl><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Liquor of choice — ask the guest</dd></div><div class="kr"><dt><span class="amt">1.00</span></dt><dd>Simple syrup</dd></div><div class="kr"><dt><span class="amt">2.00</span></dt><dd>Espresso</dd></div><div class="kr"><dt>Total</dt><dd>5.00 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Martini coupe</dd></div><div class="kr"><dt>Ice</dt><dd>None — served up</dd></div><div class="kr"><dt>Garnish</dt><dd>3 espresso beans</dd></div></dl>
-        </div>
-        <div class="key-card">
-          <h3>Scarlett Spritz</h3>
-          <dl><div class="kr"><dt><span class="amt">2.50</span></dt><dd>Spritz Biz — in first, under the Prosecco</dd></div><div class="kr"><dt><span class="amt">5.00</span></dt><dd>Prosecco</dd></div><div class="kr"><dt>Total</dt><dd>7.50 oz</dd></div><div class="kr"><dt>Glass</dt><dd>Wine</dd></div><div class="kr"><dt>Ice</dt><dd>Packed</dd></div><div class="kr"><dt>Garnish</dt><dd>Rosemary</dd></div></dl>
-        </div>
-    </div>
-    <div class="key-qs"><p class="key-q"><b>1.</b> <span>Scarlett Spritz. It is built in the glass. Shaking flattens the Prosecco.</span></p><p class="key-q"><b>2.</b> <span>In the glass, not the tin. Rinse and dump the excess before you shake.</span></p><p class="key-q"><b>3.</b> <span>After the shake, in the glass. Shaking soda kills the bubbles and can blow the tin apart.</span></p><p class="key-q"><b>4.</b> <span>Chai Hard and Espresso Martini. Chilled coupe, no ice in the glass.</span></p><p class="key-q"><b>5.</b> <span>Ask the guest which liquor they want. It is the only spec with no liquor written into it.</span></p><p class="key-q"><b>6.</b> <span>Dragonfruit powder first, then the calendula. Dusting over the flowers buries them.</span></p><p class="key-q"><b>7.</b> <span>Shaken ice is chipped and already melting; it waters the drink down in the glass.</span></p><p class="key-q"><b>8.</b> <span>No New Friends. The soda tops the glass rather than being measured.</span></p><p class="key-q"><b>9.</b> <span>Tell the guest it is unavailable and call it to the bar lead. Never substitute or free-pour a replacement.</span></p></div>
-  </section>
 
 </div>

@@ -74,12 +74,12 @@ EM_QUESTION = ("What must you do before you start building an Espresso Martini?"
 
 LOCATIONS = {
     "short-north": dict(
-        label="TownHall Short North", title="Short North Certification",
+        label="TownHall Short North", title="Short North Certification", key_title="Short North Answer Key",
         rocks="Rocks", ice="Fresh rocks ice", espresso_martini=True,
         updrinks_q="Which two drinks are served up, and what does that mean for the glass?",
         updrinks_a="Chai Hard and Espresso Martini. Chilled coupe, no ice in the glass."),
     "ohio-city": dict(
-        label="TownHall Ohio City", title="Ohio City Certification",
+        label="TownHall Ohio City", title="Ohio City Certification", key_title="Ohio City Answer Key",
         rocks="Emulsive", ice="Fresh ice", espresso_martini=False,
         updrinks_q="Which drink is served up, and what does that mean for the glass?",
         updrinks_a="Chai Hard. Chilled coupe, no ice in the glass."),
@@ -209,7 +209,7 @@ CSS = """
   .rule-note p { margin:0; font-size:14px; }
 
   /* answer key */
-  .key { margin-top:52px; }
+  .key { margin-top:26px; }
   .key-banner { background:var(--ink); color:var(--bg); border-radius:3px;
                 padding:13px 16px; display:flex; flex-wrap:wrap; gap:6px 16px;
                 align-items:baseline; justify-content:space-between; }
@@ -267,7 +267,6 @@ CSS = """
     .result { margin-top:16pt; padding:11pt 13pt; break-inside:avoid; }
     .sign { margin-top:12pt; }
     .rule-note { margin-top:13pt; padding:9pt 11pt; } .rule-note p { font-size:9pt; }
-    .key { break-before:page; margin-top:0; }
     .key-grid { grid-template-columns:1fr 1fr; gap:9pt; }
     .key-card { padding:8pt 10pt; } .key-card h3 { font-size:11pt; }
     .key-card .kr { font-size:8.6pt; }
@@ -276,14 +275,12 @@ CSS = """
   }
 """
 
+
 # ------------------------------------------------------------------ builder
 def esc(t): return html.escape(t, quote=False)
 
-def field(label, flex=1):
-    return ('<div class="field" style="flex:%s"><span class="lab">%s</span>'
-            '<span class="ln"></span></div>' % (flex, esc(label)))
-
-def build(loc_key, loc):
+def resolve(loc):
+    """Drinks and questions for one location, with glassware substituted."""
     drinks = [d for d in DRINKS
               if not d.get('short_north_only') or loc['espresso_martini']]
     qs = list(QUESTIONS)
@@ -291,16 +288,18 @@ def build(loc_key, loc):
         qs.insert(4, EM_QUESTION)
     qs = [(q.format(updrinks_q=loc['updrinks_q']),
            a.format(updrinks_a=loc['updrinks_a'])) for q, a in qs]
+    return drinks, qs
 
-    def gl(d): return d['glass'].format(rocks=loc['rocks'])
-    def ic(d): return d['ice'].format(ice=loc['ice'])
-
+def scoring(drinks, qs):
     spec_pts = sum(len(d['pours']) + 2 for d in drinks)
     q_pts = len(qs) * 2
     written = spec_pts + q_pts
-    passmark = -(-written * 90 // 100)   # ceil to 90%
+    return spec_pts, q_pts, written, -(-written * 90 // 100)   # ceil to 90%
 
-    # ---- Section 1: write the spec from memory
+def build_test(loc):
+    drinks, qs = resolve(loc)
+    spec_pts, q_pts, written, passmark = scoring(drinks, qs)
+
     specs = []
     for d in drinks:
         rows = ''.join('<div class="wrow"><span class="a"></span>'
@@ -321,31 +320,44 @@ def build(loc_key, loc):
             '<span>/ %d</span></div>\n'
             '        </div>' % (esc(d['name']), rows, len(d['pours']) + 2))
 
-    # ---- Section 2: the things that get sent back
     qhtml = ''.join(
         '<div class="q"><p>%s</p><div class="ans"></div><div class="ans"></div></div>'
         % esc(q) for q, _ in qs)
 
-    # ---- Section 3: observed builds
     CHECKS = ["Correct glass, chilled or iced as specced",
               "Every pour measured — no free-pouring",
               "Correct build order", "Shaken hard until the tin frosts",
-              "Correct garnish, placed cleanly", "Station left clean"]
+              "Correct garnish, placed cleanly",
+              "Finished and on the rail within 2:00",
+              "Station left clean"]
     rows = ''
     for n in (1, 2, 3):
         rows += ('<tr><td class="build" colspan="3"><b>Build %d</b> &nbsp; '
-                 'Drink: <span style="display:inline-block;width:190px;'
+                 'Drink: <span style="display:inline-block;width:150px;'
+                 'border-bottom:1px solid var(--rule)"></span>'
+                 '&nbsp;&nbsp; Time: <span style="display:inline-block;width:62px;'
                  'border-bottom:1px solid var(--rule)"></span></td></tr>' % n)
         for c in CHECKS:
             rows += ('<tr><td>%s</td><td class="c"><span class="box"></span></td>'
                      '<td class="c"><span class="box"></span></td></tr>' % esc(c))
 
-    # ---- Answer key
+    return TEST_TEMPLATE.format(
+        title=loc['title'], label=esc(loc['label']), css=CSS,
+        specs='\n        '.join(specs), questions=qhtml, rows=rows,
+        spec_pts=spec_pts, q_pts=q_pts, written=written, passmark=passmark)
+
+def build_key(loc):
+    drinks, qs = resolve(loc)
+    spec_pts, q_pts, written, passmark = scoring(drinks, qs)
+
+    def gl(d): return d['glass'].format(rocks=loc['rocks'])
+    def ic(d): return d['ice'].format(ice=loc['ice'])
+
     keys = []
     for d in drinks:
         pours = ''.join(
-            '<div class="kr"><dt>%s</dt><dd>%s</dd></div>'
-            % ('<span class="amt">%s</span>' % esc(a), esc(b)) for a, b in d['pours'])
+            '<div class="kr"><dt><span class="amt">%s</span></dt><dd>%s</dd></div>'
+            % (esc(a), esc(b)) for a, b in d['pours'])
         keys.append(
             '<div class="key-card">\n          <h3>%s</h3>\n          <dl>%s'
             '<div class="kr"><dt>Total</dt><dd>%s</dd></div>'
@@ -354,23 +366,25 @@ def build(loc_key, loc):
             '<div class="kr"><dt>Garnish</dt><dd>%s</dd></div></dl>\n        </div>'
             % (esc(d['name']), pours, esc(d['total']), esc(gl(d)), esc(ic(d)),
                esc(d['garnish'])))
-    keyq = ''.join('<p class="key-q"><b>%d.</b> <span>%s</span></p>'
-                   % (i + 1, esc(a)) for i, (_, a) in enumerate(qs))
 
-    return TEMPLATE.format(
-        title=loc['title'], label=esc(loc['label']), css=CSS,
-        specs='\n        '.join(specs), questions=qhtml, rows=rows,
+    keyq = ''.join(
+        '<div class="key-q"><b>%d. %s</b><span>%s</span></div>'
+        % (i + 1, esc(q), esc(a)) for i, (q, a) in enumerate(qs))
+
+    return KEY_TEMPLATE.format(
+        title=loc['key_title'], label=esc(loc['label']), css=CSS,
         keys='\n        '.join(keys), keyq=keyq,
-        n_drinks=len(drinks), spec_pts=spec_pts, q_pts=q_pts,
-        written=written, passmark=passmark, n_q=len(qs))
+        spec_pts=spec_pts, q_pts=q_pts, written=written, passmark=passmark)
 
-TEMPLATE = """<meta charset="utf-8">
+HEAD = """<meta charset="utf-8">
 <title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>{css}</style>
+"""
 
+TEST_TEMPLATE = HEAD + """
 <div class="wrap">
 
   <header>
@@ -379,7 +393,8 @@ TEMPLATE = """<meta charset="utf-8">
     <p class="standard">Closed book. No build sheet, no phone, no asking the
       bartender next to you. A bartender is certified on this menu at
       <b>{passmark} of {written} written points</b> and <b>three correct builds
-      on the bar</b>. Anything less is a re-test, not a pass.</p>
+      on the bar, each finished within 2:00</b>. Anything less is a re-test,
+      not a pass.</p>
   </header>
 
   <div class="details">
@@ -421,8 +436,10 @@ TEMPLATE = """<meta charset="utf-8">
       <span class="sec-pts">Pass / fail</span>
     </div>
     <p class="sec-note">The certifying manager picks three drinks at random and
-      watches the full build. Every line has to be checked for the build to
-      count. One missed line is a failed build.</p>
+      watches the full build. Start the clock when the ticket is called and stop
+      it when the drink hits the rail &mdash; the standard is <b>2:00</b>, garnish
+      included. Every line has to be checked for the build to count. One missed
+      line is a failed build.</p>
     <table>
       <thead><tr><th>Checked on every build</th><th class="c">Pass</th><th class="c">Fail</th></tr></thead>
       <tbody>{rows}</tbody>
@@ -430,9 +447,9 @@ TEMPLATE = """<meta charset="utf-8">
 
     <div class="rule-note">
       <h4>Automatic re-test</h4>
-      <p>Wrong glass, wrong garnish, a missed ingredient, or any free-poured
-        measure fails that build outright, whatever the written score. Specs are
-        not a matter of judgement.</p>
+      <p>Wrong glass, wrong garnish, a missed ingredient, any free-poured
+        measure, or a build over 2:00 fails that build outright, whatever the
+        written score. Specs are not a matter of judgement.</p>
     </div>
   </section>
 
@@ -449,7 +466,7 @@ TEMPLATE = """<meta charset="utf-8">
         <span class="lab">/ 3</span></div>
     </div>
     <div class="verdict">
-      <span><span class="box"></span>Certified &mdash; {passmark}+ written and 3 of 3 builds</span>
+      <span><span class="box"></span>Certified &mdash; {passmark}+ written and 3 of 3 builds under 2:00</span>
       <span><span class="box"></span>Re-test &mdash; date set:
         <span style="display:inline-block;width:120px;border-bottom:1px solid var(--rule)"></span></span>
     </div>
@@ -464,22 +481,62 @@ TEMPLATE = """<meta charset="utf-8">
       team whenever the menu changes.</p>
   </footer>
 
-  <section class="key">
-    <div class="key-banner">
-      <strong>Answer key &mdash; manager copy</strong>
-      <span>Do not hand these pages to the candidate. Print pages 1&ndash;__LASTTESTPAGE__ for the test.</span>
+</div>
+"""
+
+KEY_TEMPLATE = HEAD + """
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">{label} &middot; Bar Certification</p>
+    <h1>Answer Key</h1>
+  </header>
+
+  <div class="key-banner">
+    <strong>Manager copy</strong>
+    <span>Grade from this sheet. It is printed separately from the test &mdash;
+      keep it off the bar while anyone is being certified.</span>
+  </div>
+
+  <p class="standard">Section 1 is worth <b>{spec_pts}</b>, Section 2 <b>{q_pts}</b>,
+    for <b>{written}</b> written points. A bartender certifies at <b>{passmark}</b>
+    plus three correct builds, each finished within <b>2:00</b> from called ticket
+    to the rail.</p>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div><span class="sec-num">Section 1</span><h2>The specs</h2></div>
+      <span class="sec-pts">{spec_pts} points</span>
     </div>
+    <p class="sec-note">One point per line, amount and ingredient both correct.
+      One point each for glass and garnish. Ice is not scored on its own &mdash;
+      it is checked on the bar in Section 3.</p>
     <div class="key-grid">
         {keys}
     </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div><span class="sec-num">Section 2</span><h2>What gets sent back</h2></div>
+      <span class="sec-pts">{q_pts} points</span>
+    </div>
+    <p class="sec-note">Two points each. Award the full two if they have the
+      substance &mdash; the wording will not match.</p>
     <div class="key-qs">{keyq}</div>
   </section>
+
+  <footer>
+    <p>Specs change. Re-print this key whenever the build sheet changes, and
+      re-certify the bar team.</p>
+  </footer>
 
 </div>
 """
 
 if __name__ == '__main__':
     for key, loc in LOCATIONS.items():
-        path = 'cocktail-certification-%s.html' % key
-        io.open(path, 'w', encoding='utf-8').write(build(key, loc))
-        print('wrote', path)
+        for kind, fn in (('certification', build_test), ('answer-key', build_key)):
+            path = 'cocktail-%s-%s.html' % (kind, key)
+            io.open(path, 'w', encoding='utf-8').write(fn(loc))
+            print('wrote', path)
