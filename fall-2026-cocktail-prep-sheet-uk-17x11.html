@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0;padding:0}img{max-width:100%}</style>
+<title>Fall 2026 Cocktail Prep UA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper:#FBF9F4; --surface:#FFFFFF; --field:#16170F; --field-ink:#FBF9F4;
+    --ink:#1B1C14; --ink-2:#4E5040; --ink-3:#7E806C;
+    --rule:#D8D2C2; --rule-soft:#EDE9DE;
+    --olive:#55643D; --aqua:#3F6F69; --clay:#96351F; --clay-soft:#F6E8E2;
+    --ch:#6B4A2F; --sw:#C1272D; --co:#F2C200; --ss:#E8659A;
+    --ch-ink:#fff; --sw-ink:#fff; --co-ink:#1B1C14; --ss-ink:#241016;
+    --display:"Oswald","Arial Narrow",sans-serif;
+    --body:"Source Sans 3",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
+    --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
+    --rule:#35362C; --rule-soft:#262720;
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; } }
+  :root[data-theme="dark"] {
+    --paper:#121310; --surface:#1B1C16; --field:#080904; --field-ink:#F2EFE4;
+    --ink:#F2EFE4; --ink-2:#BCB9A9; --ink-3:#8B8977;
+    --rule:#35362C; --rule-soft:#262720;
+    --olive:#A2B57F; --aqua:#85B2AC; --clay:#DA8368; --clay-soft:#2C1B14; }
+
+  body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 14.5px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
+  h1,h2,h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  ol { margin: 0; padding-left: 1.1em; }
+  li { margin-bottom: 3px; }
+
+  .masthead { background: var(--field); color: var(--field-ink); margin-inline: -20px; padding: 24px 20px 20px; }
+  .masthead-in { max-width: 960px; margin: 0 auto; }
+  .mark { font-family: var(--display); font-weight: 600; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .8; }
+  .masthead h1 { font-size: clamp(24px,5vw,34px); font-weight: 600; text-transform: uppercase; line-height: 1.05; margin-top: 7px; }
+  .masthead h1 .es { display: block; font-weight: 500; font-size: .52em; letter-spacing: .04em; opacity: .72; margin-top: 5px; }
+  .stamp { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 13px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; opacity: .78; }
+
+  h2 { font-size: 17px; text-transform: uppercase; letter-spacing: .08em; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin-top: 36px; }
+  h2 em { font-family: var(--body); font-style: italic; font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--ink-3); text-transform: none; }
+
+  .card { background: var(--surface); border: 1px solid var(--rule); border-left: 4px solid var(--accent, var(--rule)); margin-top: 14px; padding: 14px 16px 15px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--rule-soft); padding-bottom: 8px; }
+  .card-top h3 { font-size: 17px; text-transform: uppercase; letter-spacing: .02em; }
+  .card-top .es-name { font-style: italic; color: var(--ink-3); font-size: 13px; }
+  .facts { margin-left: auto; font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ink-2); white-space: nowrap; }
+  .tag { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--ink-3); color: var(--ink-3); padding: 1px 5px; }
+  .grid2 { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; margin-top: 11px; align-items: start; }
+  .rules-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 11px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .scroll { overflow-x: auto; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 0 8px 4px 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; width: 1%; text-align: right; }
+  .es-i { display: block; font-style: italic; font-size: 12px; color: var(--ink-3); }
+  h4 { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--olive); margin: 0 0 5px; }
+  .es h4 { color: var(--aqua); }
+  .steps ol { font-size: 13px; }
+
+  .flag { margin-top: 10px; border-left: 3px solid var(--clay); background: var(--clay-soft); padding: 7px 11px; font-size: 12.5px; }
+  .flag b { color: var(--clay); font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; }
+  .build-note { font-size: 12.5px; color: var(--ink-2); margin-top: 9px; }
+  .signoff { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 18px; }
+  .sig { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--ink-3); }
+  .sig .line { border-bottom: 1px solid var(--rule); height: 26px; margin-bottom: 5px; }
+  footer { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 11.5px; color: var(--ink-3); }
+
+  @media screen and (max-width: 900px) { .grid2 { grid-template-columns: 1fr; gap: 12px; } }
+  @media screen and (max-width: 720px) { .rules-2 { grid-template-columns: 1fr; gap: 12px; } .facts { margin-left: 0; white-space: normal; } }
+
+
+
+  .d-ch { --accent: var(--ch); --accent-ink: var(--ch-ink); }
+  .d-sw { --accent: var(--sw); --accent-ink: var(--sw-ink); }
+  .d-co { --accent: var(--co); --accent-ink: var(--co-ink); }
+  .d-ss { --accent: var(--ss); --accent-ink: var(--ss-ink); }
+  .tape { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .tape + .facts { margin-left: 14px; }
+  .sw-chip { width: 24px; height: 11px; border: 1px solid rgba(0,0,0,.35); background: var(--accent); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sw-chip.comp { background: linear-gradient(to bottom, var(--accent) 0 55%, #fff 55% 100%); }
+  .legend .conv { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 9px 20px; margin-top: 16px; padding: 11px 14px; border: 1px solid var(--rule); background: var(--surface); }
+  .legend .lg-label { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); width: 100%; }
+  .key { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .dot { width: 13px; height: 13px; border-radius: 3px; background: var(--accent); flex: 0 0 auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .key .mono { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-3); }
+
+  .drink { margin-top: 34px; }
+  .drink-head { background: var(--accent, var(--field)); color: var(--accent-ink, #fff); padding: 11px 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .drink-head h2 { border: 0; margin: 0; padding: 0; font-size: 21px; color: inherit; }
+  .drink-head .es-h { font-family: var(--body); font-style: italic; font-size: 13px; opacity: .72; }
+  .drink-head .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; opacity: .75; }
+  .code { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .07em; color: var(--accent-ink, #fff); background: var(--accent, var(--olive)); padding: 2px 6px; border-radius: 3px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .build { border: 1px solid var(--rule); border-top: 3px solid var(--accent, var(--olive)); border-left: 4px solid var(--accent, var(--rule)); background: var(--surface); padding: 12px 16px 13px; margin-top: 14px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .build-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; margin-top: 6px; font-size: 13px; }
+  .build-row .k { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; }
+  @media screen and (max-width: 720px) { .build-row { grid-template-columns: 1fr; } .drink-head .count { margin-left: 0; } }
+  @media print {
+    @page { size: 17in 11in; margin: 0.26in; }
+    :root { --paper:#fff; --surface:#fff; --ink:#000; --ink-2:#2b2b2b; --ink-3:#555; --rule:#999; --rule-soft:#d0d0d0; --clay:#000; --clay-soft:#fff; --olive:#000; --aqua:#000; }
+    body { font-size: 7pt; line-height: 1.24; }
+    .wrap { max-width:none; padding-inline:0; padding-block:0; }
+    li { margin-bottom:.5px; }
+    ol { padding-left:.95em; }
+
+    .masthead { background:#fff; color:#000; margin-inline:0; padding:0 0 4px; border-bottom:3px solid #000; }
+    .mark, .masthead h1 .es, .stamp { opacity:1; }
+    .masthead h1 { font-size:12.5pt; }
+    .stamp { margin-top:2px; font-size:6.6pt; }
+    .legend { border-color:#999; padding:2px 6px; gap:0 10px; margin-top:3px; }
+    .legend .lg-label { font-size:7pt; width:auto; }
+    .key { font-size:.86em; gap:5px; }
+    .legend .conv { font-size:8px; gap:4px; }
+    .dot { width:9px; height:9px; }
+    .sw-chip { width:16px; height:7px; }
+    .tape { font-size:7.6px; gap:4px; }
+
+    /* one lane per cocktail — a closed box, so nothing can be mistaken for a neighbour */
+    .lanes { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; align-items:start; margin-top:5px; }
+    .drink { margin:0; border:2.5px solid var(--accent); break-inside:avoid; }
+    .drink-head { background:var(--accent); color:var(--accent-ink,#fff); padding:4px 7px; border:0;
+                  -webkit-print-color-adjust:exact; print-color-adjust:exact; display:block; }
+    .drink-head h2 { font-size:11.5pt; line-height:1.05; }
+    .drink-head .es-h { display:block; font-size:.92em; opacity:.85; }
+    .drink-head .count { display:block; margin:2px 0 0; font-size:7.5px; opacity:.95; }
+
+    /* cards sit inside the lane: no second border competing with the lane edge */
+    .card { margin:0; border:0; border-bottom:1px solid var(--rule); border-left:0; padding:4px 6px 5px; break-inside:avoid; }
+    .drink .build { margin:0; border:0; border-top:2px solid var(--accent); padding:5px 7px 6px; }
+    .card-top { padding-bottom:3px; gap:6px; }
+    .card-top h3 { font-size:9.5pt; }
+    .grid2 { grid-template-columns:1fr 1fr; gap:3px 8px; margin-top:4px; }
+    .grid2 > .scroll { grid-column:1 / -1; }
+    table { font-size:.95em; }
+    th { padding:0 5px 2px 0; }
+    td { padding:1.5px 5px 1.5px 0; }
+    h4 { margin-bottom:2px; }
+    .steps ol, .build-row { font-size:.95em; }
+    .build-row { grid-template-columns:1fr; gap:2px; }
+    .flag { margin-top:3px; padding:2px 5px; font-size:.88em; border-left-width:2px; background:#fff; }
+
+    /* rules run as a full-width strip under the lanes */
+    /* lanes own page 1; the reference block gets page 2 rather than squeezing the type */
+    .wrap > h2 { margin-top:0; font-size:11pt; padding-bottom:3px; break-before:page; page-break-before:always; }
+    .drink-head h2 { break-before:auto; page-break-before:auto; }
+    .rules-2 { grid-template-columns:repeat(4,1fr); gap:4px 12px; margin-top:4px; }
+    .rules-2 > div { break-inside:avoid; }
+    .rules-2 li { font-size:1em; }
+    .signoff { margin-top:5px; gap:10px; break-inside:avoid; }
+    .sig { font-size:9px; }
+    .sig .line { height:14px; margin-bottom:2px; }
+    footer { margin-top:5px; padding-top:5px; font-size:8px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-in">
+      <div class="mark">TownHall</div>
+      <h1>Fall 2026 Cocktail Prep
+        <span class="es">Підготовка · Коктейлі Осінь 2026</span>
+      </h1>
+      <div class="stamp">
+        <div>BAR · 09.2026</div>
+        <div>4 COCKTAILS / КОКТЕЙЛІ</div>
+        <div>10 COMPONENTS / КОМПОНЕНТИ</div>
+        <div>REV 12 · EN/UA · 17×11</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="lg-label">Walk-in tape key / Ключ стрічок холодильної кімнати</div>
+    <div class="key d-ch"><span class="dot"></span><b>Chai Hard</b><span class="mono">CH · BROWN / КОРИЧНЕВА</span></div>
+    <div class="key d-sw"><span class="dot"></span><b>Sweetheart</b><span class="mono">SW · RED / ЧЕРВОНА</span></div>
+    <div class="key d-co"><span class="dot"></span><b>Channel Orange</b><span class="mono">CO · YELLOW / ЖОВТА</span></div>
+    <div class="key d-ss"><span class="dot"></span><b>Scarlett Spritz</b><span class="mono">SS · PINK / РОЖЕВА</span></div>
+    <div class="conv"><span class="sw-chip d-ch" style="--accent:#6B4A2F"></span>SOLID = BATCH · СУЦІЛЬНА = готова партія</div>
+    <div class="conv"><span class="sw-chip comp d-ch" style="--accent:#6B4A2F"></span>+ WHITE = COMPONENT · + БІЛА = компонент партії</div>
+  </div>
+
+<div class="lanes">
+<div class="drink d-ch">
+  <div class="drink-head">
+    <h2>Chai Hard</h2>
+    <span class="es-h">· Чай масала, фундук, пекан, еспресо</span>
+    <span class="count">2 COMPONENTS · CH-1 → CH-2</span>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">CH-1</span>
+      <h3>Chai Hard Biz</h3>
+      <div class="es-name">База «Chai Hard»</div>
+      <span class="tape"><span class="sw-chip"></span>BROWN</span>
+      <div class="facts">1X = 112.5 fl oz · 60 days</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Masala chai tea, loose<span class="es-i">Розсипний чай масала</span></td><td class="num">60</td><td>Grams</td></tr>
+            <tr><td>Tito's vodka<span class="es-i">Горілка Tito's</span></td><td class="num">100</td><td>Fl Oz</td></tr>
+            <tr><td>Hazelnut liqueur (Frangelico / Fratello)<span class="es-i">Лікер з фундука</span></td><td class="num">12.5</td><td>Fl Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Infuse vodka + chai <b>45 min</b>. Set a timer.</li>
+          <li>Strain out all leaf.</li>
+          <li>Add hazelnut liqueur.</li>
+          <li>Bottle, label, date.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки</h4>
+          <ol>
+            <li>Наполягайте горілку з чаєм <b>45 хв</b>. Поставте таймер.</li>
+            <li>Процідіть усе листя.</li>
+            <li>Додайте лікер з фундука.</li>
+            <li>Розлийте, підпишіть, поставте дату.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Nut / Горіхи</b> — Hazelnut is in the batch. Label CONTAINS HAZELNUT. Over 45 min = bitter = dump it. <span lang="uk"><em>Фундук у складі партії. Позначте МІСТИТЬ ФУНДУК. Понад 45 хв = гіркота = вилити.</em></span></p>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">CH-2</span>
+      <h3>Pecan Brown Sugar Syrup</h3>
+      <div class="es-name">Сироп з коричневого цукру та пекану</div>
+      <span class="tape"><span class="sw-chip comp"></span>BROWN + WHITE</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Dark brown sugar<span class="es-i">Темний коричневий цукор</span></td><td class="num">64</td><td>Oz</td></tr>
+            <tr><td>RO water, boiling<span class="es-i">Вода зворотного осмосу, окріп</span></td><td class="num">64</td><td>Fl Oz</td></tr>
+            <tr><td>Pecans, whole<span class="es-i">Горіхи пекан, цілі</span></td><td class="num">175</td><td>Grams</td></tr>
+            <tr><td>Frontier pumpkin pie spice<span class="es-i">Гарбузова спеція Frontier</span></td><td class="num">24</td><td>Grams</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Brown sugar + boiling water from the cafe hot spout into a cambro. Whisk until dissolved.</li>
+          <li>Liquid + pecans into the Vitamix. Fill <b>50–75% only</b>.</li>
+          <li>Low, then high. Blend fine, <b>max 45 seconds</b>. Repeat if needed.</li>
+          <li>Strain through a chinois, pressing out all excess liquid.</li>
+          <li>Cool, label, date, mark CONTAINS PECAN.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки</h4>
+          <ol>
+            <li>Коричневий цукор + окріп із крана кавʼярні в камбро. Збивайте до розчинення.</li>
+            <li>Рідина + пекан у Vitamix. Заповнюйте <b>лише на 50–75%</b>.</li>
+            <li>Почніть на низькій, підвищіть до високої. Подрібніть до однорідності, <b>максимум 45 секунд</b>. Повторіть за потреби.</li>
+            <li>Процідіть через шинуа, віджимаючи всю рідину.</li>
+            <li>Охолодіть, підпишіть, дата, позначте МІСТИТЬ ПЕКАН.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Confirm / Підтвердити</b> — The steps do not say where the pumpkin pie spice goes, and step 5 was cut off in the recipe app. <span lang="uk"><em>У кроках не вказано, куди додається гарбузова спеція, а крок 5 обрізаний у програмі.</em></span></p>
+  </div>
+  <div class="build">
+    <h4>Build <span class="tag">Proposed</span></h4>
+    <div class="build-row">
+      <div><span class="k">Pour / Міри (oz)</span>Chai Hard biz <b>CH-1</b> 2.0 · Pecan syrup <b>CH-2</b> 0.75 · Espresso 1.0<span class="es-i">Еспресо щойно зварене, ніколи не зберігати</span></div>
+      <div><span class="k">Glass · Ice · Method</span>Coupe, chilled · up · shake 15 s<span class="es-i">Охолоджений келих · без льоду · шейк 15 с</span></div>
+      <div><span class="k">Garnish / Прикраса</span>Three coffee beans, grated nutmeg<span class="es-i">Три зернини кави, тертий мускатний горіх</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drink d-sw">
+  <div class="drink-head">
+    <h2>Don't Worry About It Sweetheart</h2>
+    <span class="es-h">· Полуниця, сидр, бузина, грейпфрут</span>
+    <span class="count">2 COMPONENTS · SW-1 + SW-2</span>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">SW-1</span>
+      <h3>DWAIS Biz</h3>
+      <div class="es-name">База «Sweetheart»</div>
+      <span class="tape"><span class="sw-chip"></span>RED</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Vanilla vodka — OYO (COL) / Absolut (CLE)<span class="es-i">Ванільна горілка — OYO (COL) / Absolut (CLE)</span></td><td class="num">34</td><td>Fl Oz</td></tr>
+            <tr><td>Inca spiced berry tea<span class="es-i">Чай з інкських ягід зі спеціями</span></td><td class="num">57</td><td>Grams</td></tr>
+            <tr><td>Frozen strawberries<span class="es-i">Заморожена полуниця</span></td><td class="num">452</td><td>Grams</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Measure all ingredients.</li>
+          <li>Blend in the blender.</li>
+          <li>Strain through a chinois.</li>
+          <li>Label, date, refrigerate.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки</h4>
+          <ol>
+            <li>Відміряйте всі інгредієнти.</li>
+            <li>Збийте в блендері.</li>
+            <li>Процідіть через шинуа.</li>
+            <li>Підпишіть, дата, у холодильник.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Vodka / Горілка</b> — Brand is by location: OYO in Columbus, Absolut in Cleveland. <span lang="uk"><em>Марка залежить від локації: OYO у Columbus, Absolut у Cleveland.</em></span></p>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">SW-2</span>
+      <h3>DWAIS Cider Mix Biz</h3>
+      <div class="es-name">Сидрова суміш «Sweetheart»</div>
+      <span class="tape"><span class="sw-chip comp"></span>RED + WHITE</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Apple cider<span class="es-i">Яблучний сидр</span></td><td class="num">150</td><td>Oz</td></tr>
+            <tr><td>Giffard Pamplemousse liqueur<span class="es-i">Лікер Giffard Pamplemousse</span></td><td class="num">25</td><td>Oz</td></tr>
+            <tr><td>St-Germain elderflower liqueur<span class="es-i">Лікер із бузини St-Germain</span></td><td class="num">25</td><td>Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Combine all in a clean cambro.</li>
+          <li>Whisk.</li>
+          <li>Bottle into a glass bottle using a funnel.</li>
+          <li>Label <b>"Cider Sweetheart mix"</b> on a Fusion prep label.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки</h4>
+          <ol>
+            <li>Зʼєднайте все в чистому камбро.</li>
+            <li>Перемішайте вінчиком.</li>
+            <li>Розлийте у скляну пляшку через лійку.</li>
+            <li>Підпишіть <b>«Cider Sweetheart mix»</b> на етикетці Fusion.</li>
+          </ol>
+      </div>
+    </div>
+  </div>
+  <div class="build">
+    <h4>Build <span class="tag">Proposed</span></h4>
+    <div class="build-row">
+      <div><span class="k">Pour / Міри (oz)</span>DWAIS biz <b>SW-1</b> 2.0 · Cider mix <b>SW-2</b> 2.0 · Lemon 0.75</div>
+      <div><span class="k">Glass · Ice · Method</span>Rocks · fresh cubes · shake 12 s<span class="es-i">Низька склянка · свіжий лід · шейк 12 с</span></div>
+      <div><span class="k">Garnish / Прикраса</span>Strawberry fan, lemon wheel<span class="es-i">Віяло з полуниці, кружальце лимона</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drink d-co">
+  <div class="drink-head">
+    <h2>Channel Orange</h2>
+    <span class="es-h">· Червоний апельсин, груша, чай, бузина</span>
+    <span class="count">3 COMPONENTS · CO-1 → CO-2 · CO-3</span>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">CO-1</span>
+      <h3>Pear Simple</h3>
+      <div class="es-name">Грушевий сироп</div>
+      <span class="tape"><span class="sw-chip comp"></span>YELLOW + WHITE</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Pears, whole<span class="es-i">Груші, цілі</span></td><td class="num">4</td><td>Whole</td></tr>
+            <tr><td>Natural simple syrup<span class="es-i">Натуральний цукровий сироп</span></td><td class="num">25</td><td>Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
+        <ol>
+          <li>Core the pears.</li>
+          <li>Blend with the simple syrup.</li>
+          <li>Strain through a chinois.</li>
+          <li>Label <b>"Pear Simple Syrup"</b>, date, refrigerate.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки <span class="tag">Proposed</span></h4>
+          <ol>
+            <li>Видаліть серцевину з груш.</li>
+            <li>Збийте з цукровим сиропом.</li>
+            <li>Процідіть через шинуа.</li>
+            <li>Підпишіть <b>«Pear Simple Syrup»</b>, дата, у холодильник.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Tape / Стрічка</b> — Not named on the walk-in tape key — taped to its cocktail's colour here. Confirm with a manager. <span lang="uk"><em>Немає в ключі стрічок — уточни в менеджера.</em></span></p>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">CO-2</span>
+      <h3>Pear Chai Tea Mix</h3>
+      <div class="es-name">Суміш чаю масала з грушею</div>
+      <span class="tape"><span class="sw-chip comp"></span>YELLOW + WHITE</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Bhakti chai tea<span class="es-i">Чай Bhakti Chai</span></td><td class="num">11.25</td><td>Fl Oz</td></tr>
+            <tr><td>Pear simple <b>CO-1</b><span class="es-i">Грушевий сироп (CO-1)</span></td><td class="num">11.25</td><td>Fl Oz</td></tr>
+            <tr><td>Honey<span class="es-i">Мед</span></td><td class="num">2</td><td>Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
+        <ol>
+          <li>Make <b>CO-1</b> first.</li>
+          <li>Combine all in a clean cambro.</li>
+          <li>Whisk until the honey fully dissolves.</li>
+          <li>Bottle, label, date, refrigerate.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки <span class="tag">Proposed</span></h4>
+          <ol>
+            <li>Спершу приготуйте <b>CO-1</b>.</li>
+            <li>Зʼєднайте все в чистому камбро.</li>
+            <li>Збивайте до повного розчинення меду.</li>
+            <li>Розлийте, підпишіть, дата, у холодильник.</li>
+          </ol>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">CO-3</span>
+      <h3>Channel Orange Biz</h3>
+      <div class="es-name">База «Channel Orange»</div>
+      <span class="tape"><span class="sw-chip"></span>YELLOW</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Malfy blood orange gin<span class="es-i">Джин Malfy з червоного апельсина</span></td><td class="num">29</td><td>Fl Oz</td></tr>
+            <tr><td>Giffard elderflower<span class="es-i">Лікер із бузини Giffard</span></td><td class="num">4.75</td><td>Fl Oz</td></tr>
+            <tr><td>Peach bitters<span class="es-i">Персиковий біттер</span></td><td class="num">2</td><td>TSP</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
+        <ol>
+          <li>Combine all in a clean cambro.</li>
+          <li>Whisk.</li>
+          <li>Bottle using a funnel. Label, date.</li>
+        <li><b>YELLOW tape — not orange.</b></li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки <span class="tag">Proposed</span></h4>
+          <ol>
+            <li>Зʼєднайте все в чистому камбро.</li>
+            <li>Перемішайте вінчиком.</li>
+            <li>Розлийте через лійку. Підпишіть, дата.</li>
+            <li><b>ЖОВТА стрічка — не помаранчева.</b></li>
+          </ol>
+      </div>
+    </div>
+  </div>
+  <div class="build">
+    <h4>Build <span class="tag">Proposed</span></h4>
+    <div class="build-row">
+      <div><span class="k">Pour / Міри (oz)</span>Channel Orange biz <b>CO-3</b> 2.0 · Pear chai tea mix <b>CO-2</b> 1.0 · Lemon 0.75</div>
+      <div><span class="k">Glass · Ice · Method</span>Coupe, chilled · up · shake 12 s<span class="es-i">Охолоджений келих · без льоду · шейк 12 с</span></div>
+      <div><span class="k">Garnish / Прикраса</span>Dehydrated blood orange wheel<span class="es-i">Сушене кружальце червоного апельсина</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drink d-ss">
+  <div class="drink-head">
+    <h2>Scarlett Spritz</h2>
+    <span class="es-h">· Журавлина, бузина, рожева сіль, розмарин</span>
+    <span class="count">3 COMPONENTS · SS-1 + SS-2 → SS-3</span>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">SS-1</span>
+      <h3>Cranberry Allulose Syrup</h3>
+      <div class="es-name">Журавлинний сироп з алюлозою</div>
+      <span class="tape"><span class="sw-chip comp"></span>PINK + WHITE</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Cold allulose<span class="es-i">Холодна алюлоза</span></td><td class="num">34</td><td>Fl Oz</td></tr>
+            <tr><td>Organic cranberry juice<span class="es-i">Органічний журавлинний сік</span></td><td class="num">30</td><td>Fl Oz</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
+        <ol>
+          <li>Combine in a clean cambro. No heat.</li>
+          <li>Whisk until fully blended.</li>
+          <li>Bottle, label, date, refrigerate.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки <span class="tag">Proposed</span></h4>
+          <ol>
+            <li>Зʼєднайте в чистому камбро. Без нагрівання.</li>
+            <li>Перемішуйте до повного зʼєднання.</li>
+            <li>Розлийте, підпишіть, дата, у холодильник.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Tape / Стрічка</b> — Not named on the walk-in tape key — taped to its cocktail's colour here. Confirm with a manager. <span lang="uk"><em>Немає в ключі стрічок — уточни в менеджера.</em></span></p>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">SS-2</span>
+      <h3>Pink Salt Saline</h3>
+      <div class="es-name">Сольовий розчин рожевої солі</div>
+      <span class="tape"><span class="sw-chip comp"></span>PINK + WHITE</span>
+      <div class="facts"><span class="tag">Proposed</span> yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Pink Himalayan salt<span class="es-i">Рожева гімалайська сіль</span></td><td class="num">20</td><td>Grams</td></tr>
+            <tr><td>Warm water<span class="es-i">Тепла вода</span></td><td class="num">80</td><td>Grams</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps</h4>
+        <ol>
+          <li>Dissolve fully. Cool.</li>
+          <li>Into a dasher bottle. Label, date.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки</h4>
+          <ol>
+            <li>Розчиніть повністю. Охолодіть.</li>
+            <li>Перелийте у пляшку-крапельницю. Підпишіть, дата.</li>
+          </ol>
+      </div>
+    </div>
+    <p class="flag"><b>Tape / Стрічка</b> — Not named on the walk-in tape key — taped to its cocktail's colour here. Confirm with a manager. <span lang="uk"><em>Немає в ключі стрічок — уточни в менеджера.</em></span></p>
+  </div>
+  <div class="card">
+    <div class="card-top">
+      <span class="code">SS-3</span>
+      <h3>Scarlett Spritz Biz</h3>
+      <div class="es-name">База «Scarlett Spritz»</div>
+      <span class="tape"><span class="sw-chip"></span>PINK</span>
+      <div class="facts">yield TBD</div>
+    </div>
+    <div class="grid2">
+      <div class="scroll">
+        <table>
+          <thead><tr><th>1X</th><th>Qty</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>St-Germain elderflower liqueur<span class="es-i">Лікер із бузини St-Germain</span></td><td class="num">100</td><td>Fl Oz</td></tr>
+            <tr><td>Cranberry allulose syrup <b>SS-1</b><span class="es-i">Журавлинний сироп з алюлозою (SS-1)</span></td><td class="num">70</td><td>Fl Oz</td></tr>
+            <tr><td>Pink salt saline <b>SS-2</b><span class="es-i">Сольовий розчин рожевої солі (SS-2)</span></td><td class="num">6</td><td>ML</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="steps">
+        <h4>Steps <span class="tag">Proposed</span></h4>
+        <ol>
+          <li>Make <b>SS-1</b> and <b>SS-2</b> first.</li>
+          <li>Combine all in a clean cambro.</li>
+          <li>Whisk.</li>
+          <li>Bottle, label, date, refrigerate.</li>
+        </ol>
+      </div>
+      <div class="steps es" lang="uk">
+          <h4>Кроки <span class="tag">Proposed</span></h4>
+          <ol>
+            <li>Спершу приготуйте <b>SS-1</b> та <b>SS-2</b>.</li>
+            <li>Зʼєднайте все в чистому камбро.</li>
+            <li>Перемішайте вінчиком.</li>
+            <li>Розлийте, підпишіть, дата, у холодильник.</li>
+          </ol>
+      </div>
+    </div>
+  </div>
+  <div class="build">
+    <h4>Build <span class="tag">Proposed</span></h4>
+    <div class="build-row">
+      <div><span class="k">Pour / Міри (oz)</span>Scarlett Spritz biz <b>SS-3</b> 1.75 · Prosecco 3.0</div>
+      <div><span class="k">Glass · Ice · Method</span>Wine · cubes · build, no stir after bubbles<span class="es-i">Келих для вина · лід · не мішати після ігристого</span></div>
+      <div><span class="k">Garnish / Прикраса</span>Rosemary sprig, three cranberries<span class="es-i">Гілочка розмарину, три журавлини</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  <h2>Rules <em>· Правила</em></h2>
+  <div class="rules-2">
+    <div>
+      <h4>English</h4>
+      <ol>
+        <li><b>Label everything:</b> product, date, use-by, initials. FIFO.</li>
+        <li><b>Tape to the walk-in key:</b> CH brown, SW red, CO yellow, SS pink. Solid = batch, + white = component. Write the code (CH-1, SS-3) on the label too.</li>
+        <li><b>Tape it, date it, initial it.</b> No tape, no shelf. Don't see it in the key? Ask a manager.</li>
+        <li><b>Taste every batch</b> before service. Off = dump it. Never thin, never re-sugar.</li>
+        <li><b>Chai infusion is 45 min.</b> Timer, not a guess.</li>
+        <li><b>Nut allergy:</b> CH-1 has hazelnut, CH-2 has pecan. Mark both containers.</li>
+        <li><b>Component out = drink 86'd.</b> Tell the bar lead. No swaps.</li>
+      </ol>
+    </div>
+    <div class="es" lang="uk">
+      <h4>Українська</h4>
+      <ol>
+        <li><b>Підписуйте все:</b> продукт, дата виготовлення, термін, ініціали. FIFO.</li>
+        <li><b>Стрічка за ключем холодильної кімнати:</b> CH коричнева, SW червона, CO жовта, SS рожева. Суцільна = партія, + біла = компонент. Також напиши код (CH-1, SS-3).</li>
+        <li><b>Стрічка, дата, ініціали.</b> Без стрічки — не на полицю. <b>Не бачиш у ключі?</b> Запитай менеджера.</li>
+        <li><b>Куштуйте кожну партію</b> перед сервісом. Зіпсувалося — вилийте. Не розбавляйте і не досолоджуйте.</li>
+        <li><b>Наполягання чаю — 45 хв.</b> За таймером, не на око.</li>
+        <li><b>Алергія на горіхи:</b> CH-1 містить фундук, CH-2 містить пекан. Позначте обидва контейнери.</li>
+        <li><b>Немає компонента = коктейль знято (86).</b> Повідомте старшого бармена. Заміни не робимо.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="signoff">
+    <div class="sig"><div class="line"></div>PREPPED BY / ХТО ГОТУВАВ</div>
+    <div class="sig"><div class="line"></div>DATE / ДАТА</div>
+    <div class="sig"><div class="line"></div>BAR LEAD / СТАРШИЙ БАРМЕН</div>
+  </div>
+
+  <footer>TownHall · Fall 2026 · Rev 11. Items tagged <span class="tag">Proposed</span> are not yet official specs. <span lang="uk">Позначені як «пропозиція» ще не є затвердженими специфікаціями.</span></footer>
+</div>
+</body>
+</html>
