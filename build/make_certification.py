@@ -17,7 +17,10 @@ DRINKS = [
     dict(name="Don't Worry About It Sweetheart", glass="{rocks}", ice="{ice}",
          garnish="Rosemary sprig", total="6.00 oz",
          pours=[("2.00", "DWAIS Biz"), ("3.50", "Cider Mix Biz"),
-                ("0.50", "Lemon juice")]),
+                ("0.50", "Lemon juice")],
+         by_loc={"short-north": dict(total="5.00 oz",
+                 pours=[("1.75", "DWAIS Biz"), ("3.00", "Cider Mix Biz"),
+                        ("0.25", "Lemon juice")])}),
     dict(name="Green Goddess", glass="{rocks} — Pernod-rinsed", ice="{ice}",
          garnish="Mint bushel", total="4.25 oz",
          pours=[("rinse", "Pernod — in the glass, not the tin"),
@@ -74,12 +77,12 @@ EM_QUESTION = ("What must you do before you start building an Espresso Martini?"
 
 LOCATIONS = {
     "short-north": dict(
-        label="TownHall Short North", title="Short North Certification", key_title="Short North Answer Key",
+        key="short-north", label="TownHall Short North", title="Short North Certification", key_title="Short North Answer Key",
         rocks="Rocks", ice="Fresh rocks ice", espresso_martini=True,
         updrinks_q="Which two drinks are served up, and what does that mean for the glass?",
         updrinks_a="Chai Hard and Espresso Martini. Chilled coupe, no ice in the glass."),
     "ohio-city": dict(
-        label="TownHall Ohio City", title="Ohio City Certification", key_title="Ohio City Answer Key",
+        key="ohio-city", label="TownHall Ohio City", title="Ohio City Certification", key_title="Ohio City Answer Key",
         rocks="Emulsive", ice="Fresh ice", espresso_martini=False,
         updrinks_q="Which drink is served up, and what does that mean for the glass?",
         updrinks_a="Chai Hard. Chilled coupe, no ice in the glass."),
@@ -281,8 +284,12 @@ def esc(t): return html.escape(t, quote=False)
 
 def resolve(loc):
     """Drinks and questions for one location, with glassware substituted."""
-    drinks = [d for d in DRINKS
-              if not d.get('short_north_only') or loc['espresso_martini']]
+    drinks = []
+    for d in DRINKS:
+        if d.get('short_north_only') and not loc['espresso_martini']:
+            continue
+        over = d.get('by_loc', {}).get(loc['key'])
+        drinks.append(dict(d, **over) if over else d)
     qs = list(QUESTIONS)
     if loc['espresso_martini']:
         qs.insert(4, EM_QUESTION)
