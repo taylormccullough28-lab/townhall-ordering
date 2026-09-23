@@ -32,7 +32,7 @@ in-house by the kitchen (no order line). **4 prices remain outstanding** — see
 | Cacao Powder (alt) | Viva Naturals Organic Cacao **Nibs** | 454 g (1 lb) | $19.39 | $0.0427 | ⚠️ 2nd nib SKU, still no powder |
 | Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
-| Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
+| Allulose Powder | **Hillcrest Foods** — 55 lb bulk bag | **24,948 g** (55 lb) | **$214.08** | **$0.0086** | cheapest gram in program |
 | Chia Seeds | BBF Organic Chia Seeds, 2 lb jar | **907 g** (32 oz) | **$13.97** ($0.44/oz) | $0.0154 | 2 lb beats the 20 oz size |
 | Sea Moss | BareOrganics Organic Sea Moss Powder, Irish | 227 g (8 oz) | $21.97 | $0.0968 | |
 | Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine Powder | **96 g (3.39 oz)** | $54.95 ($16.23/oz) | **$0.5724** | ⚠️ see §3 — priciest gram |
@@ -82,8 +82,10 @@ per-cycle Amazon run.
 | Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
 | Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
 | Sante Matcha | 54 g | 250 g | **1** | $74.25 | 196 g (≈4 batches) |
+| Allulose Powder | 1,800 g | 24,948 g | **1** | $214.08 | 23,148 g (≈13 batches) |
 
-**Known-SKU ingredient cost, one cycle of all four batches: $882.65**
+**Ingredient cost, one cycle of all four batches: $898.10** (excludes Strawberry's vanilla creamer,
+the last unresolved line — $926.35 if it turns out to be the Orgain Keto Vanilla at $28.25)
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
@@ -186,16 +188,16 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 | Longevity | **$428.74** ✅ fully priced | Choc collagen, colostrum, spirulina, creatine | — |
 | Strawberry | **$225.52** | + chia | Vanilla creamer only |
 | Keto 2.0 | **$114.35** ✅ fully priced | BHB, monkfruit, PB powder, choc collagen, cacao, chia | — |
-| Being Brigid 2.0 | **$114.04** | + chia, matcha | Allulose only |
+| Being Brigid 2.0 | **$129.49** ✅ fully priced | + chia, matcha, allulose | — |
 
 **Two batches are now fully costed, and the spread between them is the headline finding:**
 
 | Batch | Batch weight | Ingredient cost | **Cost per gram of finished powder** |
 |---|---|---|---|
 | **Longevity** | 3,700 g | **$428.74** | **$0.1159** |
-| Strawberry | 3,314 g | $225.52 *(partial)* | $0.0681 |
+| Strawberry | 3,314 g | $253.77 *(assumes creamer = Orgain vanilla)* | $0.0766 |
 | Keto 2.0 | 3,850 g | $114.35 | $0.0297 |
-| Being Brigid 2.0 | 3,343 g | $114.04 *(partial)* | $0.0341 |
+| Being Brigid 2.0 | 3,343 g | $129.49 | $0.0387 |
 
 **Longevity costs 3.9× per gram what Keto does**, for a batch of nearly the same size. Keto is the
 heaviest batch in the program (3,850 g) and the second cheapest. That gap is not spread across the
@@ -221,13 +223,13 @@ a different spirulina source.
 
 ---
 
-## 5. Still needed — prices, not products
+## 5. Still needed
 
-Every ingredient now has an identified product. What's outstanding is pricing and one pack size:
+**Every ingredient is now identified and priced.** One line remains ambiguous:
 
 | Ingredient | Product | Missing | Why it matters |
 |---|---|---|---|
-| Allulose Powder | Hillcrest Foods | **Pack size + price** | 1,800 g/batch — 2nd largest volume in the program |
+| Strawberry "Vanilla Collagen Creamer" (400 g) | ? | **Product identity** | Is it the Orgain Keto Vanilla already in use, or a separate creamer? Swings Strawberry's cost by $28.25 |
 
 ---
 
@@ -278,7 +280,10 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
     without the tub size we can't say whether that's one tub per batch or one per several.
 13. ~~Santé Matcha vendor~~ — **resolved: ordered direct from Santé** at a negotiated 38% discount,
     in 10-bag lots. Confirm whether that discount is standing or was one-time.
-14. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
-   2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
-   cadence and lead time may differ from the Amazon items, which affects how the master order is
-   assembled.
+14. ~~Hillcrest Foods allulose~~ — **resolved: 55 lb bag, $214.08.** Confirm lead time, since it's a
+    bulk drop-ship rather than a 2-day Amazon item.
+
+**Allulose is the counterexample to the spirulina finding, and worth noting:** it's **54% of Being
+Brigid's batch weight but only 12% of its cost** ($15.45 of $129.49). At $0.0086/g it's the cheapest
+gram in the program by a factor of three. Bulk bagging is doing real work here — one 55 lb bag covers
+~14 batches for $214.08.
