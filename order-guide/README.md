@@ -8,8 +8,9 @@ are populated — that way one master order can be assembled from whichever cate
 
 | Folder | Contents | Status |
 |---|---|---|
-| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 21 of 21 priced; 1 product identity open |
+| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 20 of 21 priced; cacao powder unsourced |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
+| `cafe-prep/` | Cafe recipes and SKUs (açaí bowl, etc.) | 2 SKUs; awaiting recipes |
 | `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 15 items |
 
 ## Files
@@ -26,7 +27,7 @@ Sourcing is **not single-vendor** — the master order will need to split by sup
 
 | Vendor | Covers | Notes |
 |---|---|---|
-| Amazon Business | Most powder prep SKUs | ⚠️ **Two ship-to addresses seen**: Townhall – Columbus 43215 and Townhall – Cleveland 44113. Confirm whether prep runs at both sites — if so, quantities are per location. Subscribe & Save available on several lines |
+| Amazon Business | Most powder prep SKUs | **Both Columbus (43215) and Cleveland (44113) run this prep** — all quantities are **per location**. See the smoothie SKU file §2a for the split-vs-duplicate decision on bulk items. Subscribe & Save available on several lines |
 | Hillcrest Foods | Allulose powder, 55 lb bulk bag | $214.08/bag (~14 batches). Confirm lead time — bulk drop-ship, not 2-day |
 | Santé Matcha (**direct**) | Santé Matcha CoffeeHouse Ceremonial, 250 g | $74.25/bag net of a **38% account discount**; bought in 10-bag lots (~46 batches). Own reorder cadence — not part of the per-cycle Amazon run |
 | In-house / kitchen stock | Cinnamon | Pull-from-stock, no order line |

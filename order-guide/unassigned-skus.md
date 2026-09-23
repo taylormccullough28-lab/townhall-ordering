@@ -22,6 +22,7 @@ Grouping below is a **guess** — correct it as recipes come in.
 | MADHAVA Organic Coconut Sugar | 6 × 1 lb (2,722 g) | $14.26 | — | ⚠️ verify whether price is per-pack or per-unit |
 | Nature's Greatest Organic Coconut Cream, no guar gum | 12 × 13.5 fl oz | $45.44 | — | $3.79/can |
 | Annie's Organic Honey Graham Crackers | 14.4 oz (408 g) | $5.00 | — | Likely rim/garnish or dessert component |
+| Lakanto Peanut Butter Powder, monk-fruit sweetened | 241 g (8.5 oz) | $13.36 | — | **Not** the smoothie PB powder (that's Micro Ingredients). Cafe or another use? |
 
 ## Likely smoothie build / assembly (Pt. 1 or Pt. 2?)
 

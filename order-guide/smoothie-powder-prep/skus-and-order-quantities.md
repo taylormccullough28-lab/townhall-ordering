@@ -6,7 +6,8 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**All 21 ingredients now have an identified product.** 18 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+**20 of 21 ingredients priced.** Cacao **powder** for Keto is unsourced — the cacao nibs in order
+history belong to the **cafe** order guide (açaí bowl), not to this prep. 17 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
 (pack size and price still needed), matcha from **Sante** (price still needed), and cinnamon carried
 in-house by the kitchen (no order line). **4 prices remain outstanding** — see §7.
 
@@ -23,14 +24,11 @@ in-house by the kitchen (no order line). **4 prices remain outstanding** — see
 | Liposomal Creatine | Thorne Creatine | 908 g (2 lb) | *cut off* | — | ⚠️ not liposomal |
 | BHB Ketone Powder Chocolate | Perfect Keto Base Ketones, Chocolate | 243 g (8.57 oz) | $42.74 | $0.1759 | |
 | Pitaya Powder | Micro Ingredients Organic Dragon Fruit Powder | 283 g (10 oz) | $25.34 | $0.0895 | ✅ label reads "pink pitaya" |
-| Peanut Butter Powder | Micro Ingredients Pure Peanut Butter Powder | 1,814 g (4 lb) | $28.41 | $0.0157 | ⚠️ see §3 |
+| Peanut Butter Powder | Micro Ingredients Pure Peanut Butter Powder | 1,814 g (4 lb) | $28.41 | $0.0157 | ✅ confirmed SKU |
 | Monkfruit Sugar | Lakanto Powdered Monk Fruit w/ Erythritol, Confectioners | 454 g (1 lb) | $16.29 | $0.0359 | |
 | Hyaluronic Acid | Micro Ingredients Hyaluronic Acid Serum Powder | 100 g | $34.74 | $0.3474 | cosmetics grade |
 | Maca Powder | Micro Ingredients Organic Maca Root Powder, gelatinized | 907 g (2 lb) | $23.35 | $0.0257 | |
 | Raw Mesquite Powder | Terrasoul Superfoods Organic Mesquite Powder | 454 g (16 oz) | $14.69 | $0.0324 | |
-| Cacao Powder | Anthony's Organic Cacao Cocoa **Nibs**, Criollo | 907 g (2 lb) | $34.99 | $0.0386 | ⚠️ nibs, not powder |
-| Cacao Powder (alt) | Viva Naturals Organic Cacao **Nibs** | 454 g (1 lb) | $19.39 | $0.0427 | ⚠️ 2nd nib SKU, still no powder |
-| Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
 | Allulose Powder | **Hillcrest Foods** — 55 lb bulk bag | **24,948 g** (55 lb) | **$214.08** | **$0.0086** | cheapest gram in program |
 | Chia Seeds | BBF Organic Chia Seeds, 2 lb jar | **907 g** (32 oz) | **$13.97** ($0.44/oz) | $0.0154 | 2 lb beats the 20 oz size |
@@ -74,7 +72,6 @@ per-cycle Amazon run.
 | Hyaluronic Acid | 200 g | 100 g | **2** | $69.48 | 0 g |
 | Maca Powder | 90 g | 907 g | **1** | $23.35 | 817 g (≈10 batches) |
 | Mesquite Powder | 104 g | 454 g | **1** | $14.69 | 350 g (≈4 batches) |
-| Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
 | Chia Seeds | 2,070 g | 907 g | **3** | $41.91 | 651 g |
 | Sea Moss | 14 g | 227 g | **1** | $21.97 | 213 g (≈16 batches) |
 | Kion Colostrum | 100 g | 96 g | **2** ⚠️ | $109.90 | 92 g |
@@ -84,11 +81,34 @@ per-cycle Amazon run.
 | Sante Matcha | 54 g | 250 g | **1** | $74.25 | 196 g (≈4 batches) |
 | Allulose Powder | 1,800 g | 24,948 g | **1** | $214.08 | 23,148 g (≈13 batches) |
 
-**Ingredient cost, one cycle of all four batches: $898.10** (excludes Strawberry's vanilla creamer,
-the last unresolved line — $926.35 if it turns out to be the Orgain Keto Vanilla at $28.25)
+**Ingredient cost, one cycle of all four batches, PER LOCATION: $894.24** (excludes Strawberry's vanilla creamer,
+and Keto's cacao powder. **Columbus and Cleveland both run this prep — see §2a.**)
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
+
+## 2a. Two locations — quantities above are PER LOCATION
+
+**Columbus (43215) and Cleveland (44113) both run this prep.** Everything in §2 is one location's
+cycle. Straight doubling gives **$1,788.48 per cycle across both sites** — but the unit counts
+shouldn't simply be doubled, because several packages carry many batches of runway:
+
+| Item | Package | Runway | Doubling means |
+|---|---|---|---|
+| Santé Matcha | 10-bag lot, $742.50 | ~46 batches | 92 batches of matcha on hand |
+| Allulose | 55 lb bag, $214.08 | ~14 batches | 28 batches |
+| Sea Moss | 227 g, $21.97 | ~16 batches | 32 batches |
+| Flax | 425 g, $11.15 | ~12 batches | 24 batches |
+| Maca | 907 g, $23.35 | ~10 batches | 20 batches |
+
+**Decision needed: split or duplicate?** For the slow-moving bulk items, one package split between
+the two sites avoids doubling idle inventory and shelf-life risk — but it requires a transfer step
+and someone owning the split. The fast-moving lines (collagen, chia, pitaya, spirulina, PB powder)
+turn over within a cycle and should simply be ordered per site.
+
+A reasonable default: **order per site for anything consuming more than ~50% of a package per batch;
+order once and split for anything with 4+ batches of runway.** That needs your call before the
+master order is built — it changes both the order sheet and who receives what.
 
 ## 3. Flags worth a decision
 
@@ -124,7 +144,9 @@ At 750 g per cycle, one 180-serving tub covers both batches with 150 g left. The
 It stays on the prep guide as a pull-from-kitchen line and is excluded from the order guide. (The
 Frontier Pumpkin Pie Spice in order history is unrelated to the powder preps.)
 
-**⚠️ Two peanut butter powders in rotation — and one of them double-sweetens Keto.**
+**✅ Peanut butter powder — resolved: Micro Ingredients.** The unsweetened 4 lb bag is the Keto SKU,
+which is what the separate 750 g monkfruit line requires. The Lakanto (monk-fruit sweetened) is not
+part of this prep. Original comparison kept below for the record:
 
 | | Micro Ingredients Pure PB Powder | Lakanto PB Powder |
 |---|---|---|
@@ -133,17 +155,14 @@ Frontier Pumpkin Pie Spice in order history is unrelated to the powder preps.)
 | Sweetener | None — no added sugar or salt | **Pre-sweetened with monk fruit** |
 | Cost of Keto's 1,875 g | **$29.37** (2 bags) | $103.94 (**8 bags**) |
 
-The Keto recipe lists peanut butter powder **and** 750 g of monkfruit sugar as separate lines. That
-math only works with the **unsweetened Micro Ingredients** version — the Lakanto already carries monk
-fruit, so using it would sweeten the batch twice and cost 3.5× per gram. Unless Lakanto is for a
-different application entirely, **Micro Ingredients is the Keto SKU.** Worth confirming which one
-prep is actually reaching for, because grabbing the wrong bag changes both flavor and cost materially.
+Grabbing the Lakanto by mistake would double-sweeten the batch at 3.5× the cost per gram, so the two
+should not be stored together.
 
-**⚠️ Two cacao nib SKUs, still zero cacao powder.**
-Anthony's (907 g, $0.0386/g) and Viva Naturals (454 g, $0.0427/g) — Anthony's is the cheaper gram.
-Two nib vendors and no powder SKU strengthens the read that the Keto recipe's "Cacao Powder" line is
-mis-worded, *or* that nibs and powder serve different uses (nibs as garnish/texture, powder for the
-blend). Either way the sift step in the prep method can't pass nibs.
+**⚠️ Cacao POWDER for Keto is unsourced.**
+Both cacao nib SKUs (Anthony's and Viva Naturals) belong to the **cafe** order guide for the açaí
+bowl — see `../cafe-prep/`. That means Keto's **100 g of cacao powder has no product behind it yet**
+and Keto is not fully costed. A milled cacao/cocoa powder SKU is needed; nibs can't substitute
+because they won't pass the fine-mesh sift in step 4 of the prep method.
 
 **⚠️ Kion Colostrum — 100 g recipe vs. 96 g jar. Same trap as the peanut butter powder, but worse.**
 
@@ -187,7 +206,7 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 |---|---|---|---|
 | Longevity | **$428.74** ✅ fully priced | Choc collagen, colostrum, spirulina, creatine | — |
 | Strawberry | **$225.52** | + chia | Vanilla creamer only |
-| Keto 2.0 | **$114.35** ✅ fully priced | BHB, monkfruit, PB powder, choc collagen, cacao, chia | — |
+| Keto 2.0 | **$110.49** | BHB, monkfruit, PB powder, choc collagen, chia | **Cacao powder — unsourced** |
 | Being Brigid 2.0 | **$129.49** ✅ fully priced | + chia, matcha, allulose | — |
 
 **Two batches are now fully costed, and the spread between them is the headline finding:**
@@ -196,7 +215,7 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 |---|---|---|---|
 | **Longevity** | 3,700 g | **$428.74** | **$0.1159** |
 | Strawberry | 3,314 g | $253.77 *(assumes creamer = Orgain vanilla)* | $0.0766 |
-| Keto 2.0 | 3,850 g | $114.35 | $0.0297 |
+| Keto 2.0 | 3,850 g | $110.49 *(partial)* | $0.0287 |
 | Being Brigid 2.0 | 3,343 g | $129.49 | $0.0387 |
 
 **Longevity costs 3.9× per gram what Keto does**, for a batch of nearly the same size. Keto is the
@@ -229,6 +248,7 @@ a different spirulina source.
 
 | Ingredient | Product | Missing | Why it matters |
 |---|---|---|---|
+| Keto "Cacao Powder" (100 g) | — | **No SKU** | Nibs are cafe-side; a milled cacao powder is needed |
 | Strawberry "Vanilla Collagen Creamer" (400 g) | ? | **Product identity** | Is it the Orgain Keto Vanilla already in use, or a separate creamer? Swings Strawberry's cost by $28.25 |
 
 ---
