@@ -8,7 +8,7 @@ are populated — that way one master order can be assembled from whichever cate
 
 | Folder | Contents | Status |
 |---|---|---|
-| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 21 of 21 identified; 4 prices open |
+| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 21 of 21 identified; 3 prices open |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
 | `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 15 items |
 
@@ -26,7 +26,7 @@ Sourcing is **not single-vendor** — the master order will need to split by sup
 
 | Vendor | Covers | Notes |
 |---|---|---|
-| Amazon Business | Most powder prep SKUs | Ship to Townhall – Columbus 43215; Subscribe & Save available on several lines |
+| Amazon Business | Most powder prep SKUs | ⚠️ **Two ship-to addresses seen**: Townhall – Columbus 43215 and Townhall – Cleveland 44113. Confirm whether prep runs at both sites — if so, quantities are per location. Subscribe & Save available on several lines |
 | Hillcrest Foods | Allulose powder | Pack size, price, and lead time still needed |
 | Sante (direct or distributor?) | Sante Matcha, 250 g | Vendor route and price still needed |
 | In-house / kitchen stock | Cinnamon | Pull-from-stock, no order line |

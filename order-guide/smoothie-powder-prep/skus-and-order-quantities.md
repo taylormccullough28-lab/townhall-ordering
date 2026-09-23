@@ -56,7 +56,7 @@ Bulk / subscription pricing seen:
 |---|---|---|---|---|---|
 | Orgain Keto Collagen Chocolate | 3,450 g | 400 g | **9** | $254.25 | 150 g |
 | Orgain Keto Collagen Vanilla | 900 g | 400 g | **3** | $84.75 | 300 g |
-| Thorne Creatine | 750 g | 908 g | **1** | — | 158 g |
+| Thorne Creatine | 750 g | 900 g | **1** | $84.00 | 150 g |
 | Perfect Keto Base Ketones | 75 g | 243 g | **1** | $42.74 | 168 g (≈2 batches) |
 | Dragon Fruit / Pitaya Powder | 1,000 g | 283 g | **4** | $101.36 | 132 g |
 | Peanut Butter Powder | 1,875 g | 1,814 g | **2** | $56.82 | 1,753 g ⚠️ |
@@ -73,7 +73,7 @@ Bulk / subscription pricing seen:
 | Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
 | Sante Matcha | 54 g | 250 g | **1** | *price needed* | 196 g (≈4 batches) |
 
-**Known-SKU ingredient cost, one cycle of all four batches: $764.73**
+**Known-SKU ingredient cost, one cycle of all four batches: $834.73**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
@@ -92,9 +92,21 @@ bean pieces, not milled powder. Nibs will not sift through a fine mesh strainer 
 and will read as crunchy bits in the finished smoothie. Either the recipe means nibs, or a cacao
 powder SKU is missing. Needs a call before the guide is written.
 
-**⚠️ "Liposomal Creatine" vs. Thorne Creatine.**
-Slides specify *liposomal*; Thorne Creatine is monohydrate. Affects Strawberry (500 g) and
-Longevity (250 g). Also — Thorne's price was cut off in the screenshot.
+**⚠️ "Liposomal Creatine" vs. Thorne Creatine — now confirmed as a mismatch.**
+The listing reads **"Micronized Creatine Monohydrate Powder"** — definitively not liposomal. The
+slides say liposomal for both Strawberry (500 g) and Longevity (250 g). Either the slides need
+rewording or a different product is intended.
+
+**Buy the 180-serving tub.** The listing offers three sizes and the largest is the best value:
+
+| Size | Approx. net wt | Price | $/g |
+|---|---|---|---|
+| 30 servings | ~150 g | $36.00 | $0.2400 |
+| 90 servings | ~450 g | $44.00 | $0.0978 |
+| **180 servings** | **900 g** | **$84.00** | **$0.0933** |
+
+At 750 g per cycle, one 180-serving tub covers both batches with 150 g left. The 30-serving size is
+**2.6× the per-gram cost** — worth making sure prep never reorders the small tub by habit.
 
 **✅ Cinnamon — resolved.** Longevity's 50 g comes from **kitchen stock**, not an Amazon order.
 It stays on the prep guide as a pull-from-kitchen line and is excluded from the order guide. (The
@@ -161,8 +173,8 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 
 | Batch | Known cost | From | Still unpriced |
 |---|---|---|---|
-| Longevity | **$405.41** | Choc collagen, colostrum, spirulina | Creatine only |
-| Strawberry | **$160.37** | Hyaluronic acid, pitaya, sea moss | Chia, creatine, vanilla creamer |
+| Longevity | **$428.74** ✅ fully priced | Choc collagen, colostrum, spirulina, creatine | — |
+| Strawberry | **$207.04** | Hyaluronic acid, pitaya, sea moss, creatine | Chia, vanilla creamer |
 | Keto 2.0 | **$105.11** | BHB, monkfruit, PB powder, choc collagen, cacao | Chia only |
 | Being Brigid 2.0 | **$93.84** | Maca, mesquite, vanilla collagen, flax, greens | Matcha, chia, allulose |
 
@@ -170,11 +182,15 @@ Keto is nearly fully priced — only chia is missing. **Longevity is now fully p
 and it is the clear cost outlier: $405.41 for a 3,700 g batch, or $0.1096 per gram of finished
 powder.** Three lines drive it and none is small:
 
+**Longevity is now fully priced at $428.74 for a 3,700 g batch — $0.1159 per gram of finished
+powder.**
+
 | Longevity line | Grams | Cost | Share of batch weight |
 |---|---|---|---|
 | Orgain Chocolate Collagen | 3,000 g | $211.87 | 81% |
 | Blue Spirulina | 300 g | $136.30 | 8% |
 | Kion Colostrum | 100 g | $57.24 | 3% |
+| Thorne Creatine | 250 g | $23.33 | 7% |
 
 Spirulina is the finding here: **8% of the batch by weight, 34% of its cost.** At $0.4543/g it's the
 second most expensive gram in the program, and unlike colostrum or the peanut butter powder there's
@@ -191,7 +207,6 @@ Every ingredient now has an identified product. What's outstanding is pricing an
 |---|---|---|---|
 | Allulose Powder | Hillcrest Foods | **Pack size + price** | 1,800 g/batch — 2nd largest volume in the program |
 | Chia Seeds | BBF Organic, 32 oz | **Price** | 2,070 g across 3 batches; Keto's last unpriced line |
-| Liposomal Creatine | Thorne, 908 g | **Price** | 750 g across 2 batches |
 | Sante Matcha | Sante, 250 g | **Price** | 54 g/batch; 1 bag ≈ 4 batches |
 
 ---
@@ -230,17 +245,21 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 6. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — Orgain Keto Vanilla, or a separate creamer?
 7. **Slides Pt. 1 and Pt. 2** — do they cover the liquid/build side? (see §6)
 8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
-9. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
+9. **Two delivery locations.** Most screenshots ship to **Townhall – Columbus 43215**; the Thorne
+   creatine listing shows **Townhall – Cleveland 44113**. Is the powder prep run at both locations?
+   If so, every quantity in this file is *per location* and the master order needs a location split
+   (and possibly different pars, since batch frequency may differ by site).
+10. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
    cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
-10. ~~BodyHealth Greens net weight~~ — **resolved: 244 g (8.61 oz)**. Note the listing offers
+11. ~~BodyHealth Greens net weight~~ — **resolved: 244 g (8.61 oz)**. Note the listing offers
     6.24 / 6.63 / 8.3 / 8.61 oz sizes — confirm 8.61 oz is the one standardized on.
-10a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
-11. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
+11a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
+12. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
-12. **Sante Matcha vendor** — the bag was photographed in-house, not from a listing
+13. **Sante Matcha vendor** — the bag was photographed in-house, not from a listing
     (thesantecompany.com). Is this ordered direct from Sante, through a distributor, or via Amazon?
     That determines which vendor block it belongs to in the master order.
-13. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+14. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
    assembled.
