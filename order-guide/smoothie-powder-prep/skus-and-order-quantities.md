@@ -6,7 +6,7 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**14 of 21 ingredients are sourced** — 12 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+**15 of 21 ingredients are sourced** — 13 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
 (pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
 
 **Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
@@ -32,6 +32,7 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
 | Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
+| Chia Seeds | BBF Organic Chia Seeds, 32 oz jar | 907 g (32 oz) | *price needed* | — | ⚠️ price cut off |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -56,6 +57,7 @@ Bulk / subscription pricing seen:
 | Maca Powder | 90 g | 907 g | **1** | $23.35 | 817 g (≈10 batches) |
 | Mesquite Powder | 104 g | 454 g | **1** | $14.69 | 350 g (≈4 batches) |
 | Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
+| Chia Seeds | 2,070 g | 907 g | **3** | *price needed* | 651 g |
 
 **Known-SKU ingredient cost, one cycle of all four batches: $545.24**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
@@ -126,11 +128,10 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 7 ingredients without a source
+## 5. Still needed — 6 ingredients without a source
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
-| Chia Seeds | 2,070 g | **High** — 3 of 4 batches, largest unpriced volume |
 | Blue Spirulina | 300 g | Medium |
 | Kion Bovine Colostrum | 100 g | Medium — branded, likely pricey per gram |
 | Green Perfect Aminos | 90 g | Low |
@@ -174,7 +175,9 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 6. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — Orgain Keto Vanilla, or a separate creamer?
 7. **Slides Pt. 1 and Pt. 2** — do they cover the liquid/build side? (see §6)
 8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
-9. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+9. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
+   cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
+10. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
    assembled.
