@@ -1,103 +1,146 @@
 # Product SKUs & Order Quantities
 
-Companion to `powder-prep-ingredient-breakdown.md`. Captures confirmed product SKUs from Amazon
-screenshots and converts recipe grams → units to order.
+Companion to `powder-prep-ingredient-breakdown.md`. Confirmed product SKUs from Amazon screenshots,
+with recipe grams converted to units to order.
 
-Prices captured 9/22–9/23/2026 (Amazon Business, deliver to TownHall 43215). Prices move — re-check
-before placing a large order.
+Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
+(ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
----
-
-## 1. Confirmed SKUs (5 of 21 ingredients)
-
-| Ingredient (slide name) | Product | Net weight | Price | $/g |
-|---|---|---|---|---|
-| Liposomal Creatine ⚠️ | Thorne Creatine, dietary supplement | 32 oz / 2 lb (**908 g**) | *cut off in screenshot* | — |
-| BHB Ketone Powder Chocolate | Perfect Keto Base Ketones, Chocolate (goBHB) | 8.57 oz (**243 g**) | **$42.74** (5% biz disc.; list $44.99) | $0.1759 |
-| Orgain Chocolate Collagen | Orgain Keto Collagen Protein Powder, Chocolate | 14.1 oz / 0.88 lb (**400 g**) | **$28.25** ($2.00/oz) | $0.0706 |
-| Orgain Vanilla Collagen | Orgain Keto Collagen Protein Powder, Vanilla | 14.1 oz / 0.88 lb (**400 g**) | **$28.25** ($2.00/oz) | $0.0706 |
-| *(unmatched — see §4)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 16 oz / 1 lb (**454 g**) | **$21.12** ($1.32/oz; list $23.88) | $0.0465 |
-
-All three Orgain items show **Last purchased Sep 21, 2026** — these are the SKUs already in rotation.
-
-### Bulk pricing available
-**Perfect Keto Base Ketones** has tiered pricing:
-- 1 unit — $42.74
-- 2 units — $83.70 ($41.85/unit, −7%)
-- 30 units — $945.00 ($31.50/unit, **−30%**)
-
-At 75 g per Keto batch, one 243 g tub covers **3 batches**. 30 units = 90 batches of runway — almost
-certainly too much unless BHB gets used elsewhere. The 2-unit tier saves $1.78 and is a no-brainer.
-
-### Subscribe & Save
-- Orgain Keto Collagen (both flavors): **20% off** via Subscribe & Save → ~$22.60/tub, $0.0565/g
-- Orgain Keto Collagen Vanilla shows S&S at **$26.84** ($1.90/oz)
-- Perfect Keto: **20% off first S&S order**
-
-> On the chocolate collagen volume below, 20% S&S is worth roughly **$49/cycle**. Worth setting up.
+**12 of 21 ingredients now have a confirmed SKU.**
 
 ---
 
-## 2. Units to order (one full cycle of all four batches)
+## 1. Confirmed SKUs
 
-| Ingredient | Grams needed | Unit size | Units to order | Cost | Leftover |
+| Slide ingredient | Product | Unit size | Price | $/g | Flag |
 |---|---|---|---|---|---|
-| Thorne Creatine | 750 g (Strawberry 500 + Longevity 250) | 908 g | **1** | — | 158 g |
-| Orgain Keto Collagen **Chocolate** | 3,450 g (Longevity 3,000 + Keto 450) | 400 g | **9** | $254.25 | 150 g |
-| Orgain Keto Collagen **Vanilla** | 900 g (Being Brigid) | 400 g | **3** | $84.75 | 300 g |
-| Perfect Keto Base Ketones | 75 g (Keto) | 243 g | **1** | $42.74 | 168 g (≈2 more batches) |
+| Orgain Chocolate Collagen | Orgain Keto Collagen Protein, Chocolate | 400 g (14.1 oz) | $28.25 | $0.0706 | |
+| Orgain Vanilla Collagen | Orgain Keto Collagen Protein, Vanilla | 400 g (14.1 oz) | $28.25 | $0.0706 | |
+| Liposomal Creatine | Thorne Creatine | 908 g (2 lb) | *cut off* | — | ⚠️ not liposomal |
+| BHB Ketone Powder Chocolate | Perfect Keto Base Ketones, Chocolate | 243 g (8.57 oz) | $42.74 | $0.1759 | |
+| Pitaya Powder | Micro Ingredients Organic Dragon Fruit Powder | 283 g (10 oz) | $25.34 | $0.0895 | ✅ label reads "pink pitaya" |
+| Peanut Butter Powder | Micro Ingredients Pure Peanut Butter Powder | 1,814 g (4 lb) | $28.41 | $0.0157 | ⚠️ see §3 |
+| Monkfruit Sugar | Lakanto Powdered Monk Fruit w/ Erythritol, Confectioners | 454 g (1 lb) | $16.29 | $0.0359 | |
+| Hyaluronic Acid | Micro Ingredients Hyaluronic Acid Serum Powder | 100 g | $34.74 | $0.3474 | cosmetics grade |
+| Maca Powder | Micro Ingredients Organic Maca Root Powder, gelatinized | 907 g (2 lb) | $23.35 | $0.0257 | |
+| Raw Mesquite Powder | Terrasoul Superfoods Organic Mesquite Powder | 454 g (16 oz) | $14.69 | $0.0324 | |
+| Cacao Powder | Anthony's Organic Cacao Cocoa **Nibs**, Criollo | 907 g (2 lb) | $34.99 | $0.0386 | ⚠️ nibs, not powder |
+| *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
-*If Strawberry's "Vanilla Collagen Creamer" turns out to be this same Orgain vanilla SKU, vanilla
-becomes 1,300 g → **4 tubs / $113.00**, 300 g leftover.*
-
-**Confirmed-SKU subtotal: $381.74/cycle** (excl. creatine, price not captured).
+Bulk / subscription pricing seen:
+- **Peanut Butter Powder** — 5 units $136.30 ($27.26/unit, −6%)
+- **Perfect Keto** — 2 units $83.70 (−7%); 30 units $945.00 (−30%); 20% off first Subscribe & Save
+- **Orgain Keto Collagen** — 20% off via Subscribe & Save (~$22.60/tub, $0.0565/g)
 
 ---
 
-## 3. Ingredient cost per batch (confirmed SKUs only)
+## 2. Units to order — one full cycle of all four batches
 
-| Batch | Ingredient | Grams | Cost |
+| Ingredient | Need | Unit | **Order** | Unit cost | Leftover |
+|---|---|---|---|---|---|
+| Orgain Keto Collagen Chocolate | 3,450 g | 400 g | **9** | $254.25 | 150 g |
+| Orgain Keto Collagen Vanilla | 900 g | 400 g | **3** | $84.75 | 300 g |
+| Thorne Creatine | 750 g | 908 g | **1** | — | 158 g |
+| Perfect Keto Base Ketones | 75 g | 243 g | **1** | $42.74 | 168 g (≈2 batches) |
+| Dragon Fruit / Pitaya Powder | 1,000 g | 283 g | **4** | $101.36 | 132 g |
+| Peanut Butter Powder | 1,875 g | 1,814 g | **2** | $56.82 | 1,753 g ⚠️ |
+| Monkfruit Sugar | 750 g | 454 g | **2** | $32.58 | 158 g |
+| Hyaluronic Acid | 200 g | 100 g | **2** | $69.48 | 0 g |
+| Maca Powder | 90 g | 907 g | **1** | $23.35 | 817 g (≈10 batches) |
+| Mesquite Powder | 104 g | 454 g | **1** | $14.69 | 350 g (≈4 batches) |
+| Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
+
+**Known-SKU ingredient cost, one cycle of all four batches: $545.24**
+(cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
+
+---
+
+## 3. Flags worth a decision
+
+**⚠️ Peanut Butter Powder — 1,875 g recipe vs. 1,814 g bag.**
+The Keto batch calls for **61 g more than one full bag** (3.4% over), which forces a second $28.41 bag
+and leaves 1,753 g sitting. If the recipe rounds down to **1,814 g — one clean bag** — Keto becomes a
+one-bag-per-batch item with zero waste and no partial-bag scaling at prep. Worth asking whether that
+61 g is load-bearing.
+
+**⚠️ Cacao nibs vs. cacao powder.**
+The Keto slide says "Cacao Powder"; the purchased item is Anthony's Cacao **Nibs** — whole crushed
+bean pieces, not milled powder. Nibs will not sift through a fine mesh strainer (step 4 of the prep)
+and will read as crunchy bits in the finished smoothie. Either the recipe means nibs, or a cacao
+powder SKU is missing. Needs a call before the guide is written.
+
+**⚠️ "Liposomal Creatine" vs. Thorne Creatine.**
+Slides specify *liposomal*; Thorne Creatine is monohydrate. Affects Strawberry (500 g) and
+Longevity (250 g). Also — Thorne's price was cut off in the screenshot.
+
+**⚠️ No cinnamon SKU.** Longevity needs 50 g cinnamon. The order history shows **Frontier Organic
+Pumpkin Pie Spice, 16 oz, $13.12** — a blend (nutmeg, cloves, ginger *and* cinnamon), not cinnamon.
+Not a substitute unless that's deliberate.
+
+**Hyaluronic acid is the most expensive gram in the program** — $0.3474/g, and Strawberry uses 200 g,
+making it **$69.48/batch from a single 14-cent-per-serving-looking line**. It's also the one item
+where the recipe hits the unit size exactly (2 × 100 g bags, zero waste), so nothing to optimize —
+just be aware it's the #2 cost line across all four recipes behind Longevity's collagen.
+
+---
+
+## 4. Known ingredient cost per batch
+
+| Batch | Known cost | From | Still unpriced |
 |---|---|---|---|
-| Longevity | Orgain Choc Collagen | 3,000 g | **$211.88** |
-| Being Brigid 2.0 | Orgain Vanilla Collagen | 900 g | $63.56 |
-| Keto 2.0 | Orgain Choc Collagen | 450 g | $31.78 |
-| Keto 2.0 | Base Ketones | 75 g | $13.19 |
-| Strawberry | Vanilla Collagen Creamer? | 400 g | $28.25 (if same SKU) |
+| Longevity | **$211.87** | Choc collagen (3,000 g) | Colostrum, creatine, spirulina, cinnamon |
+| Strawberry | **$159.02** | Hyaluronic acid, pitaya | Chia, sea moss, creatine, vanilla creamer |
+| Keto 2.0 | **$105.11** | BHB, monkfruit, PB powder, choc collagen, cacao | Chia only |
+| Being Brigid 2.0 | **$69.24** | Maca, mesquite, vanilla collagen | Aminos, matcha, chia, allulose, flax |
 
-> **Cost flag — Longevity.** 3,000 g of chocolate collagen is **81% of that batch's total weight
-> (3,700 g)** and $211.88 of ingredient cost from a single line. It's the single biggest lever in all
-> four recipes. Two things worth a look:
-> 1. **Subscribe & Save at 20%** drops it to ~$169.50/batch — $42 saved on this line alone.
-> 2. The **unflavored Collagen Peptides** (454 g, $0.0465/g) is **34% cheaper per gram** than Keto
->    Collagen. It is *not* a drop-in — Keto Collagen carries 5 g MCT oil powder and chocolate
->    flavor per serving, so swapping changes taste and macros. But if the MCT/flavor isn't doing
->    work in the finished smoothie, 3,000 g would run $139.50 instead of $211.88 (**–$72/batch**).
->    Recipe call, not an ordering call — flagging it, not recommending it.
+Keto is nearly fully priced — only chia is missing. Longevity remains the cost outlier, and it's
+still one line item driving it.
 
 ---
 
-## 4. Open questions raised by these screenshots
+## 5. Still needed — 9 ingredients without a SKU
 
-1. **"Liposomal Creatine" vs. Thorne Creatine.** ⚠️ The slides specify *liposomal* creatine; Thorne
-   Creatine is creatine monohydrate (not liposomal). Is Thorne what's actually being used, or is
-   there a separate liposomal SKU and this screenshot is a different product? Affects both Strawberry
-   and Longevity.
-2. **Thorne Creatine price** — cut off in the screenshot. Need it to finish the cost picture.
-3. **Orgain Collagen Peptides Unflavored (454 g) — which recipe?** None of the four powder preps list
-   an unflavored collagen. Last purchased Sep 21 alongside the other two, so it's in active use.
-   Is it for a fifth recipe, a smoothie build step outside the powder prep, or is it the actual
-   product standing in for one of the collagen lines?
-4. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — still unresolved. Is it the Orgain Keto
-   Collagen Vanilla above, or a separate creamer product? Determines 3 vs. 4 vanilla tubs.
-5. **Batch frequency** — how often is each batch run? Everything above is "one cycle of each"; order
-   cadence needs the frequency.
+| Ingredient | Total across batches | Priority |
+|---|---|---|
+| Chia Seeds | 2,070 g | **High** — 3 of 4 batches, largest unpriced volume |
+| Allulose Powder | 1,800 g | **High** — 2nd largest unpriced volume |
+| Blue Spirulina | 300 g | Medium |
+| Kion Bovine Colostrum | 100 g | Medium — branded, likely pricey per gram |
+| Green Perfect Aminos | 90 g | Low |
+| Sante Matcha | 54 g | Low |
+| Cinnamon | 50 g | Low — no SKU found (see flag above) |
+| Flax Seed | 35 g | Low |
+| Sea Moss | 14 g | Low |
 
-## 5. Still needed (16 ingredients without a SKU)
+---
 
-Chia Seeds (2,070 g) · Peanut Butter Powder (1,875 g) · Allulose Powder (1,800 g) ·
-Monkfruit Sugar (750 g) · Pitaya Powder (1,000 g) · Blue Spirulina (300 g) · Hyaluronic Acid (200 g) ·
-Raw Mesquite Powder (104 g) · Cacao Powder (100 g) · Kion Bovine Colostrum (100 g) ·
-Green Perfect Aminos (90 g) · Maca Powder (90 g) · Sante Matcha (54 g) · Cinnamon (50 g) ·
-Flax Seed (35 g) · Sea Moss (14 g)
+## 6. Non-prep items seen in the same orders
 
-Biggest remaining cost unknowns by volume: **Chia Seeds, Peanut Butter Powder, Allulose.**
+These appeared in the order screenshots but are **not** in any of the four powder preps. Logging them
+so they don't get pulled into the powder prep list by mistake — several look like the wet/assembly
+side of the smoothie program or unrelated TownHall inventory:
+
+Mooala Organic Almond Milk 32 oz 6-pack ($36.99) · Equip Foods Prime Protein, Vanilla, 30 srv
+($64.63) · Nature's Way Organic MCT Oil 30 fl oz ($20.17) · Blue Green Organics Raw Blue Agave
+176 oz ($45.59) · Simply Organic Vanilla Bean Paste 4 oz ($17.89) · Yupik Organic Raw Pecans 2.2 lb
+($39.93) · Bhakti Chai Concentrate 2-pk ($19.99) · Davidson's Bulk Classic Chai 16 oz ($19.12) ·
+Frontier Organic Pumpkin Pie Spice 16 oz ($13.12) · Organic Hibiscus Flowers 2 lb ($27.51) ·
+Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
+
+> **Question:** almond milk, MCT oil, agave, vanilla bean paste and a vanilla beef protein look like
+> a **build/assembly step that happens after the powder prep** — the powder slides are labeled
+> "(Pt. 3)", which implies Parts 1 and 2 exist. Are there earlier slides covering the liquid base and
+> build? The ordering guide will be incomplete without them.
+
+---
+
+## 7. Open questions
+
+1. **Cacao nibs or cacao powder** for Keto? (blocks the prep guide — affects the sift step)
+2. **Peanut butter powder — round 1,875 g → 1,814 g?** (saves a bag per batch)
+3. **Liposomal creatine** — is Thorne the real SKU? And what's its price?
+4. **Cinnamon SKU** — is pumpkin pie spice standing in, or is one missing?
+5. **Orgain Collagen Peptides Unflavored (454 g)** — which recipe/use? Still unmatched.
+6. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — Orgain Keto Vanilla, or a separate creamer?
+7. **Slides Pt. 1 and Pt. 2** — do they cover the liquid/build side? (see §6)
+8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
