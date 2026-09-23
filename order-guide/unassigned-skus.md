@@ -30,6 +30,7 @@ Grouping below is a **guess** — correct it as recipes come in.
 | Mooala Organic Simple Almond Milk | 32 oz, 6-pack | $36.99 | 2 | Unsweetened, shelf stable, no gums |
 | Nature's Way Organic MCT Oil | 30 fl oz | $20.17 | 3 | |
 | Equip Foods Prime Protein, Vanilla | 30 servings | $64.63 | 3 | Grass-fed beef protein isolate |
+| JOI Instant Oat Milk Creamer Pouch | 32 servings | $30.56 | — | Oat milk base; no gums or preservatives |
 
 ## Unmatched collagen
 

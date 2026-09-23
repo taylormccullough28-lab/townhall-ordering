@@ -6,7 +6,7 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**15 of 21 ingredients are sourced** — 13 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+**17 of 21 ingredients are sourced** — 15 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
 (pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
 
 **Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
@@ -33,6 +33,8 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
 | Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
 | Chia Seeds | BBF Organic Chia Seeds, 32 oz jar | 907 g (32 oz) | *price needed* | — | ⚠️ price cut off |
+| Sea Moss | BareOrganics Organic Sea Moss Powder, Irish | 227 g (8 oz) | $21.97 | $0.0968 | |
+| Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine | *size needed* | $54.95 | — | ⚠️ net weight not shown |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -58,6 +60,8 @@ Bulk / subscription pricing seen:
 | Mesquite Powder | 104 g | 454 g | **1** | $14.69 | 350 g (≈4 batches) |
 | Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
 | Chia Seeds | 2,070 g | 907 g | **3** | *price needed* | 651 g |
+| Sea Moss | 14 g | 227 g | **1** | $21.97 | 213 g (≈16 batches) |
+| Kion Colostrum | 100 g | *unknown* | *TBD* | $54.95 | — |
 
 **Known-SKU ingredient cost, one cycle of all four batches: $545.24**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
@@ -128,16 +132,14 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 6 ingredients without a source
+## 5. Still needed — 4 ingredients without a source
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
 | Blue Spirulina | 300 g | Medium |
-| Kion Bovine Colostrum | 100 g | Medium — branded, likely pricey per gram |
 | Green Perfect Aminos | 90 g | Low |
 | Sante Matcha | 54 g | Low |
 | Flax Seed | 35 g | Low |
-| Sea Moss | 14 g | Low |
 
 ---
 
@@ -177,7 +179,9 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
 9. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
    cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
-10. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+10. **Kion Colostrum net weight** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
+    without the tub size we can't say whether that's one tub per batch or one per several.
+11. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
    assembled.

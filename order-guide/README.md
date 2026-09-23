@@ -8,9 +8,9 @@ are populated — that way one master order can be assembled from whichever cate
 
 | Folder | Contents | Status |
 |---|---|---|
-| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 15 of 21 sourced |
+| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 17 of 21 sourced |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
-| `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 14 items |
+| `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 15 items |
 
 ## Files
 
