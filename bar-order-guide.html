@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bar Order Guide</title>
+<style>
+  :root {
+    --rule: #c8c8c8;
+    --rule-strong: #333;
+    --ink: #111;
+    --muted: #666;
+    --fill: #f4f4f4;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 24px 16px 48px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .sheet { max-width: 1000px; margin: 0 auto; }
+
+  header.masthead {
+    padding-right: 90px;
+    border-bottom: 2px solid var(--rule-strong);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  h1 {
+    font-size: 20px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .window {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+  }
+  .meta span { display: inline-flex; align-items: baseline; gap: 6px; }
+  .meta .line {
+    display: inline-block;
+    border-bottom: 1px solid var(--rule-strong);
+    min-width: 130px;
+    height: 14px;
+  }
+
+  h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin: 16px 0 0;
+    padding: 4px 0 3px;
+    border-bottom: 1.5px solid var(--rule-strong);
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  thead th.fill { text-align: center; }
+  tbody td {
+    padding: 0 6px;
+    height: 26px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+  }
+  tbody tr { break-inside: avoid; page-break-inside: avoid; }
+  .item { font-weight: 600; font-size: 12.5px; width: 34%; }
+  .item .note {
+    display: block;
+    font-weight: 400;
+    font-size: 9.5px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: .02em;
+  }
+  .size {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    width: 16%;
+  }
+  .vendor { font-size: 10.5px; color: var(--muted); width: 18%; }
+  td.fill {
+    width: 10%;
+    background: var(--fill);
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+  td.fill.order { background: #e9e9e9; }
+
+  .writein td { height: 30px; }
+  .writein .item { color: var(--muted); font-weight: 400; }
+
+  footer.notes { margin-top: 18px; break-inside: avoid; page-break-inside: avoid; }
+  footer.notes h2 { margin-top: 0; }
+  .note-lines { margin-top: 10px; }
+  .note-lines div {
+    border-bottom: 1px solid var(--rule);
+    height: 24px;
+  }
+  .legend {
+    margin-top: 14px;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .print-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    padding: 8px 14px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: #111;
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  @page { size: letter portrait; margin: 0.4in; }
+  @media print {
+    body { padding: 0; font-size: 10.5px; }
+    header.masthead { padding-right: 0; }
+    .print-btn { display: none; }
+    thead { display: table-header-group; }
+    td.fill { background: #f2f2f2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td.fill.order { background: #e6e6e6 !important; }
+    .item { font-size: 11px; }
+    tbody td { height: 24px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">Print</button>
+
+<div class="sheet">
+  <header class="masthead">
+    <div class="title-row">
+      <h1>Bar Order Guide</h1>
+      <div class="window">Count Wed by 5 PM &middot; Order lands Thu PM</div>
+    </div>
+    <div class="meta">
+      <span>Week of <i class="line"></i></span>
+      <span>Counted by <i class="line"></i></span>
+      <span>Ordered by <i class="line"></i></span>
+      <span>Date sent <i class="line"></i></span>
+    </div>
+  </header>
+
+  <h2>Bar / Prep</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size / Pack</th>
+        <th>Vendor</th>
+        <th class="fill">On Hand</th>
+        <th class="fill">Par</th>
+        <th class="fill">Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">Mr. Boston Triple Sec</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Mr. Boston Peach Schnapps</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Coconut Water <span class="note">Once A Coconut</span></td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Chinola Passion Fruit <span class="note">needed for prep</span></td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Beer</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size / Pack</th>
+        <th>Vendor</th>
+        <th class="fill">On Hand</th>
+        <th class="fill">Par</th>
+        <th class="fill">Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">Pacifico</td><td class="size">16oz &middot; 6/4pk can</td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Real American Lager</td><td class="size">Draft</td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Wine</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size / Pack</th>
+        <th>Vendor</th>
+        <th class="fill">On Hand</th>
+        <th class="fill">Par</th>
+        <th class="fill">Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">Ethos Blanc de Blanc</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Ancient Peaks Zin</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Ch&acirc;teau Grange Cochard</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Count Karolyin Gr&uuml;ner Veltliner</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">DeLoach RR Chard</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Long Meadow Ranch Sauv Blanc</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Maison Saleya Ros&eacute;</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Peyrassol Ros&eacute;</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Routestock Cabernet</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Nortico Albari&ntilde;o</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Vinos Atlantico Gordo</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Union Sacr&eacute; Riesling</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Catena White Clay</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr><td class="item">Happy Hour Red &amp; White <span class="note">order a case when needed</span></td><td class="size">Case</td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Champagne</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Size / Pack</th>
+        <th>Vendor</th>
+        <th class="fill">On Hand</th>
+        <th class="fill">Par</th>
+        <th class="fill">Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">Laurent Perrier Brut &amp; Ros&eacute;</td><td class="size"></td><td class="vendor">Heidelberg / Wine Trends</td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+      <tr class="writein"><td class="item">&mdash;</td><td class="size"></td><td class="vendor"></td><td class="fill"></td><td class="fill"></td><td class="fill order"></td></tr>
+    </tbody>
+  </table>
+
+  <footer class="notes">
+    <h2>Notes / 86'd / Special Requests</h2>
+    <div class="note-lines">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div class="legend">
+      <strong>On Hand</strong> = count what's in the building (back stock + speed rail/cooler). &nbsp;
+      <strong>Par</strong> = what you want to be at when the truck lands. &nbsp;
+      <strong>Order</strong> = Par minus On Hand &mdash; this is the number that goes to the rep.<br>
+      All items above order through Heidelberg / Wine Trends. Counts due Wednesday by 5 PM; delivery Thursday PM.
+    </div>
+  </footer>
+</div>
+</body>
+</html>
