@@ -39,13 +39,23 @@ in-house by the kitchen (no order line). **4 prices remain outstanding** — see
 | Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | **244 g (8.61 oz)** | $64.17 ($7.45/oz) | $0.2630 | 40 srv; other sizes exist |
 | Flax Seed | Viva Naturals Organic Ground Flaxseed, finely milled | 425 g (15 oz) | $11.15 biz price | $0.0262 | |
 | Blue Spirulina | Micro Ingredients Organic Blue Spirulina (phycocyanin) | **60 g (2 oz)** | $27.26 | **$0.4543** | ⚠️ see §3 |
-| Sante Matcha | Sante Matcha Coffeehouse, Organic Ceremonial | **250 g (8.8 oz)**, 250 srv | *price needed* | — | ⚠️ non-Amazon vendor? |
+| Sante Matcha | Santé Matcha CoffeeHouse Ceremonial, Organic | **250 g (8.8 oz)**, 250 srv | **$74.25/bag** (net of 38% acct discount; list $120) | $0.2970 | **Direct from Santé**, 10-bag lots |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
 - **Peanut Butter Powder** — 5 units $136.30 ($27.26/unit, −6%)
 - **Perfect Keto** — 2 units $83.70 (−7%); 30 units $945.00 (−30%); 20% off first Subscribe & Save
 - **Ground Flaxseed** — 5 units $54.60 ($10.92/unit, −5%); 20 units $202.40 ($10.12/unit, −12%)
+
+### Santé Matcha — negotiated account pricing, ordered direct
+The last Santé order was **10 × 250 g bags**: list $1,200.00, **custom discount −$457.50**, paid
+**$742.50** — $74.25/bag, a **38% account discount** off the $120 list. This price will not appear on
+any public listing, so it lives here.
+
+**This line behaves differently from the Amazon items.** It's bought direct from Santé in 10-bag
+lots, which is ~46 batches of runway and a **$742.50 single outlay**. It should sit on its own
+reorder cadence in the master order — infrequent, large, and planned — rather than in the
+per-cycle Amazon run.
 - **Orgain Keto Collagen** — 20% off via Subscribe & Save (~$22.60/tub, $0.0565/g)
 
 ---
@@ -71,9 +81,9 @@ Bulk / subscription pricing seen:
 | Green Perfect Aminos | 90 g | 244 g | **1** | $64.17 | 154 g (≈2 batches) |
 | Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
 | Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
-| Sante Matcha | 54 g | 250 g | **1** | *price needed* | 196 g (≈4 batches) |
+| Sante Matcha | 54 g | 250 g | **1** | $74.25 | 196 g (≈4 batches) |
 
-**Known-SKU ingredient cost, one cycle of all four batches: $866.61**
+**Known-SKU ingredient cost, one cycle of all four batches: $882.65**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
@@ -176,7 +186,7 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 | Longevity | **$428.74** ✅ fully priced | Choc collagen, colostrum, spirulina, creatine | — |
 | Strawberry | **$225.52** | + chia | Vanilla creamer only |
 | Keto 2.0 | **$114.35** ✅ fully priced | BHB, monkfruit, PB powder, choc collagen, cacao, chia | — |
-| Being Brigid 2.0 | **$98.00** | + chia | Matcha, allulose |
+| Being Brigid 2.0 | **$114.04** | + chia, matcha | Allulose only |
 
 **Two batches are now fully costed, and the spread between them is the headline finding:**
 
@@ -185,7 +195,7 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 | **Longevity** | 3,700 g | **$428.74** | **$0.1159** |
 | Strawberry | 3,314 g | $225.52 *(partial)* | $0.0681 |
 | Keto 2.0 | 3,850 g | $114.35 | $0.0297 |
-| Being Brigid 2.0 | 3,343 g | $98.00 *(partial)* | $0.0293 |
+| Being Brigid 2.0 | 3,343 g | $114.04 *(partial)* | $0.0341 |
 
 **Longevity costs 3.9× per gram what Keto does**, for a batch of nearly the same size. Keto is the
 heaviest batch in the program (3,850 g) and the second cheapest. That gap is not spread across the
@@ -218,7 +228,6 @@ Every ingredient now has an identified product. What's outstanding is pricing an
 | Ingredient | Product | Missing | Why it matters |
 |---|---|---|---|
 | Allulose Powder | Hillcrest Foods | **Pack size + price** | 1,800 g/batch — 2nd largest volume in the program |
-| Sante Matcha | Sante, 250 g | **Price** | 54 g/batch; 1 bag ≈ 4 batches |
 
 ---
 
@@ -267,9 +276,8 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 11a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
 12. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
-13. **Sante Matcha vendor** — the bag was photographed in-house, not from a listing
-    (thesantecompany.com). Is this ordered direct from Sante, through a distributor, or via Amazon?
-    That determines which vendor block it belongs to in the master order.
+13. ~~Santé Matcha vendor~~ — **resolved: ordered direct from Santé** at a negotiated 38% discount,
+    in 10-bag lots. Confirm whether that discount is standing or was one-time.
 14. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
