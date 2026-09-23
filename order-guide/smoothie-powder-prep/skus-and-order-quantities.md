@@ -6,7 +6,7 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**17 of 21 ingredients are sourced** — 15 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+**19 of 21 ingredients are sourced** — 17 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
 (pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
 
 **Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
@@ -35,11 +35,14 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Chia Seeds | BBF Organic Chia Seeds, 32 oz jar | 907 g (32 oz) | *price needed* | — | ⚠️ price cut off |
 | Sea Moss | BareOrganics Organic Sea Moss Powder, Irish | 227 g (8 oz) | $21.97 | $0.0968 | |
 | Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine | *size needed* | $54.95 | — | ⚠️ net weight not shown |
+| Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | 40 servings (*net wt not legible*) | $64.17 | — | ⚠️ need net weight |
+| Flax Seed | Viva Naturals Organic Ground Flaxseed, finely milled | 425 g (15 oz) | $11.15 biz price | $0.0262 | |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
 - **Peanut Butter Powder** — 5 units $136.30 ($27.26/unit, −6%)
 - **Perfect Keto** — 2 units $83.70 (−7%); 30 units $945.00 (−30%); 20% off first Subscribe & Save
+- **Ground Flaxseed** — 5 units $54.60 ($10.92/unit, −5%); 20 units $202.40 ($10.12/unit, −12%)
 - **Orgain Keto Collagen** — 20% off via Subscribe & Save (~$22.60/tub, $0.0565/g)
 
 ---
@@ -62,6 +65,8 @@ Bulk / subscription pricing seen:
 | Chia Seeds | 2,070 g | 907 g | **3** | *price needed* | 651 g |
 | Sea Moss | 14 g | 227 g | **1** | $21.97 | 213 g (≈16 batches) |
 | Kion Colostrum | 100 g | *unknown* | *TBD* | $54.95 | — |
+| Green Perfect Aminos | 90 g | *unknown* | *TBD* | $64.17 | — |
+| Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
 
 **Known-SKU ingredient cost, one cycle of all four batches: $545.24**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
@@ -132,14 +137,12 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 4 ingredients without a source
+## 5. Still needed — 2 ingredients without a source
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
 | Blue Spirulina | 300 g | Medium |
-| Green Perfect Aminos | 90 g | Low |
 | Sante Matcha | 54 g | Low |
-| Flax Seed | 35 g | Low |
 
 ---
 
@@ -179,9 +182,11 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
 9. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
    cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
-10. **Kion Colostrum net weight** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
+10. **BodyHealth Greens net weight** — $64.17 for 40 servings, but net weight wasn't legible.
+    Being Brigid needs 90 g; can't compute units without it.
+11. **Kion Colostrum net weight** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
-11. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+12. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
    assembled.
