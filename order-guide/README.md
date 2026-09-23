@@ -8,7 +8,7 @@ are populated — that way one master order can be assembled from whichever cate
 
 | Folder | Contents | Status |
 |---|---|---|
-| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 13 of 21 sourced |
+| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 14 of 21 sourced |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
 | `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 14 items |
 
@@ -19,6 +19,16 @@ are populated — that way one master order can be assembled from whichever cate
 - `smoothie-powder-prep/skus-and-order-quantities.md` — confirmed SKUs, grams → units to order,
   per-batch cost, open questions
 - `unassigned-skus.md` — holding pen; items move out to a category once their recipe lands
+
+## Vendors
+
+Sourcing is **not single-vendor** — the master order will need to split by supplier:
+
+| Vendor | Covers | Notes |
+|---|---|---|
+| Amazon Business | Most powder prep SKUs | Ship to Townhall – Columbus 43215; Subscribe & Save available on several lines |
+| Hillcrest Foods | Allulose powder | Pack size, price, and lead time still needed |
+| In-house / kitchen stock | Cinnamon | Pull-from-stock, no order line |
 
 ## Conventions
 

@@ -6,8 +6,10 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**13 of 21 ingredients are sourced** — 12 with a confirmed Amazon SKU, plus cinnamon carried in-house
-by the kitchen (no order line needed).
+**14 of 21 ingredients are sourced** — 12 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+(pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
+
+**Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
 
 ---
 
@@ -29,6 +31,7 @@ by the kitchen (no order line needed).
 | Cacao Powder (alt) | Viva Naturals Organic Cacao **Nibs** | 454 g (1 lb) | $19.39 | $0.0427 | ⚠️ 2nd nib SKU, still no powder |
 | Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
+| Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -123,12 +126,11 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 8 ingredients without a SKU
+## 5. Still needed — 7 ingredients without a source
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
 | Chia Seeds | 2,070 g | **High** — 3 of 4 batches, largest unpriced volume |
-| Allulose Powder | 1,800 g | **High** — 2nd largest unpriced volume |
 | Blue Spirulina | 300 g | Medium |
 | Kion Bovine Colostrum | 100 g | Medium — branded, likely pricey per gram |
 | Green Perfect Aminos | 90 g | Low |
@@ -172,3 +174,7 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 6. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — Orgain Keto Vanilla, or a separate creamer?
 7. **Slides Pt. 1 and Pt. 2** — do they cover the liquid/build side? (see §6)
 8. **Batch frequency** — needed to turn per-cycle quantities into an order cadence.
+9. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+   2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
+   cadence and lead time may differ from the Amazon items, which affects how the master order is
+   assembled.
