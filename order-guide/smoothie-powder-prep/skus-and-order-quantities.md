@@ -37,7 +37,7 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine Powder | **96 g (3.39 oz)** | $54.95 ($16.23/oz) | **$0.5724** | ⚠️ see §3 — priciest gram |
 | Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | **244 g (8.61 oz)** | $64.17 ($7.45/oz) | $0.2630 | 40 srv; other sizes exist |
 | Flax Seed | Viva Naturals Organic Ground Flaxseed, finely milled | 425 g (15 oz) | $11.15 biz price | $0.0262 | |
-| Blue Spirulina | Micro Ingredients Organic Blue Spirulina (phycocyanin extract) | 60 servings (*net wt needed*) | $27.26 | — | ⚠️ need net weight |
+| Blue Spirulina | Micro Ingredients Organic Blue Spirulina (phycocyanin) | **60 g (2 oz)** | $27.26 | **$0.4543** | ⚠️ see §3 |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -68,9 +68,9 @@ Bulk / subscription pricing seen:
 | Kion Colostrum | 100 g | 96 g | **2** ⚠️ | $109.90 | 92 g |
 | Green Perfect Aminos | 90 g | 244 g | **1** | $64.17 | 154 g (≈2 batches) |
 | Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
-| Blue Spirulina | 300 g | *unknown* | *TBD* | $27.26/bag | — |
+| Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
 
-**Known-SKU ingredient cost, one cycle of all four batches: $545.24**
+**Known-SKU ingredient cost, one cycle of all four batches: $764.73**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
@@ -139,7 +139,8 @@ Ranked by cost per gram — the top two are where the money is:
 | Ingredient | $/g |
 |---|---|
 | **Kion Colostrum** | **$0.5724** |
-| **Hyaluronic Acid** | **$0.3474** |
+| **Blue Spirulina** | **$0.4543** |
+| **Hyaluronic Acid** | $0.3474 |
 | **BodyHealth Greens** | **$0.2630** |
 | Perfect Keto BHB | $0.1759 |
 | Sea Moss | $0.0968 |
@@ -157,13 +158,25 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 
 | Batch | Known cost | From | Still unpriced |
 |---|---|---|---|
-| Longevity | **$269.11** | Choc collagen (3,000 g), colostrum (100 g) | Creatine, spirulina |
-| Strawberry | **$159.02** | Hyaluronic acid, pitaya | Chia, sea moss, creatine, vanilla creamer |
+| Longevity | **$405.41** | Choc collagen, colostrum, spirulina | Creatine only |
+| Strawberry | **$160.37** | Hyaluronic acid, pitaya, sea moss | Chia, creatine, vanilla creamer |
 | Keto 2.0 | **$105.11** | BHB, monkfruit, PB powder, choc collagen, cacao | Chia only |
 | Being Brigid 2.0 | **$93.84** | Maca, mesquite, vanilla collagen, flax, greens | Matcha, chia, allulose |
 
-Keto is nearly fully priced — only chia is missing. Longevity remains the cost outlier, and it's
-still one line item driving it.
+Keto is nearly fully priced — only chia is missing. **Longevity is now fully priced except creatine,
+and it is the clear cost outlier: $405.41 for a 3,700 g batch, or $0.1096 per gram of finished
+powder.** Three lines drive it and none is small:
+
+| Longevity line | Grams | Cost | Share of batch weight |
+|---|---|---|---|
+| Orgain Chocolate Collagen | 3,000 g | $211.87 | 81% |
+| Blue Spirulina | 300 g | $136.30 | 8% |
+| Kion Colostrum | 100 g | $57.24 | 3% |
+
+Spirulina is the finding here: **8% of the batch by weight, 34% of its cost.** At $0.4543/g it's the
+second most expensive gram in the program, and unlike colostrum or the peanut butter powder there's
+no rounding win — 300 g is exactly 5 bags with zero waste. The only levers are the quantity itself or
+a different spirulina source.
 
 ---
 
@@ -214,7 +227,6 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 10. ~~BodyHealth Greens net weight~~ — **resolved: 244 g (8.61 oz)**. Note the listing offers
     6.24 / 6.63 / 8.3 / 8.61 oz sizes — confirm 8.61 oz is the one standardized on.
 10a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
-10b. **Blue Spirulina net weight** — $27.26 for 60 servings; Longevity needs 300 g.
 11. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
 12. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
