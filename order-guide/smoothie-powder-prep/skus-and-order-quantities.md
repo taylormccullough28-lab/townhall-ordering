@@ -6,7 +6,7 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**19 of 21 ingredients are sourced** — 17 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+**20 of 21 ingredients are sourced** — 18 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
 (pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
 
 **Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
@@ -34,9 +34,10 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
 | Chia Seeds | BBF Organic Chia Seeds, 32 oz jar | 907 g (32 oz) | *price needed* | — | ⚠️ price cut off |
 | Sea Moss | BareOrganics Organic Sea Moss Powder, Irish | 227 g (8 oz) | $21.97 | $0.0968 | |
-| Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine | *size needed* | $54.95 | — | ⚠️ net weight not shown |
+| Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine Powder | **96 g (3.39 oz)** | $54.95 ($16.23/oz) | **$0.5724** | ⚠️ see §3 — priciest gram |
 | Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | 40 servings (*net wt not legible*) | $64.17 | — | ⚠️ need net weight |
 | Flax Seed | Viva Naturals Organic Ground Flaxseed, finely milled | 425 g (15 oz) | $11.15 biz price | $0.0262 | |
+| Blue Spirulina | Micro Ingredients Organic Blue Spirulina (phycocyanin extract) | 60 servings (*net wt needed*) | $27.26 | — | ⚠️ need net weight |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -64,9 +65,10 @@ Bulk / subscription pricing seen:
 | Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
 | Chia Seeds | 2,070 g | 907 g | **3** | *price needed* | 651 g |
 | Sea Moss | 14 g | 227 g | **1** | $21.97 | 213 g (≈16 batches) |
-| Kion Colostrum | 100 g | *unknown* | *TBD* | $54.95 | — |
+| Kion Colostrum | 100 g | 96 g | **2** ⚠️ | $109.90 | 92 g |
 | Green Perfect Aminos | 90 g | *unknown* | *TBD* | $64.17 | — |
 | Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
+| Blue Spirulina | 300 g | *unknown* | *TBD* | $27.26/bag | — |
 
 **Known-SKU ingredient cost, one cycle of all four batches: $545.24**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
@@ -116,7 +118,34 @@ Two nib vendors and no powder SKU strengthens the read that the Keto recipe's "C
 mis-worded, *or* that nibs and powder serve different uses (nibs as garnish/texture, powder for the
 blend). Either way the sift step in the prep method can't pass nibs.
 
-**Hyaluronic acid is the most expensive gram in the program** — $0.3474/g, and Strawberry uses 200 g,
+**⚠️ Kion Colostrum — 100 g recipe vs. 96 g jar. Same trap as the peanut butter powder, but worse.**
+
+The jar is **96 g**. Longevity calls for **100 g** — **4 g over**, which forces a second $54.95 jar
+and leaves 92 g stranded.
+
+| | One jar (96 g) | Recipe as written (100 g) |
+|---|---|---|
+| Jars | 1 | **2** |
+| Cost | $54.95 | **$109.90** |
+| Leftover | 0 g | 92 g |
+
+**Rounding Longevity's colostrum from 100 g to 96 g saves $54.95 per batch** — it doubles the cost of
+that line to chase 4 g (4.2%). At $0.5724/g this is now **the most expensive ingredient per gram in
+the entire program**, nearly double hyaluronic acid. If that 4 g isn't load-bearing, this is the
+single easiest save in the four recipes.
+
+Ranked by cost per gram — the top two are where the money is:
+
+| Ingredient | $/g |
+|---|---|
+| **Kion Colostrum** | **$0.5724** |
+| **Hyaluronic Acid** | **$0.3474** |
+| Perfect Keto BHB | $0.1759 |
+| Sea Moss | $0.0968 |
+| Pitaya | $0.0895 |
+| Orgain Collagen | $0.0706 |
+
+**Hyaluronic acid is the second most expensive gram in the program** — $0.3474/g, and Strawberry uses 200 g,
 making it **$69.48/batch from a single 14-cent-per-serving-looking line**. It's also the one item
 where the recipe hits the unit size exactly (2 × 100 g bags, zero waste), so nothing to optimize —
 just be aware it's the #2 cost line across all four recipes behind Longevity's collagen.
@@ -127,7 +156,7 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 
 | Batch | Known cost | From | Still unpriced |
 |---|---|---|---|
-| Longevity | **$211.87** | Choc collagen (3,000 g) | Colostrum, creatine, spirulina, cinnamon |
+| Longevity | **$269.11** | Choc collagen (3,000 g), colostrum (100 g) | Creatine, spirulina |
 | Strawberry | **$159.02** | Hyaluronic acid, pitaya | Chia, sea moss, creatine, vanilla creamer |
 | Keto 2.0 | **$105.11** | BHB, monkfruit, PB powder, choc collagen, cacao | Chia only |
 | Being Brigid 2.0 | **$69.24** | Maca, mesquite, vanilla collagen | Aminos, matcha, chia, allulose, flax |
@@ -137,11 +166,10 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 2 ingredients without a source
+## 5. Still needed — 1 ingredient without a source
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
-| Blue Spirulina | 300 g | Medium |
 | Sante Matcha | 54 g | Low |
 
 ---
@@ -184,7 +212,9 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
    cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
 10. **BodyHealth Greens net weight** — $64.17 for 40 servings, but net weight wasn't legible.
     Being Brigid needs 90 g; can't compute units without it.
-11. **Kion Colostrum net weight** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
+10a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
+10b. **Blue Spirulina net weight** — $27.26 for 60 servings; Longevity needs 300 g.
+11. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
 12. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
