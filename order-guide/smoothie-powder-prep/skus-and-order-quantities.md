@@ -6,8 +6,9 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**20 of 21 ingredients are sourced** — 18 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
-(pack size and price still needed), and cinnamon carried in-house by the kitchen (no order line).
+**All 21 ingredients now have an identified product.** 18 with a confirmed Amazon SKU, allulose via **Hillcrest Foods**
+(pack size and price still needed), matcha from **Sante** (price still needed), and cinnamon carried
+in-house by the kitchen (no order line). **4 prices remain outstanding** — see §7.
 
 **Vendors in play: Amazon Business, Hillcrest Foods, in-house kitchen stock.**
 
@@ -38,6 +39,7 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | **244 g (8.61 oz)** | $64.17 ($7.45/oz) | $0.2630 | 40 srv; other sizes exist |
 | Flax Seed | Viva Naturals Organic Ground Flaxseed, finely milled | 425 g (15 oz) | $11.15 biz price | $0.0262 | |
 | Blue Spirulina | Micro Ingredients Organic Blue Spirulina (phycocyanin) | **60 g (2 oz)** | $27.26 | **$0.4543** | ⚠️ see §3 |
+| Sante Matcha | Sante Matcha Coffeehouse, Organic Ceremonial | **250 g (8.8 oz)**, 250 srv | *price needed* | — | ⚠️ non-Amazon vendor? |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -69,6 +71,7 @@ Bulk / subscription pricing seen:
 | Green Perfect Aminos | 90 g | 244 g | **1** | $64.17 | 154 g (≈2 batches) |
 | Ground Flaxseed | 35 g | 425 g | **1** | $11.15 | 390 g (≈12 batches) |
 | Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
+| Sante Matcha | 54 g | 250 g | **1** | *price needed* | 196 g (≈4 batches) |
 
 **Known-SKU ingredient cost, one cycle of all four batches: $764.73**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
@@ -180,11 +183,16 @@ a different spirulina source.
 
 ---
 
-## 5. Still needed — 1 ingredient without a source
+## 5. Still needed — prices, not products
 
-| Ingredient | Total across batches | Priority |
-|---|---|---|
-| Sante Matcha | 54 g | Low |
+Every ingredient now has an identified product. What's outstanding is pricing and one pack size:
+
+| Ingredient | Product | Missing | Why it matters |
+|---|---|---|---|
+| Allulose Powder | Hillcrest Foods | **Pack size + price** | 1,800 g/batch — 2nd largest volume in the program |
+| Chia Seeds | BBF Organic, 32 oz | **Price** | 2,070 g across 3 batches; Keto's last unpriced line |
+| Liposomal Creatine | Thorne, 908 g | **Price** | 750 g across 2 batches |
+| Sante Matcha | Sante, 250 g | **Price** | 54 g/batch; 1 bag ≈ 4 batches |
 
 ---
 
@@ -229,7 +237,10 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 10a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
 11. ~~Kion Colostrum net weight~~ — **resolved: 96 g (3.39 oz)** — price is $54.95 but the size wasn't shown. Longevity needs 100 g;
     without the tub size we can't say whether that's one tub per batch or one per several.
-12. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
+12. **Sante Matcha vendor** — the bag was photographed in-house, not from a listing
+    (thesantecompany.com). Is this ordered direct from Sante, through a distributor, or via Amazon?
+    That determines which vendor block it belongs to in the master order.
+13. **Hillcrest Foods allulose** — pack size and price? At 1,800 g per Being Brigid batch this is the
    2nd largest volume line in the program, and it's the only non-Amazon vendor so far. Its order
    cadence and lead time may differ from the Amazon items, which affects how the master order is
    assembled.
