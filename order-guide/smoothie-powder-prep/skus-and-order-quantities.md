@@ -33,7 +33,7 @@ in-house by the kitchen (no order line). **4 prices remain outstanding** — see
 | Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
 | Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
 | Allulose Powder | **Hillcrest Foods** (non-Amazon vendor) | *needed* | *needed* | — | ⚠️ pack size + price |
-| Chia Seeds | BBF Organic Chia Seeds, 32 oz jar | 907 g (32 oz) | *price needed* | — | ⚠️ price cut off |
+| Chia Seeds | BBF Organic Chia Seeds, 2 lb jar | **907 g** (32 oz) | **$13.97** ($0.44/oz) | $0.0154 | 2 lb beats the 20 oz size |
 | Sea Moss | BareOrganics Organic Sea Moss Powder, Irish | 227 g (8 oz) | $21.97 | $0.0968 | |
 | Kion Bovine Colostrum | Kion Colostrum, Grass-Fed Bovine Powder | **96 g (3.39 oz)** | $54.95 ($16.23/oz) | **$0.5724** | ⚠️ see §3 — priciest gram |
 | Green Perfect Aminos | BodyHealth Greens Enhanced w/ PerfectAmino, Green Apple | **244 g (8.61 oz)** | $64.17 ($7.45/oz) | $0.2630 | 40 srv; other sizes exist |
@@ -65,7 +65,7 @@ Bulk / subscription pricing seen:
 | Maca Powder | 90 g | 907 g | **1** | $23.35 | 817 g (≈10 batches) |
 | Mesquite Powder | 104 g | 454 g | **1** | $14.69 | 350 g (≈4 batches) |
 | Cacao Nibs | 100 g | 907 g | **1** | $34.99 | 807 g (≈9 batches) |
-| Chia Seeds | 2,070 g | 907 g | **3** | *price needed* | 651 g |
+| Chia Seeds | 2,070 g | 907 g | **3** | $41.91 | 651 g |
 | Sea Moss | 14 g | 227 g | **1** | $21.97 | 213 g (≈16 batches) |
 | Kion Colostrum | 100 g | 96 g | **2** ⚠️ | $109.90 | 92 g |
 | Green Perfect Aminos | 90 g | 244 g | **1** | $64.17 | 154 g (≈2 batches) |
@@ -73,7 +73,7 @@ Bulk / subscription pricing seen:
 | Blue Spirulina | 300 g | 60 g | **5** | $136.30 | 0 g |
 | Sante Matcha | 54 g | 250 g | **1** | *price needed* | 196 g (≈4 batches) |
 
-**Known-SKU ingredient cost, one cycle of all four batches: $834.73**
+**Known-SKU ingredient cost, one cycle of all four batches: $866.61**
 (cost of grams actually consumed, not cash outlay — several items carry multi-batch leftovers)
 
 ---
@@ -174,11 +174,23 @@ just be aware it's the #2 cost line across all four recipes behind Longevity's c
 | Batch | Known cost | From | Still unpriced |
 |---|---|---|---|
 | Longevity | **$428.74** ✅ fully priced | Choc collagen, colostrum, spirulina, creatine | — |
-| Strawberry | **$207.04** | Hyaluronic acid, pitaya, sea moss, creatine | Chia, vanilla creamer |
-| Keto 2.0 | **$105.11** | BHB, monkfruit, PB powder, choc collagen, cacao | Chia only |
-| Being Brigid 2.0 | **$93.84** | Maca, mesquite, vanilla collagen, flax, greens | Matcha, chia, allulose |
+| Strawberry | **$225.52** | + chia | Vanilla creamer only |
+| Keto 2.0 | **$114.35** ✅ fully priced | BHB, monkfruit, PB powder, choc collagen, cacao, chia | — |
+| Being Brigid 2.0 | **$98.00** | + chia | Matcha, allulose |
 
-Keto is nearly fully priced — only chia is missing. **Longevity is now fully priced except creatine,
+**Two batches are now fully costed, and the spread between them is the headline finding:**
+
+| Batch | Batch weight | Ingredient cost | **Cost per gram of finished powder** |
+|---|---|---|---|
+| **Longevity** | 3,700 g | **$428.74** | **$0.1159** |
+| Strawberry | 3,314 g | $225.52 *(partial)* | $0.0681 |
+| Keto 2.0 | 3,850 g | $114.35 | $0.0297 |
+| Being Brigid 2.0 | 3,343 g | $98.00 *(partial)* | $0.0293 |
+
+**Longevity costs 3.9× per gram what Keto does**, for a batch of nearly the same size. Keto is the
+heaviest batch in the program (3,850 g) and the second cheapest. That gap is not spread across the
+recipe — it is three lines: chocolate collagen, spirulina, and colostrum.
+ **Longevity is now fully priced except creatine,
 and it is the clear cost outlier: $405.41 for a 3,700 g batch, or $0.1096 per gram of finished
 powder.** Three lines drive it and none is small:
 
@@ -206,7 +218,6 @@ Every ingredient now has an identified product. What's outstanding is pricing an
 | Ingredient | Product | Missing | Why it matters |
 |---|---|---|---|
 | Allulose Powder | Hillcrest Foods | **Pack size + price** | 1,800 g/batch — 2nd largest volume in the program |
-| Chia Seeds | BBF Organic, 32 oz | **Price** | 2,070 g across 3 batches; Keto's last unpriced line |
 | Sante Matcha | Sante, 250 g | **Price** | 54 g/batch; 1 bag ≈ 4 batches |
 
 ---
@@ -249,8 +260,8 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
    creatine listing shows **Townhall – Cleveland 44113**. Is the powder prep run at both locations?
    If so, every quantity in this file is *per location* and the master order needs a location split
    (and possibly different pars, since batch frequency may differ by site).
-10. **Chia Seeds price** — cut off in the screenshot. 3 jars per cycle; needed to close out Keto's
-   cost (chia is Keto's last unpriced line) and to price Strawberry and Being Brigid.
+10. ~~Chia Seeds price~~ — **resolved: $13.97 / 907 g.** (Note: the 2 lb jar at $0.44/oz beats the
+    20 oz jar at $0.48/oz — stay on the 2 lb.)
 11. ~~BodyHealth Greens net weight~~ — **resolved: 244 g (8.61 oz)**. Note the listing offers
     6.24 / 6.63 / 8.3 / 8.61 oz sizes — confirm 8.61 oz is the one standardized on.
 11a. **Round Longevity's colostrum 100 g → 96 g?** Saves $54.95/batch (see §3).
