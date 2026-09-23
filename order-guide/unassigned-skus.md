@@ -19,6 +19,9 @@ Grouping below is a **guess** — correct it as recipes come in.
 | Frontier Co-op Organic Whole Star Anise | 1 lb | $33.52 | 4 | Whole pods |
 | Frontier Organic Pumpkin Pie Spice | 16 oz | $13.12 | 4 | Blend: nutmeg, cloves, ginger, cinnamon |
 | Yupik Organic Raw Pecans | 2.2 lb (35.2 oz) | $39.93 | 2 and 4 | Raw, unsalted, unroasted |
+| MADHAVA Organic Coconut Sugar | 6 × 1 lb (2,722 g) | $14.26 | — | ⚠️ verify whether price is per-pack or per-unit |
+| Nature's Greatest Organic Coconut Cream, no guar gum | 12 × 13.5 fl oz | $45.44 | — | $3.79/can |
+| Annie's Organic Honey Graham Crackers | 14.4 oz (408 g) | $5.00 | — | Likely rim/garnish or dessert component |
 
 ## Likely smoothie build / assembly (Pt. 1 or Pt. 2?)
 
@@ -38,8 +41,10 @@ Grouping below is a **guess** — correct it as recipes come in.
 
 ## Notes for whoever picks this up
 
-- **Pumpkin pie spice is not cinnamon.** Longevity needs 50 g cinnamon and no cinnamon SKU has
-  surfaced. Don't let the blend quietly fill that slot.
+- **Cinnamon is carried in-house** by the kitchen, so Longevity's 50 g is a pull-from-stock line, not
+  an order line. The Frontier Pumpkin Pie Spice here is unrelated to the powder preps.
+- **Coconut cream is sold by fluid ounce, not weight.** If a recipe calls for it in grams, that needs
+  a conversion (or the recipe should specify cans).
 - **Two different chai formats** are in rotation (Bhakti concentrate, Davidson's loose leaf) — likely
   two different drinks, worth confirming rather than consolidating.
 - Quantities in "Qty seen" are the order-line quantities visible in the screenshots, not a par level.

@@ -8,9 +8,9 @@ are populated — that way one master order can be assembled from whichever cate
 
 | Folder | Contents | Status |
 |---|---|---|
-| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 12 of 21 SKUs confirmed |
+| `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 13 of 21 sourced |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
-| `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 11 items |
+| `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 14 items |
 
 ## Files
 
@@ -30,3 +30,7 @@ are populated — that way one master order can be assembled from whichever cate
   where captured. Re-verify before placing a large order.
 - Anything ambiguous gets a ⚠️ flag and an entry in that file's open-questions section rather than a
   silent assumption.
+- **Not every ingredient is an order line.** Items the kitchen already carries in stock (e.g. cinnamon)
+  are marked *carried in-house* — they stay on the **prep** guide as a pull-from-stock step but are
+  excluded from the **order** guide. Flag these as they surface so the order guide doesn't
+  double-order what's already on the shelf.

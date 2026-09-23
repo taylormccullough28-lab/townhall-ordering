@@ -6,7 +6,8 @@ with recipe grams converted to units to order.
 Prices captured from Amazon Business order history and listings, Sep 1–23, 2026
 (ship to Townhall – Columbus 43215). Prices move — re-check before a large order.
 
-**12 of 21 ingredients now have a confirmed SKU.**
+**13 of 21 ingredients are sourced** — 12 with a confirmed Amazon SKU, plus cinnamon carried in-house
+by the kitchen (no order line needed).
 
 ---
 
@@ -25,6 +26,9 @@ Prices captured from Amazon Business order history and listings, Sep 1–23, 202
 | Maca Powder | Micro Ingredients Organic Maca Root Powder, gelatinized | 907 g (2 lb) | $23.35 | $0.0257 | |
 | Raw Mesquite Powder | Terrasoul Superfoods Organic Mesquite Powder | 454 g (16 oz) | $14.69 | $0.0324 | |
 | Cacao Powder | Anthony's Organic Cacao Cocoa **Nibs**, Criollo | 907 g (2 lb) | $34.99 | $0.0386 | ⚠️ nibs, not powder |
+| Cacao Powder (alt) | Viva Naturals Organic Cacao **Nibs** | 454 g (1 lb) | $19.39 | $0.0427 | ⚠️ 2nd nib SKU, still no powder |
+| Peanut Butter Powder (alt) | Lakanto PB Powder, **sweetened w/ monk fruit** | 241 g (8.5 oz) | $13.36 | $0.0554 | ⚠️ see §3 |
+| Cinnamon | **carried in-house — kitchen stock** | — | — | — | ✅ no order line |
 | *(unmatched)* | Orgain Hydrolyzed Collagen Peptides, Unflavored | 454 g (1 lb) | $21.12 | $0.0465 | not in any recipe |
 
 Bulk / subscription pricing seen:
@@ -73,9 +77,30 @@ powder SKU is missing. Needs a call before the guide is written.
 Slides specify *liposomal*; Thorne Creatine is monohydrate. Affects Strawberry (500 g) and
 Longevity (250 g). Also — Thorne's price was cut off in the screenshot.
 
-**⚠️ No cinnamon SKU.** Longevity needs 50 g cinnamon. The order history shows **Frontier Organic
-Pumpkin Pie Spice, 16 oz, $13.12** — a blend (nutmeg, cloves, ginger *and* cinnamon), not cinnamon.
-Not a substitute unless that's deliberate.
+**✅ Cinnamon — resolved.** Longevity's 50 g comes from **kitchen stock**, not an Amazon order.
+It stays on the prep guide as a pull-from-kitchen line and is excluded from the order guide. (The
+Frontier Pumpkin Pie Spice in order history is unrelated to the powder preps.)
+
+**⚠️ Two peanut butter powders in rotation — and one of them double-sweetens Keto.**
+
+| | Micro Ingredients Pure PB Powder | Lakanto PB Powder |
+|---|---|---|
+| Size / price | 1,814 g (4 lb) / $28.41 | 241 g (8.5 oz) / $13.36 |
+| $/g | **$0.0157** | $0.0554 (**3.5× more**) |
+| Sweetener | None — no added sugar or salt | **Pre-sweetened with monk fruit** |
+| Cost of Keto's 1,875 g | **$29.37** (2 bags) | $103.94 (**8 bags**) |
+
+The Keto recipe lists peanut butter powder **and** 750 g of monkfruit sugar as separate lines. That
+math only works with the **unsweetened Micro Ingredients** version — the Lakanto already carries monk
+fruit, so using it would sweeten the batch twice and cost 3.5× per gram. Unless Lakanto is for a
+different application entirely, **Micro Ingredients is the Keto SKU.** Worth confirming which one
+prep is actually reaching for, because grabbing the wrong bag changes both flavor and cost materially.
+
+**⚠️ Two cacao nib SKUs, still zero cacao powder.**
+Anthony's (907 g, $0.0386/g) and Viva Naturals (454 g, $0.0427/g) — Anthony's is the cheaper gram.
+Two nib vendors and no powder SKU strengthens the read that the Keto recipe's "Cacao Powder" line is
+mis-worded, *or* that nibs and powder serve different uses (nibs as garnish/texture, powder for the
+blend). Either way the sift step in the prep method can't pass nibs.
 
 **Hyaluronic acid is the most expensive gram in the program** — $0.3474/g, and Strawberry uses 200 g,
 making it **$69.48/batch from a single 14-cent-per-serving-looking line**. It's also the one item
@@ -98,7 +123,7 @@ still one line item driving it.
 
 ---
 
-## 5. Still needed — 9 ingredients without a SKU
+## 5. Still needed — 8 ingredients without a SKU
 
 | Ingredient | Total across batches | Priority |
 |---|---|---|
@@ -108,7 +133,6 @@ still one line item driving it.
 | Kion Bovine Colostrum | 100 g | Medium — branded, likely pricey per gram |
 | Green Perfect Aminos | 90 g | Low |
 | Sante Matcha | 54 g | Low |
-| Cinnamon | 50 g | Low — no SKU found (see flag above) |
 | Flax Seed | 35 g | Low |
 | Sea Moss | 14 g | Low |
 
@@ -139,7 +163,11 @@ Frontier Co-op Organic Whole Star Anise 1 lb ($33.52)
 1. **Cacao nibs or cacao powder** for Keto? (blocks the prep guide — affects the sift step)
 2. **Peanut butter powder — round 1,875 g → 1,814 g?** (saves a bag per batch)
 3. **Liposomal creatine** — is Thorne the real SKU? And what's its price?
-4. **Cinnamon SKU** — is pumpkin pie spice standing in, or is one missing?
+4. ~~Cinnamon SKU~~ — **resolved: kitchen carries it.**
+4a. **Which peanut butter powder does Keto use?** (Micro Ingredients unsweetened is the only one
+    consistent with the separate 750 g monkfruit line — confirm before the guide locks)
+4b. **Two cacao nib SKUs** — are Anthony's and Viva Naturals serving different purposes, or should
+    the program consolidate to Anthony's (cheaper per gram)?
 5. **Orgain Collagen Peptides Unflavored (454 g)** — which recipe/use? Still unmatched.
 6. **Strawberry's "Vanilla Collagen Creamer" (400 g)** — Orgain Keto Vanilla, or a separate creamer?
 7. **Slides Pt. 1 and Pt. 2** — do they cover the liquid/build side? (see §6)
