@@ -148,6 +148,21 @@ vendors:
         delivery_time: "12:00"
         note: "Delivers Thursday PM."
 
+  - key: amazon
+    name: Amazon
+    channel: online
+    rules:
+      notes:
+        - "Long-tail supplier: 52 orders and roughly $11.4K in the month to
+           2026-09-28 - more orders than any distributor. Sources prep goods,
+           teas and one-off items the distributors do not carry."
+        - "540 vendor items and NOT ONE carries a vendorItemCode. MarginEdge keys
+           them by internal id only, so there is no SKU to quote on an order and
+           the same product recurs under several near-identical listings."
+    # No confirmed order window. Recorded as unknown rather than guessed: the
+    # engine cannot schedule Amazon until a cutoff is set.
+    windows: []
+
   # --- Café program ------------------------------------------------------------
   # Separate from the bar: different windows, email-only, and longer leads.
   # Order days confirmed by the operator 2026-09-28. Delivery weekdays are the

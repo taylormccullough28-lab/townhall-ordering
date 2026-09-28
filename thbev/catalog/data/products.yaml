@@ -404,6 +404,59 @@ products:
       - "IT IS NOW PURCHASED. The 'not currently purchased' note above is out of date."
 
 
+  # --- Amazon: prep goods the distributors do not carry -----------------------
+  # Confirmed against the Amazon vendor-item catalogue 2026-09-28. Amazon items
+  # have no vendorItemCode at all, so these are ordered by product name.
+
+  - key: bhakti_chai_concentrate
+    name: Bhakti Chai Tea Concentrate
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: bottle
+    pack_label: bottle
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "CORRECTION: an earlier note said the chai concentrate on hand was a
+         different product from the Bhakti the prep sheet asks for. It is not -
+         MarginEdge maps Bhakti Chai Tea Concentrate to the product 'Tea, Chai
+         Concentrate' that purchasing already shows."
+      - "Used in CO-2 (pear chai tea mix) at 11.25 fl oz per batch."
+
+  - key: frontier_pumpkin_pie_spice
+    name: Frontier Organic Pumpkin Pie Spice 16oz
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: container
+    pack_label: container
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Exact brand the Fall 2026 prep sheet names. Used in CH-2 at 24 g."
+      - "The prep sheet does not say which step the spice enters at - unresolved
+         on the sheet itself, not a gap in this entry."
+
+  - key: pecans_whole
+    name: Pecans, Raw Whole
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: bag
+    pack_label: bag
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Yupik Organic Raw Pecans, 2.2 lb. Used in CH-2 at 175 g per batch."
+      - "ALLERGEN: CH-2 contains pecan. Containers must be labelled."
+
 recipes:
   - key: passionpunch_margarita
     description: "UNVERIFIED placeholder spec - replace with the house build."
