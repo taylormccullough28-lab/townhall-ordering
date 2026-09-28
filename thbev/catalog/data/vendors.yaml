@@ -143,6 +143,60 @@ vendors:
         delivery_time: "12:00"
         note: "Delivers Thursday PM."
 
+  # --- Café program ------------------------------------------------------------
+  # Separate from the bar: different windows, email-only, and longer leads.
+  # Order days confirmed by the operator 2026-09-28. Delivery weekdays are the
+  # days MarginEdge invoices actually landed over 2026-08-28..09-28, which is
+  # observation rather than a vendor-stated schedule.
+
+  - key: hartzler
+    name: Hartzler Family Dairy
+    channel: email
+    contact:
+      email: orders@hartzlerdairy.com
+      phone: "(330) 345-8190"
+      label: "Orders by email; phone is option #2"
+    rules:
+      email_only: true
+      order_email: orders@hartzlerdairy.com
+      notes:
+        - "Email only. Their office is staffed Mon-Wed 8-12 and Fri 8-11, so the
+           Thursday cutoff cannot be phoned in - questions must go before
+           Wednesday noon."
+        - "Ordered in CASES, not gallons."
+    windows:
+      - key: hartzler_thursday
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Five-day lead. Tue-to-Tue shelf cover means roughly twelve days
+               forward from the Thursday cutoff - the longest lead of any vendor."
+
+  - key: berardis
+    name: Berardi's Coffee
+    channel: email
+    contact:
+      email: orders@berardiscoffee.com
+      label: "Orders by email"
+    rules:
+      email_only: true
+      order_email: orders@berardiscoffee.com
+      notes:
+        - "Email only."
+        - "Shares the Sunday cutoff with Arena, Superior and Columbus Dist. - the
+           only cafe item on the busiest ordering night, so the easiest to forget."
+    windows:
+      - key: berardis_sunday
+        order_weekday: sunday
+        order_time: "19:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Order day confirmed Sunday 2026-09-28; the exact cutoff TIME is
+               still unconfirmed and 19:00 here is a placeholder matching the
+               other Sunday cutoffs. Invoices landed Tue x3 and Wed x1 over the
+               sampled month, so Tuesday is the modal delivery, not guaranteed."
+
   - key: oyo
     name: OYO Vodka
     channel: phone

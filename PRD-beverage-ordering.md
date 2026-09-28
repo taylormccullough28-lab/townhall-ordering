@@ -26,7 +26,7 @@ The data to solve this already exists — the POS knows exactly what sold, and t
 
 - Turn last week's POS sales export into a concrete, per-vendor order sheet in under 15 minutes, versus the ~60–90 minutes of counting and guessing it takes now.
 - Adjust order quantities for known demand drivers — OSU and Blue Jackets home games, Gallery Hop, private buyouts, weather, promos — rather than ordering a flat week every week.
-- Never miss an order window. The system knows all seven cutoffs — Sunday 5pm and 7pm, Monday 4pm and 5pm, Wednesday 5pm and 9pm, Thursday 5pm — and pushes the manager before each one.
+- Never miss an order window. Order days confirmed by the operator 2026-09-28: **Sunday** — Arena, Berardi's, Superior, Columbus Dist.; **Monday** — Southern Glazer's, Sixth City, Cavalier; **Wednesday** — Heidelberg, Superior (second window), Arena (second window); **Thursday** — Hartzler. Sunday is the heaviest night at four vendors.
 - Order to the *next delivery*, not to a flat week — a Superior Monday drop only has to cover four days if the Thursday window is used, while a Southern Glazer's Tuesday drop has to cover the full seven to the next Tuesday, plus whatever buffer the vendor's reliability warrants.
 - Replace the Sculpture engagement with a count short enough that a manager actually does it — an order-critical list, not a full inventory.
 - Make every ordered quantity explainable in one line: what sold, what's coming, what's on hand, what we're ordering and why.
@@ -274,8 +274,11 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 16. **Buyout per-head consumption rates.** The formula is specced; the rates are not. A buyout event currently raises rather than silently forecasting zero.
 17. **Does Cavalier's "1/6 bbl only" rule still hold?** Fat Head's Bumble Berry is carried as a **1/2 bbl** — confirmed by purchasing, 3 units at $169.99 in the 2026-07-20..08-28 window — which contradicts the standing rule in the order guide. Either the rule has exceptions or it is stale. The catalog currently models the product as it is actually bought.
 18. ~~What is Pamplemousse?~~ **Resolved: a 750ml liqueur bottle from Arena only** (an earlier draft wrongly had it on Cavalier). It appears nowhere in the purchase report, so there is no observed cost or depletion rate, and `pack_size` assumes Arena sells by the bottle rather than the case.
-19. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
-20. **What is on the fall/winter cocktail menu?** Not yet handed over. The seasonal section of the guide holds a deliberately empty list rather than a guessed one; nothing can be ordered or forecast for these until the specs exist.
+19. **What is Berardi's exact Sunday cutoff time?** The order *day* is confirmed as Sunday; the hour is not. The catalog carries 19:00 as a placeholder matching the other Sunday cutoffs, which is a guess and is labelled as one.
+20. **Which delivery days are vendor-stated vs. merely observed?** MarginEdge invoice dates over 2026-08-28..09-28 contradict the written guide for Columbus Dist. (always Tue, not Mon), Sixth City (Wed, where neither source said Wed), and Arena (never once Monday). Those are observations from one month of invoice dates, not schedules confirmed with the reps, so the catalog still carries the documented days and the guide flags the discrepancy rather than overwriting it.
+21. **What is Arena's order day?** Arena is absent from the operator's confirmed list, and it is the single largest beverage vendor at $37.3K/month — over half of beverage spend. The catalog still carries Sun 5pm and Wed 9pm from the original guide.
+22. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
+23. **What is on the fall/winter cocktail menu?** Not yet handed over. The seasonal section of the guide holds a deliberately empty list rather than a guessed one; nothing can be ordered or forecast for these until the specs exist.
 
 ## Timeline Considerations
 
@@ -395,6 +398,8 @@ Seed data for the scheduling engine. Source: `TH_ORDER_GUIDE.docx`.
 | Vendor | Order due | Delivers | Channel | Notes |
 |---|---|---|---|---|
 | Superior Beverage | Sun 7:00 PM | Mon | Phone — Shane (614) 306-4582 | Second window: **Wed 7:00 PM → Fri** |
+| Hartzler Family Dairy | Thu 5:00 PM | Tue | **Email only** — orders@hartzlerdairy.com | Café. Five-day lead, the longest of any vendor |
+| Berardi's Coffee | **Sun** (time TBC) | Tue/Wed | **Email only** — orders@berardiscoffee.com | Café |
 | The Columbus Dist. Co. | Sun 7:00 PM | Mon | Phone — Conner (937) 581-1234 | |
 | Arena Liquor | Sun 5:00 PM | Mon | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM |
 | Southern Glazer's of OH | Mon 4:00 PM | Tue | Phone — Bethany (740) 507-1973 | Wed follow-up → Fri possible, confirm first |
