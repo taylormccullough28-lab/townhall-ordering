@@ -163,6 +163,15 @@ class Catalog:
                 problems.append(
                     f"Product {product.key!r} references unknown vendor {product.vendor!r}."
                 )
+            for alt in product.alt_vendors:
+                if alt not in self.vendors:
+                    problems.append(
+                        f"Product {product.key!r} lists unknown alt vendor {alt!r}."
+                    )
+                elif alt == product.vendor:
+                    problems.append(
+                        f"Product {product.key!r} lists its own vendor {alt!r} as an alt."
+                    )
             if product.pack_size <= 0:
                 problems.append(f"Product {product.key!r} has a non-positive pack size.")
         for recipe in self.recipes.values():

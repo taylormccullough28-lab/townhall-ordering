@@ -9,12 +9,22 @@
 #
 #   confirmed   - the PRD states the vendor outright (OYO routes through Arena;
 #                 Sixth City and Cavalier own the rotating 1/6 bbl lines).
+#   marginedge  - the vendor comes from the MarginEdge vendor-item catalog for
+#                 restaurantUnitId 166233400, pulled 2026-09-28, and in almost
+#                 every case is corroborated by an actual invoice line in
+#                 2026-08-25..2026-09-25. Vendor item codes are in each product's
+#                 notes; the full index is thbev/catalog/data/vendor_items.yaml.
 #   unconfirmed - vendor is null. The order engine groups these under an
 #                 "unassigned" bucket and refuses to pretend it knows who to
-#                 call. Fill these in from the order guide.
+#                 call. No product carries this any more.
+#
+# `alt_vendors` records a product that is genuinely stocked by more than one
+# distributor. It is advisory: the order is still built against `vendor`, which
+# is the distributor the invoices show actually being used.
 #
 # Nothing here is invented from nothing: every product name, pack size and
-# conversion type traces to a line in the PRD.
+# conversion type traces to a line in the PRD, and every vendor traces to a
+# MarginEdge vendor item code recorded in the notes.
 #
 # category drives the event/weather multipliers in config.yaml.
 # conversion drives the depletion math.
@@ -30,8 +40,13 @@ products:
     unit_label: bottle
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: The Columbus Distributing Co carries Bud Light as 02504 (2/12 12oz bottle),"
+      - "02592 (1/2 bbl keg) and 02501 'Bl Big Blue'. 02501 is what was actually invoiced"
+      - "2026-09-01 (15 @ $20.79). Arena also lists Bud Light 12oz - secondary only."
 
   - key: mich_ultra_gold
     name: Michelob Ultra Gold
@@ -41,8 +56,12 @@ products:
     unit_label: bottle
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: 'Ultra Gold 12 NR', code 07304 -> Michelob Ultra Pure Gold 12oz Bottle."
+      - "Invoiced three times in the window (62, 10, 15 @ $25.59). Highest-volume packaged SKU."
 
   - key: nutrl
     name: Nutrl
@@ -52,8 +71,12 @@ products:
     unit_label: can
     pack_label: pack
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: 01085 (Nutrl Assorted variety pack), 01484 (Black Cherry 6/4 can),"
+      - "00967 (Pineapple). 01484 invoiced 2026-09-01 (2 @ $43.17)."
 
   - key: pacifico_16oz
     name: Pacifico 16oz
@@ -63,9 +86,15 @@ products:
     unit_label: can
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["PRD records this as 16oz 6/4pk, i.e. 24 cans to the case."]
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "PRD records this as 16oz 6/4pk, i.e. 24 cans to the case."
+      - "MarginEdge: Heidelberg 16065 'Pacifico Clara 6/4 16 Oz Can' is exactly the 6/4pk"
+      - "16oz case the PRD records. Invoiced 2026-09-17 (2 @ $33.57)."
+      - "DUAL-SOURCED: Arena 335449503 'Pacifico 12Pk Can' invoiced 2026-09-25 (1 @ $16.99) -"
+      - "a single-pack top-up, not a case buy. Heidelberg is the case vendor."
 
   - key: suncruiser
     name: Suncruiser
@@ -74,9 +103,13 @@ products:
     pack_size: 12
     unit_label: can
     pack_label: case
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["Observed in the Bottled Beer sales category alongside Nutrl."]
+    vendor: superior
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Observed in the Bottled Beer sales category alongside Nutrl."
+      - "MarginEdge: Superior 26240 'Sun Cruiser CS 12oz Class Tea 24PK LSE'. Bought every"
+      - "week of the window, 5 cases at $39 each time - the steadiest reorder in the data."
 
   # --- Draft ----------------------------------------------------------------
   - key: rotating_sixth_bbl_sixth_city
@@ -121,7 +154,10 @@ products:
     order_critical: true
     vendor: arena
     vendor_confidence: confirmed
-    notes: ["PRD: order through Arena first; Zack is the fallback contact only."]
+    notes:
+      - "PRD: order through Arena first; Zack is the fallback contact only."
+      - "MarginEdge corroborates: Arena 7698B 'Oyo Vodka', invoiced four times in"
+      - "2026-08-25..09-25 (12, 36, 18, 12 @ $16.45). 7699B is the Honey Vanilla."
 
   - key: espolon_blanco_750
     name: Espolon Blanco 750ml
@@ -132,8 +168,11 @@ products:
     unit_label: bottle
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: arena
+    vendor_confidence: marginedge
+    notes:
+      - "MarginEdge: Arena 2937B (750ml) and 2937L/2973L (1L). Arena is the only vendor"
+      - "carrying Espolon. 2937L invoiced 2026-09-03 (9 @ $31.02)."
 
   - key: bacardi_750
     name: Bacardi 750ml
@@ -143,11 +182,16 @@ products:
     unit_size_oz: 25.36
     unit_label: bottle
     pack_label: case
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: arena
+    vendor_confidence: marginedge
     notes:
       - "Observed in a real export as 'Bacardi FB', qty 4, with a BLANK sales
          category. Proof that category-only filtering drops real liquor."
+      - "MarginEdge: Arena sole-sources every Bacardi SKU (0544B/0544L Superior/Light,"
+      - "0390B Reserva Ocho, 0422B/L Spiced). The VENDOR is unambiguous; the exact SKU is"
+      - "not - this catalog entry is a generic 'Bacardi 750ml' and 0544L 'Bacardi Light'"
+      - "is the white rum that was actually invoiced (2026-08-27 and 09-03, 12 @ $16.92)."
+      - "Pin the SKU before using this for a priced order."
 
   - key: grey_goose_750
     name: Grey Goose 750ml
@@ -158,10 +202,13 @@ products:
     unit_label: bottle
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: arena
+    vendor_confidence: marginedge
 
   # --- Bottle service (whole bottle per sale, excluded from baseline) --------
+    notes:
+      - "MarginEdge: Arena 3907B (750ml) / 3907L (1L). 3907L invoiced four times in the"
+      - "window (6, 12, 12, 18 @ $32.90). No other vendor carries Grey Goose."
   - key: grey_goose_bottle_service
     name: Grey Goose (bottle service)
     category: bottle_service
@@ -171,11 +218,12 @@ products:
     unit_label: bottle
     pack_label: bottle
     excluded_from_baseline: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: arena
+    vendor_confidence: marginedge
     notes:
       - "Depletes a WHOLE bottle per sale plus its bundled mixers. Mapping it as
          a pour undercounts this spirit by an order of magnitude."
+      - "Same Arena SKU as grey_goose_750 (3907B/3907L); only the depletion model differs."
 
   - key: ace_of_spades
     name: Ace of Spades
@@ -186,9 +234,15 @@ products:
     unit_label: bottle
     pack_label: bottle
     excluded_from_baseline: true
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["Order guide flags it 'not ordered frequently'. Bottle service only."]
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    notes:
+      - "Order guide flags it 'not ordered frequently'. Bottle service only."
+      - "MarginEdge: Southern Glazer's 565545 'Armand De Brignac Brut Gb 750ml'."
+      - "SHORTHAND RESOLUTION, not a name match: 'Ace of Spades' is the bar's name for"
+      - "Armand de Brignac. CATALOG-COMPLETENESS.md already places it at Southern Glazer's,"
+      - "and SGWS is the only vendor listing it. Not purchased 2026-08-25..09-25, which is"
+      - "exactly the lumpy bottle-service pattern the PRD predicts."
 
   - key: dom_perignon
     name: Dom Perignon
@@ -199,9 +253,14 @@ products:
     unit_label: bottle
     pack_label: bottle
     excluded_from_baseline: true
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["Order guide flags it 'not ordered frequently'. Bottle service only."]
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Order guide flags it 'not ordered frequently'. Bottle service only."
+      - "MarginEdge: Southern Glazer's 612937 (Brut 2013 GB) and 637842 (2015)."
+      - "DUAL-SOURCED: Arena 0817538403 carries the Jean-Michel Basquiat edition."
+      - "Not purchased in the window - bottle service only."
 
   # --- Prep ingredients: never sold on a POS line of their own ---------------
   - key: chinola
@@ -213,9 +272,15 @@ products:
     unit_label: bottle
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["Forecast only through cocktail recipes."]
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Forecast only through cocktail recipes."
+      - "MarginEdge: Heidelberg 454080 'Chinola 750ml Passion Fruit Liqueur', invoiced"
+      - "2026-09-03 (1 @ $125.96 per case)."
+      - "DUAL-SOURCED: Arena 8689320001 'Chinalo Passionfruit' lists the same product but"
+      - "was not invoiced in the window. Heidelberg is the vendor actually used."
 
   - key: llords_elderflower
     name: Llords Elderflower
@@ -225,9 +290,12 @@ products:
     unit_size_oz: 25.36
     unit_label: bottle
     pack_label: case
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["Forecast only through cocktail recipes."]
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    notes:
+      - "Forecast only through cocktail recipes."
+      - "MarginEdge: Southern Glazer's 558752 'Llords Elderflower 30 1.000 Lt'. Invoiced"
+      - "2026-08-25 and 2026-09-01 (2 @ $92 each). Sole source."
 
   - key: mr_boston_triple_sec
     name: Mr. Boston Triple Sec
@@ -237,9 +305,15 @@ products:
     unit_size_oz: 33.81
     unit_label: bottle
     pack_label: case
-    vendor: null
-    vendor_confidence: unconfirmed
-    notes: ["1L. Forecast only through cocktail recipes."]
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "1L. Forecast only through cocktail recipes."
+      - "MarginEdge: Heidelberg 464010 'Mr Boston Triple Sec', invoiced 2026-08-28 (6 @"
+      - "$2.71, split case) and 2026-09-03 (1 @ $32.52, full case)."
+      - "DUAL-SOURCED: Arena 0890000187 'Boston Triple Sec 1 L' and Southern Glazer's"
+      - "33497 (DeKuyper, a different brand). Heidelberg is the vendor actually used."
 
   # --- Non-alcoholic --------------------------------------------------------
   - key: red_bull
@@ -250,8 +324,9 @@ products:
     unit_label: can
     pack_label: case
     order_critical: true
-    vendor: null
-    vendor_confidence: unconfirmed
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    alt_vendors: [arena, columbus_distributing]
     notes:
       - "Lives under the NA Beverage sales category. Filtering that category out
          would mean never ordering Red Bull. Also a bottle-service bundle item."
@@ -268,6 +343,11 @@ products:
   # product it also carries, confirmed by the operator 2026-09-21. It carries
   # named_sku so the rotating-line collapse does not swallow it into a
   # style-and-count.
+      - "MarginEdge: Southern Glazer's 201010 (Energy Drink) and 0409127 (Sugarfree) are"
+      - "invoiced on every SGWS drop in the window - 33 and 18 cases respectively at $46."
+      - "TRIPLE-SOURCED: Arena 6112690012/6112694267/6112697337 and Columbus Distributing"
+      - "01742 also carry Red Bull. Arena was used once (2026-08-28, 2 @ $25.99) as a"
+      - "top-up. Southern Glazer's is the standing vendor."
 
   - key: fat_heads_bumble_berry
     name: "Fat Head's Bumble Berry Keg"
@@ -288,6 +368,8 @@ products:
          $169.99 over 2026-07-20..08-28. Either the 1/6-only rule has an
          exception or the rule is stale."
       - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL)."
+      - "MarginEdge corroborates: Cavalier 4824 'Fat Bumble Berry 1/2 Bbl' at $169.99,"
+      - "invoiced 2026-09-01 (2) and 2026-09-15 (1). The 1/2 bbl conflict above is real."
 
   - key: pamplemousse_750
     name: Giffard Pamplemousse Liqueur 750ml
@@ -301,6 +383,7 @@ products:
     order_critical: true
     vendor: arena
     vendor_confidence: confirmed
+    alt_vendors: [cavalier]
     notes:
       - "Arena only (corrected 2026-09-21 - an earlier draft had this on Cavalier)."
       - "Arena is email-only: send to arenaliquor@gmail.com, never call or text."
@@ -313,6 +396,12 @@ products:
          one 750ml bottle (25.36 oz), which supports ordering by the bottle."
       - "Does not appear in the 2026-07-20..08-28 purchase report, so there is no
          observed cost or depletion rate yet."
+      - "CORRECTION FROM MARGINEDGE: Cavalier DOES carry this - 12942 'Giffard Creme De"
+      - "Pamplemousse 1/12 750 Ml Bottle 32pf'. The 2026-09-21 note above says 'Arena only';"
+      - "that is wrong about availability, though Arena remains the vendor actually used."
+      - "Arena codes: 1085232281, 8523228141_Pamplemousse, and 8523228242 'GIELARD"
+      - "PAMPLEMOUSE' which is the one invoiced 2026-09-17 (12 @ $26.99)."
+      - "IT IS NOW PURCHASED. The 'not currently purchased' note above is out of date."
 
 
 recipes:

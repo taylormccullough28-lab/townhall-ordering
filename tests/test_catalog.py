@@ -16,14 +16,58 @@ def test_seed_catalog_loads_and_validates(seed_catalog):
     assert seed_catalog.validate() == []
 
 
-def test_seed_catalog_is_honest_about_unconfirmed_vendors(seed_catalog):
-    """The product-to-distributor map lives in a document this repo lacks."""
-    unassigned = {p.key for p in seed_catalog.unassigned_products()}
-    assert "bud_light" in unassigned
-    # The three the PRD states outright are assigned.
+def test_seed_catalog_has_a_vendor_for_every_product(seed_catalog):
+    """Gap 3 of CATALOG-COMPLETENESS.md is closed.
+
+    Every product used to carry ``vendor: null`` because the product-to-distributor
+    map lived in TH_ORDER_GUIDE.docx, which is not in this repo. The MarginEdge
+    vendor-item catalog (pulled 2026-09-28, indexed in vendor_items.yaml) supplies
+    it, so nothing is unassigned and nothing is left at ``unconfirmed``.
+    """
+    assert seed_catalog.unassigned_products() == []
+    assert not [
+        p.key for p in seed_catalog.products.values()
+        if p.vendor_confidence == "unconfirmed"
+    ]
+
+    # The ones the PRD states outright keep the stronger "confirmed" label.
     assert seed_catalog.product("oyo_vodka_750").vendor == "arena"
     assert seed_catalog.product("oyo_vodka_750").vendor_confidence == "confirmed"
     assert seed_catalog.product("rotating_sixth_bbl_sixth_city").vendor == "sixth_city"
+
+    # The ones MarginEdge supplied say so, and say which distributor.
+    bud = seed_catalog.product("bud_light")
+    assert bud.vendor == "columbus_distributing"
+    assert bud.vendor_confidence == "marginedge"
+    assert seed_catalog.product("suncruiser").vendor == "superior"
+    assert seed_catalog.product("red_bull").vendor == "southern_glazers"
+    assert seed_catalog.product("chinola").vendor == "heidelberg"
+
+
+def test_dual_sourced_products_record_the_second_distributor(seed_catalog):
+    """Real dual-sourcing is advisory, never a second order.
+
+    The catalog models one vendor per product. Where MarginEdge shows a product
+    stocked by more than one distributor, the extra ones go in ``alt_vendors`` so
+    the fact is not lost, but ``vendor`` stays single and is the distributor the
+    invoices show actually being used.
+    """
+    red_bull = seed_catalog.product("red_bull")
+    assert red_bull.vendor == "southern_glazers"
+    assert set(red_bull.alt_vendors) == {"arena", "columbus_distributing"}
+
+    # Pamplemousse: Cavalier does carry it (item 12942), contrary to the
+    # "Arena only" note, but Arena is the vendor the invoices use.
+    pamp = seed_catalog.product("pamplemousse_750")
+    assert pamp.vendor == "arena"
+    assert pamp.alt_vendors == ("cavalier",)
+
+    # A product is never listed as its own alternate, and every alternate is a
+    # vendor the catalog actually knows how to order from.
+    for product in seed_catalog.products.values():
+        assert product.vendor not in product.alt_vendors
+        for alt in product.alt_vendors:
+            assert alt in seed_catalog.vendors
 
 
 def test_composite_key_separates_same_named_items(catalog):
@@ -149,10 +193,14 @@ class TestNamedSkusAndSeasonalProducts:
         assert bumble.named_sku is True
         assert bumble.keg_size == "half_barrel"
 
-        # Pamplemousse is a 750ml liqueur from Arena only - corrected 2026-09-21.
+        # Pamplemousse is a 750ml liqueur ordered from Arena. MarginEdge shows
+        # Cavalier stocks it too (item 12942), so Cavalier is an alt_vendor - but
+        # it must not become Cavalier's product, or the rotating-line collapse
+        # would swallow a named liqueur into a keg style-and-count.
         pamp = catalog.products["pamplemousse_750"]
         assert pamp.vendor == "arena"
         assert pamp.unit_size_oz == 25.36
+        assert pamp.alt_vendors == ("cavalier",)
         assert "pamplemousse" not in {
             k for k, p in catalog.products.items() if p.vendor == "cavalier"
         }
