@@ -56,6 +56,11 @@ vendors:
       emergency_contact: {name: Gursev, label: "Emergency only - do not use for routine orders"}
       notes:
         - "Email only. The engine will not produce a phone or text script for Arena."
+        - "Order days (Sunday and Wednesday) confirmed by the operator 2026-09-28.
+           The DELIVERY days are a separate question and are not confirmed: over
+           2026-08-28..09-28 Arena invoices landed Thu x4, Fri x5, Tue x2, Wed x1
+           and Sat x1 - not once on Monday, which is what the Sunday window here
+           claims. Largest beverage vendor by spend at roughly $37.3K/month."
     windows:
       - key: arena_sunday
         order_weekday: sunday

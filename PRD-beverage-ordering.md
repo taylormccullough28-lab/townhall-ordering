@@ -276,7 +276,7 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 18. ~~What is Pamplemousse?~~ **Resolved: a 750ml liqueur bottle from Arena only** (an earlier draft wrongly had it on Cavalier). It appears nowhere in the purchase report, so there is no observed cost or depletion rate, and `pack_size` assumes Arena sells by the bottle rather than the case.
 19. **What is Berardi's exact Sunday cutoff time?** The order *day* is confirmed as Sunday; the hour is not. The catalog carries 19:00 as a placeholder matching the other Sunday cutoffs, which is a guess and is labelled as one.
 20. **Which delivery days are vendor-stated vs. merely observed?** MarginEdge invoice dates over 2026-08-28..09-28 contradict the written guide for Columbus Dist. (always Tue, not Mon), Sixth City (Wed, where neither source said Wed), and Arena (never once Monday). Those are observations from one month of invoice dates, not schedules confirmed with the reps, so the catalog still carries the documented days and the guide flags the discrepancy rather than overwriting it.
-21. **What is Arena's order day?** Arena is absent from the operator's confirmed list, and it is the single largest beverage vendor at $37.3K/month — over half of beverage spend. The catalog still carries Sun 5pm and Wed 9pm from the original guide.
+21. ~~What is Arena's order day?~~ **Resolved: Sunday and Wednesday, confirmed 2026-09-28.** All nine vendors now have operator-confirmed order days. Arena's *delivery* days remain open — see question 20 — and matter disproportionately because Arena is the largest beverage vendor at roughly $37.3K/month, over half of beverage spend.
 22. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
 23. **What is on the fall/winter cocktail menu?** Not yet handed over. The seasonal section of the guide holds a deliberately empty list rather than a guessed one; nothing can be ordered or forecast for these until the specs exist.
 
@@ -401,7 +401,7 @@ Seed data for the scheduling engine. Source: `TH_ORDER_GUIDE.docx`.
 | Hartzler Family Dairy | Thu 5:00 PM | Tue | **Email only** — orders@hartzlerdairy.com | Café. Five-day lead, the longest of any vendor |
 | Berardi's Coffee | **Sun** (time TBC) | Tue/Wed | **Email only** — orders@berardiscoffee.com | Café |
 | The Columbus Dist. Co. | Sun 7:00 PM | Mon | Phone — Conner (937) 581-1234 | |
-| Arena Liquor | Sun 5:00 PM | Mon | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM |
+| Arena Liquor | Sun 5:00 PM | Mon *(never observed)* | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM. Largest beverage vendor |
 | Southern Glazer's of OH | Mon 4:00 PM | Tue | Phone — Bethany (740) 507-1973 | Wed follow-up → Fri possible, confirm first |
 | Sixth City Distributors | Mon 5:00 PM | Tue | Phone — Jenna Carelly (614) 301-4877 | Rotating 1/6 bbl only |
 | Cavalier Distributing | Mon 5:00 PM | Tue | Phone — Dan (614) 582-0014 | Rotating 1/6 bbl, **plus named SKUs** |
