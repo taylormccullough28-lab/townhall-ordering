@@ -148,6 +148,21 @@ vendors:
         delivery_time: "12:00"
         note: "Delivers Thursday PM."
 
+  - key: hillcrest
+    name: Hillcrest Foodservice
+    channel: phone
+    rules:
+      notes:
+        - "Largest supplier in the building: $60.8K across 22 orders in the month
+           to 2026-09-28. Broadline food purveyor that also carries several bar
+           prep goods."
+        - "CARE WITH APPLE CIDER CODES. 4032 'Cider Apple' is the drinking cider.
+           40118 and 40118S are apple cider VINEGAR. 4033 is labelled 'Apple Cider
+           Fresh' but MarginEdge maps it to the vinegar product - a mapping error
+           in their data, not ours."
+    # No confirmed order window yet.
+    windows: []
+
   - key: amazon
     name: Amazon
     channel: online

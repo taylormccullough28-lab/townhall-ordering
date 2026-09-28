@@ -279,7 +279,7 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 21. ~~What is Arena's order day?~~ **Resolved: Sunday and Wednesday, confirmed 2026-09-28.** All nine vendors now have operator-confirmed order days. Arena's *delivery* days remain open — see question 20 — and matter disproportionately because Arena is the largest beverage vendor at roughly $37.3K/month, over half of beverage spend.
 22. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
 23. **What is Amazon's order window?** Amazon places 52 orders a month — more than any single distributor — and has no cutoff recorded anywhere. The engine cannot schedule it until one is set. It also sources real prep goods (Bhakti chai, Frontier pumpkin pie spice, pecans, allulose), so it is not incidental spend.
-24. **Is the allulose liquid or powder?** SS-1 calls for 34 fluid ounces of cold allulose; purchasing records Health Garden Allulose Sweetener as powdered. Volume and weight are not interchangeable and the recipe cannot be costed or ordered correctly until this is settled.
+24. **The allulose is a powder — so what does the recipe mean?** Confirmed from the vendor item name itself: Hillcrest code 38006, "Sugar Allulose Powder Organic". SS-1 asks for 34 **fluid ounces** of cold allulose, a volume measure against a powder. This is now a recipe question rather than a sourcing one: either the spec means a liquid allulose nobody buys, or it means powder and the figure should be a weight. Scarlett Spritz cannot be batched or costed until it is decided, and the two must not be silently converted.
 25. **What is on the fall/winter cocktail menu?** Not yet handed over. The seasonal section of the guide holds a deliberately empty list rather than a guessed one; nothing can be ordered or forecast for these until the specs exist.
 
 ## Timeline Considerations
@@ -403,6 +403,7 @@ Seed data for the scheduling engine. Source: `TH_ORDER_GUIDE.docx`.
 | Hartzler Family Dairy | Thu 5:00 PM | Tue | **Email only** — orders@hartzlerdairy.com | Café. Five-day lead, the longest of any vendor |
 | Berardi's Coffee | **Sun** (time TBC) | Tue/Wed | **Email only** — orders@berardiscoffee.com | Café |
 | Amazon | **No window set** | Varies | Online | Long-tail prep goods. 52 orders/mo — more than any distributor |
+| Hillcrest Foodservice | **No window set** | Varies | Phone | Broadline. $60.8K/mo — largest supplier in the building |
 | The Columbus Dist. Co. | Sun 7:00 PM | Mon | Phone — Conner (937) 581-1234 | |
 | Arena Liquor | Sun 5:00 PM | Mon *(never observed)* | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM. Largest beverage vendor |
 | Southern Glazer's of OH | Mon 4:00 PM | Tue | Phone — Bethany (740) 507-1973 | Wed follow-up → Fri possible, confirm first |
