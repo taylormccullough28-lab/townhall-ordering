@@ -90,10 +90,19 @@ vendors:
            2937L_Silver, $960.68), Don Julio 1942 (2720B + '2720B_ 750ML' - the
            code contains a space, $507.60), Tanqueray 1L (0326L + 0326L_1L,
            $253.80)."
-        - "SUSPECTED DUPLICATE INVOICE, $5,781.06: orders 2051056 (OH0002811019,
-           2026-07-22) and 2056684 (OH0002821151, 2026-07-30) share 29 identical
-           line items - same codes, quantities and prices. Raised with the
-           operator to check with Gursev."
+        - "CONFIRMED DOUBLE BILL, $5,781.06 - RECOVERABLE. Operator confirmed
+           2026-09-29 that Arena billed one delivery twice: OH0002811019
+           (2026-07-22, 30 lines, acct 727546) and OH0002821151 (2026-07-30,
+           29 lines, acct 0727546). All 29 lines match on item code, quantity
+           and price; the $20 difference is a 'Liquor' line on one booked as
+           delivery on the other, so both totals land identical. That is 6.4% of
+           the quarter's Arena spend. The account number is written two ways
+           across the pair, which is plausibly how the re-key got through."
+        - "INGEST REQUIREMENT that follows from it: nothing in MarginEdge flagged
+           this. It only surfaced by comparing line-item signatures across all 45
+           invoices. Any invoice sharing a (code, quantity, price) signature with
+           another from the same vendor must block approval rather than warn -
+           a warning on a $5.8K double bill is not enough."
         - "$2,878.93 (3.2% of spend) has no product attached: 'Misc Liquor Item'
            (0002) and 'Liquor' (1) total $851.18, plus $2,027.75 of invoice-level
            charges. The largest single item is $1,482.38 on 2026-08-20
@@ -226,39 +235,37 @@ vendors:
            40118 and 40118S are apple cider VINEGAR. 4033 is labelled 'Apple Cider
            Fresh' but MarginEdge maps it to the vinegar product - a mapping error
            in their data, not ours."
-    # Delivery weekdays are established from 61 invoices over 2026-06-29..09-28
-    # and are the firm half of this schedule. The order TIMES are placeholders:
-    # MarginEdge records only the invoice, and its createdDate is always exactly
-    # one day AFTER the invoice date (61 of 61), so the data cannot reveal a
-    # cutoff. Broadline houses run day-before ordering, which is the assumption
-    # encoded here. Confirm the hour with the rep before the engine promises a
-    # cover date off it.
+    # Delivery weekdays are established from 61 invoices over 2026-06-29..09-28.
+    # The CUTOFF TIME is now confirmed by the operator (2026-09-29): 16:00 on
+    # every window, both accounts. That closes the one thing the data could not
+    # give us - MarginEdge records only the invoice, and its createdDate is
+    # always exactly one day AFTER the invoice date (61 of 61), so it reflects
+    # invoice processing rather than ordering. Day-before ordering at 16:00 is
+    # now a confirmed schedule, not an assumption.
     windows:
       - key: hillcrest_food_sunday
         order_weekday: sunday
-        order_time: "17:00"
+        order_time: "16:00"
         delivery_weekday: monday
         delivery_time: "09:00"
-        requires_confirmation: true
         note: "Account 71357 (food). Delivery day confirmed by 13 of 61 invoices;
-               the 17:00 cutoff is an unconfirmed placeholder."
+               cutoff confirmed at 16:00 by the operator 2026-09-29."
       - key: hillcrest_paper_monday
         order_weekday: monday
-        order_time: "17:00"
+        order_time: "16:00"
         delivery_weekday: tuesday
         delivery_time: "09:00"
-        requires_confirmation: true
         note: "Account 71361 (paper/disposables). Delivery day confirmed by 11 of
-               61 invoices; the 17:00 cutoff is an unconfirmed placeholder."
+               61 invoices; cutoff confirmed at 16:00 by the operator 2026-09-29."
       - key: hillcrest_both_thursday
         order_weekday: thursday
-        order_time: "17:00"
+        order_time: "16:00"
         delivery_weekday: friday
         delivery_time: "09:00"
-        requires_confirmation: true
-        note: "BOTH accounts. This is the single most important Hillcrest cutoff:
-               it carries the Friday delivery, which is over half the quarter's
-               spend. Delivery day confirmed by 25 of 61 invoices."
+        note: "BOTH accounts, 16:00 confirmed. This is the single most important
+               Hillcrest cutoff: it carries the Friday delivery, which is over
+               half the quarter's spend. Delivery day confirmed by 25 of 61
+               invoices."
 
   - key: amazon
     name: Amazon

@@ -143,18 +143,20 @@ in, so a launch read as an established 0.9/wk staple. **Garage Beer Lime is the
 opposite**: 20 kegs across 11 of 12 weeks, the second most consistent keg in the
 building, and the guide had it at half its real rate.
 
-### 3. A keg that was a staple died in July and nobody noticed
+### 3. The Michelob Ultra keg was a deliberate short run
 
 **Michelob Ultra Superior Light keg** (Columbus Dist. `06792`, $135) was bought
 **12 kegs across 5 consecutive weeks** - 6/30, 7/7, 7/14, 7/21, 7/28 - and then
 **never again**. Two full months of silence. $1,620 of keg, running weekly, stopped
 dead.
 
-It never appeared in the staple list because the one-month sample started a month
-after it ended. Either it came off tap deliberately or it fell off the order and
-nobody caught it. **Worth one question to whoever runs the tap list**, and worth
-noting that the ordering engine needs to flag a line that stops as loudly as it
-flags one that starts.
+**Confirmed by the operator 2026-09-29: this was intentional, a short run only.**
+So there is nothing to chase - but it is worth keeping on the record, because a
+deliberate limited run and a line that silently fell off the order **look
+identical in the invoice data**: weekly and confident, then nothing. The engine
+cannot tell them apart, which means when a line goes quiet it has to **ask**
+rather than either re-order it or drop it. Michelob Ultra is the benign case;
+the same shape with nobody's intent behind it is a hole in the tap list.
 
 ### 4. Miller Lite is ordered in three different pack sizes under one product
 

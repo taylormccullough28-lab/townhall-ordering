@@ -311,9 +311,10 @@ class TestHighVolumeVendorWindows:
         assert windows["hillcrest_food_sunday"].delivery_weekday == 0
         assert windows["hillcrest_paper_monday"].delivery_weekday == 1
         assert windows["hillcrest_both_thursday"].delivery_weekday == 4
-        # Delivery days are evidence; the cutoff times are placeholders. Every
-        # window must say so, or the engine will quote a cover date off a guess.
-        assert all(w.requires_confirmation for w in vendor.windows)
+        # Cutoff confirmed by the operator 2026-09-29: 16:00 on every window,
+        # both accounts. Nothing here is pending an outside answer any more.
+        assert all(w.order_time.strftime("%H:%M") == "16:00" for w in vendor.windows)
+        assert not any(w.requires_confirmation for w in vendor.windows)
 
     def test_amazon_windows_are_a_batching_policy_not_a_vendor_cutoff(self):
         from thbev.catalog.loader import load_catalog
