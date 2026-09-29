@@ -26,11 +26,11 @@ The data to solve this already exists — the POS knows exactly what sold, and t
 
 - Turn last week's POS sales export into a concrete, per-vendor order sheet in under 15 minutes, versus the ~60–90 minutes of counting and guessing it takes now.
 - Adjust order quantities for known demand drivers — OSU and Blue Jackets home games, Gallery Hop, private buyouts, weather, promos — rather than ordering a flat week every week.
-- Never miss an order window. Order days confirmed by the operator 2026-09-28: **Sunday** — Arena, Berardi's, Superior, Columbus Dist.; **Monday** — Southern Glazer's, Sixth City, Cavalier; **Wednesday** — Heidelberg, Superior (second window), Arena (second window); **Thursday** — Hartzler. Sunday is the heaviest night at four vendors.
-- Order to the *next delivery*, not to a flat week — a Superior Monday drop only has to cover four days if the Thursday window is used, while a Southern Glazer's Tuesday drop has to cover the full seven to the next Tuesday, plus whatever buffer the vendor's reliability warrants.
+- Never miss an order window. Order days confirmed by the operator 2026-09-28: **Sunday** — Arena 5pm, Berardi's 5pm, Superior 7pm, Columbus Dist. 7pm; **Monday** — Southern Glazer's 4pm, Sixth City 5pm, Cavalier 5pm; **Wednesday** — Heidelberg 5pm, Superior 7pm (second window), Arena 9pm (second window); **Thursday** — Hartzler 5pm. Sunday is the heaviest night at four vendors, and its 5:00 PM pair is the tightest cutoff of the week. Deliveries cluster hard on **Tuesday** — six vendors land the same morning (Superior, Columbus Dist., Berardi's, Southern Glazer's, Cavalier, Hartzler) while **Monday arrives empty**.
+- Order to the *next delivery*, not to a flat week — a Superior Tuesday drop only has to cover three days if the Friday window is used, while a Southern Glazer's Tuesday drop has to cover the full seven to the next Tuesday, plus whatever buffer the vendor's reliability warrants.
 - Replace the Sculpture engagement with a count short enough that a manager actually does it — an order-critical list, not a full inventory.
 - Make every ordered quantity explainable in one line: what sold, what's coming, what's on hand, what we're ordering and why.
-- Capture the keg credits we're owed by making empty-keg return a required field on receiving, not a reminder someone ignores.
+- Keep empty-keg return a required field on receiving. **Measured, this is already working**: 69 keg deposits paid against 66 credited back over 2026-08-28..09-28 leaves a float of 3 kegs ($90), about what should be mid-rotation. The requirement exists to hold that, and to catch the two real leaks the invoices do show — **76 kegs delivered but only 69 deposits charged**, and a deposit line the vendor spells six different ways, which any naive total silently under-counts.
 
 ## Non-Goals
 
@@ -172,7 +172,9 @@ Safety stock as a flat 25% is deliberately simple for V1. The statistically corr
 
 ### Adjusting for business that happens after the cutoff
 
-The PMIX week runs Monday–Sunday, but three vendors are ordered **Sunday between 5:00 and 7:00 PM** (Arena 5pm, Superior and Columbus Dist. 7pm) and three more **Monday between 4:00 and 5:00 PM** (Southern Glazer's 4pm, Sixth City and Cavalier 5pm). Those orders are placed while the bar is still open and still selling, and the delivery doesn't arrive until the next morning. A count taken Sunday afternoon therefore overstates what will actually be on the shelf when Monday's truck shows up — by a full Sunday night of business, which for a Short North bar is not a rounding error.
+The PMIX week runs Monday–Sunday, but four vendors are ordered **Sunday between 5:00 and 7:00 PM** (Arena 5pm, Berardi's 5pm, Superior and Columbus Dist. 7pm) and three more **Monday between 4:00 and 5:00 PM** (Southern Glazer's 4pm, Sixth City and Cavalier 5pm). Those orders are placed while the bar is still open and still selling.
+
+The corrected delivery schedule makes this gap **wider than one shift, not narrower**. Superior and Columbus Dist. are ordered Sunday 7pm but do not land until **Tuesday** — so the count behind that order has to survive Sunday night *and* all of Monday before the truck arrives. The Monday-cutoff vendors (Southern Glazer's, Sixth City, Cavalier) are the short case at one night. A count taken Sunday afternoon therefore overstates what will be on the shelf at receiving by up to **two full nights of business**, which for a Short North bar is not a rounding error.
 
 ```
 effective_on_hand = counted_on_hand − projected_sales(cutoff → delivery)
@@ -181,7 +183,7 @@ where projected_sales uses the same baseline × multiplier model,
 prorated for the remaining hours of the shift
 ```
 
-Worked: counting 4 cases of Bud Light at 4pm Sunday, with Sunday nights averaging 30 bottles after 5pm, means Monday's truck is really landing against 2.75 cases, not 4. Without this adjustment the system under-orders every Sunday and every Monday — the two heaviest ordering days on the calendar.
+Worked: counting 4 cases of Bud Light at 4pm Sunday, with Sunday nights averaging 30 bottles after 5pm and Mondays another 18, means **Tuesday's** truck is really landing against 2.0 cases, not 4 — the order is half again as large as a naive count would call for. Without this adjustment the system under-orders every Sunday and every Monday, the two heaviest ordering days on the calendar, and under-orders the Sunday vendors worst because theirs is the longest gap.
 
 The same logic makes the **Monday–Sunday PMIX window the right choice**: it is the most recent *complete* week available at the Sunday cutoff. Pulling a week that includes the in-progress Sunday would double-count it — once as partial history, once as projected depletion.
 
@@ -194,9 +196,38 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 - **Dual-sourced products** — a product may list `alt_vendors`. This is advisory: the order is still built against the primary vendor, and the alternate is surfaced as a note. Nothing currently uses it.
 - **Seasonal products** — a product carries `season` (year_round, summer, fall_winter). A seasonal item has **no trailing sales in the weeks before its launch**, so its baseline forecast is zero and the engine would order nothing. Seasonal launches fall back to **par, set by hand**, until two to three weeks of real sales accumulate. This is the same structural failure as bottle service, arriving twice a year on a predictable date.
 - **Southern Glazer's** — if the Tuesday order won't cover to next Tuesday, the system offers the Wednesday follow-up, flagged **"confirm with Bethany first — not guaranteed."**
-- **Superior Beverage** — two windows: Sunday 7pm for Monday, and **Wednesday 7pm for Friday** (moved from Thursday 5pm, confirmed 2026-09-21). The system picks Sunday-only or Sunday-plus-Wednesday based on whether a four-day cover meaningfully reduces the order size.
+- **Superior Beverage** — two windows: Sunday 7pm for **Tuesday**, and **Wednesday 7pm for Friday** (moved from Thursday 5pm, confirmed 2026-09-21). The system picks Sunday-only or Sunday-plus-Wednesday based on whether a three-day cover meaningfully reduces the order size.
 - **Heidelberg** — delivery note "after 9am, hallway behind bar" appears on the receiving checklist.
 - **All keg vendors** — empty-keg return count is a required field before a delivery can be marked received.
+- **Staple kegs vs. rotating kegs** — the draft program is two different problems wearing one label, and they need opposite treatment.
+
+  A **staple** is a keg invoiced in **two or more separate orders** inside the sampled window. Of **35 distinct keg products** over 2026-08-28..09-28, **15** meet that bar — but only **13** are genuine staples. The other two are why the rule needs judgement, and both are covered below. These thirteen have a real trailing baseline and are forecast normally:
+
+  | Keg | Vendor | Size | Rate | $/keg |
+  |---|---|---|---|---|
+  | Downeast Original Cider | Superior | 1/2 bbl | 2.5 / wk | $194.00 |
+  | Bellafina Secco Frizzante | Heidelberg | 1/6 bbl | 2.0 / wk | $150.00 |
+  | Garage Beer Lime | Superior | 1/2 bbl | 0.9 / wk | $135.00 |
+  | Busch Light Draft | Columbus Dist. | 1/2 bbl | 0.9 / wk | $126.00 |
+  | Columbus Brewing Company Bodhi | Superior | **50 L** | 0.7 / wk | $197.00 |
+  | Miller High Life | Superior | 1/2 bbl | 0.7 / wk | $115.00 |
+  | Fat Head's Bumble Berry | Cavalier | 1/2 bbl | 0.7 / wk | $169.99 |
+  | Golden Road Mango Cart | Columbus Dist. | 1/2 bbl | 0.7 / wk | $150.00 |
+  | Rhinegeist Cincy Light Lager | Superior | 1/2 bbl | 0.7 / wk | $130.00 |
+  | Sierra Nevada Hazy Little Thing | Superior | 1/2 bbl | 0.5 / wk | $191.00 |
+  | Dogfish Head 30 Minute Light IPA | Superior | 1/2 bbl | 0.5 / wk | $187.00 |
+  | BrewDog Elvis Juice IPA | Superior | 1/2 bbl | 0.5 / wk | $185.00 |
+  | Real American Light Lager | Heidelberg | 1/2 bbl | 0.5 / wk | $120.00 |
+
+  The remaining **20 keg products were each bought exactly once** — that is the **rotating** program, and it must be excluded from baseline learning entirely. A one-off keg has a trailing average of "1", which is indistinguishable from a slow staple and will be reordered forever if the engine does not know the difference.
+
+  Four consequences for the build:
+
+  1. **A repeating keg is not automatically a staple.** Immigrant Son Gourdians Pumpkin Ale repeated (8/26 and 9/2, Sixth City, 1/6 bbl) because it was September. Seasonal kegs repeat *inside* their season and then vanish, so repetition alone is not the test — `season` has to gate it, the same failure mode as the seasonal cocktail launches.
+  2. **A repeat can also be a mapping artifact.** *Butcher And The Brewer: Albino Stout* shows two orders, but they are **two different beers**: item 1555 (Albino Stout) and item 1871 (Nitro Albino Stout), which MarginEdge collapses onto one product name. Counted by product it looks like a repeating line; counted by item code it is two one-offs. **The staple test has to run on vendor item codes, not product names**, or a rotating vendor's near-duplicates will manufacture phantom staples.
+  3. **Staples span five vendors and three cutoffs.** Nine sit on Superior's and Columbus Dist.'s Sunday 7 PM, two on Monday 5 PM (Cavalier, and Sixth City for the rotation), and **Bellafina alone sits on Heidelberg's Wednesday 5 PM** — at 2 sixth-barrels a week it is the second-largest keg line by spend and the only one with no second chance inside the week.
+  4. **Keg formats are not just halves and sixths.** Bodhi ships **50 L** and Athletic Wild Run NA ships **1/4 bbl**; the catalog now carries `fifty_liter`, `quarter_barrel` and `twenty_liter` yields (1,603 / 941 / 641 oz, on the same net-of-foam basis as the original two). Before this a 50 L staple could not be sized at all.
+- **Product names must be the full vendor name, not floor shorthand.** The first version of the guide listed kegs as "Dogfish", "CBC", "Cheetah" and "Hazy Jane Hug". Auditing against MarginEdge showed shorthand hides real errors: "CBC" is *Columbus Brewing Company Bodhi* (a 3x staple that a name-based keg audit missed entirely, because the shorthand contains no keg token), Superior carries **seven** different Dogfish kegs so "Dogfish" is ambiguous, and "Hazy Jane Hug" had **fused two different beers** — BrewDog Hazy Jane (Superior, 1/6 bbl) and Goose Island Hazy Beer Hug (Columbus Dist., 1/2 bbl). Neither was what was actually purchased. Every catalog line carries the MarginEdge product name and item code.
 
 ## Requirements
 
@@ -250,7 +281,8 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 | Missed order windows per quarter | Unknown, believed non-zero | 0 |
 | Stockouts of tracked fast movers per month | Not measured | Under 2 |
 | Items with zero depletion in 30 days (dead stock) | Not measured | Trending down month over month |
-| Empty kegs returned vs. kegs received | Not measured | Above 95% |
+| Empty kegs returned vs. kegs received | 66 / 69 deposits (96%) over 2026-08-28..09-28 | Hold above 95% |
+| Kegs delivered with no deposit line charged | 7 of 76 (9%) | Under 2% |
 | Suggested quantities accepted without override | n/a | Above 70% by month 3 — the trust signal |
 | Cost of the replaced inventory service | Sculpture monthly fee | $0 |
 
@@ -274,8 +306,8 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 16. **Buyout per-head consumption rates.** The formula is specced; the rates are not. A buyout event currently raises rather than silently forecasting zero.
 17. **Does Cavalier's "1/6 bbl only" rule still hold?** Fat Head's Bumble Berry is carried as a **1/2 bbl** — confirmed by purchasing, 3 units at $169.99 in the 2026-07-20..08-28 window — which contradicts the standing rule in the order guide. Either the rule has exceptions or it is stale. The catalog currently models the product as it is actually bought.
 18. ~~What is Pamplemousse?~~ **Resolved: a 750ml liqueur bottle from Arena only** (an earlier draft wrongly had it on Cavalier). It appears nowhere in the purchase report, so there is no observed cost or depletion rate, and `pack_size` assumes Arena sells by the bottle rather than the case.
-19. **What is Berardi's exact Sunday cutoff time?** The order *day* is confirmed as Sunday; the hour is not. The catalog carries 19:00 as a placeholder matching the other Sunday cutoffs, which is a guess and is labelled as one.
-20. **Which delivery days are vendor-stated vs. merely observed?** MarginEdge invoice dates over 2026-08-28..09-28 contradict the written guide for Columbus Dist. (always Tue, not Mon), Sixth City (Wed, where neither source said Wed), and Arena (never once Monday). Those are observations from one month of invoice dates, not schedules confirmed with the reps, so the catalog still carries the documented days and the guide flags the discrepancy rather than overwriting it.
+19. ~~**What is Berardi's exact Sunday cutoff time?**~~ **Resolved 2026-09-29: Sunday by 5:00 PM**, confirmed by the operator. Catalog updated from the 19:00 placeholder to 17:00, which puts Berardi's on the same cutoff as Arena, two hours ahead of Superior and Columbus Dist.
+20. ~~**Which delivery days are vendor-stated vs. merely observed?**~~ **Partly resolved 2026-09-29.** The catalog and guide now carry the *observed* days, because one month of MarginEdge invoice dates beat a written guide nobody had reconciled: Superior and Columbus Dist. moved Mon→Tue, Sixth City to Wed, Arena to Thu (never once Monday across 13 invoices). Order days are operator-confirmed and are the firm half of the schedule. **Still open:** no rep has confirmed a delivery day in writing, and Arena's two windows are both modelled as Thursday when the evidence is Thu x4 / Fri x5 — the split between its Sunday and Wednesday orders is still unknown. Get a committed day per window from Gursev before the engine promises a cover date off it.
 21. ~~What is Arena's order day?~~ **Resolved: Sunday and Wednesday, confirmed 2026-09-28.** All nine vendors now have operator-confirmed order days. Arena's *delivery* days remain open — see question 20 — and matter disproportionately because Arena is the largest beverage vendor at roughly $37.3K/month, over half of beverage spend.
 22. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
 23. **What is Amazon's order window?** Amazon places 52 orders a month — more than any single distributor — and has no cutoff recorded anywhere. The engine cannot schedule it until one is set. It also sources real prep goods (Bhakti chai, Frontier pumpkin pie spice, pecans, allulose), so it is not incidental spend.
@@ -395,19 +427,21 @@ So the "scheduled email into an inbox" automation path requires **setting up a n
 
 ## Appendix: Vendor Order Windows
 
-Seed data for the scheduling engine. Source: `TH_ORDER_GUIDE.docx`.
+Seed data for the scheduling engine. **Order days are operator-confirmed (2026-09-28/29). Delivery days are observed from MarginEdge invoice dates over 2026-08-28..09-28**, and where the two disagreed the invoices won — `TH_ORDER_GUIDE.docx` had several delivery days that a month of real receiving never once showed. No rep has confirmed a delivery day in writing; see open question 20.
 
 | Vendor | Order due | Delivers | Channel | Notes |
 |---|---|---|---|---|
-| Superior Beverage | Sun 7:00 PM | Mon | Phone — Shane (614) 306-4582 | Second window: **Wed 7:00 PM → Fri** |
+| Superior Beverage | Sun 7:00 PM | **Tue** | Phone — Shane (614) 306-4582 | Second window: **Wed 7:00 PM → Fri**. Docx said Mon; invoices say Tue |
 | Hartzler Family Dairy | Thu 5:00 PM | Tue | **Email only** — orders@hartzlerdairy.com | Café. Five-day lead, the longest of any vendor |
-| Berardi's Coffee | **Sun** (time TBC) | Tue/Wed | **Email only** — orders@berardiscoffee.com | Café |
+| Berardi's Coffee | **Sun 5:00 PM** | Tue/Wed | **Email only** — orders@berardiscoffee.com | Café |
 | Amazon | **No window set** | Varies | Online | Long-tail prep goods. 52 orders/mo — more than any distributor |
 | Hillcrest Foodservice | **No window set** | Varies | Phone | Broadline. $60.8K/mo — largest supplier in the building |
-| The Columbus Dist. Co. | Sun 7:00 PM | Mon | Phone — Conner (937) 581-1234 | |
-| Arena Liquor | Sun 5:00 PM | Mon *(never observed)* | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu 5 PM. Largest beverage vendor |
+| The Columbus Dist. Co. | Sun 7:00 PM | **Tue** | Phone — Conner (937) 581-1234 | Docx said Mon; every invoice landed Tue |
+| Arena Liquor | Sun 5:00 PM | **Thu** *(Thu ×4 / Fri ×5)* | **Email only** — arenaliquor@gmail.com | Second window: Wed 9:00 PM → Thu. **Never once Monday** across 13 invoices. Largest beverage vendor |
 | Southern Glazer's of OH | Mon 4:00 PM | Tue | Phone — Bethany (740) 507-1973 | Wed follow-up → Fri possible, confirm first |
-| Sixth City Distributors | Mon 5:00 PM | Tue | Phone — Jenna Carelly (614) 301-4877 | Rotating 1/6 bbl only |
+| Sixth City Distributors | Mon 5:00 PM | **Wed** | Phone — Jenna Carelly (614) 301-4877 | Rotating 1/6 bbl only. Neither source said Wed; invoices do |
 | Cavalier Distributing | Mon 5:00 PM | Tue | Phone — Dan (614) 582-0014 | Rotating 1/6 bbl, **plus named SKUs** |
 | Heidelberg / Wine Trends | Wed 5:00 PM | Thu PM | Phone — Tess Canby (740) 583-4555 | Deliver after 9am, hallway behind bar |
+
+**Monday takes no delivery at all**, and **Tuesday takes six** (Superior, Columbus Dist., Berardi's, Southern Glazer's, Cavalier, Hartzler). Receiving is the constraint on Tuesday morning, not ordering.
 | OYO Vodka | As needed | As needed | Phone — Zack (614) 981-9341 | **Order through Arena first** |

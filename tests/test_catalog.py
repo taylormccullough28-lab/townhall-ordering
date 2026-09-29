@@ -216,3 +216,70 @@ class TestNamedSkusAndSeasonalProducts:
         assert wed.order_weekday == 2          # Wednesday
         assert wed.delivery_weekday == 4       # Friday
         assert str(wed.order_time).startswith("19:00")
+
+
+class TestStapleKegs:
+    """The thirteen keg lines that repeated in 2026-08-28..09-28.
+
+    A staple is a keg invoiced in two or more separate orders in that window.
+    Everything else on tap was a one-off, which is the rotating program. The
+    distinction matters because a rotating keg must never teach the engine a
+    year-round baseline.
+    """
+
+    def test_every_staple_keg_loads_with_a_vendor_and_a_yield(self):
+        from thbev.catalog.loader import load_catalog
+        from thbev.depletion.engine import DepletionEngine
+
+        catalog = load_catalog()
+        # (key, vendor, keg_size, usable oz)
+        expected = [
+            ("downeast_original_keg", "superior", "half_barrel", 1880),
+            ("bellafina_secco_keg", "heidelberg", "sixth_barrel", 627),
+            ("garage_lime_keg", "superior", "half_barrel", 1880),
+            ("busch_light_keg", "columbus_distributing", "half_barrel", 1880),
+            ("cbc_bodhi_keg", "superior", "fifty_liter", 1603),
+            ("miller_high_life_keg", "superior", "half_barrel", 1880),
+            ("golden_road_mango_keg", "columbus_distributing", "half_barrel", 1880),
+            ("cincy_light_keg", "superior", "half_barrel", 1880),
+            ("hazy_little_thing_keg", "superior", "half_barrel", 1880),
+            ("dogfish_30_minute_keg", "superior", "half_barrel", 1880),
+            ("elvis_juice_keg", "superior", "half_barrel", 1880),
+            ("real_american_keg", "heidelberg", "half_barrel", 1880),
+        ]
+        engine = DepletionEngine(catalog)
+        for key, vendor, keg_size, usable_oz in expected:
+            product = catalog.products[key]
+            assert product.vendor == vendor, key
+            assert product.keg_size == keg_size, key
+            # A named SKU, so it survives the rotating-line collapse on a
+            # style-only vendor and still reaches the order sheet by name.
+            assert product.named_sku is True, key
+            assert engine.keg_yield_oz(product) == usable_oz, key
+
+    def test_fifty_litre_and_quarter_barrel_have_yields(self):
+        """CBC Bodhi ships 50L; before this the engine could not size it."""
+        from thbev.catalog.loader import load_catalog
+
+        yields = load_catalog().config.yields
+        # Nominal volume less ~5% foam and line loss, same basis as the others.
+        assert yields.fifty_liter_oz == 1603.0
+        assert yields.quarter_barrel_oz == 941.0
+        assert yields.twenty_liter_oz == 641.0
+        # A 50L keg sits between a 1/6 and a 1/2 barrel.
+        assert yields.sixth_barrel_oz < yields.fifty_liter_oz < yields.half_barrel_oz
+
+    def test_lucky_one_lemonade_is_in_the_catalog(self):
+        """Missing entirely until the operator flagged it on 2026-09-29."""
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        original = catalog.products["lucky_one_original_lemonade"]
+        assert original.vendor == "southern_glazers"
+        assert original.pack_size == 24
+        assert original.order_critical is True
+        # The variety pack is carried but was not purchased in the sampled
+        # window, so it has no baseline and must not be order_critical.
+        variety = catalog.products["lucky_one_variety_lemonade"]
+        assert variety.vendor == "southern_glazers"
+        assert variety.order_critical is False

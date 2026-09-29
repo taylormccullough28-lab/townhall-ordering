@@ -323,6 +323,14 @@ class BottleYields:
     ml_1750: float = 59.17
     half_barrel_oz: float = 1880.0
     sixth_barrel_oz: float = 627.0
+    # Short North buys past the two barrel fractions above: CBC Bodhi ships 50L
+    # (a staple keg, 3 orders in 2026-08-28..09-28) and Athletic Wild Run NA
+    # ships 1/4 bbl. 20L is carried by Sixth City and Berardi's cold brew.
+    # Derived on the same basis as the other two: nominal volume less ~5% foam
+    # and line loss, so the overpour factor is NOT applied on top.
+    fifty_liter_oz: float = 1603.0
+    quarter_barrel_oz: float = 941.0
+    twenty_liter_oz: float = 641.0
 
 
 @dataclass

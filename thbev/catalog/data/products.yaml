@@ -511,6 +511,249 @@ products:
       - "Used in SW-2 (Sweetheart cider mix) at 150 oz per batch - over a gallon,
          the largest single prep volume on the fall sheet."
 
+  - key: downeast_original_keg
+    name: "Downeast Original Cider Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 4 separate orders (11 kegs total) over
+         2026-08-28..09-28 - about 2.48 kegs/week. $194.00 each, superior code 11488."
+      - "Highest-volume keg in the building and the largest single keg line by spend:"
+      - "$2,134.00 over 2026-08-28..09-28. Ordered in all four weeks of the window."
+  - key: bellafina_secco_keg
+    name: "Bellafina Secco Frizzante Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    unit_size_oz: 627
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (9 kegs total) over
+         2026-08-28..09-28 - about 2.03 kegs/week. $150.00 each, heidelberg code 798003."
+      - "Prosecco on tap. The ONLY staple keg on a Wednesday cutoff (Heidelberg,"
+      - "Wed 17:00 -> Thu), so a missed Wednesday has no second chance in the week."
+      - "Second-highest keg spend at $1,350.00 for the window."
+  - key: garage_lime_keg
+    name: "Garage Beer Lime Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (4 kegs total) over
+         2026-08-28..09-28 - about 0.90 kegs/week. $135.00 each, superior code 15305."
+  - key: busch_light_keg
+    name: "Busch Light Draft Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (4 kegs total) over
+         2026-08-28..09-28 - about 0.90 kegs/week. $126.00 each, columbus_distributing code 07892."
+  - key: cbc_bodhi_keg
+    name: "Columbus Brewing Company Bodhi Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: fifty_liter
+    unit_size_oz: 1603
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 3 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $197.00 each, superior code 10051."
+      - "Ships as a 50L, not a barrel fraction - the yield constant fifty_liter_oz"
+      - "was added for this product. Invoiced 2026-09-01, 09-04 and 09-18."
+      - "Appears in the old guide as the shorthand 'CBC', which is why it was easy"
+      - "to miss when auditing kegs by name."
+  - key: miller_high_life_keg
+    name: "Miller High Life Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 3 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $115.00 each, superior code 01025."
+      - "MarginEdge item name is just 'Miller HL' - do not confuse with code 01030,"
+      - "which is the 12oz can, or with Miller Lite."
+  - key: golden_road_mango_keg
+    name: "Golden Road Mango Cart Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $150.00 each, columbus_distributing code 73592."
+      - "Invoices abbreviate this to 'Gr Mgo Df 1/2 Keg'. Listed in the old guide as"
+      - "'Mango Cart'."
+  - key: cincy_light_keg
+    name: "Rhinegeist Cincy Light Lager Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $130.00 each, superior code 17076."
+  - key: hazy_little_thing_keg
+    name: "Sierra Nevada Hazy Little Thing Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $191.00 each, superior code 67218."
+  - key: dogfish_30_minute_keg
+    name: "Dogfish Head 30 Minute Light IPA Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $187.00 each, superior code 17044."
+      - "Listed in the old guide as bare 'Dogfish'. Superior carries six other"
+      - "Dogfish kegs, so the shorthand was ambiguous."
+  - key: elvis_juice_keg
+    name: "BrewDog Elvis Juice IPA Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $185.00 each, superior code 11844."
+  - key: real_american_keg
+    name: "Real American Light Lager Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $120.00 each, heidelberg code 12175."
+      - "Was miscategorised in the guide as bottled/draft beer rather than a keg."
+
+  - key: lucky_one_original_lemonade
+    name: "Lucky One Original Vodka Lemonade 355ml"
+    category: rtd
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    unit_size_oz: 12.0
+    order_critical: true
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Southern Glazer's code 694881, invoice name 'Lucky One Vod Lemon Orig
+         24ls 355.000 Ml'. Invoiced 2026-09-04 and 2026-09-22."
+      - "Was missing from the guide and the catalog entirely despite being a
+         repeat buy - flagged by the operator 2026-09-29."
+
+  - key: lucky_one_variety_lemonade
+    name: "Lucky One Lemonade Vodka Variety 12oz Can"
+    category: rtd
+    conversion: packaged
+    pack_size: 12
+    unit_label: can
+    pack_label: case
+    unit_size_oz: 12.0
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Southern Glazer's code 658287, invoice name 'Lucky One Vod Lemon
+         Variety'. Assorted flavours - carried, no purchase in the sampled
+         window, so it has no baseline yet."
+
 recipes:
   - key: passionpunch_margarita
     description: "UNVERIFIED placeholder spec - replace with the house build."

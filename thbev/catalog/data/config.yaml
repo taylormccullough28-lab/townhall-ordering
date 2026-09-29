@@ -22,6 +22,9 @@ yields:
   ml_1750: 59.17
   half_barrel_oz: 1880
   sixth_barrel_oz: 627
+  quarter_barrel_oz: 941
+  fifty_liter_oz: 1603
+  twenty_liter_oz: 641
 
 # effective_yield = theoretical / (1 + overpour_factor).
 # Seeded at 5%. PRD open question 7 (free-pour or jiggered?) sets the real value,

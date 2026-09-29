@@ -23,7 +23,7 @@ vendors:
       - key: superior_sunday
         order_weekday: sunday
         order_time: "19:00"
-        delivery_weekday: monday
+        delivery_weekday: tuesday
         delivery_time: "09:00"
       - key: superior_wednesday
         order_weekday: wednesday
@@ -43,7 +43,7 @@ vendors:
       - key: columbus_sunday
         order_weekday: sunday
         order_time: "19:00"
-        delivery_weekday: monday
+        delivery_weekday: tuesday
         delivery_time: "09:00"
 
   - key: arena
@@ -57,15 +57,17 @@ vendors:
       notes:
         - "Email only. The engine will not produce a phone or text script for Arena."
         - "Order days (Sunday and Wednesday) confirmed by the operator 2026-09-28.
-           The DELIVERY days are a separate question and are not confirmed: over
-           2026-08-28..09-28 Arena invoices landed Thu x4, Fri x5, Tue x2, Wed x1
-           and Sat x1 - not once on Monday, which is what the Sunday window here
-           claims. Largest beverage vendor by spend at roughly $37.3K/month."
+           The DELIVERY days are inferred, not confirmed: over 2026-08-28..09-28
+           Arena invoices landed Thu x4, Fri x5, Tue x2, Wed x1 and Sat x1 - not
+           once on Monday. Both windows are therefore modelled as Thursday, which
+           is the earliest day either order is actually seen to arrive; a Sunday
+           order may in practice sit until Friday. Ask Gursev to commit to a fixed
+           day per window. Largest beverage vendor by spend at ~$37.3K/month."
     windows:
       - key: arena_sunday
         order_weekday: sunday
         order_time: "17:00"
-        delivery_weekday: monday
+        delivery_weekday: thursday
         delivery_time: "09:00"
       - key: arena_wednesday
         order_weekday: wednesday
@@ -219,17 +221,17 @@ vendors:
       order_email: orders@berardiscoffee.com
       notes:
         - "Email only."
-        - "Shares the Sunday cutoff with Arena, Superior and Columbus Dist. - the
-           only cafe item on the busiest ordering night, so the easiest to forget."
+        - "Sunday 17:00 is the same cutoff as Arena, two hours ahead of Superior
+           and Columbus Dist. at 19:00. The only cafe item on the busiest ordering
+           night, so the easiest to forget."
     windows:
       - key: berardis_sunday
         order_weekday: sunday
-        order_time: "19:00"
+        order_time: "17:00"
         delivery_weekday: tuesday
         delivery_time: "09:00"
-        note: "Order day confirmed Sunday 2026-09-28; the exact cutoff TIME is
-               still unconfirmed and 19:00 here is a placeholder matching the
-               other Sunday cutoffs. Invoices landed Tue x3 and Wed x1 over the
+        note: "Order day and cutoff both confirmed by the operator: Sunday by
+               17:00 (2026-09-29). Invoices landed Tue x3 and Wed x1 over the
                sampled month, so Tuesday is the modal delivery, not guaranteed."
 
   - key: oyo

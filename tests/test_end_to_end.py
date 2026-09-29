@@ -58,19 +58,28 @@ def test_full_pipeline_from_source_to_vendor_output(fixtures_dir, catalog):
 
 
 def test_seed_vendor_calendar_matches_the_order_guide(seed_catalog):
-    """Seven cutoffs across four days. Missing one costs a week of that vendor."""
+    """Seven cutoffs across four days. Missing one costs a week of that vendor.
+
+    Order weekdays are operator-confirmed. Delivery weekdays were corrected on
+    2026-09-29 from the written guide to what MarginEdge invoices actually show
+    over 2026-08-28..09-28: nothing lands on Monday, and Tuesday takes six.
+    """
     expected = {
-        ("superior", "superior_sunday"): (6, "19:00", 0),
+        # Sunday 7pm lands Tuesday, not Monday - two nights of depletion to cover.
+        ("superior", "superior_sunday"): (6, "19:00", 1),
         # Second window moved Thursday 5pm -> Wednesday 7pm (2026-09-21).
-        # Delivery day is unchanged, so cover math is unaffected.
         ("superior", "superior_wednesday"): (2, "19:00", 4),
-        ("columbus_distributing", "columbus_sunday"): (6, "19:00", 0),
-        ("arena", "arena_sunday"): (6, "17:00", 0),
+        ("columbus_distributing", "columbus_sunday"): (6, "19:00", 1),
+        # Arena was never once observed delivering Monday across 13 invoices.
+        ("arena", "arena_sunday"): (6, "17:00", 3),
         ("arena", "arena_wednesday"): (2, "21:00", 3),
         ("southern_glazers", "sgws_monday"): (0, "16:00", 1),
         ("sixth_city", "sixth_city_monday"): (0, "17:00", 1),
         ("cavalier", "cavalier_monday"): (0, "17:00", 1),
         ("heidelberg", "heidelberg_wednesday"): (2, "17:00", 3),
+        # Cafe. Berardi's cutoff confirmed Sunday 5pm by the operator 2026-09-29.
+        ("berardis", "berardis_sunday"): (6, "17:00", 1),
+        ("hartzler", "hartzler_thursday"): (3, "17:00", 1),
     }
     for (vendor_key, window_key), (weekday, order_time, delivery_weekday) in expected.items():
         window = seed_catalog.vendor(vendor_key).window(window_key)

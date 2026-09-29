@@ -146,9 +146,10 @@ class DepletionEngine:
     def keg_yield_oz(self, product: Product) -> float:
         """Usable ounces in a keg of this product's size.
 
-        The PRD's keg figures (1/2 bbl about 1,880 oz, 1/6 bbl about 627 oz) are
-        already net of the ~5% foam and line loss, so the overpour factor is
-        deliberately NOT applied on top of them.
+        The PRD's keg figures (1/2 bbl about 1,880 oz, 1/6 bbl about 627 oz,
+        1/4 bbl about 941 oz, 50L about 1,603 oz, 20L about 641 oz) are already
+        net of the ~5% foam and line loss, so the overpour factor is deliberately
+        NOT applied on top of them.
 
         Raises:
             ValueError: If the product has no recognized keg size.
@@ -156,16 +157,22 @@ class DepletionEngine:
         sizes = {
             "half_barrel": self.config.yields.half_barrel_oz,
             "sixth_barrel": self.config.yields.sixth_barrel_oz,
+            "quarter_barrel": self.config.yields.quarter_barrel_oz,
+            "fifty_liter": self.config.yields.fifty_liter_oz,
+            "twenty_liter": self.config.yields.twenty_liter_oz,
             "1/2 bbl": self.config.yields.half_barrel_oz,
             "1/6 bbl": self.config.yields.sixth_barrel_oz,
+            "1/4 bbl": self.config.yields.quarter_barrel_oz,
+            "50l": self.config.yields.fifty_liter_oz,
+            "20l": self.config.yields.twenty_liter_oz,
         }
         if product.unit_size_oz:
             return product.unit_size_oz
         key = (product.keg_size or "").strip().lower()
         if key not in sizes:
             raise ValueError(
-                f"Draft product {product.key!r} has no keg_size (expected half_barrel or "
-                "sixth_barrel) and no unit_size_oz; keg yield cannot be computed."
+                f"Draft product {product.key!r} has no keg_size (expected one of "
+                f"{sorted(sizes)}) and no unit_size_oz; keg yield cannot be computed."
             )
         return sizes[key]
 
