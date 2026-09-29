@@ -155,15 +155,62 @@ vendors:
     channel: phone
     rules:
       notes:
-        - "Largest supplier in the building: $60.8K across 22 orders in the month
-           to 2026-09-28. Broadline food purveyor that also carries several bar
-           prep goods."
+        - "Largest supplier in the building: $159,381 across 61 orders over
+           2026-06-29..09-28, about $53K/month. Broadline food purveyor that also
+           carries several bar prep goods and the bar's consumables."
+        - "TWO ACCOUNTS, TWO SCHEDULES. 71357 is food and broadline (35 orders,
+           $132,436) and lands MONDAY and FRIDAY. 71361 is paper, disposables and
+           chemicals (26 orders, $26,945) and lands TUESDAY and FRIDAY. A third
+           account, 55935, exists on the vendor record but placed no orders in
+           the sampled quarter."
+        - "Friday carries $82K of the $159K - over half the quarter's spend on one
+           weekday, shared by both accounts. Nothing has ever landed on a Sunday
+           and only one invoice in three months fell on a Thursday."
+        - "The bar touches BOTH accounts. Prep pantry (allulose 38006, dark brown
+           sugar 38029, drinking cider 4032, granulated sugar, pineapple juice)
+           is on 71357. Bar consumables (black bevnaps 76379, sipper stirrers
+           63256, smoothie straws 363360, 2oz souffle lids 60788, Beer Clean
+           glass wash 70308) are on 71361."
+        - "DUPLICATE ORDERING RISK: allulose 38006 ($214.08) and frozen
+           strawberries 115005 are each ordered on BOTH accounts, which means the
+           same item arriving on two different days. Assign each to one account."
         - "CARE WITH APPLE CIDER CODES. 4032 'Cider Apple' is the drinking cider.
            40118 and 40118S are apple cider VINEGAR. 4033 is labelled 'Apple Cider
            Fresh' but MarginEdge maps it to the vinegar product - a mapping error
            in their data, not ours."
-    # No confirmed order window yet.
-    windows: []
+    # Delivery weekdays are established from 61 invoices over 2026-06-29..09-28
+    # and are the firm half of this schedule. The order TIMES are placeholders:
+    # MarginEdge records only the invoice, and its createdDate is always exactly
+    # one day AFTER the invoice date (61 of 61), so the data cannot reveal a
+    # cutoff. Broadline houses run day-before ordering, which is the assumption
+    # encoded here. Confirm the hour with the rep before the engine promises a
+    # cover date off it.
+    windows:
+      - key: hillcrest_food_sunday
+        order_weekday: sunday
+        order_time: "17:00"
+        delivery_weekday: monday
+        delivery_time: "09:00"
+        requires_confirmation: true
+        note: "Account 71357 (food). Delivery day confirmed by 13 of 61 invoices;
+               the 17:00 cutoff is an unconfirmed placeholder."
+      - key: hillcrest_paper_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        requires_confirmation: true
+        note: "Account 71361 (paper/disposables). Delivery day confirmed by 11 of
+               61 invoices; the 17:00 cutoff is an unconfirmed placeholder."
+      - key: hillcrest_both_thursday
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        requires_confirmation: true
+        note: "BOTH accounts. This is the single most important Hillcrest cutoff:
+               it carries the Friday delivery, which is over half the quarter's
+               spend. Delivery day confirmed by 25 of 61 invoices."
 
   - key: amazon
     name: Amazon
@@ -176,9 +223,38 @@ vendors:
         - "540 vendor items and NOT ONE carries a vendorItemCode. MarginEdge keys
            them by internal id only, so there is no SKU to quote on an order and
            the same product recurs under several near-identical listings."
-    # No confirmed order window. Recorded as unknown rather than guessed: the
-    # engine cannot schedule Amazon until a cutoff is set.
-    windows: []
+        - "NO VENDOR CUTOFF EXISTS. Amazon is self-service with 1-2 day delivery,
+           so unlike every other vendor here the window is a POLICY WE CHOOSE, not
+           a deadline the vendor imposes. The windows below are that policy."
+        - "The real problem measured over 2026-06-29..09-28 is not a missing
+           cutoff, it is that nothing is batched: 195 orders landed on only 56
+           separate days, so on an ordering day someone places 3.5 orders. Eight
+           orders in one day happened four times, nine once. 60 of the 195 orders
+           were under $50 - 31% of orders for $1,535, or 5.6% of spend."
+        - "Monday (44 orders) and Thursday (38) are ALREADY the two heaviest days,
+           so batching to them formalises existing behaviour rather than fighting
+           it. Two orders a week instead of fifteen is about 85% fewer receiving
+           events for the same product."
+    # A policy window, not a vendor-imposed one - hence requires_confirmation is
+    # false: there is no rep to confirm with. What needs agreeing is internal.
+    windows:
+      - key: amazon_monday_batch
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: wednesday
+        delivery_time: "12:00"
+        note: "Weekly batch, placed alongside the Monday bar cutoffs while the
+               manager is already working last week's PMIX. Delivery is 1-2 days
+               and not guaranteed to a weekday, so Wednesday is nominal."
+      - key: amazon_thursday_batch
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: saturday
+        delivery_time: "12:00"
+        optional: true
+        note: "Second batch, catches anything needed for the weekend. Optional:
+               skip it when the Monday order covered the week. A genuine 86 mid
+               service is always allowed to bypass both windows."
 
   # --- Café program ------------------------------------------------------------
   # Separate from the bar: different windows, email-only, and longer leads.

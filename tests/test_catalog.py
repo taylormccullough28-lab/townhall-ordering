@@ -283,3 +283,60 @@ class TestStapleKegs:
         variety = catalog.products["lucky_one_variety_lemonade"]
         assert variety.vendor == "southern_glazers"
         assert variety.order_critical is False
+
+
+class TestHighVolumeVendorWindows:
+    """Hillcrest and Amazon were the last two vendors with no window at all.
+
+    They are also the largest by spend and by order count respectively, so the
+    gap mattered more than for anyone else. The two were solved differently
+    because they are different kinds of problem: Hillcrest has a real schedule
+    that had simply never been written down, while Amazon has no vendor-imposed
+    cutoff to discover, so its window is a policy choice.
+    """
+
+    def test_hillcrest_has_three_windows_across_two_accounts(self):
+        from thbev.catalog.loader import load_catalog
+
+        vendor = load_catalog().vendor("hillcrest")
+        windows = {w.key: w for w in vendor.windows}
+        assert set(windows) == {
+            "hillcrest_food_sunday",
+            "hillcrest_paper_monday",
+            "hillcrest_both_thursday",
+        }
+        # Account 71357 (food) lands Monday; 71361 (paper) lands Tuesday; the
+        # Thursday cutoff serves both and carries the Friday delivery, which is
+        # over half the quarter's spend.
+        assert windows["hillcrest_food_sunday"].delivery_weekday == 0
+        assert windows["hillcrest_paper_monday"].delivery_weekday == 1
+        assert windows["hillcrest_both_thursday"].delivery_weekday == 4
+        # Delivery days are evidence; the cutoff times are placeholders. Every
+        # window must say so, or the engine will quote a cover date off a guess.
+        assert all(w.requires_confirmation for w in vendor.windows)
+
+    def test_amazon_windows_are_a_batching_policy_not_a_vendor_cutoff(self):
+        from thbev.catalog.loader import load_catalog
+
+        vendor = load_catalog().vendor("amazon")
+        windows = {w.key: w for w in vendor.windows}
+        assert set(windows) == {"amazon_monday_batch", "amazon_thursday_batch"}
+        # Monday and Thursday were already Amazon's two heaviest days (44 and 38
+        # of 195 orders), so the policy formalizes existing behaviour.
+        assert windows["amazon_monday_batch"].order_weekday == 0
+        assert windows["amazon_thursday_batch"].order_weekday == 3
+        # The second batch is skippable when Monday covered the week.
+        assert windows["amazon_thursday_batch"].optional is True
+        # There is no rep to confirm a cutoff with, so confirmation is not
+        # pending on anyone outside the building.
+        assert not any(w.requires_confirmation for w in vendor.windows)
+
+    def test_no_vendor_is_left_without_a_window_except_the_backup(self):
+        """OYO is order-through-Arena-first, so it is the only blank left."""
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        windowless = sorted(
+            key for key, vendor in catalog.vendors.items() if not vendor.windows
+        )
+        assert windowless == ["oyo"]
