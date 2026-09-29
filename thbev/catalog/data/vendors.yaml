@@ -57,12 +57,60 @@ vendors:
       notes:
         - "Email only. The engine will not produce a phone or text script for Arena."
         - "Order days (Sunday and Wednesday) confirmed by the operator 2026-09-28.
-           The DELIVERY days are inferred, not confirmed: over 2026-08-28..09-28
-           Arena invoices landed Thu x4, Fri x5, Tue x2, Wed x1 and Sat x1 - not
-           once on Monday. Both windows are therefore modelled as Thursday, which
-           is the earliest day either order is actually seen to arrive; a Sunday
-           order may in practice sit until Friday. Ask Gursev to commit to a fixed
-           day per window. Largest beverage vendor by spend at ~$37.3K/month."
+           DELIVERY IS THURSDAY, established on a full quarter (45 invoices,
+           2026-06-24..09-25) rather than the one-month sample used earlier.
+           Weighting by money is what settles it: Thursday is 11 invoices but
+           $54,488 - 60% of all Arena spend, averaging $4,953 a drop. Saturday is
+           the most FREQUENT day (13 invoices) at only 5.7% of spend, because
+           those are counter pickups, not deliveries. Sunday: never."
+        - "SUPERSEDES an earlier note here that read 'never once on Monday'. That
+           held for 2026-08-28..09-28 but not for the quarter: 2 of 45 invoices
+           landed Monday (7/20 and 7/27). The one-month window was too small to
+           read a weekday pattern from."
+        - "TWO CHANNELS, and they are indistinguishable until sorted by value.
+           Wholesale invoices are prefixed OH00028...: 29 invoices, $86,838 (96%
+           of spend), avg $2,994 across 12.5 lines, carrying the account number.
+           Counter/will-call invoices are 6 digits: 16 invoices, $3,497 (4%), avg
+           $219 across 1.7 lines, usually with NO account number, mostly Saturday
+           - about 1.2 emergency runs a week. Only the wholesale channel is a
+           delivery schedule; do not let the counter invoices train a forecast."
+        - "$90,334.97 over the quarter, reconciling exactly: $87,951.60 line items
+           + $2,027.75 otherCharges + $140.00 delivery + $215.62 tax."
+        - "ONE PRODUCT, TWO BOTTLE SIZES, ONE MARGINEDGE PRODUCT ID. Arena item
+           codes end in L (1 litre) or B (750ml) and MarginEdge maps both onto a
+           single product, so product-level quantity adds sizes together: Tito's
+           reads 597 units but is 444 x 1L + 153 x 750ml. This affects 35% of
+           Arena spend (Tito's, Absolut, Casamigos Reposado, Grey Goose, Espolon
+           Blanco). DEPLETION MUST BE COMPUTED PER VENDOR ITEM CODE, never per
+           product name - at this size the error is ~25% on the largest line in
+           the building."
+        - "FOUR PRODUCTS CARRY DUPLICATE CODES - same product, same size, same
+           price, so a per-item baseline reads low on both: Casamigos Reposado 1L
+           (1809L_1L + 1809L, $2,199.60), Espolon Blanco 1L (2937L +
+           2937L_Silver, $960.68), Don Julio 1942 (2720B + '2720B_ 750ML' - the
+           code contains a space, $507.60), Tanqueray 1L (0326L + 0326L_1L,
+           $253.80)."
+        - "SUSPECTED DUPLICATE INVOICE, $5,781.06: orders 2051056 (OH0002811019,
+           2026-07-22) and 2056684 (OH0002821151, 2026-07-30) share 29 identical
+           line items - same codes, quantities and prices. Raised with the
+           operator to check with Gursev."
+        - "$2,878.93 (3.2% of spend) has no product attached: 'Misc Liquor Item'
+           (0002) and 'Liquor' (1) total $851.18, plus $2,027.75 of invoice-level
+           charges. The largest single item is $1,482.38 on 2026-08-20
+           (OH0002847733) described only as 'Adjustment to match total.' - 39% of
+           that invoice. Unattributable spend inflates pour cost on everything
+           else, so it cannot simply be spread."
+        - "NAME QUALITY. Code 8523228242 is booked 'GIELARD PAMPLEMOUSE' - that is
+           Giffard Pamplemousse, and a search for 'Giffard' misses it even though
+           three other Giffard items are spelled right. Also 'Angustura Orange
+           Bitters' beside 'Angostura Bitters', and 'Oyo Honey Vailla'. The
+           wholesale account appears as 727546, 0727546 and TOWNHALL."
+        - "Arena is 98.8% liquor by money but not exclusively: $1,098.38 across 14
+           items is beer ($491.73), wine ($336.81), mixers and bitters ($197.87)
+           and Giffard Orgeat syrup ($71.97). If the bar needs olive brine or
+           orgeat, Arena carries it."
+        - "A second Arena record exists, vendor 147343 'Arena Wine & Spirits',
+           with NO orders in the quarter. Legacy; everything runs through 325343."
     windows:
       - key: arena_sunday
         order_weekday: sunday
