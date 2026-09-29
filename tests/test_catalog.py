@@ -340,3 +340,44 @@ class TestHighVolumeVendorWindows:
             key for key, vendor in catalog.vendors.items() if not vendor.windows
         )
         assert windowless == ["oyo"]
+
+
+class TestHartzlerIsTwoItems:
+    """Hartzler supplies whole milk and half & half. Nothing else.
+
+    Heavy cream, butter, cream cheese and sour cream were attributed here off a
+    MarginEdge purchase report with no vendor column. The rates in that report
+    were real; the vendor was inferred, and wrong. With a five-day lead, an item
+    ordered here in error is not recoverable for a week, so the scope is pinned
+    by a test rather than left to a comment.
+    """
+
+    def test_hartzler_supplies_exactly_two_products(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        hartzler = sorted(
+            key for key, p in catalog.products.items() if p.vendor == "hartzler"
+        )
+        assert hartzler == ["half_and_half", "milk_whole"]
+
+    def test_the_misattributed_dairy_is_not_on_hartzler(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key, product in catalog.products.items():
+            if product.vendor != "hartzler":
+                continue
+            name = product.name.lower()
+            for wrong in ("heavy cream", "butter", "cream cheese", "sour cream"):
+                assert wrong not in name, f"{key} is not a Hartzler item"
+
+    def test_both_items_order_in_cases(self):
+        """The order is written in cases; gallons are how it gets miscounted."""
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key in ("milk_whole", "half_and_half"):
+            product = catalog.products[key]
+            assert product.unit_label == "case"
+            assert product.order_critical is True

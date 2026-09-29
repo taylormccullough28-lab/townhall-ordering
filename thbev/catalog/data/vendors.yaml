@@ -325,6 +325,14 @@ vendors:
            Thursday cutoff cannot be phoned in - questions must go before
            Wednesday noon."
         - "Ordered in CASES, not gallons."
+        - "HARTZLER SUPPLIES EXACTLY TWO ITEMS: whole milk and half & half.
+           Confirmed by the operator 2026-09-29. Heavy cream, butter, cream cheese
+           and sour cream were previously attributed here off a MarginEdge purchase
+           report that has NO VENDOR COLUMN - the consumption rates in that report
+           were real but the vendor attribution was inferred, and it was wrong.
+           Those items come from another supplier. Do not re-add them without an
+           invoice showing Hartzler as the vendor: a five-day lead means anything
+           ordered here in error is not recoverable for a week."
     windows:
       - key: hartzler_thursday
         order_weekday: thursday

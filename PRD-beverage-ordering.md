@@ -30,7 +30,7 @@ The data to solve this already exists — the POS knows exactly what sold, and t
 - Order to the *next delivery*, not to a flat week — a Superior Tuesday drop only has to cover three days if the Friday window is used, while a Southern Glazer's Tuesday drop has to cover the full seven to the next Tuesday, plus whatever buffer the vendor's reliability warrants.
 - Replace the Sculpture engagement with a count short enough that a manager actually does it — an order-critical list, not a full inventory.
 - Make every ordered quantity explainable in one line: what sold, what's coming, what's on hand, what we're ordering and why.
-- Keep empty-keg return a required field on receiving. **Measured, this is already working**: 69 keg deposits paid against 66 credited back over 2026-08-28..09-28 leaves a float of 3 kegs ($90), about what should be mid-rotation. The requirement exists to hold that, and to catch the two real leaks the invoices do show — **76 kegs delivered but only 69 deposits charged**, and a deposit line the vendor spells six different ways, which any naive total silently under-counts.
+- Keep empty-keg return a required field on receiving. **Measured over a full quarter, this is not working at Superior.** Superior charged **117 keg deposits and credited back 84** over 2026-06-30..09-22 — **33 kegs, $990 outstanding** — and the balance drifts rather than oscillates: near zero through July, then +11, +17, +25, +33. Two invoices did most of it (2026-08-21: six bought, none returned; 2026-09-18: seven bought, none returned). Columbus Distributing over the same quarter is 34 paid / 36 returned, a $60 credit — a working return loop, and proof the process can hold. **A one-month window cannot see this**: an unreturned keg never comes back as a negative, it just stops appearing, so a month only shows the current week's exchange. The requirement exists to stop that drift, and to catch the two counting leaks the invoices show — kegs delivered with no deposit line charged, and a deposit line one vendor spells six different ways.
 
 ## Non-Goals
 
@@ -285,8 +285,10 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 | Missed order windows per quarter | Unknown, believed non-zero | 0 |
 | Stockouts of tracked fast movers per month | Not measured | Under 2 |
 | Items with zero depletion in 30 days (dead stock) | Not measured | Trending down month over month |
-| Empty kegs returned vs. kegs received | 66 / 69 deposits (96%) over 2026-08-28..09-28 | Hold above 95% |
-| Kegs delivered with no deposit line charged | 7 of 76 (9%) | Under 2% |
+| Empty kegs returned vs. deposits charged — **Superior** | 84 / 117 (72%) over the 2026-06-30..09-22 quarter | Above 95% |
+| Empty kegs returned vs. deposits charged — **Columbus Dist.** | 36 / 34 (106%) over the same quarter | Hold above 95% |
+| Outstanding keg deposit float | **$990 at Superior**, &minus;$60 at Columbus Dist. | Under $200 per vendor |
+| Kegs delivered with no deposit line charged | 7 of 76 (9%) in the sampled month | Under 2% |
 | Suggested quantities accepted without override | n/a | Above 70% by month 3 — the trust signal |
 | Cost of the replaced inventory service | Sculpture monthly fee | $0 |
 
@@ -315,7 +317,11 @@ The same logic makes the **Monday–Sunday PMIX window the right choice**: it is
 
     **A sample-size lesson worth keeping.** The first pass read Arena's delivery day off a single month (13 invoices) and concluded "Thu/Fri, never Monday". Pulling the full quarter — 45 invoices — changed the answer: **2 of 45 did land on a Monday**, and the day that actually matters is clear only when weighted by money. Thursday is 11 invoices but **$54,488, 60% of all Arena spend**, averaging $4,953 a drop; Saturday is the most *frequent* day at 13 invoices and just **5.7% of spend**. Counting invoices gives Saturday; counting dollars gives Thursday. **A month is not enough to read a weekday pattern, and unweighted counts mislead when invoice sizes differ by 10x.** Both rules now apply to every vendor in the appendix.
 
-    **Still open:** no rep has confirmed a delivery day in writing.
+    **Superior and Columbus Distributing are now settled beyond argument.** Expanding their full quarter (45 invoices, 2026-06-30..09-22) gives **Columbus Dist. Tuesday on 25 of 25 invoices** and **Superior Tuesday 11 / Friday 9 and nothing else** — precisely the two order windows, both in regular use. Where a vendor runs a route, the invoice dates say so immediately; Arena's scatter across six weekdays was the exception, not the norm.
+
+  **The sample-size lesson has now cost real accuracy twice, so it is a build requirement, not an anecdote.** Rebuilding the keg rates on the quarter changed two of them materially: **Garage Beer Lime is 1.67/week, not 0.90** (20 kegs across 11 of 12 weeks — it was carried at half its real rate), and **Busch Light Draft is not a staple at all** — bought exactly twice, on 2026-09-15 and 09-22. The one-month sample happened to be precisely the window it launched in, so a brand-new line read as an established staple. The engine therefore needs three things: **a minimum history before a line earns a rate**, **an explicit "new line, insufficient history" state** rather than a confident wrong number, and **a stopped-line alarm** — Michelob Ultra Superior Light keg ran 12 kegs across five straight weeks and then vanished for two months, and nothing flagged it because the sample started after it ended.
+
+  **Still open:** no rep has confirmed a delivery day in writing.
 21. ~~What is Arena's order day?~~ **Resolved: Sunday and Wednesday, confirmed 2026-09-28.** All nine vendors now have operator-confirmed order days. Arena's *delivery* days remain open — see question 20 — and matter disproportionately because Arena is the largest beverage vendor at roughly $37.3K/month, over half of beverage spend.
 22. **What is the fall/winter brief for the rotating keg lines?** The standing instruction to Sixth City and Cavalier is "summer: sours, smoothies, pale ales," which is now wrong. Purchasing shows the fall rotation already arriving — pumpkin, caramel apple cider, bourbon barrel ale, porter — but the written brief has not been updated.
 23. ~~**What is Amazon's order window?**~~ **Resolved 2026-09-29, but not the way the question assumed.** There is no vendor cutoff to discover: Amazon is self-service with 1–2 day delivery, so the window is a **policy we set**, not a deadline imposed on us. The measured problem is different from the one asked about — over 2026-06-29..09-28, **195 orders landed on only 56 separate days** (3.5 orders per ordering day; eight in one day happened four times), and **60 of 195 orders were under $50**, together worth $1,535, or 5.6% of spend. Nothing is batched.

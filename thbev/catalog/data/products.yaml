@@ -562,8 +562,11 @@ products:
     vendor_confidence: confirmed
     named_sku: true
     notes:
-      - "Staple keg: invoiced in 2 separate orders (4 kegs total) over
-         2026-08-28..09-28 - about 0.90 kegs/week. $135.00 each, superior code 15305."
+      - "Staple keg: RATE CORRECTED on the full quarter. Over 2026-06-30..09-22
+         (12.00 weeks) Superior invoiced 20 kegs across 11 of the 12 weeks -
+         1.67 kegs/week, not the 0.90 read off a single month. This is the
+         second most consistent keg in the building after Downeast, and it was
+         carried at half its real rate. $135.00 each, superior code 15305."
   - key: busch_light_keg
     name: "Busch Light Draft Keg"
     category: draft
@@ -578,8 +581,13 @@ products:
     vendor_confidence: confirmed
     named_sku: true
     notes:
-      - "Staple keg: invoiced in 2 separate orders (4 kegs total) over
-         2026-08-28..09-28 - about 0.90 kegs/week. $126.00 each, columbus_distributing code 07892."
+      - "NOT A STAPLE - a September launch mistaken for one. Over the full
+         quarter 2026-06-30..09-22 this was bought exactly TWICE, on 2026-09-15
+         and 2026-09-22, two kegs each. The one-month sample used earlier
+         happened to be precisely the window it launched in, so a brand-new line
+         read as an established 0.90/week staple. Real rate is 0.33/week and
+         there is not yet enough history to forecast from. $126.00 each,
+         columbus_distributing code 07892."
   - key: cbc_bodhi_keg
     name: "Columbus Brewing Company Bodhi Keg"
     category: draft
@@ -666,8 +674,9 @@ products:
     vendor_confidence: confirmed
     named_sku: true
     notes:
-      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
-         2026-08-28..09-28 - about 0.45 kegs/week. $191.00 each, superior code 67218."
+      - "Staple keg: 4 orders, 4 kegs over 2026-06-30..09-22 (12.00 weeks) -
+         0.33 kegs/week, evenly spaced (7/28, 8/18, 9/1, 9/18). Slow but genuinely
+         steady. $191.00 each, superior code 67218."
   - key: dogfish_30_minute_keg
     name: "Dogfish Head 30 Minute Light IPA Keg"
     category: draft
@@ -753,6 +762,41 @@ products:
       - "Southern Glazer's code 658287, invoice name 'Lucky One Vod Lemon
          Variety'. Assorted flavours - carried, no purchase in the sampled
          window, so it has no baseline yet."
+
+  - key: milk_whole
+    name: "Milk, Whole"
+    category: dairy
+    conversion: packaged
+    pack_size: 1
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: hartzler
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Ordered by the CASE, never by the gallon. A real order reads in full:
+         '15 cases whole milk, 1 case 1/2 and 1/2.'"
+      - "One of only TWO items Hartzler supplies (operator-confirmed 2026-09-29)."
+      - "Observed ~22.6 gal/wk, but that rate came from a purchase report with no
+         vendor column, so treat the VOLUME as indicative and the VENDOR as
+         confirmed - the reverse of the usual situation."
+
+  - key: half_and_half
+    name: "Half & Half"
+    category: dairy
+    conversion: packaged
+    pack_size: 1
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: hartzler
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Ordered by the CASE. The second and last Hartzler item."
+      - "Roughly 1 case to every 15 of whole milk on a typical order."
+
 
 recipes:
   - key: passionpunch_margarita
