@@ -143,6 +143,21 @@ vendors:
       # seven days, so the eighth is carried here as an explicit buffer rather
       # than buried in the cover math. Set to 0 to use the strict gap.
       cover_buffer_days: 1
+      notes:
+        - "THE FRIDAY WINDOW IS REAL, NOT HYPOTHETICAL. Of 20 invoices over
+           2026-06-30..09-22, 12 landed Tuesday from the Monday cutoff and 6
+           landed FRIDAY. The Wednesday follow-up is a second ordering slot the
+           bar already uses most weeks, not a favour. requires_confirmation stays
+           true because the window is still at Bethany's discretion, but the
+           cover math should not assume it will be skipped."
+        - "TWO UNFLAGGED PRICE INCREASES THIS QUARTER. Red Bull, both regular
+           (201010) and sugar-free (0409127), went from $42.00 to $46.00 a case,
+           +9.5%. Aperol 1L (557367) went from $142.00 to $156.95, +10.5%. Red
+           Bull is a weekly line, so that is a standing cost increase."
+        - "BITTERS PACK SIZE UNCONFIRMED. The 2026-08-14 invoice carries 334995
+           Angostura Bitters and 976180 Angostura Orange, each at quantity 1 for
+           $182.30. At that price a 'unit' is a case, not a bottle. Once-a-quarter
+           buy, so the wrong unit sits in inventory unnoticed."
     windows:
       - key: sgws_monday
         order_weekday: monday
@@ -199,13 +214,36 @@ vendors:
     contact: {name: Tess Canby, phone: "(740) 583-4555"}
     rules:
       delivery_note: "Deliver after 9am, hallway behind bar."
+      notes:
+        - "MOVED FROM TUESDAY TO THURSDAY ON 2026-09-01. Every one of the 19
+           invoices from 2026-06-30 through 2026-08-25 landed on a TUESDAY. Every
+           one of the 7 invoices from 2026-09-03 onward landed on a THURSDAY, four
+           consecutive weeks, with no Tuesday since. Thursday is the live schedule
+           and Wednesday 17:00 is the real cutoff."
+        - "WHY THE WINDOW LENGTH MATTERS. Across the whole quarter this vendor
+           reads as a Tuesday-AND-Thursday vendor (19 Tue, 16 Thu). It is not: it
+           is a Tuesday vendor that became a Thursday vendor. A quarter is long
+           enough to hide a regime change the same way a single month was short
+           enough to make a September launch look like an established staple. Check
+           for a changeover date before averaging any weekday distribution."
+        - "DUPLICATE INVOICES, 2026-08-12..13, $365.89. Heidelberg changed invoice
+           numbering mid-August from seven digits (9245930) to nine (900001202).
+           During the cutover two invoices arrived under both the bare sequence
+           number and the prefixed one: 2919 (8/12, $175.95) == 900002919 (8/13,
+           $185.95), and 4341 (8/13, $189.94) == 900004341 (8/13, $179.94). Both
+           pairs carry identical product lines at identical unit prices; only the
+           fee presentation differs. Credit not yet requested."
+        - "DE-DUPLICATION RULE: before approving a Heidelberg invoice, strip a
+           leading '9000' from the invoice number and compare the tail against
+           invoices already recorded for the same week."
     windows:
       - key: heidelberg_wednesday
         order_weekday: wednesday
         order_time: "17:00"
         delivery_weekday: thursday
         delivery_time: "12:00"
-        note: "Delivers Thursday PM."
+        note: "Delivers Thursday PM. Moved here from a Tuesday delivery on
+               2026-09-01; the Tuesday habit outlasted the change."
 
   - key: hillcrest
     name: Hillcrest Foodservice
@@ -372,6 +410,43 @@ vendors:
         note: "Order day and cutoff both confirmed by the operator: Sunday by
                17:00 (2026-09-29). Invoices landed Tue x3 and Wed x1 over the
                sampled month, so Tuesday is the modal delivery, not guaranteed."
+
+  - key: buckeye
+    name: Buckeye Beverage
+    channel: phone
+    rules:
+      notes:
+        - "MISSING FROM THE GUIDE AND THIS FILE UNTIL 2026-09-29. Supplies the
+           fountain, every BIB mixer, the bar juices and the CO2 and nitrogen for
+           the draft system: 19 items, $7,789.08 across 17 invoices over
+           2026-06-29..09-21. More spend than Sixth City, Berardi's, Hartzler or
+           Cavalier, all of which were already here."
+        - "HOW IT WAS MISSED. The vendor list came from TH_ORDER_GUIDE.docx and was
+           then checked only against a top-12-by-spend ranking. Buckeye ranks 13th.
+           Ranking inside a list that has already been narrowed cannot surface what
+           the list left out. The fix is to enumerate vendors from invoices, not to
+           re-sort the list you started with."
+        - "DELIVERS MONDAY. 12 of 17 invoices and about 82% of spend land Monday,
+           and every week in the quarter has a Monday invoice. The few Fri/Thu/Sun
+           invoices are small top-ups."
+        - "ORDER CUTOFF IS NOT KNOWN. This is why the vendor has no window: a
+           window requires a cutoff, and inventing one would have the engine
+           recommend a deadline that may not exist. ASK THE REP, then add a window
+           with delivery_weekday: monday."
+        - "CO2 AND NITROGEN BILL AT ZERO. Codes 1003 ('20# Pop') and 1010
+           ('50# Beer') are supplied at no charge under the STA program. A line
+           that costs nothing is a line nobody reconciles, and when it runs out
+           the draft system stops. Cylinder count belongs on the Monday receiving
+           check."
+        - "PINEAPPLE JUICE IS DUAL-SOURCED. Buckeye code 269 resolves to the same
+           MarginEdge product as Hillcrest code 50001 'Juice Pure Pineapple'. Both
+           are being bought; a product-level count double-counts it."
+        - "TWO NEAR-PAIRS THAT ARE NOT DUPLICATES, CHECKED 2026-09-29: invoices
+           159063 (7/6) and 159345 (7/10) are each one Nitrogen Large at $61.45,
+           four days apart, which is ordinary cylinder turnover; 159994 (7/24) and
+           160054 (7/26) are Coca-Cola 5 GAL and Diet Coke 5GAL, distinct products
+           that happen to share a $142.78 price. Same-total and same-price are not
+           evidence of a double bill on their own."
 
   - key: oyo
     name: OYO Vodka

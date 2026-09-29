@@ -88,5 +88,8 @@ def test_seed_vendor_calendar_matches_the_order_guide(seed_catalog):
         assert window.delivery_weekday == delivery_weekday
 
     assert seed_catalog.vendor("oyo").windows == ()
+    # Buckeye delivers Monday on 12 of 17 invoices but its cutoff has never been
+    # recorded, so it carries no window rather than a guessed one.
+    assert seed_catalog.vendor("buckeye").windows == ()
     followup = seed_catalog.vendor("southern_glazers").window("sgws_wednesday_followup")
     assert followup.requires_confirmation and followup.confirm_with == "Bethany"

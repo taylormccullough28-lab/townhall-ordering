@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import time
+
 import pytest
 import yaml
 
@@ -332,15 +334,55 @@ class TestHighVolumeVendorWindows:
         # pending on anyone outside the building.
         assert not any(w.requires_confirmation for w in vendor.windows)
 
-    def test_no_vendor_is_left_without_a_window_except_the_backup(self):
-        """OYO is order-through-Arena-first, so it is the only blank left."""
+    def test_only_two_vendors_are_left_without_a_window(self):
+        """Two blanks, for two different reasons, and neither is an oversight.
+
+        OYO routes through Arena, so it has no cutoff of its own to record.
+        Buckeye's delivery day is unambiguous - Monday, 12 of 17 invoices - but
+        nobody has ever recorded the cutoff, and a window cannot be written
+        without one. Inventing a plausible time would have the engine hand a
+        manager a deadline that may not exist, which is worse than a blank.
+
+        This assertion is the outstanding-work list. A third key appearing here
+        means a vendor lost its window; buckeye disappearing means somebody
+        finally asked the rep.
+        """
         from thbev.catalog.loader import load_catalog
 
         catalog = load_catalog()
         windowless = sorted(
             key for key, vendor in catalog.vendors.items() if not vendor.windows
         )
-        assert windowless == ["oyo"]
+        assert windowless == ["buckeye", "oyo"]
+
+    def test_buckeye_is_in_the_catalog_at_all(self):
+        """Buckeye was absent until 2026-09-29 despite outspending four vendors
+        that were present. It supplies the draft gas, so an absent vendor is an
+        unordered CO2 cylinder.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        assert "buckeye" in catalog.vendors
+        assert catalog.vendors["buckeye"].name == "Buckeye Beverage"
+
+    def test_heidelberg_delivers_thursday_not_tuesday(self):
+        """Heidelberg moved Tuesday -> Thursday on 2026-09-01.
+
+        Over the full quarter the invoices split 19 Tuesday / 16 Thursday, which
+        reads as a two-day-a-week vendor. It is not: every Tuesday predates
+        2026-09-01 and every invoice after it is a Thursday. The window must
+        follow the current regime, not the quarter's average.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        windows = catalog.vendors["heidelberg"].windows
+        assert len(windows) == 1
+        window = windows[0]
+        assert window.delivery_weekday == 3  # Thursday
+        assert window.order_weekday == 2  # Wednesday
+        assert window.order_time == time(17, 0)
 
 
 class TestHartzlerIsTwoItems:
