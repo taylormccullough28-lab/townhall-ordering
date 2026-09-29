@@ -11,7 +11,16 @@ are populated — that way one master order can be assembled from whichever cate
 | `smoothie-powder-prep/` | 4 powder prep recipes (Strawberry, Longevity, Being Brigid 2.0, Keto 2.0) | 20 of 21 priced; cacao powder unsourced |
 | `cocktail-prep/` | Cocktail / bar prep recipes and SKUs | Awaiting recipes |
 | `cafe-prep/` | Cafe recipes and SKUs (açaí bowl, etc.) | 2 SKUs; awaiting recipes |
-| `unassigned-skus.md` | Products seen in order history, not yet matched to a recipe | 15 items |
+| `unassigned-skus.md` | Superseded by the workbook's Unassigned section; kept as a record | 15 items |
+
+## The deliverable
+
+**`TownHall-Order-Guide.xlsx`** is the working order guide — 40 product lines across 7 sections
+(smoothie powder prep, other vendors, smoothie liquid mix, cocktail/bar prep, cafe, unassigned,
+in-house). Fill the yellow On Hand and Order Qty columns; everything else calculates. Tabs:
+Recipe Usage · Order Guide · Notes & Flags · Bar Prep Reference.
+
+The markdown files below are the working analysis behind it.
 
 ## Files
 
