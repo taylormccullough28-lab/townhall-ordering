@@ -150,12 +150,35 @@ all of it, and both are verified below.
 
 Same product (`companyConceptProductId 171721217`), same pack size, same last-priced date:
 
+> ### ⚠️ CORRECTION (2026-09-29, verified)
+> **The table below originally said both units were "last priced 2025-09-29." That was wrong**, and
+> so was the conclusion drawn from it. `Get_product_price_history` defaults to a 12-month window and
+> reports the oldest in-window point *at the window boundary*, which made both units look freshly
+> and identically priced. Re-queried with `startDate=2019-01-01`:
+>
+> | | Columbus | Cleveland |
+> |---|---|---|
+> | Price points, all time | **exactly 1** | **~90** |
+> | Date range | **2022-02-16 only** | 2022-02-16 → **2025-09-25** |
+> | Vendor items | **none** | 6 |
+> | Current EACH | $56.76 (4.5 yrs old) | $26.99 |
+>
+> **This is not a vendor-negotiation gap. Columbus has no supplier record for this product at all** —
+> one orphaned 2022 price point that nothing has updated since. Cleveland is the only unit actually
+> buying it.
+>
+> **The "$163/batch saving" claimed below is not reliable.** Cleveland's own EACH price swings from
+> **$23.90 to $78.39** ($1.24–$4.06 per ounce) across that history, because several different pack
+> sizes are all recorded as one "EACH." Comparing one dead 2022 Columbus point against one arbitrary
+> recent Cleveland point is not a like-for-like comparison. The real finding is that **both units'
+> per-gram collagen costs are unreliable**, and Columbus needs the vendor item Cleveland already has.
+
 | | Columbus | Cleveland |
 |---|---|---|
 | Price EACH | **$56.76** | **$26.99** |
 | Per ounce | **$2.94** | **$1.40** |
 | Implied pack | 19.3 oz | 19.3 oz |
-| Last priced | 2025-09-29 | 2025-09-29 |
+| Last priced | ~~2025-09-29~~ **2022-02-16** | ~~2025-09-29~~ **2025-09-25** |
 
 Effect on Longevity Powder Mix (identical 3,000 g line):
 
@@ -171,8 +194,8 @@ Effect on Longevity Powder Mix (identical 3,000 g line):
 One line explains the entire Longevity gap. For reference, the Amazon Orgain Keto Collagen is
 $2.00/oz — **between** the two, so Cleveland is buying it better than retail and Columbus worse.
 
-> **Both prices were last updated 2025-09-29 — exactly 12 months ago.** Neither unit has repriced
-> this product in a year, on the largest line in the program.
+> **Superseded by the correction above.** Columbus's price is from 2022-02-16 and is the only one it
+> has ever had; Cleveland's runs to 2025-09-25.
 
 ## Root cause 2 — Columbus is charging $42.20 for water
 
@@ -201,10 +224,15 @@ line. Worth checking — it's the remaining chunk of the Longevity smoothie diff
 
 ## What to do
 
-1. **Reprice chocolate collagen at Columbus.** If Columbus can buy at Cleveland's $26.99, Longevity
-   Powder Mix drops **$163/batch**. This is the single largest actionable item found anywhere in
-   this project. First question: are both units actually buying the same pack from the same vendor,
-   or has Columbus's price simply never been corrected?
+1. **Give Columbus a vendor item for chocolate collagen.** It has none — its cost is a single
+   orphaned 2022 price point. Cleveland has 6 vendor items and buys regularly. This is still the
+   largest item found, but the fix is a missing supplier record, not a price negotiation, and the
+   size of the saving can't be stated until the pack conversion below is fixed.
+1a. **Fix the pack conversions.** Four products have wrong EACH→ounce factors: chocolate collagen
+   (one "19.3 oz" factor covering real 17.6 / 14.1 / 42.3 oz packs), vanilla collagen (19.3 vs a
+   real 10.6 oz), sea moss (8 vs a real 16 oz), and water (1 case treated as 1 gallon). **Margin
+   Edge's invoice prices are sound; the per-ounce and per-gram figures layered on them are not.**
+   Derive $/g from pack price ÷ real pack weight instead.
 2. **Zero out the Columbus water cost.** Pure data fix, worth $42.20 on every Being Brigid Liquid Mix.
 3. **Reprice anything last touched 2025-09-29.** Both units' collagen is a year stale; there are
    likely others.
