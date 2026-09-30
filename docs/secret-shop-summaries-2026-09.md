@@ -30,7 +30,7 @@ Company rank: **#1 of 1** · National rank: **#1 of 1**
 
 ### Missed points by position
 
-**SERVER — Casey** *(lost 35 points — the whole story of this shop)*
+**SERVER — Casey** *(lost 36 points — the whole story of this shop)*
 - Did not introduce the beer list — **0/2**
 - Did not introduce the cocktail list — **0/2**
 - Did not introduce the special menu — **0/5**
@@ -80,7 +80,7 @@ Company rank: **#1 of 1** · National rank: **#1 of 1**
 
 > *"She said, 'I don't know, let me check and I will get back with you.' She did not ask to place me on hold."* Otherwise strong — used her name, knew burger night and the sushi menu, thanked the caller.
 
-**SERVER — Tiffany** *(lost 25 points)*
+**SERVER — Tiffany** *(lost 28 points)*
 - Not greeted within one minute — **0/2** *(10 minutes to first contact)*
 - Wait-to-greet time — **0/2**
 - Did not introduce the beer list — **0/2**
