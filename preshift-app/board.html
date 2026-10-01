@@ -339,6 +339,9 @@ details.mgr summary:hover{color:var(--accent)}
         <input class="tin" id="inBrD" type="text" placeholder="Style / ABV" aria-label="Style and ABV">
         <button class="btn" id="addBr" type="button">Add</button>
       </div>
+      <div class="addrow" data-writer>
+        <button class="btn" id="noBrBtn" type="button">No new beers</button>
+      </div>
     </div>
   </section>
 
@@ -393,8 +396,6 @@ details.mgr summary:hover{color:var(--accent)}
   <section class="card">
     <header><h2>Completions</h2><span class="hint">Answer before doors</span></header>
     <div class="body">
-      <div class="subhead">1 Huddle</div>
-      <div id="grid1h"></div>
       <div class="subhead">7shifts</div>
       <div id="grid7s"></div>
     </div>
@@ -490,6 +491,7 @@ var manager=null, uid=null, canWrite=null, readOnly=false;
 var stores = SEED_STORES.slice();
 var state = { store:SEED_STORES[0].id, date:todayStr(), shift:"pm", shiftData:null, docExists:false };
 var unsubBoard=null;
+var selfWrites=Object.create(null);  /* updated_at values this view caused */
 var writeChain = Promise.resolve();
 var pendingRerender = false;
 var debounceTimers = {};
@@ -548,7 +550,7 @@ function flushDebounce(key){
 
 /* ---------------- data shape ---------------- */
 function emptyShift(){
-  return { goal:"", eightySix:[], marketingList:[], beers:[], events:[], notes:[],
+  return { goal:"", eightySix:[], marketingList:[], beers:[], noBeers:false, events:[], notes:[],
            close:"", textFriends:true,
            staffCounts:{}, leads:{}, tastePlate:{}, coach:{}, huddle1:{}, sevenshifts:{}, checks:{}, cleaning:[],
            updatedAt:null, updatedBy:null };
@@ -601,7 +603,8 @@ function patchShift(patch){
       if(Object.keys(content).length) jobs.push(Api.boards.patchContent(b.id, content));
       if(coaching) jobs.push(Api.boards.patchCoaching(b.id, coaching));
       return Promise.all(jobs);
-    }).then(function(){
+    }).then(function(rows){
+      (rows||[]).forEach(function(r){ if(r && r.updated_at) selfWrites[r.updated_at]=1; });
       state.docExists=true;
       if(!unsubBoard && state.boardId) watchBoard(state.boardId);
     });
@@ -758,8 +761,17 @@ function renderMarketing(){
 function renderBeers(){
   var list=$("listBr"); if(guarded(list)) return;
   var items=cur().beers||[];
+  var none=cur().noBeers===true;
   list.textContent="";
-  $("eBr").hidden = items.length>0;
+  /* Saying "none" is different from not having answered: the empty prompt is
+     for the second case only. */
+  $("eBr").hidden = items.length>0 || none;
+  var nb=$("noBrBtn");
+  if(nb){
+    nb.textContent = none ? "No new beers \u2014 saying so" : "No new beers";
+    nb.setAttribute("aria-pressed", none ? "true" : "false");
+    nb.className = none ? "btn primary" : "btn";
+  }
   items.forEach(function(it){
     var li=el("li","row");
     if((it.tap||"").trim()) li.appendChild(el("div","rowtime","Tap "+it.tap.trim()));
@@ -812,6 +824,14 @@ function setYN(fieldKey, posKey, v){
   next[posKey]={v:v, by:uid||null, at:new Date().toISOString()};
   var p={}; p[fieldKey]=next;
   patchShift(p);
+
+  /* Repaint this grid now. patchShift updates local state but only refreshes
+     the status line and the post preview, so without this the button does not
+     show the tap until the write round-trips and the realtime echo lands -
+     which is what made these feel laggy. */
+  var grids = { sevenshifts:["grid7s", POS_7S], checks:["gridChecks", CHECKS] };
+  var g = grids[fieldKey];
+  if(g) renderYN(g[0], fieldKey, g[1]);
 }
 
 function renderGroup(containerId, fieldKey, rows, isNum){
@@ -977,7 +997,11 @@ function buildPost(){
   }
 
   var beers=(d.beers||[]);
-  if(beers.length){
+  if(d.noBeers===true && !beers.length){
+    out.push("");
+    out.push("NEW BEERS");
+    out.push("None tonight.");
+  } else if(beers.length){
     out.push("");
     out.push("NEW BEERS");
     beers.forEach(function(b){
@@ -994,6 +1018,13 @@ function buildPost(){
     out.push("");
     out.push("EVENTS");
     ev.forEach(function(e){ out.push((e.time?e.time+" \u2014 ":"")+e.text); });
+  }
+
+  var cl=(d.cleaning||[]);
+  if(cl.length){
+    out.push("");
+    out.push("CLEANING");
+    cl.forEach(function(c){ out.push(c.text); });
   }
 
   var nt=(d.notes||[]);
@@ -1018,7 +1049,6 @@ function renderAll(){
   renderGroup("grpLeads","leads",POS_LEADS,false);
   renderGroup("grpTaste","tastePlate",POS_TASTE,false);
   renderGroup("grpCoach","coach",POS4,false);
-  renderYN("grid1h","huddle1",POS_7S);
   renderYN("grid7s","sevenshifts",POS_7S);
   renderYN("gridChecks","checks",CHECKS);
   renderCleaning();
@@ -1092,10 +1122,16 @@ $("inMk").onkeydown=function(e){ if(e.key==="Enter"){ e.preventDefault(); addMar
 function addBeer(){
   var n=$("inBrN").value.trim(); if(!n) return;
   var next=(cur().beers||[]).concat([{id:uidgen(), tap:$("inBrT").value.trim(), name:n, detail:$("inBrD").value.trim()}]);
+  if(cur().noBeers===true) patchShift({noBeers:false});
   $("inBrT").value=""; $("inBrN").value=""; $("inBrD").value="";
   patchShift({beers:next});
 }
 $("addBr").onclick=addBeer;
+$("noBrBtn").onclick=function(){
+  /* Adding a beer means there are some, so the flag clears itself in addBeer. */
+  patchShift({noBeers: cur().noBeers!==true});
+  renderBeers(); renderPreview();
+};
 $("inBrT").onkeydown=function(e){ if(e.key==="Enter"){ e.preventDefault(); $("inBrN").focus(); } };
 $("inBrN").onkeydown=function(e){ if(e.key==="Enter"){ e.preventDefault(); $("inBrD").focus(); } };
 $("inBrD").onkeydown=function(e){ if(e.key==="Enter"){ e.preventDefault(); addBeer(); } };
@@ -1233,7 +1269,14 @@ function applyBoard(b){
 function watchBoard(id){
   if(unsubBoard){ unsubBoard(); unsubBoard=null; }
   unsubBoard = Api.boards.subscribe(id, function(row){
-    if(row && row.id === state.boardId) applyBoard(row);
+    if(!row || row.id !== state.boardId) return;
+    /* An echo of our own write. Re-rendering the whole board on every tap is
+       both wasteful and visibly jumpy; the local state is already correct. */
+    if(row.updated_at && selfWrites[row.updated_at]){
+      delete selfWrites[row.updated_at];
+      return;
+    }
+    applyBoard(row);
   });
 }
 
