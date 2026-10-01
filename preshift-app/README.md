@@ -12,7 +12,8 @@ Vercel.
 | Board merge RPCs, realtime publication | Done, deep merge verified |
 | `data.js` — auth, boards, 86 list, names, posting | Written, **not executed** |
 | `index.html` — sign-in + a read-back of what RLS grants | Written, **not executed** |
-| Board UI port | Not started — waiting on sign-in being proven |
+| `board.html` — the board itself | Ported, **not executed** |
+| Admin screen for the roster | Not started |
 | Admin screen for the roster | Not started |
 
 **Nothing in `data.js` has been run.** The environment it was written in cannot
@@ -51,6 +52,42 @@ exists outside that host, which is the whole reason for this rebuild:
 `data.js` is a real API rather than a shim imitating the artifact one — a fake
 Firestore-ish surface over Supabase would read as a mystery to whoever picks
 this up.
+
+## The port
+
+`board.html` is the prototype with its data layer swapped, not a rewrite. The UI,
+CSS, post builder and section rendering are the proven ones. Every write in the
+prototype funnelled through a single `patchShift`, and only five places touched
+the data layer at all, so the port is six patch points:
+
+| Prototype | Now |
+|---|---|
+| `patchShift` → `db.doc().set/update` | `boards.ensure` then `patchContent`, with `coach` split to `patchCoaching` |
+| `db.doc().onSnapshot` | one load, then a `postgres_changes` channel on that row |
+| `db.doc().get()` for carry-forward | `boards.load` of the previous shift |
+| `user.profiles()` | `people.names()` against the roster |
+| `db.doc("config/stores").set` | removed — stores are admin-only now, and the board no longer edits them |
+| artifact capability boot | magic-link gate, roster lookup, store list |
+
+### The 86 list is still in `content`
+
+Migration 0003 gives the 86 list its own table and the app does not use it yet.
+The UI patches the whole `eightySix` array in one write, so moving it to per-row
+inserts means changing six more call sites in code that cannot be run here. A
+working board first. The table stays because the reasoning for it holds — a real
+timestamp per item is what the "86 items added mid-shift" measure needs — and
+moving to it is the next migration once the board can actually be exercised.
+
+### Known gaps
+
+- **Posting will fail for `townhall-columbus`** until a bot row exists for it.
+  `preshift_bots` only has the `test` row. The error surfaces on the button.
+- **`readOnly` is never set.** The prototype derived it from a capability check.
+  Here every active roster manager can write their own store, and a refused
+  write would surface as a failed save rather than a disabled field.
+- **A board created by another manager mid-session is not subscribed to** until
+  this view writes or reloads, because the channel attaches to a row id that did
+  not exist at load.
 
 ## Access
 
