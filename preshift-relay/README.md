@@ -1,37 +1,70 @@
 # Pre-shift GroupMe relay
 
-One serverless function. The pre-shift board calls it; it forwards the text to a
+One edge function. The pre-shift board calls it; it forwards the text to a
 store's GroupMe group.
 
 It exists because a GroupMe `bot_id` is a bearer credential — anyone holding it
 can post to the group indefinitely, with no further authentication. The board is
 a page the browser downloads, so a `bot_id` placed in it is readable by every
 manager who opens the board, and by anyone they forward the link to. Keeping it
-in this function's environment is the whole point.
+server-side is the whole point.
 
-## Deploying
+## Where it runs
 
-This folder is the Vercel project root (set **Root Directory** to
-`preshift-relay`), so nothing else in this repository is served.
+Supabase project `supabase-coral-button` (`mbbnzzvqkcqjfhonwalb`), function
+`preshift-post`:
 
-## Environment variables
+```
+https://mbbnzzvqkcqjfhonwalb.supabase.co/functions/v1/preshift-post
+```
 
-| Name | Required | Notes |
-|---|---|---|
-| `GROUPME_BOT_ID` | yes | Set it in the Vercel dashboard. Never commit it, and don't paste it into a chat. |
-| `ALLOWED_ORIGINS` | no | Comma-separated. Empty means any origin is accepted — only acceptable while testing against a throwaway group. Set it once the board's real origin is known. |
+`verify_jwt` is on, so callers send the project's publishable key. That key is
+designed to live in client code; the `bot_id` is not, and does not.
+
+An earlier Vercel implementation was removed in favour of this one rather than
+kept alongside it — two relays would drift.
+
+## Where the bot id lives
+
+The `preshift_bots` table, one row per store, with RLS on and no policies. No
+browser can read it. The function reads it with the service role key, which
+Supabase injects into the function environment.
+
+Adding a store's bot is a SQL insert, not a code change:
+
+```sql
+insert into public.preshift_bots (store, bot_id, label)
+values ('townhall-columbus', '<bot id from dev.groupme.com/bots>', 'TownHall Columbus staff');
+```
 
 ## Checking it without posting
 
-`POST` with `{"dryRun": true}` reports whether the bot id is configured and
-echoes back the `Origin` it saw, without sending anything to GroupMe.
+```json
+{ "dryRun": true, "store": "test" }
+```
 
-## Known limits
+Reports whether the bot row is readable and echoes the `Origin` it saw. Sends
+nothing to GroupMe.
 
-- The rate limit is in-memory, so it is per warm instance rather than global. It
-  blunts a runaway loop; it is not a real quota.
-- Messages are split at 900 characters. GroupMe's actual cap is reported to be
-  around 1000 but is not confirmed against the API.
-- There is no caller authentication. Anyone with this URL can post to the group.
-  Revocability is what it buys you over an exposed `bot_id`: the endpoint can be
-  deleted or rotated without touching GroupMe.
+## Verified behaviour
+
+Both exercised against the test group on 2026-10-01, via `pg_net` from SQL:
+
+- dry run → `{"ok":true,"botConfigured":true,"wouldSend":1}`
+- live post → `{"ok":true,"messages":1}`, accepted by GroupMe
+
+## Limits, stated plainly
+
+- **No caller authentication beyond the publishable key**, which is public by
+  design. Anyone with the board can post to that store's group. What this buys
+  over an exposed `bot_id` is revocability and scope: the function can be
+  deleted or the row rotated without touching GroupMe, and the credential itself
+  never leaves the server. Real gating needs the app's logins.
+- **The rate limit is in-memory**, so per warm instance, not a global quota. It
+  blunts a runaway loop.
+- **Messages split at 900 characters.** GroupMe's real cap is reported near 1000
+  but is not confirmed against their docs, which were unreachable from the build
+  environment.
+- **`Access-Control-Allow-Origin` is `*`.** The board's sandboxed origin was not
+  determinable ahead of the first browser call; tighten this once a real click
+  reports it.
