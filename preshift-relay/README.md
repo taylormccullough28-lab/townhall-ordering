@@ -24,6 +24,32 @@ designed to live in client code; the `bot_id` is not, and does not.
 An earlier Vercel implementation was removed in favour of this one rather than
 kept alongside it — two relays would drift.
 
+## What a successful post does
+
+1. Splits the text if needed and posts each part to GroupMe.
+2. Writes a row to `post_log` — store, timestamp, length, parts. This is the
+   completion history; it is written server-side so a client cannot fabricate a
+   completion it never sent.
+3. Texts Taylor, if `sms_config.enabled` is set.
+
+Steps 2 and 3 are best-effort and cannot fail the response. By the time they
+run the post has already gone out, and a failed text must not make a manager
+think the post failed. The reason a text did not send is recorded in
+`post_log.notify_error` rather than thrown away.
+
+## The completion text
+
+A Twilio **toll-free** number, not a 10-digit one. A 10-digit number sending
+application traffic to US phones requires A2P 10DLC brand and campaign
+registration, and since 2026-06-30 a privacy policy URL and a terms URL on
+every campaign — disproportionate for texting one person. Toll-free needs only
+a verification review, about three business days, and costs roughly $2.15/month
+plus well under a dollar of messages at two shifts a day.
+
+Credentials go in `sms_config` through the Supabase dashboard, never through a
+chat window. Set `enabled = true` once the number is verified; no redeploy is
+needed.
+
 ## Where the bot id lives
 
 The `preshift_bots` table, one row per store, with RLS on and no policies. No
@@ -50,8 +76,13 @@ nothing to GroupMe.
 
 Both exercised against the test group on 2026-10-01, via `pg_net` from SQL:
 
-- dry run → `{"ok":true,"botConfigured":true,"wouldSend":1}`
-- live post → `{"ok":true,"messages":1}`, accepted by GroupMe
+- dry run → `{"ok":true,"botConfigured":true,"smsEnabled":false,"smsCredentialsPresent":false}`
+- live post → `{"ok":true,"messages":1,"logged":true,"notified":false,"notifyNote":"sms not enabled yet"}`
+- the resulting `post_log` row recorded `notified=false` with that reason, and
+  the post still returned success
+
+The Twilio leg itself is unexercised — there is no account or verified number
+yet.
 
 ## Limits, stated plainly
 

@@ -5,8 +5,10 @@
 // downloads, so a bot_id placed in it is readable by every manager who opens the
 // board and by anyone they forward the link to. It lives in the preshift_bots
 // table instead, which has RLS on and no policies - unreachable from any client.
-// Only the service role key, injected into this function's environment and never
-// sent to a browser, can read it.
+// Only the service role key, injected here and never sent to a browser, reads it.
+//
+// A successful post also logs a completion row and texts Taylor. The trigger is
+// server-side on purpose: a client cannot fabricate a completion it did not send.
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
@@ -14,6 +16,9 @@ const GROUPME_ENDPOINT = "https://api.groupme.com/v3/bots/post";
 const MAX_CHARS = 900;        // conservative; GroupMe's real cap is reported near 1000
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 6;           // per warm instance, not a global quota
+
+const SB_URL = Deno.env.get("SUPABASE_URL");
+const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 let recent: number[] = [];
 
@@ -28,6 +33,15 @@ function json(body: unknown, status = 200): Response {
     status,
     headers: { ...CORS, "Content-Type": "application/json" },
   });
+}
+
+function sbHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  return {
+    apikey: SB_KEY ?? "",
+    Authorization: `Bearer ${SB_KEY ?? ""}`,
+    "Content-Type": "application/json",
+    ...extra,
+  };
 }
 
 // Split on line boundaries so a post never breaks mid-sentence. A single
@@ -49,14 +63,80 @@ function splitMessage(text: string, limit: number): string[] {
 }
 
 async function botIdFor(store: string): Promise<string | null> {
-  const base = Deno.env.get("SUPABASE_URL");
-  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  if (!base || !key) return null;
-  const url = `${base}/rest/v1/preshift_bots?store=eq.${encodeURIComponent(store)}&select=bot_id`;
-  const r = await fetch(url, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+  if (!SB_URL || !SB_KEY) return null;
+  const url = `${SB_URL}/rest/v1/preshift_bots?store=eq.${encodeURIComponent(store)}&select=bot_id`;
+  const r = await fetch(url, { headers: sbHeaders() });
   if (!r.ok) return null;
   const rows = await r.json();
   return Array.isArray(rows) && rows[0]?.bot_id ? String(rows[0].bot_id) : null;
+}
+
+async function logPost(store: string, chars: number, parts: number): Promise<number | null> {
+  if (!SB_URL || !SB_KEY) return null;
+  const r = await fetch(`${SB_URL}/rest/v1/post_log`, {
+    method: "POST",
+    headers: sbHeaders({ Prefer: "return=representation" }),
+    body: JSON.stringify({ store, chars, parts }),
+  });
+  if (!r.ok) return null;
+  const rows = await r.json();
+  return Array.isArray(rows) && rows[0]?.id ? Number(rows[0].id) : null;
+}
+
+async function markNotified(id: number, ok: boolean, err: string | null): Promise<void> {
+  if (!SB_URL || !SB_KEY) return;
+  await fetch(`${SB_URL}/rest/v1/post_log?id=eq.${id}`, {
+    method: "PATCH",
+    headers: sbHeaders(),
+    body: JSON.stringify({ notified: ok, notify_error: err }),
+  }).catch(() => {});
+}
+
+interface SmsConfig {
+  account_sid: string | null;
+  auth_token: string | null;
+  from_number: string | null;
+  to_number: string | null;
+  enabled: boolean;
+}
+
+async function smsConfig(): Promise<SmsConfig | null> {
+  if (!SB_URL || !SB_KEY) return null;
+  const r = await fetch(`${SB_URL}/rest/v1/sms_config?id=eq.1&select=*`, { headers: sbHeaders() });
+  if (!r.ok) return null;
+  const rows = await r.json();
+  return Array.isArray(rows) && rows[0] ? rows[0] as SmsConfig : null;
+}
+
+// Returns null on success, otherwise a short reason. Never throws to the caller:
+// the GroupMe post has already gone out by this point, and a failed text must not
+// make the manager think the post failed.
+async function sendCompletionText(store: string, parts: number): Promise<string | null> {
+  const c = await smsConfig();
+  if (!c) return "sms_config unreadable";
+  if (!c.enabled) return "sms not enabled yet";
+  if (!c.account_sid || !c.auth_token || !c.from_number || !c.to_number) {
+    return "sms credentials incomplete";
+  }
+  const suffix = parts > 1 ? ` (${parts} parts)` : "";
+  const body = new URLSearchParams({
+    From: c.from_number,
+    To: c.to_number,
+    Body: `Pre-shift board posted for ${store}${suffix}.`,
+  });
+  const r = await fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(c.account_sid)}/Messages.json`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Basic " + btoa(`${c.account_sid}:${c.auth_token}`),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    },
+  );
+  if (!r.ok) return `twilio ${r.status}: ${(await r.text()).slice(0, 200)}`;
+  return null;
 }
 
 Deno.serve(async (req: Request) => {
@@ -70,16 +150,20 @@ Deno.serve(async (req: Request) => {
   const text = typeof body.text === "string" ? body.text.trim() : "";
   const origin = req.headers.get("origin") ?? "(none sent)";
 
-  // Confirms the function is live, the bot row is readable, and what Origin the
-  // caller sends - without putting anything in anyone's GroupMe.
+  // Confirms the function is live, the bot row is readable, whether the text is
+  // wired up, and what Origin the caller sends - without putting anything in
+  // anyone's GroupMe or sending a text.
   if (body.dryRun) {
     const id = await botIdFor(store);
+    const c = await smsConfig();
     return json({
       ok: true,
       dryRun: true,
       store,
       sawOrigin: origin,
       botConfigured: Boolean(id),
+      smsEnabled: Boolean(c?.enabled),
+      smsCredentialsPresent: Boolean(c?.account_sid && c?.auth_token && c?.from_number && c?.to_number),
       wouldSend: text ? splitMessage(text, MAX_CHARS).length : 0,
     });
   }
@@ -120,5 +204,23 @@ Deno.serve(async (req: Request) => {
     }
     sent++;
   }
-  return json({ ok: true, messages: sent, store });
+
+  // The post is out. Everything below is best-effort and cannot fail the result.
+  const logId = await logPost(store, text.length, sent).catch(() => null);
+  let notifyError: string | null = "not attempted";
+  try {
+    notifyError = await sendCompletionText(store, sent);
+  } catch (e) {
+    notifyError = String(e).slice(0, 200);
+  }
+  if (logId !== null) await markNotified(logId, notifyError === null, notifyError);
+
+  return json({
+    ok: true,
+    messages: sent,
+    store,
+    logged: logId !== null,
+    notified: notifyError === null,
+    notifyNote: notifyError,
+  });
 });
