@@ -424,3 +424,123 @@ class TestHartzlerIsTwoItems:
             product = catalog.products[key]
             assert product.unit_label == "case"
             assert product.order_critical is True
+
+
+class TestRotatingKegVendors:
+    """Sixth City and Cavalier, the two vendors the guide knew least about.
+
+    Both are ordered by reading styles off a rep's availability list, so the
+    catalog's job here is not to name SKUs - it is to carry the two facts that
+    conversation never covers: which day the kegs actually land, and what a keg
+    is allowed to cost.
+    """
+
+    def test_sixth_city_delivers_wednesday_not_tuesday(self):
+        """11 of 11 invoices, 2026-06-24..09-16, landed Wednesday.
+
+        vendors.yaml and test_end_to_end both carried Tuesday until 2026-10-01
+        while the PRD appendix already said Wednesday. Two of the three sources
+        agreed with each other and were wrong; the invoices decided it. A
+        Tuesday here means the order is placed believing there is a day of cover
+        that does not exist.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        window = catalog.vendor("sixth_city").window("sixth_city_monday")
+        assert window.delivery_weekday == 2  # Wednesday
+        assert window.lead_days == 2
+
+    def test_both_rotating_vendors_carry_a_pour_cost_ceiling(self):
+        """A style-and-count order has no natural place to notice price.
+
+        Across the quarter a 1/6 bbl ran $49.99 to $224.99 - $1.28 to $5.74 a
+        pint, a 14%-64% pour cost at $9 - and nothing in the ordering flow
+        mentioned cost, because the brief is written in styles. The ceiling is
+        the only guard against agreeing to a $5.74 pint by saying yes to
+        "something pumpkin".
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key in ("sixth_city", "cavalier"):
+            rules = catalog.vendor(key).rules
+            assert rules.style_only is True
+            assert rules.max_cost_per_pint == 3.00, key
+
+    def test_the_ceiling_actually_survives_the_loader(self):
+        """Guards the bug this was written with.
+
+        max_cost_per_pint sat in vendors.yaml for one commit while the loader
+        ignored it, so the rule existed in the seed data and nowhere else. The
+        loader builds VendorRules field by field, so any rules key it does not
+        name is dropped in silence.
+        """
+        from thbev.catalog.models import VendorRules
+
+        assert "max_cost_per_pint" in VendorRules.__dataclass_fields__
+        assert VendorRules().max_cost_per_pint == 0.0
+
+    def test_no_other_vendor_claims_a_pour_ceiling(self):
+        """The ceiling belongs to style-ordered lines only.
+
+        A vendor whose order names SKUs has a price on the sheet in front of
+        you. Putting a ceiling on those would silently suppress a staple.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        capped = sorted(
+            key
+            for key, vendor in catalog.vendors.items()
+            if vendor.rules.max_cost_per_pint
+        )
+        assert capped == ["cavalier", "sixth_city"]
+
+    def test_cavalier_keeps_its_named_sku_despite_being_style_only(self):
+        """Bumble Berry is 38% of the account - it must not collapse into a style.
+
+        5 orders, 7 half-barrels, $1,189.93 over 2026-06-30..09-15. The guide
+        called it an exception to Cavalier's "1/6 bbl only" rule; the quarter
+        says it is the rule and the 1/6 rotation is the sideline.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        named = [
+            key
+            for key, p in catalog.products.items()
+            if p.vendor == "cavalier" and getattr(p, "named_sku", False)
+        ]
+        assert named, "Cavalier must keep at least one named SKU"
+        assert any("bumble" in catalog.products[k].name.lower() for k in named)
+
+    def test_cavalier_carries_the_non_keg_items_too(self):
+        """14% of the Cavalier account is not beer, and it was invisible.
+
+        $429.84 of the 2026-06-30..09-15 quarter is cherries, rhubarb liqueur and
+        prosecco. The guide collapsed this vendor to "rotating kegs, ask Dan",
+        which left bar prep to memory on a vendor nobody thinks of as a prep
+        supplier. style_only has to apply to the rotating portion of an account,
+        never to the whole account.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key in ("amarena_cherries", "giffard_rhubarb_750",
+                    "sun_goddess_prosecco_rose"):
+            product = catalog.products[key]
+            assert product.vendor == "cavalier", key
+            # Each must survive the rotating-line collapse on its own.
+            assert product.named_sku is True, key
+
+    def test_the_amarena_cherries_are_order_critical(self):
+        """Bought twice in the quarter, so it is a running line, not a one-off.
+
+        It is also the one item here that stops a drink being made rather than
+        merely narrowing the list.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        assert catalog.products["amarena_cherries"].order_critical is True

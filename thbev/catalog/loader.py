@@ -280,6 +280,7 @@ def _load_vendors(doc: dict[str, Any]) -> dict[str, Vendor]:
             delivery_note=rules_doc.get("delivery_note"),
             minimum_order_units=float(rules_doc.get("minimum_order_units", 0) or 0),
             cover_buffer_days=int(rules_doc.get("cover_buffer_days", 0) or 0),
+            max_cost_per_pint=float(rules_doc.get("max_cost_per_pint", 0) or 0),
             emergency_contact=Contact(**emergency) if emergency else None,
             notes=list(rules_doc.get("notes", []) or []),
         )

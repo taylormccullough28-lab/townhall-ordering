@@ -182,14 +182,48 @@ vendors:
       style_only: true
       style_unit: "1/6 bbl"
       keg_return_required: true
+      max_cost_per_pint: 3.00
       notes:
         - "Rotating line. Output is a style-and-count recommendation, never a SKU."
+        - "DELIVERS WEDNESDAY, 11 of 11 invoices over 2026-06-24..09-16, no
+           exceptions. This file carried Tuesday until 2026-10-01 while the PRD
+           appendix already said Wednesday; the invoices settle it. Eleven
+           deliveries in thirteen weeks - the gaps are 2026-07-08 and 09-09."
+        - "45 DISTINCT KEG PRODUCTS IN ONE QUARTER, 3 REPEATS. 51 keg lines, and
+           only Shacksbury Blackberry Lime Cider, Jolly Scholar Cold Beer Here and
+           the seasonal Immigrant Son Gourdians were ever bought twice. A trailing
+           average over this vendor reads '1' for everything, which is why the
+           rotating line is excluded from baseline learning entirely."
+        - "STYLE_UNIT IS NEARLY TRUE: 51 of 52 keg lines are 1/6 bbl. The exception
+           is one 50 L (Voodoo Purple Lacto-Kooler, $239.99), so the unit is a
+           strong default rather than a constraint."
+        - "COST SPREAD IS THE UNMANAGED RISK. A 1/6 bbl ran $49.99 to $199.99 this
+           quarter: $1.28 to $5.10 per 16oz pint, a 14%-57% pour cost at a $9 pint.
+           The ordering conversation is conducted in styles and has never mentioned
+           price. 450 North Supersize Painkiller ($199.99, $5.10/pint) cannot go on
+           the house draft price. See max_cost_per_pint."
+        - "DUPLICATE INVOICE 2026-07-29, ~$310. Invoices 112661 and 112551 are the
+           same four kegs at the same prices with the same deposit counts; the
+           numbers differ only in one position (66 vs 55). 112551 arrived on the
+           vendor CSV feed, 112661 from a hand-keyed mobile photo of the paper copy.
+           Credit not yet requested."
+        - "DEPOSITS ARE CLEAN: 47 charged, 44 returned, $90 (3 kegs) outstanding -
+           the control group that shows Superior's $990 is a real problem rather
+           than normal slippage."
+        - "CREDIT RECORDS ARE DOUBLE-COUNTED, IN OUR FAVOUR, $870.02. Six deposit
+           returns exist both as a line inside the invoice and as a standalone empty
+           credit record suffixed 'C' (110945C, 111842C, 112661C, 113069C, 113489C,
+           113833C) plus one orphan stub with no invoice number. Every stub has no
+           line items and no attachment and matches its parent's return line. If AP
+           processed both, TownHall UNDERPAID Sixth City. A duplicate check that
+           only looks for overpayment will never surface this."
     windows:
       - key: sixth_city_monday
         order_weekday: monday
         order_time: "17:00"
-        delivery_weekday: tuesday
+        delivery_weekday: wednesday
         delivery_time: "09:00"
+        note: "Corrected from Tuesday to Wednesday 2026-10-01 on 11 of 11 invoices."
 
   - key: cavalier
     name: Cavalier Distributing
@@ -199,8 +233,40 @@ vendors:
       style_only: true
       style_unit: "1/6 bbl"
       keg_return_required: true
+      max_cost_per_pint: 3.00
       notes:
-        - "Rotating line. Output is a style-and-count recommendation, never a SKU."
+        - "Rotating line. Output is a style-and-count recommendation, never a SKU -
+           EXCEPT the named SKUs, which survive the collapse. See named_sku."
+        - "THE '1/6 BBL ONLY' RULE IS STALE - SETTLED 2026-10-01. Cavalier ran three
+           formats over 2026-06-30..09-15: nine 1/6 bbl, five 1/2 bbl (all Bumble
+           Berry) and one 1/4 bbl (Cider Caramel Apple, $119.99 - the only quarter
+           barrel anywhere in the data). style_unit stays 1/6 bbl as the default for
+           the ROTATING portion only."
+        - "FAT HEAD'S BUMBLE BERRY IS THE ACCOUNT, NOT AN EXCEPTION. 5 orders, 7
+           half-barrels, $1,189.93 - 38% of everything Cavalier sold us. At 0.64
+           kegs/week over the 11-week span the catalog's 0.70/wk rate holds."
+        - "FORMAT IS WORTH MORE THAN BRAND CHOICE. A 1/2 bbl at $169.99 pours at
+           $1.45 per 16oz pint; the median 1/6 bbl at $109.99 pours at $2.81 -
+           roughly double per ounce. Sixths buy variety and less risk of a keg going
+           flat. That is a defensible trade for a rotating tap and an expensive one
+           for anything that sells steadily, which is why Bumble Berry is a half."
+        - "MOST EXPENSIVE PINT IN THE BUILDING: Platform Pumpkin Kerfuffle, $224.99
+           per 1/6 bbl = $5.74 per pint, a 64% pour cost at $9. See
+           max_cost_per_pint."
+        - "NOT A KEG-ONLY VENDOR. $429.84 of the quarter is Fab Amarena Cherries
+           Syrup (code 16234, bar prep, bought twice), Giffard Rhubarb Liqueur
+           (17952, 6 bottles) and Vol Sun Goddess Prosecco Rose (26705, 12 bottles).
+           Ordering this account as 'rotating kegs, ask Dan' leaves the cherries and
+           the rhubarb to memory."
+        - "DUPLICATE INVOICE 2026-07-07, $234.31, CAUSED BY ONE CHARACTER. O-5054012
+           (letter O, vendor CSV feed) and 0-5054012 (digit zero, hand-keyed mobile
+           photo) are the same Bumble Berry and the same four Prosecco bottles. A
+           third record, 0-43820003 at -$60.00, re-credits a deposit return already
+           inside O-5054012. Credit not yet requested."
+        - "DEPOSITS ARE CLEAN: 17 charged, 14 returned, $90 (3 kegs) outstanding."
+        - "THE PROSECCO AT $15.33 AND $16.08 IS NOT A PRICE RISE - it is the $3.00
+           split-case fee folded into the unit price on one ingestion path and
+           broken out as a charge on the other."
     windows:
       - key: cavalier_monday
         order_weekday: monday

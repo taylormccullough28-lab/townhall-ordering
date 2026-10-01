@@ -74,7 +74,10 @@ def test_seed_vendor_calendar_matches_the_order_guide(seed_catalog):
         ("arena", "arena_sunday"): (6, "17:00", 3),
         ("arena", "arena_wednesday"): (2, "21:00", 3),
         ("southern_glazers", "sgws_monday"): (0, "16:00", 1),
-        ("sixth_city", "sixth_city_monday"): (0, "17:00", 1),
+        # Sixth City delivers WEDNESDAY: 11 of 11 invoices over 2026-06-24..09-16.
+        # This file and vendors.yaml both said Tuesday until 2026-10-01, while the
+        # PRD appendix already said Wednesday. The invoices settle it.
+        ("sixth_city", "sixth_city_monday"): (0, "17:00", 2),
         ("cavalier", "cavalier_monday"): (0, "17:00", 1),
         ("heidelberg", "heidelberg_wednesday"): (2, "17:00", 3),
         # Cafe. Berardi's cutoff confirmed Sunday 5pm by the operator 2026-09-29.

@@ -111,6 +111,14 @@ class VendorRules:
     #: arithmetically seven, so the extra day is carried explicitly here rather
     #: than hidden in the cover calculation.
     cover_buffer_days: int = 0
+    #: Ceiling on the cost of one 16oz pour, for a rotating keg line that is
+    #: ordered by style rather than by SKU. Sixth City and Cavalier are chosen
+    #: from a list of styles the rep reads out, and nothing in that conversation
+    #: has ever mentioned price: across 2026-06-24..09-16 a 1/6 bbl ranged
+    #: $49.99 to $224.99, which is $1.28 to $5.74 a pint, or a 14%-64% pour cost
+    #: at a $9 pint. A keg above this ceiling has to be priced as a special
+    #: rather than poured at the house price. 0.0 means no ceiling.
+    max_cost_per_pint: float = 0.0
     emergency_contact: Contact | None = None
     notes: list[str] = field(default_factory=list)
 

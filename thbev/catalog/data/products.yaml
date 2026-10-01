@@ -363,13 +363,84 @@ products:
     vendor_confidence: confirmed
     named_sku: true
     notes:
-      - "CONFLICT TO RESOLVE: this is a 1/2 bbl, but Cavalier's vendor rule is
-         'stick to 1/6 kegs'. Purchasing confirms the 1/2 bbl - 3 units at
-         $169.99 over 2026-07-20..08-28. Either the 1/6-only rule has an
-         exception or the rule is stale."
-      - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL)."
-      - "MarginEdge corroborates: Cavalier 4824 'Fat Bumble Berry 1/2 Bbl' at $169.99,"
-      - "invoiced 2026-09-01 (2) and 2026-09-15 (1). The 1/2 bbl conflict above is real."
+      - "CONFLICT RESOLVED 2026-10-01: the 1/6-only rule is STALE, not excepted.
+         The full quarter shows Cavalier running three formats - nine 1/6 bbl,
+         five 1/2 bbl and one 1/4 bbl."
+      - "THIS IS THE CAVALIER ACCOUNT, NOT AN EXCEPTION TO IT. Code 4824, $169.99,
+         5 orders and 7 half-barrels over 2026-06-30..09-15 = $1,189.93, which is
+         38% of everything Cavalier sold us. The 1/6 rotation is the sideline.
+         named_sku is doing most of this vendor's work."
+      - "Rate holds: 7 kegs over the 11-week span is 0.64/wk against the 0.70/wk
+         carried in the keg table. An earlier read of one month saw 3 units and
+         inferred the same rate by luck rather than by sample."
+      - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL); on the
+         invoice as Cavalier 4824 'Fat Bumble Berry 1/2 Bbl'."
+      - "FORMAT IS WHY THIS IS THE RIGHT KEG TO BUY BIG: at $169.99 a half-barrel
+         pours at $1.45 per 16oz against $2.81 for the median 1/6 bbl - about
+         half the cost per ounce."
+      - "One of the two 2026-07-07 records for this product is a DUPLICATE: the
+         invoice arrived both as Cavalier's CSV (O-5054012, letter O) and as a
+         hand-keyed mobile photo (0-5054012, digit zero). Count 5 orders, not 6."
+
+  # --- Cavalier is not a keg-only vendor -------------------------------------
+  # $429.84 of the 2026-06-30..09-15 quarter - 14% of the account - is not beer.
+  # Collapsing this vendor to "rotating kegs, ask Dan" left all three of these to
+  # memory. They are here so a style-and-count order cannot hide them.
+  - key: amarena_cherries
+    name: Fabbri Amarena Cherries Syrup 6/8oz
+    category: bar_prep
+    conversion: packaged
+    pack_size: 6
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 16234 'Fab Amarena Cherries Syrup 6/8 Oz' at
+         $19.99, 6 units across 2 orders (2026-06-30 and 08-18)."
+      - "Bar prep, on a vendor the guide described as rotating kegs only. Bought
+         twice in a quarter, so it is a running line rather than a one-off."
+
+  - key: giffard_rhubarb_750
+    name: Giffard Rhubarb Liqueur 750ml
+    category: liqueur
+    conversion: spirit_pour
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    order_critical: false
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 17952 'Giffard Liqueur Rhubarb 1/6 750 Ml
+         Bottle 40pf' at $19.99, 6 bottles on 2026-08-25."
+      - "Second Giffard liqueur in the catalog after Pamplemousse. Both are
+         Cavalier-adjacent, so confirm whether Cavalier or Arena is the intended
+         source for the Giffard range before standardising."
+
+  - key: sun_goddess_prosecco_rose
+    name: Volpe Sun Goddess Prosecco Rose DOC 750ml
+    category: wine
+    conversion: wine_glass
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: false
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 26705, 12 bottles across 2 orders
+         (2026-07-07 and 08-18)."
+      - "PRICE LOOKS LIKE IT MOVED AND DID NOT. It appears at $15.33 and $16.08
+         for the same bottle: the $3.00 split-case fee is folded into the unit
+         price on one ingestion path and broken out as a charge on the other.
+         Same artifact as the Heidelberg wines - compare within one packaging."
 
   - key: pamplemousse_750
     name: Giffard Pamplemousse Liqueur 750ml
