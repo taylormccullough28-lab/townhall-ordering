@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Roster</title>
+<style>
+  :root{
+    --bg:#f6f4f1; --card:#fff; --ink:#1c1a18; --ink-2:#4a4542; --ink-3:#8a8280;
+    --line:#e2ded9; --accent:#b4441f; --ok:#2f6f4f; --bad:#a32d1c; --warn:#8a5a12;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#17150f; --card:#201d18; --ink:#f2efe9; --ink-2:#c3bcb2; --ink-3:#8d857a;
+      --line:#332e26; --accent:#e0734a; --ok:#73b98f; --bad:#e58a76; --warn:#d6a44f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#17150f; --card:#201d18; --ink:#f2efe9; --ink-2:#c3bcb2; --ink-3:#8d857a;
+    --line:#332e26; --accent:#e0734a; --ok:#73b98f; --bad:#e58a76; --warn:#d6a44f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    -webkit-text-size-adjust:100%}
+  .wrap{max-width:820px; margin:0 auto; padding:28px 16px 72px}
+  h1{font-size:22px; margin:0 0 3px; letter-spacing:-.01em}
+  .sub{color:var(--ink-3); font-size:14px; margin:0 0 6px}
+  .back{font-size:13.5px; color:var(--accent); text-decoration:none}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:18px; margin:18px 0 0}
+  h2{font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); margin:0 0 14px}
+  label{display:block; font-size:13px; font-weight:600; color:var(--ink-2); margin:0 0 5px}
+  input[type=email],input[type=text],select{
+    width:100%; padding:11px 12px; font-size:16px; color:var(--ink);
+    background:var(--bg); border:1px solid var(--line); border-radius:9px}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+  .field{margin:0 0 12px}
+  button{font:inherit; font-weight:600; cursor:pointer; padding:10px 14px; border-radius:9px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink)}
+  button.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  button.danger{color:var(--bad); border-color:var(--bad)}
+  button.small{padding:6px 11px; font-size:13.5px}
+  button[disabled]{opacity:.55; cursor:default}
+  .msg{font-size:14px; margin:12px 0 0; padding:10px 12px; border-radius:9px; border:1px solid var(--line)}
+  .msg.ok{color:var(--ok); border-color:currentColor}
+  .msg.bad{color:var(--bad); border-color:currentColor}
+  table{width:100%; border-collapse:collapse; font-size:14.5px}
+  th{text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-3); font-weight:600; padding:0 10px 8px 0; border-bottom:1px solid var(--line)}
+  td{padding:11px 10px 11px 0; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  tr.off td{opacity:.5}
+  .who{font-weight:600}
+  .mail{color:var(--ink-3); font-size:13px; word-break:break-all}
+  .tag{display:inline-block; font-size:11.5px; padding:2px 7px; border-radius:20px;
+    border:1px solid var(--line); color:var(--ink-3); white-space:nowrap}
+  .tag.warn{color:var(--warn); border-color:currentColor}
+  .tag.off{color:var(--bad); border-color:currentColor}
+  .hint{font-size:13px; color:var(--ink-3); margin:12px 0 0}
+  .stores{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 0}
+  .stores label{display:flex; gap:6px; align-items:center; font-weight:400; font-size:14px;
+    margin:0; padding:7px 11px; border:1px solid var(--line); border-radius:8px; cursor:pointer}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Roster</h1>
+  <p class="sub">Who can sign in, and which store they see</p>
+  <a class="back" href="./board.html">&larr; Back to the board</a>
+
+  <div class="card" id="denied" hidden>
+    <h2>Not available</h2>
+    <p id="deniedWhy"></p>
+    <p class="hint">
+      Only an admin can see or change the roster. That is enforced by the database,
+      not by this page &mdash; so a non-admin who opens it anyway still cannot read
+      or write anything.
+    </p>
+  </div>
+
+  <div id="main" hidden>
+    <div class="card">
+      <h2>Current roster</h2>
+      <table>
+        <thead>
+          <tr><th>Manager</th><th>Role</th><th>Stores</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="msg" id="listMsg" hidden></div>
+      <p class="hint">
+        Deactivating is one tap and undone by the same button. Nothing is deleted:
+        the row keeps the attribution on every 86 and Yes/No that person recorded.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Add a manager</h2>
+      <div class="grid">
+        <div class="field">
+          <label for="aEmail">Personal email</label>
+          <input type="email" id="aEmail" inputmode="email" autocapitalize="off"
+                 spellcheck="false" placeholder="them@example.com">
+        </div>
+        <div class="field">
+          <label for="aName">Full name</label>
+          <input type="text" id="aName" placeholder="Alex Rivera">
+        </div>
+      </div>
+      <div class="field">
+        <label for="aRole">Role</label>
+        <select id="aRole">
+          <option value="manager">Manager &mdash; their assigned stores only</option>
+          <option value="gm">GM &mdash; every store</option>
+          <option value="admin">Admin &mdash; every store, and edits this roster</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Stores</label>
+        <div class="stores" id="aStores"></div>
+      </div>
+      <button class="primary" id="addBtn" type="button">Add to roster</button>
+      <div class="msg" id="addMsg" hidden></div>
+      <p class="hint">
+        Use the address they will actually sign in with. There is no company
+        directory behind this &mdash; this list is the access list, and an address
+        that is not on it signs in to nothing.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script type="module">
+import { auth, stores as storesApi, roster, client } from "./data.js";
+
+const $ = (id) => document.getElementById(id);
+let allStores = [];
+
+function say(el, text, kind) {
+  el.textContent = text || "";
+  el.className = "msg" + (kind ? " " + kind : "");
+  el.hidden = !text;
+}
+
+function el(tag, cls, txt) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+}
+
+function storeNames(ids) {
+  if (!ids.length) return "— none assigned";
+  return ids.map((id) => (allStores.find((s) => s.id === id) || {}).name || id).join(", ");
+}
+
+function renderRows(list) {
+  const tb = $("rows");
+  tb.textContent = "";
+
+  if (!list.length) {
+    const tr = tb.insertRow();
+    const td = tr.insertCell();
+    td.colSpan = 5;
+    td.textContent = "Nobody on the roster yet.";
+    return;
+  }
+
+  for (const m of list) {
+    const tr = tb.insertRow();
+    if (!m.active) tr.className = "off";
+
+    const who = tr.insertCell();
+    who.append(el("div", "who", m.full_name || "(no name)"),
+               el("div", "mail", m.email));
+
+    tr.insertCell().textContent = m.role;
+
+    tr.insertCell().textContent =
+      m.role === "manager"
+        ? storeNames((m.manager_stores || []).map((x) => x.store_id))
+        : "every store";
+
+    // Three states worth telling apart, not two.
+    const st = tr.insertCell();
+    if (!m.active) st.append(el("span", "tag off", "removed"));
+    else if (!m.user_id) st.append(el("span", "tag warn", "never signed in"));
+    else st.append(el("span", "tag", "active"));
+
+    const act = tr.insertCell();
+    const b = el("button", m.active ? "small danger" : "small", m.active ? "Remove" : "Restore");
+    b.onclick = async () => {
+      b.disabled = true;
+      try {
+        await roster.setActive(m.id, !m.active);
+        await load();
+      } catch (e) {
+        // A refused write here is the policy working, not a glitch.
+        say($("listMsg"), "Could not change that: " + (e.message || e), "bad");
+        b.disabled = false;
+      }
+    };
+    act.append(b);
+  }
+}
+
+function renderStoreChecks() {
+  const box = $("aStores");
+  box.textContent = "";
+  for (const s of allStores) {
+    const lab = el("label");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.value = s.id;
+    cb.checked = allStores.length === 1;
+    lab.append(cb, el("span", null, s.name));
+    box.append(lab);
+  }
+  if (!allStores.length) box.append(el("span", "hint", "No stores visible."));
+}
+
+$("addBtn").onclick = async () => {
+  const email = $("aEmail").value.trim();
+  const role = $("aRole").value;
+  if (!email) { say($("addMsg"), "An email is required.", "bad"); return; }
+
+  const storeIds = [...$("aStores").querySelectorAll("input:checked")].map((i) => i.value);
+  if (role === "manager" && !storeIds.length) {
+    say($("addMsg"), "A manager with no store assigned can sign in and see nothing. Pick at least one.", "bad");
+    return;
+  }
+
+  $("addBtn").disabled = true;
+  try {
+    await roster.add({ email, full_name: $("aName").value, role, storeIds });
+    say($("addMsg"), "Added " + email + ". They can sign in now; their first link binds this row.", "ok");
+    $("aEmail").value = ""; $("aName").value = "";
+    await load();
+  } catch (e) {
+    const dup = String(e.message || e).includes("managers_email_lower_idx");
+    say($("addMsg"), dup ? "That email is already on the roster." : "Could not add them: " + (e.message || e), "bad");
+  } finally {
+    $("addBtn").disabled = false;
+  }
+};
+
+async function load() {
+  try {
+    renderRows(await roster.list());
+    say($("listMsg"), "", null);
+  } catch (e) {
+    say($("listMsg"), "Could not read the roster: " + (e.message || e), "bad");
+  }
+}
+
+async function start() {
+  const m = await auth.manager();
+
+  if (!m) {
+    const { data: { user } } = await client.auth.getUser();
+    $("denied").hidden = false;
+    $("deniedWhy").textContent = user
+      ? (user.email || "That address") + " is signed in but is not an active roster row."
+      : "You are not signed in. Open the board first and sign in there.";
+    return;
+  }
+
+  if (m.role !== "admin") {
+    $("denied").hidden = false;
+    $("deniedWhy").textContent =
+      "You are signed in as " + m.role + ". The roster is admin only.";
+    return;
+  }
+
+  $("denied").hidden = true;
+  $("main").hidden = false;
+  allStores = await storesApi.list();
+  renderStoreChecks();
+  await load();
+}
+
+auth.onChange(start);
+start();
+</script>
+</body>
+</html>
