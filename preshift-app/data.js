@@ -52,8 +52,13 @@ export const auth = {
   // this one is for the UI, the RLS one is the actual control.
   async manager() {
     if (_manager) return _manager;
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) return null;
+    // getSession, not getUser. getUser validates the access token against the
+    // server, so an expired one returns null even when a perfectly good refresh
+    // token is sitting in storage - which happens to every manager who opens the
+    // board more than an hour after last using it. getSession reads from storage
+    // and refreshes a stale token instead of rejecting it.
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session || !session.user) return null;
 
     // bind_me() resolves the roster row and, on a first sign-in, binds it.
     //
