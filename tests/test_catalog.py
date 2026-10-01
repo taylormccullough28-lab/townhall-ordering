@@ -455,18 +455,70 @@ class TestRotatingKegVendors:
         """A style-and-count order has no natural place to notice price.
 
         Across the quarter a 1/6 bbl ran $49.99 to $224.99 - $1.28 to $5.74 a
-        pint, a 14%-64% pour cost at $9 - and nothing in the ordering flow
-        mentioned cost, because the brief is written in styles. The ceiling is
-        the only guard against agreeing to a $5.74 pint by saying yes to
-        "something pumpkin".
+        pour - and nothing in the ordering flow mentioned cost, because the brief
+        is written in styles. The ceiling is the only guard against agreeing to a
+        $5.74 pour by saying yes to "something pumpkin".
+
+        The figure was $3.00 for one commit, picked near the observed median
+        while the menu price was unknown. The operator confirmed $5.00 flat on
+        2026-10-01, which makes $3.00 a 60% pour cost - the placeholder was
+        twice the defensible number. It is now derived from the config rather
+        than guessed, and the assertion below ties the two together so the
+        vendor ceiling cannot drift away from the price it came from.
         """
         from thbev.catalog.loader import load_catalog
 
         catalog = load_catalog()
+        config = catalog.config
         for key in ("sixth_city", "cavalier"):
             rules = catalog.vendor(key).rules
             assert rules.style_only is True
-            assert rules.max_cost_per_pint == 3.00, key
+            assert rules.max_cost_per_pint == 1.50, key
+            # $5.00 x 30% = $1.50 of keg per pour. Derived, not chosen.
+            expected = config.draft_price * config.target_pour_cost
+            assert rules.max_cost_per_pint == pytest.approx(expected), key
+
+    def test_pour_cost_maths_matches_the_invoices(self):
+        """Spot-check the config helpers against real 2026 keg prices.
+
+        These four are the load-bearing cases: the keg that loses money, the one
+        that only works because of its format, the median, and the one cheap
+        enough to clear on a sixth barrel.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        config = load_catalog().config
+        sixth, half = 627.0, 1880.0
+        # Platform Pumpkin Kerfuffle, Cavalier 23422 - above 1.0 is a loss.
+        assert config.pour_cost(224.99, sixth) == pytest.approx(1.148, abs=0.001)
+        # 450 North Supersize Painkiller, Sixth City - also a loss.
+        assert config.pour_cost(199.99, sixth) == pytest.approx(1.021, abs=0.001)
+        # Fat Head's Bumble Berry. The same $169.99 in a sixth barrel would be
+        # 87% - three times the pour cost for identical money, purely on format.
+        assert config.pour_cost(169.99, half) == pytest.approx(0.289, abs=0.001)
+        assert config.pour_cost(169.99, sixth) == pytest.approx(0.868, abs=0.001)
+        # The median sixth barrel bought this quarter.
+        assert config.pour_cost(109.99, sixth) == pytest.approx(0.561, abs=0.001)
+
+    def test_the_sixth_barrel_ceiling_is_below_what_the_market_charges(self):
+        """The finding that makes this a pricing problem, not a tuning one.
+
+        At $5.00 / 16oz / 30% a sixth barrel may cost $58.78. Of 45 distinct
+        rotating kegs bought in the quarter, exactly one was under that, and the
+        median was $109.99. Loosening the target does not rescue it: even at 35%
+        the ceiling is $68.58. This test exists so that if someone raises
+        target_pour_cost to make the warnings go away, the gap is still visible.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        config = load_catalog().config
+        sixth = 627.0
+        assert config.max_keg_cost(sixth) == pytest.approx(58.78, abs=0.01)
+        # The median sixth barrel actually bought, 2026-06-24..09-16.
+        assert 109.99 > config.max_keg_cost(sixth)
+        # A half barrel at the same target comfortably clears real prices.
+        assert config.max_keg_cost(1880.0) == pytest.approx(176.25, abs=0.01)
+        assert 169.99 < config.max_keg_cost(1880.0)
 
     def test_the_ceiling_actually_survives_the_loader(self):
         """Guards the bug this was written with.

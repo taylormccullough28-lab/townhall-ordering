@@ -454,6 +454,8 @@ def _load_config(doc: dict[str, Any]) -> EngineConfig:
         overpour_factor=float(doc.get("overpour_factor", 0.05)),
         wine_glass_oz=float(doc.get("wine_glass_oz", 5.0)),
         draft_pour_oz=float(doc.get("draft_pour_oz", 16.0)),
+        draft_price=float(doc.get("draft_price", 5.00)),
+        target_pour_cost=float(doc.get("target_pour_cost", 0.30)),
         safety_stock_fraction=float(doc.get("safety_stock_fraction", 0.25)),
         safety_stock_floor=float(doc.get("safety_stock_floor", 1.0)),
         baseline_weeks=int(doc.get("baseline_weeks", 4)),

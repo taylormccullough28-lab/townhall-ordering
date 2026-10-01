@@ -352,6 +352,16 @@ class EngineConfig:
     overpour_factor: float = 0.05
     wine_glass_oz: float = 5.0
     draft_pour_oz: float = 16.0
+    #: Menu price of one draft pour. Confirmed by the operator 2026-10-01: $5.00
+    #: flat across every tap, with no premium tier. This is what turns a keg
+    #: price into a pour cost, and it is the number the rotating keg program was
+    #: being bought without.
+    draft_price: float = 5.00
+    #: Pour cost the draft program is managed to. Beer typically targets 20-25%;
+    #: 30% is the generous end and is used here so the ceiling is not accused of
+    #: being unrealistically tight. At $5.00 for a 16oz pour this permits
+    #: $1.50 of keg per pour.
+    target_pour_cost: float = 0.30
     safety_stock_fraction: float = 0.25
     safety_stock_floor: float = 1.0
     baseline_weeks: int = 4
@@ -365,6 +375,39 @@ class EngineConfig:
     def effective_yield_oz(self, container_oz: float) -> float:
         """Apply the overpour factor: ``theoretical / (1 + overpour)``."""
         return container_oz / (1.0 + self.overpour_factor)
+
+    def pours_per_keg(self, container_oz: float) -> float:
+        """Draft pours a keg of this usable size yields.
+
+        ``container_oz`` is the net-of-foam keg figure from :class:`BottleYields`
+        (1,880 for a half barrel, 627 for a sixth), so the overpour factor is
+        deliberately not applied again on top.
+        """
+        return container_oz / self.draft_pour_oz
+
+    def cost_per_pour(self, keg_cost: float, container_oz: float) -> float:
+        """What one pour of this keg costs in product."""
+        return keg_cost / self.pours_per_keg(container_oz)
+
+    def pour_cost(self, keg_cost: float, container_oz: float) -> float:
+        """Pour cost as a fraction of the menu price.
+
+        Above 1.0 the pour loses money before any labour or waste. Two kegs
+        bought in 2026-06..09 are above it at a $5 pour: Platform Pumpkin
+        Kerfuffle (1/6 bbl, $224.99) at 1.15 and 450 North Supersize Painkiller
+        (1/6 bbl, $199.99) at 1.02.
+        """
+        return self.cost_per_pour(keg_cost, container_oz) / self.draft_price
+
+    def max_keg_cost(self, container_oz: float) -> float:
+        """Most a keg of this size may cost and still hit ``target_pour_cost``.
+
+        At $5.00 / 16oz / 30% this is $58.78 for a sixth barrel and $176.25 for
+        a half. The rotating market prices sixth barrels at $90-$225, which is
+        why the format and the flat $5 price are close to incompatible - see the
+        PRD's draft-pricing question.
+        """
+        return self.pours_per_keg(container_oz) * self.draft_price * self.target_pour_cost
 
 
 def weekday_index(value: Any) -> int:

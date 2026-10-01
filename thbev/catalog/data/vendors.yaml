@@ -182,7 +182,7 @@ vendors:
       style_only: true
       style_unit: "1/6 bbl"
       keg_return_required: true
-      max_cost_per_pint: 3.00
+      max_cost_per_pint: 1.50
       notes:
         - "Rotating line. Output is a style-and-count recommendation, never a SKU."
         - "DELIVERS WEDNESDAY, 11 of 11 invoices over 2026-06-24..09-16, no
@@ -197,11 +197,16 @@ vendors:
         - "STYLE_UNIT IS NEARLY TRUE: 51 of 52 keg lines are 1/6 bbl. The exception
            is one 50 L (Voodoo Purple Lacto-Kooler, $239.99), so the unit is a
            strong default rather than a constraint."
-        - "COST SPREAD IS THE UNMANAGED RISK. A 1/6 bbl ran $49.99 to $199.99 this
-           quarter: $1.28 to $5.10 per 16oz pint, a 14%-57% pour cost at a $9 pint.
-           The ordering conversation is conducted in styles and has never mentioned
-           price. 450 North Supersize Painkiller ($199.99, $5.10/pint) cannot go on
-           the house draft price. See max_cost_per_pint."
+        - "THE DRAFT PRICE IS $5.00 FLAT (operator, 2026-10-01), AND THAT CHANGES
+           THIS FROM A WATCH-ITEM TO A STRUCTURAL PROBLEM. A 1/6 bbl ran $49.99 to
+           $199.99 this quarter = $1.28 to $5.10 per 16oz pour = a 26%-102% pour
+           cost. 450 North Supersize Painkiller ($199.99, $5.10/pour) LOSES MONEY
+           on every pint before labour or waste."
+        - "AT $5.00 / 16oz / 30% A SIXTH BARREL MAY COST $58.78. The median one
+           bought here was $109.99 and only Cult Craft Root Beer ($49.99) cleared.
+           The sixth-barrel format and a flat $5 pour are close to arithmetically
+           incompatible, which is a pricing and format decision, not something
+           max_cost_per_pint can fix on its own."
         - "DUPLICATE INVOICE 2026-07-29, ~$310. Invoices 112661 and 112551 are the
            same four kegs at the same prices with the same deposit counts; the
            numbers differ only in one position (66 vs 55). 112551 arrived on the
@@ -233,7 +238,7 @@ vendors:
       style_only: true
       style_unit: "1/6 bbl"
       keg_return_required: true
-      max_cost_per_pint: 3.00
+      max_cost_per_pint: 1.50
       notes:
         - "Rotating line. Output is a style-and-count recommendation, never a SKU -
            EXCEPT the named SKUs, which survive the collapse. See named_sku."
@@ -250,9 +255,14 @@ vendors:
            roughly double per ounce. Sixths buy variety and less risk of a keg going
            flat. That is a defensible trade for a rotating tap and an expensive one
            for anything that sells steadily, which is why Bumble Berry is a half."
-        - "MOST EXPENSIVE PINT IN THE BUILDING: Platform Pumpkin Kerfuffle, $224.99
-           per 1/6 bbl = $5.74 per pint, a 64% pour cost at $9. See
-           max_cost_per_pint."
+        - "MOST EXPENSIVE POUR IN THE BUILDING, AND IT LOSES MONEY: Platform Pumpkin
+           Kerfuffle, $224.99 per 1/6 bbl = $5.74 per 16oz pour against a $5.00
+           menu price = a 115% pour cost. Every pint sold costs more than it earns."
+        - "BUMBLE BERRY IS THE ONLY KEG ON THIS ACCOUNT THAT CLEARS 30%: $169.99 per
+           1/2 bbl = $1.45 per pour = 29%, against a $176.25 ceiling at $5.00/16oz.
+           It clears because of the FORMAT, not the price - the same $169.99 in a
+           1/6 bbl would be an 87% pour cost, three times as much for identical
+           money. This is the argument for moving house taps to half barrels."
         - "NOT A KEG-ONLY VENDOR. $429.84 of the quarter is Fab Amarena Cherries
            Syrup (code 16234, bar prep, bought twice), Giffard Rhubarb Liqueur
            (17952, 6 bottles) and Vol Sun Goddess Prosecco Rose (26705, 12 bottles).

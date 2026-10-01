@@ -8,45 +8,75 @@ These are the two smallest beverage vendors by spend and the two the guide knew
 least about - it said only "ask Jenna what's available" and "ask Dan". They turn out
 to carry the most decision-relevant information of any vendor pulled so far.
 
-## The headline: the rotating program has no cost guardrail
+## The headline: at $5 a pint the rotating program runs a 49.5% pour cost
 
-Every rotating keg is ordered on style. Nothing checks what it costs to pour. Across
-63 keg lines the cost of a 16oz pint ranges from **$1.28 to $5.74** - a 4.5x spread -
-and at a flat $9 pint that is a pour cost between **14% and 64%**.
+**Draft is $5.00 flat across every tap** (confirmed by the operator 2026-10-01).
+Every rotating keg is chosen on style off a rep's availability list, and nothing in
+that conversation has ever mentioned what the keg costs to pour.
 
-| Keg | Vendor | Size | Keg cost | $/pint | Pour cost @ $9 |
+Measured against what was actually bought - **65 kegs, $7,864.35 of product, about
+3,176 sixteen-ounce pours** - the program blends to a **49.5% pour cost**. Nearly
+half of every draft dollar goes back out as beer, before labour, waste, or the pints
+that die in the line.
+
+**Two kegs lost money on every pour.** Not "ran thin" - cost more than the $5 they
+sold for:
+
+| Keg | Vendor | Size | Keg cost | $/pour | Pour cost |
 |---|---|---|---|---|---|
-| Platform Pumpkin Kerfuffle | Cavalier | 1/6 | $224.99 | **$5.74** | **64%** |
-| 450 North Supersize Painkiller Slushy XXL Sour | Sixth City | 1/6 | $199.99 | $5.10 | 57% |
-| Drekker Chonk Blueberry White Chocolate Sundae Sour | Sixth City | 1/6 | $169.99 | $4.34 | 48% |
-| Lolev Osprey Ultra Hopped Ale | Sixth City | 1/6 | $169.99 | $4.34 | 48% |
-| Blackstack Estate Sale DDH DNEIPA | Sixth City | 1/6 | $159.99 | $4.08 | 45% |
-| *median of all 63 lines* | | 1/6 | $109.99 | *$2.55* | *28%* |
-| Fat Head's Bumble Berry | Cavalier | 1/2 | $169.99 | $1.45 | 16% |
-| Cult Craft Root Beer | Sixth City | 1/6 | $49.99 | $1.28 | 14% |
+| Platform Pumpkin Kerfuffle | Cavalier | 1/6 | $224.99 | **$5.74** | **115%** |
+| 450 North Supersize Painkiller Slushy XXL Sour | Sixth City | 1/6 | $199.99 | **$5.10** | **102%** |
+| Drekker Chonk Blueberry White Chocolate Sundae Sour | Sixth City | 1/6 | $169.99 | $4.34 | 87% |
+| Lolev Osprey Ultra Hopped Ale | Sixth City | 1/6 | $169.99 | $4.34 | 87% |
+| Blackstack Estate Sale DDH DNEIPA | Sixth City | 1/6 | $159.99 | $4.08 | 82% |
+| *median of all 63 lines* | | 1/6 | $109.99 | *$2.55* | *51%* |
+| Jolly Scholar Cold Beer Here American Lager | Sixth City | 1/6 | $64.99 | $1.66 | 33% |
+| Fat Head's Bumble Berry | Cavalier | **1/2** | $169.99 | $1.45 | **29%** |
+| Cult Craft Root Beer | Sixth City | 1/6 | $49.99 | $1.28 | **26%** |
 
-**Platform Pumpkin Kerfuffle at $224.99 a sixth-barrel does not work at a normal
-draft price.** Neither does the 450 North slushy sour at $199.99. These are not
-mistakes - rare sours and pastry beers genuinely cost this - but they have to be
-priced as the specials they are, not poured into the house draft price. The engine
-should refuse to put a keg on the order without a pour price attached, or at least
-flag any keg over about $3.00/pint.
+**Of 63 keg lines, exactly two products clear a 30% target** - Bumble Berry and the
+root beer. At a 25% target, **nothing clears at all.** Every single line is above
+25%.
 
-Format is the other half of the cost story, and it is larger than brand choice:
+## The sixth-barrel format and a $5 pint do not fit together
 
-| Format | Example | Keg cost | Net oz | $/pint |
-|---|---|---|---|---|
-| 1/2 bbl | Fat Head's Bumble Berry | $169.99 | 1,880 | **$1.45** |
-| 1/4 bbl | Cider Caramel Apple | $119.99 | 941 | $2.04 |
-| 50 L | Voodoo Purple Lacto-Kooler | $239.99 | 1,603 | $2.40 |
-| 1/6 bbl | *median* | $109.99 | 627 | $2.81 |
+This is the part that cannot be fixed by nagging the rep. At $5.00 for a 16oz pour,
+here is the most a keg may cost:
 
-A half-barrel pours at roughly **half the per-ounce cost of a sixth-barrel**. The
-standing "1/6 bbl only" rule on both vendors is therefore not a neutral preference -
-it is a decision to pay about double per ounce in exchange for variety and less
-risk of a keg going flat. That is a defensible trade for a rotating tap and an
-expensive one for anything that sells steadily, which is exactly why Bumble Berry
-is a half-barrel.
+| Format | Net oz | Pours | @ 25% | @ 30% | @ 35% | What we actually pay |
+|---|---|---|---|---|---|---|
+| **1/6 bbl** | 627 | 39 | $48.98 | **$58.78** | $68.58 | **$109.99 median - fails** |
+| 1/4 bbl | 941 | 59 | $73.52 | $88.22 | $102.92 | $119.99 - fails |
+| 50 L | 1,603 | 100 | $125.23 | $150.28 | $175.33 | $239.99 - fails |
+| **1/2 bbl** | 1,880 | 118 | $146.88 | **$176.25** | $205.62 | **$169.99 - clears** |
+
+A sixth-barrel has to cost **under $58.78**. The rotating market prices them **$90 to
+$225**, and only Cult Craft Root Beer ($49.99) came in under. Loosening the target
+does not rescue it: even at 35% the ceiling is $68.58, still below the cheapest real
+beer on the list.
+
+**Format is worth more than brand choice, by a wide margin.** Bumble Berry clears at
+29% *because it is a half-barrel*. The identical $169.99 in a sixth-barrel would be
+**87%** - three times the pour cost for the same money. Nothing about the beer
+changed; only the pack.
+
+So there are three honest levers, and this is an operator decision, not an ordering
+one:
+
+1. **Price the rotating taps separately.** A featured tap at $7-8 puts the median
+   $109.99 sixth-barrel back into the high 30s and leaves the house taps at $5.
+2. **Move the house taps to half-barrels.** Fewer choices, roughly half the pour
+   cost. Bumble Berry is the existence proof.
+3. **Keep it exactly as it is and book it as marketing.** A rotating wall of rare
+   beer at a ~50% pour cost is a perfectly defensible spend *if it is a decision with
+   a number attached* and the number of taps is capped. It is not defensible as an
+   accident.
+
+**One unconfirmed number changes the severity but not the conclusion: is the house
+pour 16oz or 12oz?** At 12oz the same kegs blend to **37.1%** and the sixth-barrel
+ceiling rises to $78.38 - still under the $109.99 median, so the structural problem
+survives either way. But 49.5% and 37.1% are different conversations. One question to
+a bartender settles it.
 
 ## Two more duplicate invoices, and a new root cause
 
@@ -316,7 +346,16 @@ Line-item detail now covers **8 of 13 beverage vendors**. Remaining:
 | Hartzler | 13 | ~$3.6K | Confirmed two items only - nothing left to learn |
 
 **None of the remaining four is worth a pull for ordering purposes.** The beverage
-program is now fully mapped at line-item level. The highest-value next move is not
-another vendor - it is **acting on the pour-cost spread and the three duplicate
-invoices**, and getting a cutoff time out of the Buckeye rep so the catalog has no
-blanks left.
+program is now fully mapped at line-item level, and no further vendor pull will
+change a decision.
+
+The three things actually worth doing, in order:
+
+1. **Decide what to do about a 49.5% draft pour cost.** Price the rotating taps,
+   move house taps to half-barrels, or cap it and call it marketing. Confirm the
+   16oz-vs-12oz pour first, since it moves the number 12 points.
+2. **Chase the credits.** Four duplicate billings across three vendors - Arena
+   $5,781.06, Heidelberg $365.89, Cavalier $234.31, Sixth City ~$310 - plus Sixth
+   City's $870.02 of double-counted credits running the *other* way, where TownHall
+   may have underpaid. About $7,500 of AP discrepancy, no owner.
+3. **Get Buckeye's cutoff from the rep**, so the catalog has no blanks left.

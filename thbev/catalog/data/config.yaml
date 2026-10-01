@@ -37,6 +37,29 @@ overpour_factor: 0.05
 wine_glass_oz: 5.0
 draft_pour_oz: 16.0
 
+# Draft menu price and the pour cost the program is managed to.
+#
+# $5.00 flat across every tap, confirmed by the operator 2026-10-01. There is no
+# premium tier, which is the whole problem: the rotating keg lines are chosen by
+# style off a rep's availability list and cost between $49.99 and $224.99 a keg.
+#
+# At $5.00 / 16oz / 30% a keg may cost:
+#   1/6 bbl  (627 oz)  ->  $58.78     1/4 bbl  (941 oz)  ->  $88.22
+#   50 L    (1603 oz)  -> $150.28     1/2 bbl (1880 oz)  -> $176.25
+#
+# Measured against 2026-06-24..09-16, the rotating program ran a BLENDED 49.5%
+# pour cost, and of 63 keg lines exactly TWO products cleared 30%: Fat Head's
+# Bumble Berry (a half barrel) and Cult Craft Root Beer. At a 25% target,
+# nothing cleared at all. Raising target_pour_cost does not fix that; it is a
+# pricing and format problem, not a tuning problem.
+#
+# If the house pour turns out to be 12oz rather than 16oz, the blended figure is
+# 37.1% and the 1/6 bbl ceiling rises to $78.38 - still below the $109.99 median.
+# PRD open question 3 (draft pour size) therefore moves this materially and is
+# the highest-leverage unknown left in the model.
+draft_price: 5.00
+target_pour_cost: 0.30
+
 # order_qty = round_up_to_pack(forecast_over_cover + safety - on_hand - on_order)
 safety_stock_fraction: 0.25
 safety_stock_floor: 1.0
