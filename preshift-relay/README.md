@@ -84,6 +84,23 @@ Both exercised against the test group on 2026-10-01, via `pg_net` from SQL:
 The Twilio leg itself is unexercised — there is no account or verified number
 yet.
 
+## The prototype board cannot call this
+
+Established by trying it. The pre-shift prototype is a published Claude
+artifact, and such a page may use only an enumerated set of runtime
+capabilities — `artifact`, `assets`, `comments`, `db`, `downloads`, `files`,
+`mcp`, `room`, `sample`, `user`. Arbitrary outbound network calls are not among
+them, so a `fetch` to this function never leaves the browser and leaves no
+trace in `edge_logs` or `function_edge_logs`.
+
+This is a property of the prototype's host, not of the relay. The v1 app will be
+an ordinary web app where the call is unremarkable. Until then the board keeps
+copy-and-paste, and this relay is exercised server-side only.
+
+That is also why `verify_jwt` is off and the key check is in the function: with
+gateway verification on, a browser's credential-less CORS preflight is rejected
+before reaching the code. That matters for the v1 app, not for the artifact.
+
 ## Limits, stated plainly
 
 - **No caller authentication beyond the publishable key**, which is public by

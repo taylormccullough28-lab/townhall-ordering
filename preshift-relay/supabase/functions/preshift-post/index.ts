@@ -9,6 +9,14 @@
 //
 // A successful post also logs a completion row and texts Taylor. The trigger is
 // server-side on purpose: a client cannot fabricate a completion it did not send.
+//
+// verify_jwt is DISABLED, and the key check lives in this file instead. With
+// gateway JWT verification on, a browser's CORS preflight OPTIONS - which by
+// specification carries no credentials - is rejected with 401 before reaching
+// this code, and the browser reports it as a CORS failure. The check below is
+// the same strength as what the gateway gave us, because the key it accepts is
+// publishable by design. It keeps unkeyed scanners out; it is not real
+// authorization. Real gating needs the app logins.
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
@@ -16,6 +24,12 @@ const GROUPME_ENDPOINT = "https://api.groupme.com/v3/bots/post";
 const MAX_CHARS = 900;        // conservative; GroupMe's real cap is reported near 1000
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 6;           // per warm instance, not a global quota
+
+// Publishable keys for this project. Public by design - they appear in the app.
+const ACCEPTED_KEYS = new Set([
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1iYm56enZxa2NxamZob253YWxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5ODgxMTQsImV4cCI6MjEwMjU2NDExNH0.mSqHRHRC-ytpH7XHNoHYvcWSVQ1n0QX2WDOVwCJss5M",
+  "sb_publishable_GyeS8YntNpZE2npl7vaVrw_O1COcRYL",
+]);
 
 const SB_URL = Deno.env.get("SUPABASE_URL");
 const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -26,6 +40,7 @@ const CORS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Max-Age": "86400",
 };
 
 function json(body: unknown, status = 200): Response {
@@ -33,6 +48,14 @@ function json(body: unknown, status = 200): Response {
     status,
     headers: { ...CORS, "Content-Type": "application/json" },
   });
+}
+
+function presentedKey(req: Request): string | null {
+  const apikey = req.headers.get("apikey");
+  if (apikey) return apikey;
+  const auth = req.headers.get("authorization") ?? "";
+  const m = auth.match(/^Bearer\s+(.+)$/i);
+  return m ? m[1].trim() : null;
 }
 
 function sbHeaders(extra: Record<string, string> = {}): Record<string, string> {
@@ -140,8 +163,15 @@ async function sendCompletionText(store: string, parts: number): Promise<string 
 }
 
 Deno.serve(async (req: Request) => {
+  // Preflight first, before any auth check. A browser preflight carries no
+  // credentials; rejecting it is what breaks a browser caller.
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
+
+  const key = presentedKey(req);
+  if (!key || !ACCEPTED_KEYS.has(key)) {
+    return json({ error: "missing or unrecognised project key" }, 401);
+  }
 
   let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { /* treated as empty below */ }
