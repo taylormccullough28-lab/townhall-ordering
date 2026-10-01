@@ -39,6 +39,17 @@ export const auth = {
     if (error) throw error;
   },
 
+  // Password sign-in. Magic links remain the route for managers; this exists
+  // because the built-in email sender allows about two sends an hour, and being
+  // locked out of email should not mean being locked out of the app.
+  async signInWithPassword(email, password) {
+    const { error } = await sb.auth.signInWithPassword({
+      email: String(email || "").trim(),
+      password: String(password || ""),
+    });
+    if (error) throw error;
+  },
+
   async signOut() {
     _manager = null;
     await sb.auth.signOut();

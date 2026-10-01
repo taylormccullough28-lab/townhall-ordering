@@ -74,6 +74,12 @@
     <div class="row">
       <button class="primary" id="sendBtn" type="button">Email me a link</button>
     </div>
+    <p class="hint"><a href="#" id="pwToggle">Use a password instead</a></p>
+    <div id="pwBox" hidden>
+      <label for="pw">Password</label>
+      <input type="password" id="pw" autocomplete="current-password">
+      <div class="row"><button class="primary" id="pwBtn" type="button">Sign in</button></div>
+    </div>
     <p class="hint">
       No password. You get a link, you tap it, you are in. Use the address Taylor
       put on the roster — anything else will not be recognised.
@@ -162,6 +168,26 @@ $("sendBtn").onclick = async () => {
   } finally {
     $("sendBtn").disabled = false;
     $("sendBtn").textContent = "Email me a link";
+  }
+};
+
+$("pwToggle").onclick = (e) => {
+  e.preventDefault();
+  $("pwBox").hidden = !$("pwBox").hidden;
+};
+
+$("pwBtn").onclick = async () => {
+  const email = $("email").value.trim();
+  if (!email) { say($("signinMsg"), "Enter your email as well.", "bad"); return; }
+  $("pwBtn").disabled = true;
+  try {
+    await auth.signInWithPassword(email, $("pw").value);
+    $("pw").value = "";
+    await render();
+  } catch (e) {
+    say($("signinMsg"), "Could not sign in: " + (e.message || e), "bad");
+  } finally {
+    $("pwBtn").disabled = false;
   }
 };
 
