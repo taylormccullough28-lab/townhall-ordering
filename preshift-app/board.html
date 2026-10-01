@@ -438,10 +438,12 @@ details.mgr summary:hover{color:var(--accent)}
 <div id="gate" class="gate">
   <div class="gatecard">
     <h2>Pre-Shift Board</h2>
-    <p class="gatesub">Sign in with the email on your roster row. No password.</p>
-    <input type="email" id="gateEmail" inputmode="email" autocomplete="email"
-           placeholder="you@example.com" autocapitalize="off" spellcheck="false">
-    <button class="btn primary" id="gateBtn" type="button">Email me a link</button>
+    <p class="gatesub" id="gateSub">Checking your sign-in\u2026</p>
+    <div id="gateForm" hidden>
+      <input type="email" id="gateEmail" inputmode="email" autocomplete="email"
+             placeholder="you@example.com" autocapitalize="off" spellcheck="false">
+      <button class="btn primary" id="gateBtn" type="button">Email me a link</button>
+    </div>
     <p class="gatemsg" id="gateMsg"></p>
     <p class="gatehint"><a href="./index.html">Trouble signing in?</a></p>
   </div>
@@ -1236,6 +1238,14 @@ function gateMsg(text, bad){
   m.className = "gatemsg" + (bad ? " bad" : "");
 }
 
+/* The form appears only when a link would actually help. Showing it while the
+   session is still being checked invites someone to request a link they do not
+   need, and the email rate limit then blocks the one they might. */
+function showSignIn(){
+  $("gateSub").textContent = "Sign in with the email on your roster row. No password.";
+  $("gateForm").hidden = false;
+}
+
 $("gateBtn").onclick = function(){
   var email = $("gateEmail").value.trim(), btn = this;
   if(!email){ gateMsg("Enter your email first.", true); return; }
@@ -1258,8 +1268,13 @@ function start(){
       $("gate").hidden = false;
       return Api.client.auth.getUser().then(function(r){
         if(r && r.data && r.data.user){
-          gateMsg("Signed in, but " + (r.data.user.email || "that address") +
-                  " is not an active row on the roster. Taylor adds it.", true);
+          /* Signed in, just not on the roster. Another link cannot fix this, so
+             the form stays hidden and the message says who fixes it. */
+          $("gateSub").textContent = "Signed in as " + (r.data.user.email || "this address") + ".";
+          gateMsg("That address is not an active row on the roster. Taylor adds it \u2014 " +
+                  "emailing another link will not change this.", true);
+        } else {
+          showSignIn();
         }
       });
     }
@@ -1275,8 +1290,12 @@ function start(){
       subscribeBoard();
     });
   }).catch(function(e){
+    /* Logged as well as shown: the on-screen message is easy to overwrite with a
+       later click, and the console keeps the original. */
+    console.error("pre-shift board: start() failed", e);
     $("gate").hidden = false;
-    gateMsg("Could not reach the database: " + (e.message || e), true);
+    $("gateSub").textContent = "Something went wrong reaching the database.";
+    gateMsg(String((e && e.message) || e), true);
   });
 }
 
