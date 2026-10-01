@@ -55,22 +55,22 @@ export const auth = {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return null;
 
-    let { data } = await sb.from("managers").select("*").eq("user_id", user.id).maybeSingle();
+    // bind_me() resolves the roster row and, on a first sign-in, binds it.
+    //
+    // This has to run server-side. The earlier version did the UPDATE from here
+    // and could never have worked: the managers policies gate writes on
+    // current_role() = 'admin', and current_role() resolves through
+    // user_id = auth.uid(), which is null until the binding exists. Binding
+    // required already being bound.
+    //
+    // bind_me is SECURITY DEFINER so it bypasses that, and takes the address
+    // from the verified JWT rather than an argument, so a caller cannot name a
+    // row to claim. It is idempotent - safe to call on every page load.
+    const { data, error } = await sb.rpc("bind_me");
+    if (error) throw error;
 
-    if (!data && user.email) {
-      // Bind on first sign-in. Scoped to the unbound row for this exact email,
-      // so it cannot claim someone else's row.
-      const { data: bound } = await sb
-        .from("managers")
-        .update({ user_id: user.id })
-        .ilike("email", user.email)
-        .is("user_id", null)
-        .select()
-        .maybeSingle();
-      data = bound || null;
-    }
-
-    _manager = data && data.active ? data : null;
+    const row = Array.isArray(data) ? data[0] : data;
+    _manager = row && row.active ? row : null;
     return _manager;
   },
 
