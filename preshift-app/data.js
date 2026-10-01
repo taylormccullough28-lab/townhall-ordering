@@ -219,4 +219,73 @@ export const post = {
   },
 };
 
+/* ---------------- the roster ---------------- */
+
+/* Admin only, enforced by the managers_admin_write policy rather than by hiding
+ * buttons. A non-admin calling any of these gets a refused write from Postgres,
+ * which is the point: the screen is a convenience, not the control.
+ *
+ * Rows are deactivated, never deleted. Deleting one would orphan the
+ * attribution on every 86 and Yes/No that person ever recorded. */
+export const roster = {
+  async list() {
+    const { data, error } = await sb
+      .from("managers")
+      .select("id, email, full_name, role, active, user_id, created_at, deactivated_at, manager_stores(store_id)")
+      .order("active", { ascending: false })
+      .order("full_name", { nullsFirst: false });
+    if (error) throw error;
+    return data || [];
+  },
+
+  async add({ email, full_name, role, storeIds }) {
+    const { data, error } = await sb
+      .from("managers")
+      .insert({ email: String(email).trim(), full_name: (full_name || "").trim() || null,
+                role: role || "manager" })
+      .select()
+      .single();
+    if (error) throw error;
+
+    if (storeIds && storeIds.length) {
+      const { error: e2 } = await sb.from("manager_stores")
+        .insert(storeIds.map((s) => ({ manager_id: data.id, store_id: s })));
+      if (e2) throw e2;   // the manager exists but is unassigned; the screen says so
+    }
+    return data;
+  },
+
+  // Reversible on purpose. Forgetting to revoke costs more than a mistaken tap,
+  // and a mistaken tap is undone by the same button.
+  async setActive(id, active) {
+    const { data, error } = await sb
+      .from("managers")
+      .update({ active, deactivated_at: active ? null : new Date().toISOString() })
+      .eq("id", id)
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  },
+
+  async setRole(id, role) {
+    const { data, error } = await sb
+      .from("managers").update({ role }).eq("id", id).select().single();
+    if (error) throw error;
+    return data;
+  },
+
+  async assign(managerId, storeId) {
+    const { error } = await sb.from("manager_stores")
+      .insert({ manager_id: managerId, store_id: storeId });
+    if (error && error.code !== "23505") throw error;   // already assigned is fine
+  },
+
+  async unassign(managerId, storeId) {
+    const { error } = await sb.from("manager_stores")
+      .delete().eq("manager_id", managerId).eq("store_id", storeId);
+    if (error) throw error;
+  },
+};
+
 export const client = sb;

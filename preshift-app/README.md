@@ -13,7 +13,7 @@ Vercel.
 | `data.js` — auth, boards, 86 list, names, posting | Written, **not executed** |
 | `index.html` — sign-in + a read-back of what RLS grants | Written, **not executed** |
 | `board.html` — the board itself | Ported, **not executed** |
-| Admin screen for the roster | Not started |
+| `admin.html` — the roster | Written, **not executed**; its RLS verified |
 | Admin screen for the roster | Not started |
 
 **Nothing in `data.js` has been run.** The environment it was written in cannot
@@ -77,6 +77,28 @@ inserts means changing six more call sites in code that cannot be run here. A
 working board first. The table stays because the reasoning for it holds — a real
 timestamp per item is what the "86 items added mid-shift" measure needs — and
 moving to it is the next migration once the board can actually be exercised.
+
+### The roster screen
+
+`admin.html`. One screen, whole roster visible, one tap to remove — which is what
+the PRD asks for, because the cost of forgetting to revoke a departed manager is
+worse than the cost of a mistaken tap, and the same button undoes it.
+
+Rows are deactivated, never deleted: the row keeps the attribution on every 86
+and Yes/No that person recorded. It shows three states rather than two — active,
+removed, and **never signed in**, which is the one worth seeing when someone says
+the link did not work.
+
+Access is the database's decision, not the page's. Verified by simulating both
+roles against the real policies:
+
+| Acting as | Roster rows visible | Could deactivate someone | Could add someone |
+|---|---|---|---|
+| Ordinary manager | 1 — only themselves | no, 0 rows affected | no |
+| Admin | 2 — everyone | yes | yes |
+
+So a non-admin who opens this page anyway reads nothing and writes nothing. The
+hidden buttons are a courtesy; the policies are the control.
 
 ### Known gaps
 
