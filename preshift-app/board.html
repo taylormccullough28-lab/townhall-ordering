@@ -443,6 +443,11 @@ details.mgr summary:hover{color:var(--accent)}
       <input type="email" id="gateEmail" inputmode="email" autocomplete="email"
              placeholder="you@example.com" autocapitalize="off" spellcheck="false">
       <button class="btn primary" id="gateBtn" type="button">Email me a link</button>
+      <p class="gatehint"><a href="#" id="gatePwToggle">Use a password instead</a></p>
+      <div id="gatePwBox" hidden>
+        <input type="password" id="gatePw" autocomplete="current-password" placeholder="Password">
+        <button class="btn primary" id="gatePwBtn" type="button">Sign in</button>
+      </div>
     </div>
     <p class="gatemsg" id="gateMsg"></p>
     <p class="gatehint"><a href="./index.html">Trouble signing in?</a></p>
@@ -1245,6 +1250,25 @@ function showSignIn(){
   $("gateSub").textContent = "Sign in with the email on your roster row. No password.";
   $("gateForm").hidden = false;
 }
+
+$("gatePwToggle").onclick = function(e){
+  e.preventDefault();
+  $("gatePwBox").hidden = !$("gatePwBox").hidden;
+};
+
+$("gatePwBtn").onclick = function(){
+  var email = $("gateEmail").value.trim(), btn = this;
+  if(!email){ gateMsg("Enter your email as well.", true); return; }
+  btn.disabled = true; btn.textContent = "Signing in";
+  Api.auth.signInWithPassword(email, $("gatePw").value).then(function(){
+    $("gatePw").value = "";
+    return start();
+  }).catch(function(e){
+    gateMsg("Could not sign in: " + (e.message || e), true);
+  }).then(function(){
+    btn.disabled = false; btn.textContent = "Sign in";
+  });
+};
 
 $("gateBtn").onclick = function(){
   var email = $("gateEmail").value.trim(), btn = this;
