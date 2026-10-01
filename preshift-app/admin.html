@@ -263,7 +263,9 @@ async function start() {
   const m = await auth.manager();
 
   if (!m) {
-    const { data: { user } } = await client.auth.getUser();
+    // getSession refreshes a stale token; getUser would reject it outright.
+    const { data: { session } } = await client.auth.getSession();
+    const user = session && session.user ? session.user : null;
     $("denied").hidden = false;
     $("deniedWhy").textContent = user
       ? (user.email || "That address") + " is signed in but is not an active roster row."

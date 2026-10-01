@@ -1266,11 +1266,13 @@ function start(){
   return Api.auth.manager().then(function(m){
     if(!m){
       $("gate").hidden = false;
-      return Api.client.auth.getUser().then(function(r){
-        if(r && r.data && r.data.user){
+      /* getSession refreshes a stale token; getUser would reject it outright. */
+      return Api.client.auth.getSession().then(function(r){
+        var u = r && r.data && r.data.session ? r.data.session.user : null;
+        if(u){
           /* Signed in, just not on the roster. Another link cannot fix this, so
              the form stays hidden and the message says who fixes it. */
-          $("gateSub").textContent = "Signed in as " + (r.data.user.email || "this address") + ".";
+          $("gateSub").textContent = "Signed in as " + (u.email || "this address") + ".";
           gateMsg("That address is not an active row on the roster. Taylor adds it \u2014 " +
                   "emailing another link will not change this.", true);
         } else {

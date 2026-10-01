@@ -168,7 +168,9 @@ $("sendBtn").onclick = async () => {
 $("signoutBtn").onclick = async () => { await auth.signOut(); render(); };
 
 async function render() {
-  const { data: { user } } = await client.auth.getUser();
+  // getSession refreshes a stale token; getUser would reject it outright.
+  const { data: { session } } = await client.auth.getSession();
+  const user = session && session.user ? session.user : null;
 
   if (!user) {
     $("signinCard").hidden = false;
