@@ -11,14 +11,6 @@ from make_certification import LOCATIONS, resolve
 
 W, H = 1080, 1920
 
-# Short labels: a handheld has no room for "Coupe / martini — served up".
-GLASS_SHORT = {
-    'Rocks': 'Rocks', 'Emulsive': 'Emulsive',
-    'Rocks — Pernod-rinsed': 'Rocks · rinsed',
-    'Emulsive — Pernod-rinsed': 'Emulsive · rinsed',
-    'Coupe / martini': 'Coupe · up', 'Martini coupe': 'Coupe · up',
-    '12 oz tall': '12oz tall', 'Wine': 'Wine',
-}
 METHOD = {'Scarlett Spritz': 'BUILD', 'Chai Hard': 'UP', 'Espresso Martini': 'UP',
           'No New Friends': 'TOP'}
 
@@ -26,21 +18,22 @@ def esc(t): return html.escape(t, quote=False)
 
 def short_ing(s):
     s = s.split('—')[0].strip()
-    return {'Liquor of choice': 'Liquor — ask guest',
-            'Pernod': 'Pernod — rinse glass'}.get(s, s)
+    return {'Liquor of choice': 'Liquor — ask guest'}.get(s, s)
+
+def pours_for(d):
+    """Pours as the handheld shows them: no glass-prep steps."""
+    return [(a, b) for a, b in d['pours'] if a != 'rinse']
 
 def card(d, loc):
     rows = ''.join(
         '<div class="r"><span class="a">%s</span><span class="i">%s</span></div>'
-        % (esc(a), esc(short_ing(b))) for a, b in d['pours'])
-    glass = d['glass'].format(rocks=loc['rocks'])
+        % (esc(a), esc(short_ing(b))) for a, b in pours_for(d))
     tag = METHOD.get(d['name'], 'SHAKE')
     return ('<div class="c">'
             '<div class="h"><span class="n">%s</span><span class="t t-%s">%s</span></div>'
             '%s'
-            '<div class="f"><b>%s</b>%s</div>'
-            '</div>' % (esc(d['name']), tag.lower(), tag, rows,
-                        esc(GLASS_SHORT.get(glass, glass)), esc(d['garnish'])))
+            '<div class="f"><span class="fl">Garnish</span>%s</div>'
+            '</div>' % (esc(d['name']), tag.lower(), tag, rows, esc(d['garnish'])))
 
 CSS = """
  *{box-sizing:border-box;margin:0;padding:0}
@@ -60,7 +53,7 @@ CSS = """
  .c{border:2px solid #CFCABA;border-radius:8px;padding:15px 17px 13px;
     display:flex;flex-direction:column}
  .h{display:flex;align-items:baseline;gap:10px;margin-bottom:11px}
- .n{font-family:'Fraunces',Georgia,serif;font-size:31px;font-weight:600;
+ .n{font-family:'Fraunces',Georgia,serif;font-size:33px;font-weight:600;
     line-height:1.05;letter-spacing:-.01em;flex:1}
  .t{flex:none;font-size:16px;font-weight:600;letter-spacing:.09em;
     padding:4px 9px;border-radius:4px;background:#E7EFE8;color:#2A4834}
@@ -69,13 +62,13 @@ CSS = """
  .r{display:flex;gap:13px;align-items:baseline;padding:5px 0;
     border-bottom:1px solid #EFEBDE}
  .r:last-of-type{border-bottom:none}
- .a{flex:none;width:92px;text-align:right;font-family:'IBM Plex Mono',monospace;
-    font-size:29px;font-weight:600;color:#2A4834;font-variant-numeric:tabular-nums}
- .i{font-size:27px;font-weight:500;line-height:1.2}
- .f{margin-top:auto;padding-top:11px;border-top:2px solid #14140E;
-    font-size:21px;color:#53534A;line-height:1.3}
- .f b{color:#14140E;font-weight:600}
- .f b::after{content:' · '}
+ .a{flex:none;width:98px;text-align:right;font-family:'IBM Plex Mono',monospace;
+    font-size:31px;font-weight:600;color:#2A4834;font-variant-numeric:tabular-nums}
+ .i{font-size:29px;font-weight:500;line-height:1.2}
+ .f{margin-top:auto;padding-top:12px;border-top:2px solid #14140E;
+    font-size:25px;font-weight:500;color:#14140E;line-height:1.3}
+ .fl{display:block;font-size:16px;font-weight:600;letter-spacing:.13em;
+     text-transform:uppercase;color:#8A8A7C;margin-bottom:4px}
  .note{border:2px dashed #CFCABA;border-radius:8px;padding:17px;
        display:flex;flex-direction:column;justify-content:center;gap:9px}
  .note b{font-family:'Fraunces',Georgia,serif;font-size:27px;font-weight:600}
