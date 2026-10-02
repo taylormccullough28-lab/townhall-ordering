@@ -1,0 +1,991 @@
+# Product catalog seed.
+#
+# HONESTY NOTE ON VENDOR ASSIGNMENT
+# ---------------------------------
+# The PRD names specific products (pack sizes in "The Math", prep ingredients,
+# bottle-service exposure) but the product-to-distributor mapping lives in
+# TH_ORDER_GUIDE.docx, which is not in this repo. Every product below therefore
+# carries `vendor_confidence`:
+#
+#   confirmed   - the PRD states the vendor outright (OYO routes through Arena;
+#                 Sixth City and Cavalier own the rotating 1/6 bbl lines).
+#   marginedge  - the vendor comes from the MarginEdge vendor-item catalog for
+#                 restaurantUnitId 166233400, pulled 2026-09-28, and in almost
+#                 every case is corroborated by an actual invoice line in
+#                 2026-08-25..2026-09-25. Vendor item codes are in each product's
+#                 notes; the full index is thbev/catalog/data/vendor_items.yaml.
+#   unconfirmed - vendor is null. The order engine groups these under an
+#                 "unassigned" bucket and refuses to pretend it knows who to
+#                 call. No product carries this any more.
+#
+# `alt_vendors` records a product that is genuinely stocked by more than one
+# distributor. It is advisory: the order is still built against `vendor`, which
+# is the distributor the invoices show actually being used.
+#
+# Nothing here is invented from nothing: every product name, pack size and
+# conversion type traces to a line in the PRD, and every vendor traces to a
+# MarginEdge vendor item code recorded in the notes.
+#
+# category drives the event/weather multipliers in config.yaml.
+# conversion drives the depletion math.
+# pack_size is what order quantities round UP to.
+
+products:
+  # --- Packaged beer / RTD (pack sizes stated verbatim in the PRD) -----------
+  - key: bud_light
+    name: Bud Light
+    category: light_beer
+    conversion: packaged
+    pack_size: 24
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: The Columbus Distributing Co carries Bud Light as 02504 (2/12 12oz bottle),"
+      - "02592 (1/2 bbl keg) and 02501 'Bl Big Blue'. 02501 is what was actually invoiced"
+      - "2026-09-01 (15 @ $20.79). Arena also lists Bud Light 12oz - secondary only."
+
+  - key: mich_ultra_gold
+    name: Michelob Ultra Gold
+    category: light_beer
+    conversion: packaged
+    pack_size: 12
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: 'Ultra Gold 12 NR', code 07304 -> Michelob Ultra Pure Gold 12oz Bottle."
+      - "Invoiced three times in the window (62, 10, 15 @ $25.59). Highest-volume packaged SKU."
+
+  - key: nutrl
+    name: Nutrl
+    category: seltzer
+    conversion: packaged
+    pack_size: 6
+    unit_label: can
+    pack_label: pack
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "MarginEdge: 01085 (Nutrl Assorted variety pack), 01484 (Black Cherry 6/4 can),"
+      - "00967 (Pineapple). 01484 invoiced 2026-09-01 (2 @ $43.17)."
+
+  - key: pacifico_16oz
+    name: Pacifico 16oz
+    category: domestic_beer
+    conversion: packaged
+    pack_size: 24          # 6 x 4-pack
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "PRD records this as 16oz 6/4pk, i.e. 24 cans to the case."
+      - "MarginEdge: Heidelberg 16065 'Pacifico Clara 6/4 16 Oz Can' is exactly the 6/4pk"
+      - "16oz case the PRD records. Invoiced 2026-09-17 (2 @ $33.57)."
+      - "DUAL-SOURCED: Arena 335449503 'Pacifico 12Pk Can' invoiced 2026-09-25 (1 @ $16.99) -"
+      - "a single-pack top-up, not a case buy. Heidelberg is the case vendor."
+
+  - key: suncruiser
+    name: Suncruiser
+    category: seltzer
+    conversion: packaged
+    pack_size: 12
+    unit_label: can
+    pack_label: case
+    vendor: superior
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Observed in the Bottled Beer sales category alongside Nutrl."
+      - "MarginEdge: Superior 26240 'Sun Cruiser CS 12oz Class Tea 24PK LSE'. Bought every"
+      - "week of the window, 5 cases at $39 each time - the steadiest reorder in the data."
+
+  # --- Draft ----------------------------------------------------------------
+  - key: rotating_sixth_bbl_sixth_city
+    name: Rotating 1/6 bbl (Sixth City)
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    order_critical: true
+    vendor: sixth_city
+    vendor_confidence: confirmed
+    style: "sours and pale ales"
+    notes:
+      - "Placeholder for the rotating line. Never ordered by SKU - the engine
+         emits a style-and-count recommendation and the manager asks the rep."
+
+  - key: rotating_sixth_bbl_cavalier
+    name: Rotating 1/6 bbl (Cavalier)
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    style: "rotating craft"
+    notes: ["Rotating line. Style-and-count only."]
+
+  # --- Spirits --------------------------------------------------------------
+  - key: oyo_vodka_750
+    name: OYO Vodka 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: arena
+    vendor_confidence: confirmed
+    notes:
+      - "PRD: order through Arena first; Zack is the fallback contact only."
+      - "MarginEdge corroborates: Arena 7698B 'Oyo Vodka', invoiced four times in"
+      - "2026-08-25..09-25 (12, 36, 18, 12 @ $16.45). 7699B is the Honey Vanilla."
+
+  - key: espolon_blanco_750
+    name: Espolon Blanco 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: arena
+    vendor_confidence: marginedge
+    notes:
+      - "MarginEdge: Arena 2937B (750ml) and 2937L/2973L (1L). Arena is the only vendor"
+      - "carrying Espolon. 2937L invoiced 2026-09-03 (9 @ $31.02)."
+
+  - key: bacardi_750
+    name: Bacardi 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    vendor: arena
+    vendor_confidence: marginedge
+    notes:
+      - "Observed in a real export as 'Bacardi FB', qty 4, with a BLANK sales
+         category. Proof that category-only filtering drops real liquor."
+      - "MarginEdge: Arena sole-sources every Bacardi SKU (0544B/0544L Superior/Light,"
+      - "0390B Reserva Ocho, 0422B/L Spiced). The VENDOR is unambiguous; the exact SKU is"
+      - "not - this catalog entry is a generic 'Bacardi 750ml' and 0544L 'Bacardi Light'"
+      - "is the white rum that was actually invoiced (2026-08-27 and 09-03, 12 @ $16.92)."
+      - "Pin the SKU before using this for a priced order."
+
+  - key: grey_goose_750
+    name: Grey Goose 750ml
+    category: white_spirits
+    conversion: spirit_pour
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: arena
+    vendor_confidence: marginedge
+
+  # --- Bottle service (whole bottle per sale, excluded from baseline) --------
+    notes:
+      - "MarginEdge: Arena 3907B (750ml) / 3907L (1L). 3907L invoiced four times in the"
+      - "window (6, 12, 12, 18 @ $32.90). No other vendor carries Grey Goose."
+  - key: grey_goose_bottle_service
+    name: Grey Goose (bottle service)
+    category: bottle_service
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: arena
+    vendor_confidence: marginedge
+    notes:
+      - "Depletes a WHOLE bottle per sale plus its bundled mixers. Mapping it as
+         a pour undercounts this spirit by an order of magnitude."
+      - "Same Arena SKU as grey_goose_750 (3907B/3907L); only the depletion model differs."
+
+  - key: ace_of_spades
+    name: Ace of Spades
+    category: champagne
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    notes:
+      - "Order guide flags it 'not ordered frequently'. Bottle service only."
+      - "MarginEdge: Southern Glazer's 565545 'Armand De Brignac Brut Gb 750ml'."
+      - "SHORTHAND RESOLUTION, not a name match: 'Ace of Spades' is the bar's name for"
+      - "Armand de Brignac. CATALOG-COMPLETENESS.md already places it at Southern Glazer's,"
+      - "and SGWS is the only vendor listing it. Not purchased 2026-08-25..09-25, which is"
+      - "exactly the lumpy bottle-service pattern the PRD predicts."
+
+  - key: dom_perignon
+    name: Dom Perignon
+    category: champagne
+    conversion: whole_bottle
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    excluded_from_baseline: true
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Order guide flags it 'not ordered frequently'. Bottle service only."
+      - "MarginEdge: Southern Glazer's 612937 (Brut 2013 GB) and 637842 (2015)."
+      - "DUAL-SOURCED: Arena 0817538403 carries the Jean-Michel Basquiat edition."
+      - "Not purchased in the window - bottle service only."
+
+  # --- Prep ingredients: never sold on a POS line of their own ---------------
+  - key: chinola
+    name: Chinola Passion Fruit Liqueur
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 6
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "Forecast only through cocktail recipes."
+      - "MarginEdge: Heidelberg 454080 'Chinola 750ml Passion Fruit Liqueur', invoiced"
+      - "2026-09-03 (1 @ $125.96 per case)."
+      - "DUAL-SOURCED: Arena 8689320001 'Chinalo Passionfruit' lists the same product but"
+      - "was not invoiced in the window. Heidelberg is the vendor actually used."
+
+  - key: llords_elderflower
+    name: Llords Elderflower
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 6
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    vendor: southern_glazers
+    vendor_confidence: marginedge
+    notes:
+      - "Forecast only through cocktail recipes."
+      - "MarginEdge: Southern Glazer's 558752 'Llords Elderflower 30 1.000 Lt'. Invoiced"
+      - "2026-08-25 and 2026-09-01 (2 @ $92 each). Sole source."
+
+  - key: mr_boston_triple_sec
+    name: Mr. Boston Triple Sec
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 12
+    unit_size_oz: 33.81
+    unit_label: bottle
+    pack_label: case
+    vendor: heidelberg
+    vendor_confidence: marginedge
+    alt_vendors: [arena]
+    notes:
+      - "1L. Forecast only through cocktail recipes."
+      - "MarginEdge: Heidelberg 464010 'Mr Boston Triple Sec', invoiced 2026-08-28 (6 @"
+      - "$2.71, split case) and 2026-09-03 (1 @ $32.52, full case)."
+      - "DUAL-SOURCED: Arena 0890000187 'Boston Triple Sec 1 L' and Southern Glazer's"
+      - "33497 (DeKuyper, a different brand). Heidelberg is the vendor actually used."
+
+  # --- Non-alcoholic --------------------------------------------------------
+  # Red Bull is TWO orderable products, not one. Regular and sugar-free are
+  # separate Southern Glazer's item codes bought at different rates on the same
+  # drops, and a single combined product cannot produce a correct order for
+  # either. Split 2026-10-02 at the operator's request.
+  - key: red_bull
+    name: Red Bull Energy Drink
+    category: na_beverage
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    alt_vendors: [arena, columbus_distributing]
+    notes:
+      - "Lives under the NA Beverage sales category. Filtering that category out
+         would mean never ordering Red Bull. Also a bottle-service bundle item."
+      - "MarginEdge: Southern Glazer's item 201010 'Red Bull Energy Drink'.
+         67 cases across 12 of ~13 weeks, 2026-06-30..09-22 = 5.15 cases/wk.
+         One of the most consistent lines in the building."
+      - "PRICE ROSE $42.00 -> $46.00 (+9.5%) during the window, unflagged. At 5.15
+         cases/wk that is roughly $1,070/yr of standing cost increase."
+      - "TRIPLE-SOURCED: Arena 6112690012/6112694267/6112697337 and Columbus
+         Distributing 01742 also carry Red Bull. Arena was used once (2026-08-28,
+         2 @ $25.99) as a top-up. Southern Glazer's is the standing vendor."
+
+  - key: red_bull_sugar_free
+    name: Red Bull Sugar Free
+    category: na_beverage
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    alt_vendors: [arena, columbus_distributing]
+    notes:
+      - "SEPARATE PRODUCT FROM red_bull, not a variant to fold in. MarginEdge:
+         Southern Glazer's item 0409127 'Red Bull Energy Sugarfree Ca'.
+         27 cases across 10 of ~13 weeks, 2026-06-30..09-22 = 2.08 cases/wk."
+      - "RATIO TO REGULAR IS ABOUT 2.5 : 1 and has held all quarter. Ordering the
+         two as one product and splitting by guess is how the cafe runs out of one
+         while sitting on the other."
+      - "Same $42.00 -> $46.00 (+9.5%) increase as regular, same silence."
+      - "Red Bull Watermelon (982819, 3 cases, 2026-09-01 only) is NOT carried as a
+         product: one date, one order, no repeat. It is a trial, and promoting it
+         would create a phantom line of exactly the kind the rotating-keg work
+         documented."
+
+  # --- Cafe: tea ------------------------------------------------------------
+  # The order guide listed "Tea, Loose Leaf Dragonwell Green ~1.2 lb/wk $32.00/lb"
+  # under Berardi's. Berardi's item list contains no tea at all. Tea is Rishi
+  # (billed as Diaspora Tea & Herb), Sante Matcha and Inca Tea.
+  - key: dragonwell_tea
+    name: Rishi Dragon Well Organic Green Tea 250g
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: pack
+    pack_label: pack
+    order_critical: false
+    vendor: rishi
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "RISHI, NOT BERARDI'S - operator-confirmed 2026-10-02. MarginEdge bills
+         Rishi as 'Diaspora Tea & Herb Company, LLC', account C154101."
+      - "A 250 g RETAIL PACK at $38.00, not a pound at $32.00 as the guide read.
+         That is about $69/lb - the unit and the price were both wrong, and the
+         error ran in the cheap direction."
+      - "TWO ITEM CODES, TRANSPOSED: ORDW250-RP and ODRW250-RP, one product id
+         375171358. Lavender Mint has the same problem (OLW250-RP / OLM250-RP)."
+      - "NOT BOUGHT SINCE 2025-10-15. Carried because it is on the menu and the
+         operator names Rishi as the source; there is no 2026 purchase to build a
+         rate from, so this is a par-level item until one exists."
+
+  - key: ceremonial_matcha
+    name: Sante CoffeeHouse Ceremonial Matcha 250g
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: tin
+    pack_label: tin
+    order_critical: true
+    vendor: sante_matcha
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Sante Matcha SW-011 'CoffeeHouse Ceremonial-250g /Organic',
+         $74.25 a tin. The 2026-09-21 order was 10 tins for $742.50."
+      - "BOUGHT ON A CARD, NOT THROUGH AP. The last three orders are Visa and the
+         most recent has no invoice number. An AP-based spend review misses it
+         entirely, which is how a $2,507 vendor stayed out of the guide."
+
+  # --- Cafe: cold brew ------------------------------------------------------
+  - key: cold_brew_keg_20l
+    name: Cold Brew Coffee Keg 20L
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_size_oz: 641
+    unit_label: keg
+    pack_label: keg
+    order_critical: true
+    vendor: thunderkiss
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "THUNDERKISS COFFEE, NOT BERARDI'S - OPERATOR-CONFIRMED 2026-10-02.
+         The order guide listed a 'Coffee, Cold Brew Keg (20L) ~1.2/wk $100.00'
+         under Berardi's. Berardi's carries cold brew only as GROUND coffee
+         (6-856-5, 00-952-3) and a 5-gallon liquid PET (00-856-15), all product id
+         469778257. The 20 L keg is Thunderkiss TK520/TKS20, product id 544539218.
+         Invoice evidence and the operator agree; this is settled."
+      - "15 kegs, $1,500.00, 8 invoices, 2026-06-30..08-26 = 1.64 kegs/wk. Flat
+         $100.00 every time, so every invoice total is a round multiple of 100."
+      - "TWO ITEM CODES FOR ONE PRODUCT, DIFFERING BY A HOMOGLYPH: TK520 (digit
+         five, 7 kegs) and TKS20 (letter S, 8 kegs). Counting by item code halves
+         the rate. Cross-check the product id."
+      - "STOPPED 2026-08-26 - nothing for five weeks. Cold brew is seasonal, so a
+           deliberate autumn wind-down and a dropped line look identical here.
+           ASK the cafe before ordering or dropping."
+      - "20 L = 641 oz usable (BottleYields.twenty_liter_oz). At $100 that is
+         $2.50 per 16oz serving. Cafe menu pricing is not in this project, so no
+         pour cost is asserted - unlike draft, where $5.00 flat is confirmed."
+
+  - key: fat_heads_bumble_berry
+    name: "Fat Head's Bumble Berry Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "CONFLICT RESOLVED 2026-10-01: the 1/6-only rule is STALE, not excepted.
+         The full quarter shows Cavalier running three formats - nine 1/6 bbl,
+         five 1/2 bbl and one 1/4 bbl."
+      - "THIS IS THE CAVALIER ACCOUNT, NOT AN EXCEPTION TO IT. Code 4824, $169.99,
+         5 orders and 7 half-barrels over 2026-06-30..09-15 = $1,189.93, which is
+         38% of everything Cavalier sold us. The 1/6 rotation is the sideline.
+         named_sku is doing most of this vendor's work."
+      - "Rate holds: 7 kegs over the 11-week span is 0.64/wk against the 0.70/wk
+         carried in the keg table. An earlier read of one month saw 3 units and
+         inferred the same rate by luck rather than by sample."
+      - "Appears in MarginEdge as: Fat Head's Bumble Berry Keg (1/2BBL); on the
+         invoice as Cavalier 4824 'Fat Bumble Berry 1/2 Bbl'."
+      - "FORMAT IS WHY THIS IS THE RIGHT KEG TO BUY BIG: at $169.99 a half-barrel
+         pours at $1.45 per 16oz against $2.81 for the median 1/6 bbl - about
+         half the cost per ounce."
+      - "One of the two 2026-07-07 records for this product is a DUPLICATE: the
+         invoice arrived both as Cavalier's CSV (O-5054012, letter O) and as a
+         hand-keyed mobile photo (0-5054012, digit zero). Count 5 orders, not 6."
+
+  # --- Cavalier is not a keg-only vendor -------------------------------------
+  # $429.84 of the 2026-06-30..09-15 quarter - 14% of the account - is not beer.
+  # Collapsing this vendor to "rotating kegs, ask Dan" left all three of these to
+  # memory. They are here so a style-and-count order cannot hide them.
+  - key: amarena_cherries
+    name: Fabbri Amarena Cherries Syrup 6/8oz
+    category: bar_prep
+    conversion: packaged
+    pack_size: 6
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 16234 'Fab Amarena Cherries Syrup 6/8 Oz' at
+         $19.99, 6 units across 2 orders (2026-06-30 and 08-18)."
+      - "Bar prep, on a vendor the guide described as rotating kegs only. Bought
+         twice in a quarter, so it is a running line rather than a one-off."
+
+  - key: giffard_rhubarb_750
+    name: Giffard Rhubarb Liqueur 750ml
+    category: liqueur
+    conversion: spirit_pour
+    pack_size: 1
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: bottle
+    order_critical: false
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 17952 'Giffard Liqueur Rhubarb 1/6 750 Ml
+         Bottle 40pf' at $19.99, 6 bottles on 2026-08-25."
+      - "Second Giffard liqueur in the catalog after Pamplemousse. Both are
+         Cavalier-adjacent, so confirm whether Cavalier or Arena is the intended
+         source for the Giffard range before standardising."
+
+  - key: sun_goddess_prosecco_rose
+    name: Volpe Sun Goddess Prosecco Rose DOC 750ml
+    category: wine
+    conversion: wine_glass
+    pack_size: 12
+    unit_size_oz: 25.36
+    unit_label: bottle
+    pack_label: case
+    order_critical: false
+    vendor: cavalier
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Cavalier code 26705, 12 bottles across 2 orders
+         (2026-07-07 and 08-18)."
+      - "PRICE LOOKS LIKE IT MOVED AND DID NOT. It appears at $15.33 and $16.08
+         for the same bottle: the $3.00 split-case fee is folded into the unit
+         price on one ingestion path and broken out as a charge on the other.
+         Same artifact as the Heidelberg wines - compare within one packaging."
+
+  - key: pamplemousse_750
+    name: Giffard Pamplemousse Liqueur 750ml
+    category: liqueur
+    conversion: spirit_pour
+    pack_size: 1
+    unit_size_oz: 25.36
+    season: fall_winter
+    unit_label: bottle
+    pack_label: bottle
+    order_critical: true
+    vendor: arena
+    vendor_confidence: confirmed
+    alt_vendors: [cavalier]
+    notes:
+      - "Arena only (corrected 2026-09-21 - an earlier draft had this on Cavalier)."
+      - "Arena is email-only: send to arenaliquor@gmail.com, never call or text."
+      - "pack_size 1 assumes Arena sells by the bottle. Change to 12 if they
+         require case quantities."
+      - "Brand confirmed as Giffard by the Fall 2026 cocktail prep sheet (Rev 11).
+         Note you already stock Giffard Abricot and Giffard Rhubarb - Pamplemousse
+         is a third, different Giffard and is not currently purchased."
+      - "Used in SW-2 (Sweetheart cider mix) at 25 oz per 1X batch - almost exactly
+         one 750ml bottle (25.36 oz), which supports ordering by the bottle."
+      - "Does not appear in the 2026-07-20..08-28 purchase report, so there is no
+         observed cost or depletion rate yet."
+      - "CORRECTION FROM MARGINEDGE: Cavalier DOES carry this - 12942 'Giffard Creme De"
+      - "Pamplemousse 1/12 750 Ml Bottle 32pf'. The 2026-09-21 note above says 'Arena only';"
+      - "that is wrong about availability, though Arena remains the vendor actually used."
+      - "Arena codes: 1085232281, 8523228141_Pamplemousse, and 8523228242 'GIELARD"
+      - "PAMPLEMOUSE' which is the one invoiced 2026-09-17 (12 @ $26.99)."
+      - "IT IS NOW PURCHASED. The 'not currently purchased' note above is out of date."
+
+
+  # --- Amazon: prep goods the distributors do not carry -----------------------
+  # Confirmed against the Amazon vendor-item catalogue 2026-09-28. Amazon items
+  # have no vendorItemCode at all, so these are ordered by product name.
+
+  - key: bhakti_chai_concentrate
+    name: Bhakti Chai Tea Concentrate
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: bottle
+    pack_label: bottle
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "CORRECTION: an earlier note said the chai concentrate on hand was a
+         different product from the Bhakti the prep sheet asks for. It is not -
+         MarginEdge maps Bhakti Chai Tea Concentrate to the product 'Tea, Chai
+         Concentrate' that purchasing already shows."
+      - "Used in CO-2 (pear chai tea mix) at 11.25 fl oz per batch."
+
+  - key: frontier_pumpkin_pie_spice
+    name: Frontier Organic Pumpkin Pie Spice 16oz
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: container
+    pack_label: container
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Exact brand the Fall 2026 prep sheet names. Used in CH-2 at 24 g."
+      - "The prep sheet does not say which step the spice enters at - unresolved
+         on the sheet itself, not a gap in this entry."
+
+  - key: pecans_whole
+    name: Pecans, Raw Whole
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: bag
+    pack_label: bag
+    order_critical: true
+    vendor: amazon
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Yupik Organic Raw Pecans, 2.2 lb. Used in CH-2 at 175 g per batch."
+      - "ALLERGEN: CH-2 contains pecan. Containers must be labelled."
+
+  # --- Hillcrest: bar prep goods from the broadline purveyor --------------------
+
+  - key: allulose_powder
+    name: Sugar Allulose Powder Organic
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: container
+    pack_label: container
+    order_critical: true
+    vendor: hillcrest
+    vendor_confidence: marginedge
+    notes:
+      - "Hillcrest code 38006. The vendor item name says POWDER and MarginEdge
+         books it as 'Sugar Allulose, Powdered'."
+      - "UNRESOLVED RECIPE CONFLICT: prep sheet SS-1 asks for 34 FL OZ of 'cold
+         allulose' - a volume measure against a powder. Either the spec means a
+         liquid allulose nobody currently buys, or it means powder and 34 fl oz
+         should be a weight. Scarlett Spritz cannot be batched or costed until
+         this is decided. Do not silently convert one to the other."
+
+  - key: sugar_dark_brown
+    name: Sugar, Dark Brown
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: bag
+    pack_label: bag
+    order_critical: true
+    vendor: hillcrest
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Hillcrest code 38029. Light brown is a separate item, 38040."
+      - "Used in CH-2 (pecan brown sugar syrup) at 64 oz per batch."
+
+  - key: apple_cider_drinking
+    name: Cider, Apple (drinking)
+    category: prep
+    conversion: prep_ingredient
+    pack_size: 1
+    unit_label: gallon
+    pack_label: gallon
+    order_critical: true
+    vendor: hillcrest
+    vendor_confidence: marginedge
+    season: fall_winter
+    notes:
+      - "Hillcrest code 4032 'Cider Apple'. ORDER THIS CODE."
+      - "Do NOT order 40118 or 40118S - those are apple cider VINEGAR. Code 4033
+         reads 'Apple Cider Fresh' but MarginEdge maps it to the vinegar product."
+      - "Used in SW-2 (Sweetheart cider mix) at 150 oz per batch - over a gallon,
+         the largest single prep volume on the fall sheet."
+
+  - key: downeast_original_keg
+    name: "Downeast Original Cider Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 4 separate orders (11 kegs total) over
+         2026-08-28..09-28 - about 2.48 kegs/week. $194.00 each, superior code 11488."
+      - "Highest-volume keg in the building and the largest single keg line by spend:"
+      - "$2,134.00 over 2026-08-28..09-28. Ordered in all four weeks of the window."
+  - key: bellafina_secco_keg
+    name: "Bellafina Secco Frizzante Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: sixth_barrel
+    unit_size_oz: 627
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (9 kegs total) over
+         2026-08-28..09-28 - about 2.03 kegs/week. $150.00 each, heidelberg code 798003."
+      - "Prosecco on tap. The ONLY staple keg on a Wednesday cutoff (Heidelberg,"
+      - "Wed 17:00 -> Thu), so a missed Wednesday has no second chance in the week."
+      - "Second-highest keg spend at $1,350.00 for the window."
+  - key: garage_lime_keg
+    name: "Garage Beer Lime Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: RATE CORRECTED on the full quarter. Over 2026-06-30..09-22
+         (12.00 weeks) Superior invoiced 20 kegs across 11 of the 12 weeks -
+         1.67 kegs/week, not the 0.90 read off a single month. This is the
+         second most consistent keg in the building after Downeast, and it was
+         carried at half its real rate. $135.00 each, superior code 15305."
+  - key: busch_light_keg
+    name: "Busch Light Draft Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "NOT A STAPLE - a September launch mistaken for one. Over the full
+         quarter 2026-06-30..09-22 this was bought exactly TWICE, on 2026-09-15
+         and 2026-09-22, two kegs each. The one-month sample used earlier
+         happened to be precisely the window it launched in, so a brand-new line
+         read as an established 0.90/week staple. Real rate is 0.33/week and
+         there is not yet enough history to forecast from. $126.00 each,
+         columbus_distributing code 07892."
+  - key: cbc_bodhi_keg
+    name: "Columbus Brewing Company Bodhi Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: fifty_liter
+    unit_size_oz: 1603
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 3 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $197.00 each, superior code 10051."
+      - "Ships as a 50L, not a barrel fraction - the yield constant fifty_liter_oz"
+      - "was added for this product. Invoiced 2026-09-01, 09-04 and 09-18."
+      - "Appears in the old guide as the shorthand 'CBC', which is why it was easy"
+      - "to miss when auditing kegs by name."
+  - key: miller_high_life_keg
+    name: "Miller High Life Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 3 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $115.00 each, superior code 01025."
+      - "MarginEdge item name is just 'Miller HL' - do not confuse with code 01030,"
+      - "which is the 12oz can, or with Miller Lite."
+  - key: golden_road_mango_keg
+    name: "Golden Road Mango Cart Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: columbus_distributing
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $150.00 each, columbus_distributing code 73592."
+      - "Invoices abbreviate this to 'Gr Mgo Df 1/2 Keg'. Listed in the old guide as"
+      - "'Mango Cart'."
+  - key: cincy_light_keg
+    name: "Rhinegeist Cincy Light Lager Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (3 kegs total) over
+         2026-08-28..09-28 - about 0.68 kegs/week. $130.00 each, superior code 17076."
+  - key: hazy_little_thing_keg
+    name: "Sierra Nevada Hazy Little Thing Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: 4 orders, 4 kegs over 2026-06-30..09-22 (12.00 weeks) -
+         0.33 kegs/week, evenly spaced (7/28, 8/18, 9/1, 9/18). Slow but genuinely
+         steady. $191.00 each, superior code 67218."
+  - key: dogfish_30_minute_keg
+    name: "Dogfish Head 30 Minute Light IPA Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $187.00 each, superior code 17044."
+      - "Listed in the old guide as bare 'Dogfish'. Superior carries six other"
+      - "Dogfish kegs, so the shorthand was ambiguous."
+  - key: elvis_juice_keg
+    name: "BrewDog Elvis Juice IPA Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: superior
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $185.00 each, superior code 11844."
+  - key: real_american_keg
+    name: "Real American Light Lager Keg"
+    category: draft
+    conversion: draft
+    pack_size: 1
+    unit_label: keg
+    pack_label: keg
+    keg_size: half_barrel
+    unit_size_oz: 1880
+    order_critical: true
+    vendor: heidelberg
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Staple keg: invoiced in 2 separate orders (2 kegs total) over
+         2026-08-28..09-28 - about 0.45 kegs/week. $120.00 each, heidelberg code 12175."
+      - "Was miscategorised in the guide as bottled/draft beer rather than a keg."
+
+  - key: lucky_one_original_lemonade
+    name: "Lucky One Original Vodka Lemonade 355ml"
+    category: rtd
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    unit_size_oz: 12.0
+    order_critical: true
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Southern Glazer's code 694881, invoice name 'Lucky One Vod Lemon Orig
+         24ls 355.000 Ml'. Invoiced 2026-09-04 and 2026-09-22."
+      - "Was missing from the guide and the catalog entirely despite being a
+         repeat buy - flagged by the operator 2026-09-29."
+
+  - key: lucky_one_variety_lemonade
+    name: "Lucky One Lemonade Vodka Variety 12oz Can"
+    category: rtd
+    conversion: packaged
+    pack_size: 12
+    unit_label: can
+    pack_label: case
+    unit_size_oz: 12.0
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Southern Glazer's code 658287, invoice name 'Lucky One Vod Lemon
+         Variety'. Assorted flavours - carried, no purchase in the sampled
+         window, so it has no baseline yet."
+
+  - key: milk_whole
+    name: "Milk, Whole"
+    category: dairy
+    conversion: packaged
+    pack_size: 1
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: hartzler
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Ordered by the CASE, never by the gallon. A real order reads in full:
+         '15 cases whole milk, 1 case 1/2 and 1/2.'"
+      - "One of only TWO items Hartzler supplies (operator-confirmed 2026-09-29)."
+      - "Observed ~22.6 gal/wk, but that rate came from a purchase report with no
+         vendor column, so treat the VOLUME as indicative and the VENDOR as
+         confirmed - the reverse of the usual situation."
+
+  - key: half_and_half
+    name: "Half & Half"
+    category: dairy
+    conversion: packaged
+    pack_size: 1
+    unit_label: case
+    pack_label: case
+    order_critical: true
+    vendor: hartzler
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "Ordered by the CASE. The second and last Hartzler item."
+      - "Roughly 1 case to every 15 of whole milk on a typical order."
+
+
+# Recipes: cocktail specs and bottle-service bundles.
+#
+# NOTE: no cocktail spec book was available when this catalog was seeded. The
+# entries below exist to exercise the recipe machinery end to end and are
+# labelled unverified. Do not treat these amounts as house specs - PRD open
+# question 6 ("do cocktail recipes exist in writing?") is still open, and
+# spirit and prep forecasting is only as good as the answer.
+#
+# This header sat 538 lines above the `recipes:` key until 2026-10-02, stranded
+# inside the red_bull notes list along with a comment about Cavalier's named SKU.
+# YAML ignores comments, so it parsed correctly and read as nonsense.
+recipes:
+  - key: passionpunch_margarita
+    description: "UNVERIFIED placeholder spec - replace with the house build."
+    unverified: true
+    lines:
+      - {product: espolon_blanco_750, oz: 1.5}
+      - {product: chinola, oz: 0.5}
+      - {product: mr_boston_triple_sec, oz: 0.5}
+
+  - key: bottle_service_bundle_standard
+    description: "Mixers bundled with a standard bottle-service package. UNVERIFIED."
+    unverified: true
+    lines:
+      - {product: red_bull, units: 4}

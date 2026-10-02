@@ -1,0 +1,23 @@
+# SYNTHETIC test catalog. Vendors are assigned here so the ordering tests have
+# something to group by; the shipped seed catalog leaves most of them null
+# because the real assignments live in a document this repo does not have.
+products:
+  - {key: bud_light, name: Bud Light, vendor: superior, vendor_confidence: confirmed, category: light_beer, conversion: packaged, pack_size: 24, unit_label: bottle, order_critical: true}
+  - {key: nutrl, name: Nutrl, vendor: superior, vendor_confidence: confirmed, category: seltzer, conversion: packaged, pack_size: 6, unit_label: can, order_critical: true}
+  - {key: red_bull, name: Red Bull, vendor: columbus_distributing, vendor_confidence: confirmed, category: na_beverage, conversion: packaged, pack_size: 24, unit_label: can}
+  - {key: house_ipa_half_bbl, name: House IPA 1/2 bbl, vendor: superior, vendor_confidence: confirmed, category: draft, conversion: draft, pack_size: 1, unit_label: keg, pack_label: keg, keg_size: half_barrel}
+  - {key: rotating_sixth_bbl, name: Rotating 1/6 bbl, vendor: sixth_city, vendor_confidence: confirmed, category: draft, conversion: draft, pack_size: 1, unit_label: keg, pack_label: keg, keg_size: sixth_barrel, style: "sours and pale ales"}
+  - {key: espolon_blanco_750, name: Espolon Blanco 750ml, vendor: southern_glazers, vendor_confidence: confirmed, category: white_spirits, conversion: spirit_pour, pack_size: 12, unit_size_oz: 25.36, unit_label: bottle, max_order_units: 6}
+  - {key: bacardi_750, name: Bacardi 750ml, vendor: southern_glazers, vendor_confidence: confirmed, category: white_spirits, conversion: spirit_pour, pack_size: 12, unit_size_oz: 25.36, unit_label: bottle}
+  - {key: chinola, name: Chinola, vendor: southern_glazers, vendor_confidence: confirmed, category: prep, conversion: prep_ingredient, pack_size: 6, unit_size_oz: 25.36, unit_label: bottle}
+  - {key: espolon_bottle_service, name: Espolon Blanco (bottle service), vendor: arena, vendor_confidence: confirmed, category: bottle_service, conversion: whole_bottle, pack_size: 1, unit_size_oz: 25.36, unit_label: bottle, pack_label: bottle, excluded_from_baseline: true}
+  - {key: chardonnay_750, name: House Chardonnay 750ml, vendor: heidelberg, vendor_confidence: confirmed, category: white_wine, conversion: wine_glass, pack_size: 12, unit_size_oz: 25.36, unit_label: bottle}
+
+recipes:
+  - key: passionpunch_margarita
+    lines:
+      - {product: espolon_blanco_750, oz: 1.5}
+      - {product: chinola, oz: 0.5}
+  - key: bottle_service_bundle
+    lines:
+      - {product: red_bull, units: 4}

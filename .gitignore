@@ -1,0 +1,19 @@
+
+# Local data — never commit real Toast or MarginEdge exports.
+# These patterns are ANCHORED to the repo root on purpose: an unanchored
+# `data/` also matches thbev/catalog/data/, which is packaged catalog data
+# that must be committed.
+/data/
+/data/marginedge/
+*.local.csv
+*.local.xlsx
+
+# Python
+*.egg-info/
+*.py[cod]
+.pytest_cache/
+.venv/
+__pycache__/
+build/
+dist/
+venv/

@@ -1,0 +1,42 @@
+# SYNTHETIC test mappings. Deliberately includes the same menu item name under
+# two different Sales Category / Menu combinations, mapping to different
+# products with different conversion types.
+mappings:
+  - key: {sales_category: Liquor, menu: LIQUOR, menu_group: Tequila, menu_item: Espolon Blanco}
+    product: espolon_blanco_750
+  - key: {sales_category: Bottle Service, menu: BOTTLE SERVICE, menu_group: Tequila Bottles, menu_item: Espolon Blanco}
+    product: espolon_bottle_service
+    bundle: bottle_service_bundle
+    bottle_service: true
+  # PMIX All levels has no Sales Category column at all, so the same two items
+  # have to be separable on menu structure alone.
+  - key: {menu: LIQUOR, menu_group: Tequila, menu_item: Espolon Blanco}
+    product: espolon_blanco_750
+  - key: {menu: "BOTTLE SERVICE", menu_group: Tequila Bottles, menu_item: Espolon Blanco}
+    product: espolon_bottle_service
+    bundle: bottle_service_bundle
+    bottle_service: true
+  # Blank Sales Category on a genuine liquor SKU: matched on menu + item.
+  - key: {menu: LIQUOR, menu_group: Rum, menu_item: Bacardi FB}
+    product: bacardi_750
+  - key: {menu: COCKTAIL, menu_item: PassionPunch Margarita}
+    recipe: passionpunch_margarita
+    conversion: cocktail_recipe
+  - key: {menu_item: Bud Light}
+    product: bud_light
+  - key: {menu_item: Nutrl}
+    product: nutrl
+  - key: {menu_item: Red Bull}
+    product: red_bull
+  - key: {menu_item: House IPA Pint}
+    product: house_ipa_half_bbl
+  - key: {menu_item: Rotating Draft Pint}
+    product: rotating_sixth_bbl
+  - key: {menu_item: House Chardonnay Glass}
+    product: chardonnay_750
+
+modifiers:
+  - {match: Single, kind: pour, pour: single}
+  - {match: Rocks, kind: pour, pour: rocks}
+  - {match: Double, kind: pour, pour: double}
+  - {match: Add Red Bull, kind: product, product: red_bull, units: 1}

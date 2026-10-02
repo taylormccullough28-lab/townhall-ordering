@@ -1,0 +1,100 @@
+# Engine configuration. Every number here is meant to be tuned by a human.
+
+location: "Townhall - Short North"
+
+# The business day ends at 4:00 AM. A sale at 01:30 belongs to the prior day.
+business_day_cutoff_hour: 4
+
+# Confirmed house pours, in ounces. Sales with no pour modifier default to Single.
+pours:
+  single: 1.5
+  rocks: 2.5
+  double: 3.0
+  default: single
+
+# Theoretical container yields, in ounces, before overpour.
+# 750ml = 25.36 oz, 1L = 33.81 oz, 1.75L = 59.17 oz.
+# Keg figures are USABLE yield after the ~5% foam and line loss the PRD assumes:
+# 1/2 bbl about 1,880 oz (~117 pints), 1/6 bbl about 627 oz (~39 pints).
+yields:
+  ml_750: 25.36
+  ml_1000: 33.81
+  ml_1750: 59.17
+  half_barrel_oz: 1880
+  sixth_barrel_oz: 627
+
+# effective_yield = theoretical / (1 + overpour_factor).
+# Seeded at 5%. PRD open question 7 (free-pour or jiggered?) sets the real value,
+# and it moves every spirit quantity in the system.
+overpour_factor: 0.05
+
+# PRD open question 3: wine by the glass is 5oz or 6oz - a 25% swing per bottle -
+# and draft is 16oz throughout or 12oz for high-ABV. Both unresolved; these are
+# the PRD's stated defaults, not confirmed house standards.
+wine_glass_oz: 5.0
+draft_pour_oz: 16.0
+
+# order_qty = round_up_to_pack(forecast_over_cover + safety - on_hand - on_order)
+safety_stock_fraction: 0.25
+safety_stock_floor: 1.0
+
+# Trailing baseline: mean of the same weekday over the last N weeks, trimmed.
+# "high_low" drops the single highest and single lowest observation when at
+# least 4 are available, then means the rest. "none" disables trimming.
+baseline_weeks: 4
+baseline_trim: high_low
+
+# Demand multipliers. `overall` applies to every category; `categories` overrides
+# it for the named ones. Stacking across drivers is multiplicative.
+event_multipliers:
+  osu_home_football:
+    label: "OSU home football, day of"
+    overall: 1.60
+    categories:
+      domestic_beer: 1.90
+      light_beer: 1.90
+      seltzer: 1.90
+  blue_jackets_home:
+    label: "Blue Jackets home game"
+    overall: 1.25
+  gallery_hop:
+    label: "Gallery Hop (first Saturday)"
+    overall: 1.35
+  private_buyout:
+    label: "Private buyout"
+    overrides_baseline: true
+    # headcount x per-head rate. No rate is seeded because the PRD gives none;
+    # see buyout_per_head_units below. A buyout with no rate raises rather than
+    # quietly forecasting zero.
+
+weather_multipliers:
+  hot:
+    label: "Temp > 85F and sunny"
+    threshold_f_min: 85
+    requires_sunny: true
+    categories:
+      seltzer: 1.20
+      light_beer: 1.20
+      draft: 1.20
+      red_wine: 0.90
+      brown_spirits: 0.90
+  cold:
+    label: "Temp < 40F"
+    threshold_f_max: 40
+    categories:
+      seltzer: 0.85
+      brown_spirits: 1.15
+
+# Units per guest per category for a private buyout. EMPTY ON PURPOSE: the PRD
+# specifies the formula (headcount x per-head rate) but no rates. Fill these in
+# before using buyout events, or the engine will tell you it cannot forecast one.
+buyout_per_head_units: {}
+
+# Superior has two windows. Recommend adding the Thursday window when a 4-day
+# cover cuts the Monday order by at least this fraction.
+superior_second_window_threshold: 0.20
+
+# What to do when a post-cutoff adjustment is requested but the sales data has no
+# time dimension (a PMIX-only ingest). "error" refuses and says why. There is no
+# invented hourly curve.
+post_cutoff_fallback: error

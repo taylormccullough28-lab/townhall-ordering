@@ -1,0 +1,689 @@
+# TownHall Columbus beverage vendors, order windows and channel rules.
+#
+# Source: PRD "Appendix: Vendor Order Windows", which is itself transcribed from
+# TH_ORDER_GUIDE.docx. This file is seed data and is meant to be edited without
+# a code change.
+#
+# Weekdays are names (monday..sunday). Times are 24-hour local.
+# order_weekday/order_time  = the cutoff the manager must beat.
+# delivery_weekday/time     = when that order lands.
+# optional: true            = a secondary window the manager may skip.
+
+vendors:
+  - key: superior
+    name: Superior Beverage
+    channel: phone
+    contact: {name: Shane, phone: "(614) 306-4582"}
+    rules:
+      keg_return_required: true
+      notes:
+        - "Two windows. The engine compares a 7-day cover against a 4-day cover and
+           recommends the Wednesday window only when it meaningfully reduces the order."
+    windows:
+      - key: superior_sunday
+        order_weekday: sunday
+        order_time: "19:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+      - key: superior_wednesday
+        order_weekday: wednesday
+        order_time: "19:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        note: "Second window, moved from Thursday 5pm to Wednesday 7pm (confirmed
+               2026-09-21). Using it turns a 7-day cover into 4 days Mon->Fri."
+
+  - key: columbus_distributing
+    name: The Columbus Distributing Co.
+    channel: phone
+    contact: {name: Conner, phone: "(937) 581-1234"}
+    rules:
+      keg_return_required: true
+    windows:
+      - key: columbus_sunday
+        order_weekday: sunday
+        order_time: "19:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+
+  - key: arena
+    name: Arena Liquor
+    channel: email
+    contact: {email: arenaliquor@gmail.com, label: "Orders (email only)"}
+    rules:
+      email_only: true
+      order_email: arenaliquor@gmail.com
+      emergency_contact: {name: Gursev, label: "Emergency only - do not use for routine orders"}
+      notes:
+        - "Email only. The engine will not produce a phone or text script for Arena."
+        - "Order days (Sunday and Wednesday) confirmed by the operator 2026-09-28.
+           DELIVERY IS THURSDAY, established on a full quarter (45 invoices,
+           2026-06-24..09-25) rather than the one-month sample used earlier.
+           Weighting by money is what settles it: Thursday is 11 invoices but
+           $54,488 - 60% of all Arena spend, averaging $4,953 a drop. Saturday is
+           the most FREQUENT day (13 invoices) at only 5.7% of spend, because
+           those are counter pickups, not deliveries. Sunday: never."
+        - "SUPERSEDES an earlier note here that read 'never once on Monday'. That
+           held for 2026-08-28..09-28 but not for the quarter: 2 of 45 invoices
+           landed Monday (7/20 and 7/27). The one-month window was too small to
+           read a weekday pattern from."
+        - "TWO CHANNELS, and they are indistinguishable until sorted by value.
+           Wholesale invoices are prefixed OH00028...: 29 invoices, $86,838 (96%
+           of spend), avg $2,994 across 12.5 lines, carrying the account number.
+           Counter/will-call invoices are 6 digits: 16 invoices, $3,497 (4%), avg
+           $219 across 1.7 lines, usually with NO account number, mostly Saturday
+           - about 1.2 emergency runs a week. Only the wholesale channel is a
+           delivery schedule; do not let the counter invoices train a forecast."
+        - "$90,334.97 over the quarter, reconciling exactly: $87,951.60 line items
+           + $2,027.75 otherCharges + $140.00 delivery + $215.62 tax."
+        - "ONE PRODUCT, TWO BOTTLE SIZES, ONE MARGINEDGE PRODUCT ID. Arena item
+           codes end in L (1 litre) or B (750ml) and MarginEdge maps both onto a
+           single product, so product-level quantity adds sizes together: Tito's
+           reads 597 units but is 444 x 1L + 153 x 750ml. This affects 35% of
+           Arena spend (Tito's, Absolut, Casamigos Reposado, Grey Goose, Espolon
+           Blanco). DEPLETION MUST BE COMPUTED PER VENDOR ITEM CODE, never per
+           product name - at this size the error is ~25% on the largest line in
+           the building."
+        - "FOUR PRODUCTS CARRY DUPLICATE CODES - same product, same size, same
+           price, so a per-item baseline reads low on both: Casamigos Reposado 1L
+           (1809L_1L + 1809L, $2,199.60), Espolon Blanco 1L (2937L +
+           2937L_Silver, $960.68), Don Julio 1942 (2720B + '2720B_ 750ML' - the
+           code contains a space, $507.60), Tanqueray 1L (0326L + 0326L_1L,
+           $253.80)."
+        - "CONFIRMED DOUBLE BILL, $5,781.06 - RECOVERABLE. Operator confirmed
+           2026-09-29 that Arena billed one delivery twice: OH0002811019
+           (2026-07-22, 30 lines, acct 727546) and OH0002821151 (2026-07-30,
+           29 lines, acct 0727546). All 29 lines match on item code, quantity
+           and price; the $20 difference is a 'Liquor' line on one booked as
+           delivery on the other, so both totals land identical. That is 6.4% of
+           the quarter's Arena spend. The account number is written two ways
+           across the pair, which is plausibly how the re-key got through."
+        - "INGEST REQUIREMENT that follows from it: nothing in MarginEdge flagged
+           this. It only surfaced by comparing line-item signatures across all 45
+           invoices. Any invoice sharing a (code, quantity, price) signature with
+           another from the same vendor must block approval rather than warn -
+           a warning on a $5.8K double bill is not enough."
+        - "$2,878.93 (3.2% of spend) has no product attached: 'Misc Liquor Item'
+           (0002) and 'Liquor' (1) total $851.18, plus $2,027.75 of invoice-level
+           charges. The largest single item is $1,482.38 on 2026-08-20
+           (OH0002847733) described only as 'Adjustment to match total.' - 39% of
+           that invoice. Unattributable spend inflates pour cost on everything
+           else, so it cannot simply be spread."
+        - "NAME QUALITY. Code 8523228242 is booked 'GIELARD PAMPLEMOUSE' - that is
+           Giffard Pamplemousse, and a search for 'Giffard' misses it even though
+           three other Giffard items are spelled right. Also 'Angustura Orange
+           Bitters' beside 'Angostura Bitters', and 'Oyo Honey Vailla'. The
+           wholesale account appears as 727546, 0727546 and TOWNHALL."
+        - "Arena is 98.8% liquor by money but not exclusively: $1,098.38 across 14
+           items is beer ($491.73), wine ($336.81), mixers and bitters ($197.87)
+           and Giffard Orgeat syrup ($71.97). If the bar needs olive brine or
+           orgeat, Arena carries it."
+        - "A second Arena record exists, vendor 147343 'Arena Wine & Spirits',
+           with NO orders in the quarter. Legacy; everything runs through 325343."
+    windows:
+      - key: arena_sunday
+        order_weekday: sunday
+        order_time: "17:00"
+        delivery_weekday: thursday
+        delivery_time: "09:00"
+      - key: arena_wednesday
+        order_weekday: wednesday
+        order_time: "21:00"
+        delivery_weekday: thursday
+        delivery_time: "17:00"
+        optional: true
+
+  - key: southern_glazers
+    name: Southern Glazer's of Ohio
+    channel: phone
+    contact: {name: Bethany, phone: "(740) 507-1973"}
+    rules:
+      # PRD: "a Southern Glazer's Tuesday drop has to cover eight days if the
+      # Wednesday follow-up isn't placed". Tuesday to Tuesday is arithmetically
+      # seven days, so the eighth is carried here as an explicit buffer rather
+      # than buried in the cover math. Set to 0 to use the strict gap.
+      cover_buffer_days: 1
+      notes:
+        - "THE FRIDAY WINDOW IS REAL, NOT HYPOTHETICAL. Of 20 invoices over
+           2026-06-30..09-22, 12 landed Tuesday from the Monday cutoff and 6
+           landed FRIDAY. The Wednesday follow-up is a second ordering slot the
+           bar already uses most weeks, not a favour. requires_confirmation stays
+           true because the window is still at Bethany's discretion, but the
+           cover math should not assume it will be skipped."
+        - "TWO UNFLAGGED PRICE INCREASES THIS QUARTER. Red Bull, both regular
+           (201010) and sugar-free (0409127), went from $42.00 to $46.00 a case,
+           +9.5%. Aperol 1L (557367) went from $142.00 to $156.95, +10.5%. Red
+           Bull is a weekly line, so that is a standing cost increase."
+        - "BITTERS PACK SIZE UNCONFIRMED. The 2026-08-14 invoice carries 334995
+           Angostura Bitters and 976180 Angostura Orange, each at quantity 1 for
+           $182.30. At that price a 'unit' is a case, not a bottle. Once-a-quarter
+           buy, so the wrong unit sits in inventory unnoticed."
+    windows:
+      - key: sgws_monday
+        order_weekday: monday
+        order_time: "16:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+      - key: sgws_wednesday_followup
+        order_weekday: wednesday
+        order_time: "16:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        optional: true
+        requires_confirmation: true
+        confirm_with: Bethany
+        note: "Follow-up is not guaranteed - confirm with Bethany first."
+
+  - key: sixth_city
+    name: Sixth City Distributors
+    channel: phone
+    contact: {name: Jenna Carelly, phone: "(614) 301-4877"}
+    rules:
+      style_only: true
+      style_unit: "1/6 bbl"
+      keg_return_required: true
+      max_cost_per_pint: 1.50
+      notes:
+        - "Rotating line. Output is a style-and-count recommendation, never a SKU."
+        - "DELIVERS WEDNESDAY, 11 of 11 invoices over 2026-06-24..09-16, no
+           exceptions. This file carried Tuesday until 2026-10-01 while the PRD
+           appendix already said Wednesday; the invoices settle it. Eleven
+           deliveries in thirteen weeks - the gaps are 2026-07-08 and 09-09."
+        - "45 DISTINCT KEG PRODUCTS IN ONE QUARTER, 3 REPEATS. 51 keg lines, and
+           only Shacksbury Blackberry Lime Cider, Jolly Scholar Cold Beer Here and
+           the seasonal Immigrant Son Gourdians were ever bought twice. A trailing
+           average over this vendor reads '1' for everything, which is why the
+           rotating line is excluded from baseline learning entirely."
+        - "STYLE_UNIT IS NEARLY TRUE: 51 of 52 keg lines are 1/6 bbl. The exception
+           is one 50 L (Voodoo Purple Lacto-Kooler, $239.99), so the unit is a
+           strong default rather than a constraint."
+        - "THE DRAFT PRICE IS $5.00 FLAT (operator, 2026-10-01), AND THAT CHANGES
+           THIS FROM A WATCH-ITEM TO A STRUCTURAL PROBLEM. A 1/6 bbl ran $49.99 to
+           $199.99 this quarter = $1.28 to $5.10 per 16oz pour = a 26%-102% pour
+           cost. 450 North Supersize Painkiller ($199.99, $5.10/pour) LOSES MONEY
+           on every pint before labour or waste."
+        - "AT $5.00 / 16oz / 30% A SIXTH BARREL MAY COST $58.78. The median one
+           bought here was $109.99 and only Cult Craft Root Beer ($49.99) cleared.
+           The sixth-barrel format and a flat $5 pour are close to arithmetically
+           incompatible, which is a pricing and format decision, not something
+           max_cost_per_pint can fix on its own."
+        - "DUPLICATE INVOICE 2026-07-29, ~$310. Invoices 112661 and 112551 are the
+           same four kegs at the same prices with the same deposit counts; the
+           numbers differ only in one position (66 vs 55). 112551 arrived on the
+           vendor CSV feed, 112661 from a hand-keyed mobile photo of the paper copy.
+           Credit not yet requested."
+        - "DEPOSITS ARE CLEAN: 47 charged, 44 returned, $90 (3 kegs) outstanding -
+           the control group that shows Superior's $990 is a real problem rather
+           than normal slippage."
+        - "CREDIT RECORDS ARE DOUBLE-COUNTED, IN OUR FAVOUR, $870.02. Six deposit
+           returns exist both as a line inside the invoice and as a standalone empty
+           credit record suffixed 'C' (110945C, 111842C, 112661C, 113069C, 113489C,
+           113833C) plus one orphan stub with no invoice number. Every stub has no
+           line items and no attachment and matches its parent's return line. If AP
+           processed both, TownHall UNDERPAID Sixth City. A duplicate check that
+           only looks for overpayment will never surface this."
+    windows:
+      - key: sixth_city_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: wednesday
+        delivery_time: "09:00"
+        note: "Corrected from Tuesday to Wednesday 2026-10-01 on 11 of 11 invoices."
+
+  - key: cavalier
+    name: Cavalier Distributing
+    channel: phone
+    contact: {name: Dan, phone: "(614) 582-0014"}
+    rules:
+      style_only: true
+      style_unit: "1/6 bbl"
+      keg_return_required: true
+      max_cost_per_pint: 1.50
+      notes:
+        - "Rotating line. Output is a style-and-count recommendation, never a SKU -
+           EXCEPT the named SKUs, which survive the collapse. See named_sku."
+        - "THE '1/6 BBL ONLY' RULE IS STALE - SETTLED 2026-10-01. Cavalier ran three
+           formats over 2026-06-30..09-15: nine 1/6 bbl, five 1/2 bbl (all Bumble
+           Berry) and one 1/4 bbl (Cider Caramel Apple, $119.99 - the only quarter
+           barrel anywhere in the data). style_unit stays 1/6 bbl as the default for
+           the ROTATING portion only."
+        - "FAT HEAD'S BUMBLE BERRY IS THE ACCOUNT, NOT AN EXCEPTION. 5 orders, 7
+           half-barrels, $1,189.93 - 38% of everything Cavalier sold us. At 0.64
+           kegs/week over the 11-week span the catalog's 0.70/wk rate holds."
+        - "FORMAT IS WORTH MORE THAN BRAND CHOICE. A 1/2 bbl at $169.99 pours at
+           $1.45 per 16oz pint; the median 1/6 bbl at $109.99 pours at $2.81 -
+           roughly double per ounce. Sixths buy variety and less risk of a keg going
+           flat. That is a defensible trade for a rotating tap and an expensive one
+           for anything that sells steadily, which is why Bumble Berry is a half."
+        - "MOST EXPENSIVE POUR IN THE BUILDING, AND IT LOSES MONEY: Platform Pumpkin
+           Kerfuffle, $224.99 per 1/6 bbl = $5.74 per 16oz pour against a $5.00
+           menu price = a 115% pour cost. Every pint sold costs more than it earns."
+        - "BUMBLE BERRY IS THE ONLY KEG ON THIS ACCOUNT THAT CLEARS 30%: $169.99 per
+           1/2 bbl = $1.45 per pour = 29%, against a $176.25 ceiling at $5.00/16oz.
+           It clears because of the FORMAT, not the price - the same $169.99 in a
+           1/6 bbl would be an 87% pour cost, three times as much for identical
+           money. This is the argument for moving house taps to half barrels."
+        - "NOT A KEG-ONLY VENDOR. $429.84 of the quarter is Fab Amarena Cherries
+           Syrup (code 16234, bar prep, bought twice), Giffard Rhubarb Liqueur
+           (17952, 6 bottles) and Vol Sun Goddess Prosecco Rose (26705, 12 bottles).
+           Ordering this account as 'rotating kegs, ask Dan' leaves the cherries and
+           the rhubarb to memory."
+        - "DUPLICATE INVOICE 2026-07-07, $234.31, CAUSED BY ONE CHARACTER. O-5054012
+           (letter O, vendor CSV feed) and 0-5054012 (digit zero, hand-keyed mobile
+           photo) are the same Bumble Berry and the same four Prosecco bottles. A
+           third record, 0-43820003 at -$60.00, re-credits a deposit return already
+           inside O-5054012. Credit not yet requested."
+        - "DEPOSITS ARE CLEAN: 17 charged, 14 returned, $90 (3 kegs) outstanding."
+        - "THE PROSECCO AT $15.33 AND $16.08 IS NOT A PRICE RISE - it is the $3.00
+           split-case fee folded into the unit price on one ingestion path and
+           broken out as a charge on the other."
+    windows:
+      - key: cavalier_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+
+  - key: heidelberg
+    name: Heidelberg / Wine Trends
+    channel: phone
+    contact: {name: Tess Canby, phone: "(740) 583-4555"}
+    rules:
+      delivery_note: "Deliver after 9am, hallway behind bar."
+      notes:
+        - "MOVED FROM TUESDAY TO THURSDAY ON 2026-09-01. Every one of the 19
+           invoices from 2026-06-30 through 2026-08-25 landed on a TUESDAY. Every
+           one of the 7 invoices from 2026-09-03 onward landed on a THURSDAY, four
+           consecutive weeks, with no Tuesday since. Thursday is the live schedule
+           and Wednesday 17:00 is the real cutoff."
+        - "WHY THE WINDOW LENGTH MATTERS. Across the whole quarter this vendor
+           reads as a Tuesday-AND-Thursday vendor (19 Tue, 16 Thu). It is not: it
+           is a Tuesday vendor that became a Thursday vendor. A quarter is long
+           enough to hide a regime change the same way a single month was short
+           enough to make a September launch look like an established staple. Check
+           for a changeover date before averaging any weekday distribution."
+        - "DUPLICATE INVOICES, 2026-08-12..13, $365.89. Heidelberg changed invoice
+           numbering mid-August from seven digits (9245930) to nine (900001202).
+           During the cutover two invoices arrived under both the bare sequence
+           number and the prefixed one: 2919 (8/12, $175.95) == 900002919 (8/13,
+           $185.95), and 4341 (8/13, $189.94) == 900004341 (8/13, $179.94). Both
+           pairs carry identical product lines at identical unit prices; only the
+           fee presentation differs. Credit not yet requested."
+        - "DE-DUPLICATION RULE: before approving a Heidelberg invoice, strip a
+           leading '9000' from the invoice number and compare the tail against
+           invoices already recorded for the same week."
+    windows:
+      - key: heidelberg_wednesday
+        order_weekday: wednesday
+        order_time: "17:00"
+        delivery_weekday: thursday
+        delivery_time: "12:00"
+        note: "Delivers Thursday PM. Moved here from a Tuesday delivery on
+               2026-09-01; the Tuesday habit outlasted the change."
+
+  - key: hillcrest
+    name: Hillcrest Foodservice
+    channel: phone
+    rules:
+      notes:
+        - "Largest supplier in the building: $159,381 across 61 orders over
+           2026-06-29..09-28, about $53K/month. Broadline food purveyor that also
+           carries several bar prep goods and the bar's consumables."
+        - "TWO ACCOUNTS, TWO SCHEDULES. 71357 is food and broadline (35 orders,
+           $132,436) and lands MONDAY and FRIDAY. 71361 is paper, disposables and
+           chemicals (26 orders, $26,945) and lands TUESDAY and FRIDAY. A third
+           account, 55935, exists on the vendor record but placed no orders in
+           the sampled quarter."
+        - "Friday carries $82K of the $159K - over half the quarter's spend on one
+           weekday, shared by both accounts. Nothing has ever landed on a Sunday
+           and only one invoice in three months fell on a Thursday."
+        - "The bar touches BOTH accounts. Prep pantry (allulose 38006, dark brown
+           sugar 38029, drinking cider 4032, granulated sugar, pineapple juice)
+           is on 71357. Bar consumables (black bevnaps 76379, sipper stirrers
+           63256, smoothie straws 363360, 2oz souffle lids 60788, Beer Clean
+           glass wash 70308) are on 71361."
+        - "DUPLICATE ORDERING RISK: allulose 38006 ($214.08) and frozen
+           strawberries 115005 are each ordered on BOTH accounts, which means the
+           same item arriving on two different days. Assign each to one account."
+        - "CARE WITH APPLE CIDER CODES. 4032 'Cider Apple' is the drinking cider.
+           40118 and 40118S are apple cider VINEGAR. 4033 is labelled 'Apple Cider
+           Fresh' but MarginEdge maps it to the vinegar product - a mapping error
+           in their data, not ours."
+    # Delivery weekdays are established from 61 invoices over 2026-06-29..09-28.
+    # The CUTOFF TIME is now confirmed by the operator (2026-09-29): 16:00 on
+    # every window, both accounts. That closes the one thing the data could not
+    # give us - MarginEdge records only the invoice, and its createdDate is
+    # always exactly one day AFTER the invoice date (61 of 61), so it reflects
+    # invoice processing rather than ordering. Day-before ordering at 16:00 is
+    # now a confirmed schedule, not an assumption.
+    windows:
+      - key: hillcrest_food_sunday
+        order_weekday: sunday
+        order_time: "16:00"
+        delivery_weekday: monday
+        delivery_time: "09:00"
+        note: "Account 71357 (food). Delivery day confirmed by 13 of 61 invoices;
+               cutoff confirmed at 16:00 by the operator 2026-09-29."
+      - key: hillcrest_paper_monday
+        order_weekday: monday
+        order_time: "16:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Account 71361 (paper/disposables). Delivery day confirmed by 11 of
+               61 invoices; cutoff confirmed at 16:00 by the operator 2026-09-29."
+      - key: hillcrest_both_thursday
+        order_weekday: thursday
+        order_time: "16:00"
+        delivery_weekday: friday
+        delivery_time: "09:00"
+        note: "BOTH accounts, 16:00 confirmed. This is the single most important
+               Hillcrest cutoff: it carries the Friday delivery, which is over
+               half the quarter's spend. Delivery day confirmed by 25 of 61
+               invoices."
+
+  - key: amazon
+    name: Amazon
+    channel: online
+    rules:
+      notes:
+        - "Long-tail supplier: 52 orders and roughly $11.4K in the month to
+           2026-09-28 - more orders than any distributor. Sources prep goods,
+           teas and one-off items the distributors do not carry."
+        - "540 vendor items and NOT ONE carries a vendorItemCode. MarginEdge keys
+           them by internal id only, so there is no SKU to quote on an order and
+           the same product recurs under several near-identical listings."
+        - "NO VENDOR CUTOFF EXISTS. Amazon is self-service with 1-2 day delivery,
+           so unlike every other vendor here the window is a POLICY WE CHOOSE, not
+           a deadline the vendor imposes. The windows below are that policy."
+        - "The real problem measured over 2026-06-29..09-28 is not a missing
+           cutoff, it is that nothing is batched: 195 orders landed on only 56
+           separate days, so on an ordering day someone places 3.5 orders. Eight
+           orders in one day happened four times, nine once. 60 of the 195 orders
+           were under $50 - 31% of orders for $1,535, or 5.6% of spend."
+        - "Monday (44 orders) and Thursday (38) are ALREADY the two heaviest days,
+           so batching to them formalises existing behaviour rather than fighting
+           it. Two orders a week instead of fifteen is about 85% fewer receiving
+           events for the same product."
+    # A policy window, not a vendor-imposed one - hence requires_confirmation is
+    # false: there is no rep to confirm with. What needs agreeing is internal.
+    windows:
+      - key: amazon_monday_batch
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: wednesday
+        delivery_time: "12:00"
+        note: "Weekly batch, placed alongside the Monday bar cutoffs while the
+               manager is already working last week's PMIX. Delivery is 1-2 days
+               and not guaranteed to a weekday, so Wednesday is nominal."
+      - key: amazon_thursday_batch
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: saturday
+        delivery_time: "12:00"
+        optional: true
+        note: "Second batch, catches anything needed for the weekend. Optional:
+               skip it when the Monday order covered the week. A genuine 86 mid
+               service is always allowed to bypass both windows."
+
+  # --- Café program ------------------------------------------------------------
+  # Separate from the bar: different windows, email-only, and longer leads.
+  # Order days confirmed by the operator 2026-09-28. Delivery weekdays are the
+  # days MarginEdge invoices actually landed over 2026-08-28..09-28, which is
+  # observation rather than a vendor-stated schedule.
+
+  - key: hartzler
+    name: Hartzler Family Dairy
+    channel: email
+    contact:
+      email: orders@hartzlerdairy.com
+      phone: "(330) 345-8190"
+      label: "Orders by email; phone is option #2"
+    rules:
+      email_only: true
+      order_email: orders@hartzlerdairy.com
+      notes:
+        - "Email only. Their office is staffed Mon-Wed 8-12 and Fri 8-11, so the
+           Thursday cutoff cannot be phoned in - questions must go before
+           Wednesday noon."
+        - "Ordered in CASES, not gallons."
+        - "HARTZLER SUPPLIES EXACTLY TWO ITEMS: whole milk and half & half.
+           Confirmed by the operator 2026-09-29. Heavy cream, butter, cream cheese
+           and sour cream were previously attributed here off a MarginEdge purchase
+           report that has NO VENDOR COLUMN - the consumption rates in that report
+           were real but the vendor attribution was inferred, and it was wrong.
+           Those items come from another supplier. Do not re-add them without an
+           invoice showing Hartzler as the vendor: a five-day lead means anything
+           ordered here in error is not recoverable for a week."
+        - "HOLIDAY DEADLINES 2026-11 to 2027-01, from the dairy's notice received
+           2026-10-02. Every deadline is 10:00, not the usual 17:00, and three of
+           the five land on a WEDNESDAY - 31 hours EARLIER than the standing
+           Thursday cutoff. The reason is in closed_dates: Hartzler's order day is
+           Thursday, and Thanksgiving, Christmas Eve and New Year's Eve are all
+           Thursdays, so every closure knocks out the normal order day."
+        - "THE TWO FRIDAY DEADLINES ARE NOT TRAPS: 2026-11-20 and 2026-12-18 both
+           fall 17 hours AFTER the normal Thursday 17:00 cutoff, so anyone keeping
+           the usual habit has already beaten them. The three Wednesday ones are
+           the only dates that can actually cost a delivery."
+        - "'We will be unable to accept late orders' - the dairy's words. With a
+           five-day lead and two items the cafe cannot run without, a missed
+           holiday cutoff is a week without milk, not a late delivery."
+      closed_dates:
+        - 2026-11-26   # Thanksgiving, a Thursday - the normal order day
+        - 2026-11-27
+        - 2026-12-24   # Christmas Eve, a Thursday
+        - 2026-12-25
+        - 2026-12-31   # New Year's Eve, a Thursday
+        - 2027-01-01
+      holiday_overrides:
+        - delivery_week_start: 2026-11-23
+          order_by: "2026-11-20 10:00"
+          note: "Week of Nov 23-27. Friday 10:00 - 17h LATER than the normal
+                 Thursday 17:00, so the usual habit already covers it."
+        - delivery_week_start: 2026-11-30
+          order_by: "2026-11-25 10:00"
+          note: "Week of Nov 30-Dec 4. Wednesday 10:00 - 31h EARLIER than normal,
+                 because Thanksgiving falls on the Thursday cutoff."
+        - delivery_week_start: 2026-12-21
+          order_by: "2026-12-18 10:00"
+          note: "Week of Dec 21-25. Friday 10:00 - 17h later than normal, already
+                 covered by the usual habit."
+        - delivery_week_start: 2026-12-28
+          order_by: "2026-12-23 10:00"
+          note: "Week of Dec 28-Jan 1. Wednesday 10:00 - 31h EARLIER than normal,
+                 because Christmas Eve falls on the Thursday cutoff."
+        - delivery_week_start: 2027-01-04
+          order_by: "2026-12-30 10:00"
+          note: "Week of Jan 4-8. Wednesday 10:00 - 31h EARLIER than normal, and
+                 placed in the PREVIOUS YEAR, because New Year's Eve falls on the
+                 Thursday cutoff."
+    windows:
+      - key: hartzler_thursday
+        order_weekday: thursday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Five-day lead. Tue-to-Tue shelf cover means roughly twelve days
+               forward from the Thursday cutoff - the longest lead of any vendor."
+
+  - key: berardis
+    name: Berardi's Coffee
+    channel: email
+    contact:
+      email: orders@berardiscoffee.com
+      label: "Orders by email"
+    rules:
+      email_only: true
+      order_email: orders@berardiscoffee.com
+      notes:
+        - "Email only."
+        - "Sunday 17:00 is the same cutoff as Arena, two hours ahead of Superior
+           and Columbus Dist. at 19:00. The only cafe item on the busiest ordering
+           night, so the easiest to forget."
+    windows:
+      - key: berardis_sunday
+        order_weekday: sunday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Order day and cutoff both confirmed by the operator: Sunday by
+               17:00 (2026-09-29). Invoices landed Tue x3 and Wed x1 over the
+               sampled month, so Tuesday is the modal delivery, not guaranteed."
+
+  # --- Tea: three vendors, and the guide had it on a fourth ---------------------
+  # The order guide credited loose-leaf tea to Berardi's. Berardi's item list has
+  # no tea on it at all. Tea is Rishi, Sante Matcha and Inca Tea, and together
+  # they are $1,660.42 in the sampled quarter - more than Thunderkiss.
+  - key: rishi
+    name: Rishi Tea
+    channel: phone
+    rules:
+      notes:
+        - "BILLED AS 'Diaspora Tea & Herb Company, LLC' (vendor 954216, account
+           C154101). The operator orders it as Rishi Tea; MarginEdge shows the
+           legal entity, which is why a search for 'Rishi' finds nothing. Invoice
+           numbers are prefixed SI."
+        - "THIS IS THE VENDOR THE GUIDE CREDITED TO BERARDI'S. Item ORDW250-RP /
+           ODRW250-RP 'Dragon Well-Organic' is the 'Tea, Loose Leaf Dragonwell
+           Green' the Berardi's card listed. Berardi's item list contains no tea
+           of any kind. Confirmed by the operator 2026-10-02."
+        - "THE GUIDE'S PRICE AND UNIT WERE BOTH WRONG: it read '~1.2 lb/wk at
+           $32.00/lb'. Dragonwell is a 250 g RETAIL PACK at $38.00 - about $69/lb,
+           more than double the figure carried, against a unit that was never
+           pounds."
+        - "DORMANT SINCE 2025-10-15. Five orders on record, all 2025:
+           SI683073 (02-05, $126.75), Si694468 (03-05, $420.50), SI704941 (03-24,
+           $807.50), SI733954 (06-05, $395.00), SI784526 (10-15, $161.00) =
+           $1,910.75. Order coverage is complete by createdDate from 2025-12-01 to
+           2026-10-01 and contains NO Rishi order; before 2025-12 the pull hit a
+           page cap, so earlier 2025 history may be incomplete."
+        - "DUPLICATE ITEM CODES, TRANSPOSED CHARACTERS: Dragonwell is both
+           ORDW250-RP and ODRW250-RP, and Lavender Mint is both OLW250-RP and
+           OLM250-RP. Each pair shares one product id. Same failure class as
+           Thunderkiss TK520/TKS20 and Arena's hand-typed suffixes."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window. Nobody has recorded how this
+           is ordered, and it has not been ordered in a year."
+
+  - key: sante_matcha
+    name: Sante Matcha
+    channel: phone
+    rules:
+      notes:
+        - "DISCOVERED FROM INVOICES 2026-10-02, never in the guide. Largest tea
+           vendor on record: 8 orders, $2,507.00, latest 2026-09-21."
+        - "ONE PRODUCT: SW-011 'CoffeeHouse Ceremonial-250g /Organic' at $74.25 a
+           250 g tin. The 2026-09-21 order was 10 tins, $742.50 - the single
+           biggest tea invoice in the data."
+        - "MOVED OFF ACCOUNTS PAYABLE ONTO CARDS. 2025 orders were Accounts
+           Payable; 2026-05-18 split one AP and one Ramp; 2026-06-24, 07-19 and
+           09-21 are all Visa, and the 09-21 order has NO INVOICE NUMBER AT ALL.
+           $1,039.50 of this quarter's tea was bought on a card, so any review
+           built on the AP ledger cannot see it."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window."
+
+  - key: inca_tea
+    name: Inca Tea
+    channel: phone
+    rules:
+      notes:
+        - "DISCOVERED FROM INVOICES 2026-10-02, never in the guide. 4 orders,
+           $1,418.92, latest 2026-09-15."
+        - "Loose leaf by the POUND at $19.00/lb - Peruvian Spiced Berry, Tawantin
+           Black, Machu Picchu Mango. The 2026-09-15 order was 25 lb for $475.00."
+        - "Cheapest tea per pound in the building by a wide margin: $19/lb against
+           Rishi Dragonwell at about $69/lb. Whether they are substitutes is a
+           menu question, not a purchasing one, but the gap is worth knowing."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window."
+
+  - key: thunderkiss
+    name: Thunderkiss Coffee
+    channel: phone
+    rules:
+      keg_return_required: true
+      notes:
+        - "ADDED 2026-10-02 at the operator's request. Supplies exactly ONE item:
+           a 20 L cold brew coffee keg at $100.00. 15 kegs, $1,500.00 across 8
+           invoices over 2026-06-30..08-26."
+        - "ORDER MONDAY (operator, 2026-10-02). Delivery is TUESDAY on 6 of 8
+           invoices, with two Wednesdays (2026-07-29 and 08-26)."
+        - "THUNDERKISS HAS THE COLD BREW KEGS - CONFIRMED BY THE OPERATOR
+           2026-10-02. The guide had credited them to Berardi's. The invoice
+           evidence agreed before the confirmation: Berardi's carries cold brew
+           only as GROUND coffee (6-856-5, 00-952-3) and a 5-gallon liquid PET
+           (00-856-15), all under MarginEdge product 'Coffee, Cold Brew' id
+           469778257, while the 20 L KEG is Thunderkiss TK520/TKS20 under product
+           id 544539218 - a different product. Berardi's item list contains no
+           20 L keg at all, and four Berardi invoices sampled (08-03, 09-09,
+           09-15, 09-22) are roasted bean only."
+        - "ONE PRODUCT, TWO ITEM CODES, AND THE DIFFERENCE IS A HOMOGLYPH: TK520
+           (digit five) on 4 invoices for 7 kegs, TKS20 (letter S) on 4 invoices
+           for 8 kegs. Same name, same $100, same product id, different
+           packagingId. Counting by item code reads 7 and 8 instead of 15, so each
+           looks like half a line. This is the first case where the ITEM CODE
+           itself is corrupted - the PRD's 'identity lives on the item code' rule
+           needs the product id as a cross-check here, which is the exact opposite
+           of the Albino Stout case where the product id wrongly merged two beers."
+        - "STOPPED LINE - ASK, DO NOT ASSUME. Last keg 2026-08-26; nothing in five
+           weeks to 2026-10-02. Berardi's spend rose in September ($616.60, $561,
+           $561 against a ~$240 summer average) which looks like a substitution,
+           but it is NOT: those invoices are 5 lb bags of Ethos bean. Cold brew is
+           also seasonal, so a deliberate autumn wind-down and a dropped line are
+           indistinguishable from the invoices. Confirm with the cafe."
+    windows:
+      - key: thunderkiss_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Order day operator-confirmed 2026-10-02. Cutoff hour is assumed
+               17:00 to match the other Monday vendors and is NOT confirmed."
+
+  - key: buckeye
+    name: Buckeye Beverage
+    channel: phone
+    rules:
+      notes:
+        - "MISSING FROM THE GUIDE AND THIS FILE UNTIL 2026-09-29. Supplies the
+           fountain, every BIB mixer, the bar juices and the CO2 and nitrogen for
+           the draft system: 19 items, $7,789.08 across 17 invoices over
+           2026-06-29..09-21. More spend than Sixth City, Berardi's, Hartzler or
+           Cavalier, all of which were already here."
+        - "HOW IT WAS MISSED. The vendor list came from TH_ORDER_GUIDE.docx and was
+           then checked only against a top-12-by-spend ranking. Buckeye ranks 13th.
+           Ranking inside a list that has already been narrowed cannot surface what
+           the list left out. The fix is to enumerate vendors from invoices, not to
+           re-sort the list you started with."
+        - "DELIVERS MONDAY. 12 of 17 invoices and about 82% of spend land Monday,
+           and every week in the quarter has a Monday invoice. The few Fri/Thu/Sun
+           invoices are small top-ups."
+        - "ORDER CUTOFF IS NOT KNOWN. This is why the vendor has no window: a
+           window requires a cutoff, and inventing one would have the engine
+           recommend a deadline that may not exist. ASK THE REP, then add a window
+           with delivery_weekday: monday."
+        - "CO2 AND NITROGEN BILL AT ZERO. Codes 1003 ('20# Pop') and 1010
+           ('50# Beer') are supplied at no charge under the STA program. A line
+           that costs nothing is a line nobody reconciles, and when it runs out
+           the draft system stops. Cylinder count belongs on the Monday receiving
+           check."
+        - "PINEAPPLE JUICE IS DUAL-SOURCED. Buckeye code 269 resolves to the same
+           MarginEdge product as Hillcrest code 50001 'Juice Pure Pineapple'. Both
+           are being bought; a product-level count double-counts it."
+        - "TWO NEAR-PAIRS THAT ARE NOT DUPLICATES, CHECKED 2026-09-29: invoices
+           159063 (7/6) and 159345 (7/10) are each one Nitrogen Large at $61.45,
+           four days apart, which is ordinary cylinder turnover; 159994 (7/24) and
+           160054 (7/26) are Coca-Cola 5 GAL and Diet Coke 5GAL, distinct products
+           that happen to share a $142.78 price. Same-total and same-price are not
+           evidence of a double bill on their own."
+
+  - key: oyo
+    name: OYO Vodka
+    channel: phone
+    contact: {name: Zack, phone: "(614) 981-9341"}
+    rules:
+      route_through: arena
+      routed_contact_hidden_unless: arena_out_of_stock
+      notes:
+        - "Order through Arena first. Zack's number is surfaced only when the
+           manager marks Arena out of stock."
+    # No fixed window: the guide records OYO as ordered as needed. Cover is
+    # inherited from Arena while routing through Arena.
+    windows: []

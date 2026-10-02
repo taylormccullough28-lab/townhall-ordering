@@ -1,0 +1,8 @@
+Order #,Void?,Sent Date,Qty,Menu Item,Sales Category,Menu Group,Menu,Net Price,Comp?,Modifiers,Location
+101,FALSE,8/30/2026 20:00,1,Espolon Blanco,Liquor,Tequila,LIQUOR,9.00,FALSE,Single,Townhall - Short North
+102,FALSE,8/30/2026 20:05,1,Espolon Blanco,Liquor,Tequila,LIQUOR,12.00,FALSE,Double,Townhall - Short North
+103,FALSE,8/30/2026 20:10,1,Espolon Blanco,Liquor,Tequila,LIQUOR,11.00,FALSE,Rocks,Townhall - Short North
+104,FALSE,8/30/2026 20:15,1,Espolon Blanco,Liquor,Tequila,LIQUOR,9.00,FALSE,,Townhall - Short North
+105,FALSE,8/30/2026 20:20,2,Bud Light,Bottled Beer,Domestics,BOTTLED BEER,0.00,TRUE,,Townhall - Short North
+106,TRUE,8/30/2026 20:25,4,Bud Light,Bottled Beer,Domestics,BOTTLED BEER,5.00,FALSE,,Townhall - Short North
+107,FALSE,8/30/2026 20:30,1,Espolon Blanco,Liquor,Tequila,LIQUOR,9.00,FALSE,Extra Dirty,Townhall - Short North

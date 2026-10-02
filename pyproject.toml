@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thbev"
+version = "0.1.0"
+description = "TownHall Columbus beverage ordering engine: Toast sales ingest, depletion math, and per-vendor order suggestions."
+requires-python = ">=3.10"
+dependencies = [
+    "openpyxl>=3.1",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+thbev = "thbev.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["thbev*"]
+
+[tool.setuptools.package-data]
+"thbev.catalog" = ["data/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

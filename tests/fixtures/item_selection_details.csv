@@ -1,0 +1,12 @@
+Location,Order #,Sent Date,Menu Item,Menu Group,Menu,Sales Category,Net Price,Qty,Void?
+Townhall - Short North,17,8/30/2026 19:06,Espolon Blanco,Tequila,LIQUOR,Liquor,9.00,2,FALSE
+Townhall - Short North,18,8/30/2026 19:40,Espolon Blanco,Tequila Bottles,BOTTLE SERVICE,Bottle Service,220.00,1,FALSE
+Townhall - Short North,19,8/30/2026 20:15,Bacardi FB,Rum,LIQUOR,,8.00,3,FALSE
+Townhall - Short North,20,8/30/2026 21:00,Bud Light,Domestics,BOTTLED BEER,Bottled Beer,5.00,12,FALSE
+Townhall - Short North,21,8/30/2026 21:30,Nutrl,Seltzer,BOTTLED BEER,Bottled Beer,6.00,4,FALSE
+Townhall - Short North,22,8/30/2026 22:00,Bud Light,Domestics,BOTTLED BEER,Bottled Beer,5.00,6,TRUE
+Townhall - Short North,23,8/31/2026 1:30,Bud Light,Domestics,BOTTLED BEER,Bottled Beer,5.00,5,FALSE
+Townhall - Short North,24,8/31/2026 4:05,Bud Light,Domestics,BOTTLED BEER,Bottled Beer,5.00,1,FALSE
+TH Ohio City,25,8/30/2026 19:10,Bud Light,Domestics,BOTTLED BEER,Bottled Beer,5.00,99,FALSE
+Townhall - Short North,26,8/30/2026 22:30,Mystery Shot,Shots,LIQUOR,Liquor,7.00,8,FALSE
+,,,,,,,,36,

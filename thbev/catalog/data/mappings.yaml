@@ -1,0 +1,91 @@
+# POS item -> product mapping.
+#
+# THE KEY IS COMPOSITE: sales_category + menu + menu_group + menu_item.
+# Name-only matching is wrong for this data. A real recovered export shows one
+# item ("Acai Bowl") carrying both "NA Beverage" and "Food" on the same day,
+# depending on which menu rang it.
+#
+# A part left out (or set to null) means "any value". That is an explicit
+# authoring choice recorded here - the resolver never falls back to item name on
+# its own. When several mappings match a sale, the most specific one wins;
+# an exact tie is reported as a catalog conflict rather than silently resolved.
+#
+# STATUS: seed only. No TownHall Short North export existed when this was
+# written, so the menu/menu group values below come from the recovered FWD and
+# TownHall CLE exports and from the PRD's worked examples. Every one of them
+# must be re-pointed at real Short North menu structure before the numbers mean
+# anything. Unmatched sales are not dropped - they land in the unmapped queue.
+
+mappings:
+  # Blank Sales Category on a genuine liquor SKU - the case that breaks
+  # category-only filtering. Matching on menu + group + item, category unset.
+  - key: {menu: LIQUOR, menu_group: Rum, menu_item: Bacardi FB}
+    product: bacardi_750
+    conversion: spirit_pour
+
+  - key: {sales_category: Liquor, menu: LIQUOR, menu_group: Tequila, menu_item: Espolon BLANCO}
+    product: espolon_blanco_750
+    conversion: spirit_pour
+
+  - key: {sales_category: Liquor, menu: LIQUOR, menu_group: Vodka, menu_item: OYO Vodka}
+    product: oyo_vodka_750
+    conversion: spirit_pour
+
+  - key: {sales_category: Liquor, menu: LIQUOR, menu_group: Vodka, menu_item: Grey Goose}
+    product: grey_goose_750
+    conversion: spirit_pour
+
+  # Cocktails roll up to the Liquor category - they are only identifiable by
+  # menu/menu group, which is the whole argument for the composite key.
+  - key: {sales_category: Liquor, menu: COCKTAIL, menu_group: FWD Cocktails, menu_item: PassionPunch Margarita}
+    recipe: passionpunch_margarita
+    conversion: cocktail_recipe
+
+  # Bottle service: whole bottle per sale, plus the bundled mixers.
+  - key: {sales_category: Bottle Service, menu_item: Grey Goose Bottle}
+    product: grey_goose_bottle_service
+    conversion: whole_bottle
+    bundle: bottle_service_bundle_standard
+    bottle_service: true
+
+  - key: {sales_category: Bottle Service, menu_item: Ace of Spades}
+    product: ace_of_spades
+    conversion: whole_bottle
+    bottle_service: true
+
+  - key: {sales_category: Bottle Service, menu_item: Dom Perignon}
+    product: dom_perignon
+    conversion: whole_bottle
+    bottle_service: true
+
+  # Packaged beer and RTDs. "Bottled Beer" absorbs seltzers in the observed data.
+  - key: {sales_category: Bottled Beer, menu_item: Bud Light}
+    product: bud_light
+  - key: {sales_category: Bottled Beer, menu_item: Michelob Ultra Gold}
+    product: mich_ultra_gold
+  - key: {sales_category: Bottled Beer, menu_item: Nutrl}
+    product: nutrl
+  - key: {sales_category: Bottled Beer, menu_item: Pacifico 16oz}
+    product: pacifico_16oz
+  - key: {sales_category: Bottled Beer, menu_item: Suncruiser}
+    product: suncruiser
+
+  - key: {sales_category: NA Beverage, menu_item: Red Bull}
+    product: red_bull
+
+# Modifier classification.
+#
+# No modifier-level export exists in the account yet: the one PMIX that has a
+# Modifiers sheet has it empty, and the ItemSelectionDetails CSV carries no
+# modifier column. Until one is pulled, every spirit sale defaults to a Single
+# (1.5 oz) and every rocks and double pour in the bar is undercounted.
+#
+# kind: pour    -> replaces the default pour size on the parent sale
+# kind: product -> adds its own depletion line
+modifiers:
+  - {match: single, kind: pour, pour: single}
+  - {match: rocks, kind: pour, pour: rocks}
+  - {match: on the rocks, kind: pour, pour: rocks}
+  - {match: double, kind: pour, pour: double}
+  - {match: make it a double, kind: pour, pour: double}
+  - {match: add red bull, kind: product, product: red_bull, units: 1}
