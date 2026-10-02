@@ -529,6 +529,71 @@ vendors:
                17:00 (2026-09-29). Invoices landed Tue x3 and Wed x1 over the
                sampled month, so Tuesday is the modal delivery, not guaranteed."
 
+  # --- Tea: three vendors, and the guide had it on a fourth ---------------------
+  # The order guide credited loose-leaf tea to Berardi's. Berardi's item list has
+  # no tea on it at all. Tea is Rishi, Sante Matcha and Inca Tea, and together
+  # they are $1,660.42 in the sampled quarter - more than Thunderkiss.
+  - key: rishi
+    name: Rishi Tea
+    channel: phone
+    rules:
+      notes:
+        - "BILLED AS 'Diaspora Tea & Herb Company, LLC' (vendor 954216, account
+           C154101). The operator orders it as Rishi Tea; MarginEdge shows the
+           legal entity, which is why a search for 'Rishi' finds nothing. Invoice
+           numbers are prefixed SI."
+        - "THIS IS THE VENDOR THE GUIDE CREDITED TO BERARDI'S. Item ORDW250-RP /
+           ODRW250-RP 'Dragon Well-Organic' is the 'Tea, Loose Leaf Dragonwell
+           Green' the Berardi's card listed. Berardi's item list contains no tea
+           of any kind. Confirmed by the operator 2026-10-02."
+        - "THE GUIDE'S PRICE AND UNIT WERE BOTH WRONG: it read '~1.2 lb/wk at
+           $32.00/lb'. Dragonwell is a 250 g RETAIL PACK at $38.00 - about $69/lb,
+           more than double the figure carried, against a unit that was never
+           pounds."
+        - "DORMANT SINCE 2025-10-15. Five orders on record, all 2025:
+           SI683073 (02-05, $126.75), Si694468 (03-05, $420.50), SI704941 (03-24,
+           $807.50), SI733954 (06-05, $395.00), SI784526 (10-15, $161.00) =
+           $1,910.75. Order coverage is complete by createdDate from 2025-12-01 to
+           2026-10-01 and contains NO Rishi order; before 2025-12 the pull hit a
+           page cap, so earlier 2025 history may be incomplete."
+        - "DUPLICATE ITEM CODES, TRANSPOSED CHARACTERS: Dragonwell is both
+           ORDW250-RP and ODRW250-RP, and Lavender Mint is both OLW250-RP and
+           OLM250-RP. Each pair shares one product id. Same failure class as
+           Thunderkiss TK520/TKS20 and Arena's hand-typed suffixes."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window. Nobody has recorded how this
+           is ordered, and it has not been ordered in a year."
+
+  - key: sante_matcha
+    name: Sante Matcha
+    channel: phone
+    rules:
+      notes:
+        - "DISCOVERED FROM INVOICES 2026-10-02, never in the guide. Largest tea
+           vendor on record: 8 orders, $2,507.00, latest 2026-09-21."
+        - "ONE PRODUCT: SW-011 'CoffeeHouse Ceremonial-250g /Organic' at $74.25 a
+           250 g tin. The 2026-09-21 order was 10 tins, $742.50 - the single
+           biggest tea invoice in the data."
+        - "MOVED OFF ACCOUNTS PAYABLE ONTO CARDS. 2025 orders were Accounts
+           Payable; 2026-05-18 split one AP and one Ramp; 2026-06-24, 07-19 and
+           09-21 are all Visa, and the 09-21 order has NO INVOICE NUMBER AT ALL.
+           $1,039.50 of this quarter's tea was bought on a card, so any review
+           built on the AP ledger cannot see it."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window."
+
+  - key: inca_tea
+    name: Inca Tea
+    channel: phone
+    rules:
+      notes:
+        - "DISCOVERED FROM INVOICES 2026-10-02, never in the guide. 4 orders,
+           $1,418.92, latest 2026-09-15."
+        - "Loose leaf by the POUND at $19.00/lb - Peruvian Spiced Berry, Tawantin
+           Black, Machu Picchu Mango. The 2026-09-15 order was 25 lb for $475.00."
+        - "Cheapest tea per pound in the building by a wide margin: $19/lb against
+           Rishi Dragonwell at about $69/lb. Whether they are substitutes is a
+           menu question, not a purchasing one, but the gap is worth knowing."
+        - "ORDER DAY AND CUTOFF UNKNOWN - no window."
+
   - key: thunderkiss
     name: Thunderkiss Coffee
     channel: phone

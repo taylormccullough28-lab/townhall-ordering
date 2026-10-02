@@ -334,18 +334,21 @@ class TestHighVolumeVendorWindows:
         # pending on anyone outside the building.
         assert not any(w.requires_confirmation for w in vendor.windows)
 
-    def test_only_two_vendors_are_left_without_a_window(self):
-        """Two blanks, for two different reasons, and neither is an oversight.
+    def test_the_windowless_vendors_are_the_outstanding_work_list(self):
+        """Five blanks, each for a stated reason, none of them an oversight.
 
-        OYO routes through Arena, so it has no cutoff of its own to record.
-        Buckeye's delivery day is unambiguous - Monday, 12 of 17 invoices - but
-        nobody has ever recorded the cutoff, and a window cannot be written
-        without one. Inventing a plausible time would have the engine hand a
-        manager a deadline that may not exist, which is worse than a blank.
+        - oyo routes through Arena, so it has no cutoff of its own to record.
+        - buckeye delivers Monday on 12 of 17 invoices, but no cutoff was ever
+          written down.
+        - rishi, sante_matcha and inca_tea are the tea vendors found on
+          2026-10-02 when the guide's tea turned out to be on Berardi's, which
+          sells none. Nobody has recorded how any of the three is ordered.
 
-        This assertion is the outstanding-work list. A third key appearing here
-        means a vendor lost its window; buckeye disappearing means somebody
-        finally asked the rep.
+        Inventing a plausible cutoff would have the engine hand a manager a
+        deadline that may not exist, which is worse than a blank. This assertion
+        is the list of calls somebody still owes; a key leaving it means a rep
+        was finally asked, and a new key appearing means a vendor lost its
+        window.
         """
         from thbev.catalog.loader import load_catalog
 
@@ -353,7 +356,13 @@ class TestHighVolumeVendorWindows:
         windowless = sorted(
             key for key, vendor in catalog.vendors.items() if not vendor.windows
         )
-        assert windowless == ["buckeye", "oyo"]
+        assert windowless == [
+            "buckeye",
+            "inca_tea",
+            "oyo",
+            "rishi",
+            "sante_matcha",
+        ]
 
     def test_buckeye_is_in_the_catalog_at_all(self):
         """Buckeye was absent until 2026-09-29 despite outspending four vendors
@@ -740,3 +749,56 @@ class TestColdBrewBelongsToThunderkiss:
             key for key, p in catalog.products.items() if p.vendor == "thunderkiss"
         )
         assert items == ["cold_brew_keg_20l"]
+
+
+class TestTeaIsNotBerardis:
+    """Tea was on the wrong vendor card, and is actually three vendors.
+
+    The guide read "Tea, Loose Leaf Dragonwell Green ~1.2 lb/wk $32.00/lb" under
+    Berardi's. Berardi's item list has no tea on it at all. The operator named
+    Rishi, MarginEdge bills Rishi as "Diaspora Tea & Herb Company, LLC", and two
+    further tea vendors were buying all along. Fourth misattribution found this
+    way, after the Hartzler dairy items, the Buckeye omission and the cold brew.
+    """
+
+    def test_dragonwell_is_on_rishi(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        tea = catalog.products["dragonwell_tea"]
+        assert tea.vendor == "rishi"
+        assert tea.vendor_confidence == "confirmed"
+
+    def test_berardis_sells_no_tea(self):
+        """Berardi's is bean and syrup. A tea product here means the old card
+        was worked from again.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key, product in catalog.products.items():
+            if product.vendor != "berardis":
+                continue
+            assert "tea" not in product.name.lower(), key
+            assert "matcha" not in product.name.lower(), key
+
+    def test_all_three_tea_vendors_exist(self):
+        """Rishi was named by the operator; the other two were only visible in
+        invoices, and one of them is the largest tea vendor on record.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key in ("rishi", "sante_matcha", "inca_tea"):
+            assert key in catalog.vendors, key
+
+    def test_the_matcha_is_order_critical_and_the_dormant_tea_is_not(self):
+        """Rate, not preference. Sante Matcha last shipped 2026-09-21; Rishi has
+        not shipped since 2025-10-15, so there is no rate to forecast from and it
+        must not be treated as a running line.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        assert catalog.products["ceremonial_matcha"].order_critical is True
+        assert catalog.products["dragonwell_tea"].order_critical is False

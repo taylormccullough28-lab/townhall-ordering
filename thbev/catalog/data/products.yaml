@@ -367,6 +367,51 @@ products:
          would create a phantom line of exactly the kind the rotating-keg work
          documented."
 
+  # --- Cafe: tea ------------------------------------------------------------
+  # The order guide listed "Tea, Loose Leaf Dragonwell Green ~1.2 lb/wk $32.00/lb"
+  # under Berardi's. Berardi's item list contains no tea at all. Tea is Rishi
+  # (billed as Diaspora Tea & Herb), Sante Matcha and Inca Tea.
+  - key: dragonwell_tea
+    name: Rishi Dragon Well Organic Green Tea 250g
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: pack
+    pack_label: pack
+    order_critical: false
+    vendor: rishi
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "RISHI, NOT BERARDI'S - operator-confirmed 2026-10-02. MarginEdge bills
+         Rishi as 'Diaspora Tea & Herb Company, LLC', account C154101."
+      - "A 250 g RETAIL PACK at $38.00, not a pound at $32.00 as the guide read.
+         That is about $69/lb - the unit and the price were both wrong, and the
+         error ran in the cheap direction."
+      - "TWO ITEM CODES, TRANSPOSED: ORDW250-RP and ODRW250-RP, one product id
+         375171358. Lavender Mint has the same problem (OLW250-RP / OLM250-RP)."
+      - "NOT BOUGHT SINCE 2025-10-15. Carried because it is on the menu and the
+         operator names Rishi as the source; there is no 2026 purchase to build a
+         rate from, so this is a par-level item until one exists."
+
+  - key: ceremonial_matcha
+    name: Sante CoffeeHouse Ceremonial Matcha 250g
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_label: tin
+    pack_label: tin
+    order_critical: true
+    vendor: sante_matcha
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "MarginEdge: Sante Matcha SW-011 'CoffeeHouse Ceremonial-250g /Organic',
+         $74.25 a tin. The 2026-09-21 order was 10 tins for $742.50."
+      - "BOUGHT ON A CARD, NOT THROUGH AP. The last three orders are Visa and the
+         most recent has no invoice number. An AP-based spend review misses it
+         entirely, which is how a $2,507 vendor stayed out of the guide."
+
   # --- Cafe: cold brew ------------------------------------------------------
   - key: cold_brew_keg_20l
     name: Cold Brew Coffee Keg 20L
