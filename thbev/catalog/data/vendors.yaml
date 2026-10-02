@@ -454,6 +454,48 @@ vendors:
            Those items come from another supplier. Do not re-add them without an
            invoice showing Hartzler as the vendor: a five-day lead means anything
            ordered here in error is not recoverable for a week."
+        - "HOLIDAY DEADLINES 2026-11 to 2027-01, from the dairy's notice received
+           2026-10-02. Every deadline is 10:00, not the usual 17:00, and three of
+           the five land on a WEDNESDAY - 31 hours EARLIER than the standing
+           Thursday cutoff. The reason is in closed_dates: Hartzler's order day is
+           Thursday, and Thanksgiving, Christmas Eve and New Year's Eve are all
+           Thursdays, so every closure knocks out the normal order day."
+        - "THE TWO FRIDAY DEADLINES ARE NOT TRAPS: 2026-11-20 and 2026-12-18 both
+           fall 17 hours AFTER the normal Thursday 17:00 cutoff, so anyone keeping
+           the usual habit has already beaten them. The three Wednesday ones are
+           the only dates that can actually cost a delivery."
+        - "'We will be unable to accept late orders' - the dairy's words. With a
+           five-day lead and two items the cafe cannot run without, a missed
+           holiday cutoff is a week without milk, not a late delivery."
+      closed_dates:
+        - 2026-11-26   # Thanksgiving, a Thursday - the normal order day
+        - 2026-11-27
+        - 2026-12-24   # Christmas Eve, a Thursday
+        - 2026-12-25
+        - 2026-12-31   # New Year's Eve, a Thursday
+        - 2027-01-01
+      holiday_overrides:
+        - delivery_week_start: 2026-11-23
+          order_by: "2026-11-20 10:00"
+          note: "Week of Nov 23-27. Friday 10:00 - 17h LATER than the normal
+                 Thursday 17:00, so the usual habit already covers it."
+        - delivery_week_start: 2026-11-30
+          order_by: "2026-11-25 10:00"
+          note: "Week of Nov 30-Dec 4. Wednesday 10:00 - 31h EARLIER than normal,
+                 because Thanksgiving falls on the Thursday cutoff."
+        - delivery_week_start: 2026-12-21
+          order_by: "2026-12-18 10:00"
+          note: "Week of Dec 21-25. Friday 10:00 - 17h later than normal, already
+                 covered by the usual habit."
+        - delivery_week_start: 2026-12-28
+          order_by: "2026-12-23 10:00"
+          note: "Week of Dec 28-Jan 1. Wednesday 10:00 - 31h EARLIER than normal,
+                 because Christmas Eve falls on the Thursday cutoff."
+        - delivery_week_start: 2027-01-04
+          order_by: "2026-12-30 10:00"
+          note: "Week of Jan 4-8. Wednesday 10:00 - 31h EARLIER than normal, and
+                 placed in the PREVIOUS YEAR, because New Year's Eve falls on the
+                 Thursday cutoff."
     windows:
       - key: hartzler_thursday
         order_weekday: thursday
@@ -486,6 +528,47 @@ vendors:
         note: "Order day and cutoff both confirmed by the operator: Sunday by
                17:00 (2026-09-29). Invoices landed Tue x3 and Wed x1 over the
                sampled month, so Tuesday is the modal delivery, not guaranteed."
+
+  - key: thunderkiss
+    name: Thunderkiss Coffee
+    channel: phone
+    rules:
+      keg_return_required: true
+      notes:
+        - "ADDED 2026-10-02 at the operator's request. Supplies exactly ONE item:
+           a 20 L cold brew coffee keg at $100.00. 15 kegs, $1,500.00 across 8
+           invoices over 2026-06-30..08-26."
+        - "ORDER MONDAY (operator, 2026-10-02). Delivery is TUESDAY on 6 of 8
+           invoices, with two Wednesdays (2026-07-29 and 08-26)."
+        - "THE COLD BREW KEG WAS ATTRIBUTED TO BERARDI'S AND IS NOT THEIRS.
+           Berardi's carries cold brew as GROUND coffee (6-856-5, 00-952-3) and as
+           a 5-gallon liquid PET (00-856-15), all under MarginEdge product
+           'Coffee, Cold Brew' id 469778257. The 20 L KEG is Thunderkiss item
+           TK520/TKS20 under product id 544539218 - a different product, and
+           Berardi's item list contains no 20 L keg at all. Four Berardi invoices
+           sampled (08-03, 09-09, 09-15, 09-22) are roasted bean only."
+        - "ONE PRODUCT, TWO ITEM CODES, AND THE DIFFERENCE IS A HOMOGLYPH: TK520
+           (digit five) on 4 invoices for 7 kegs, TKS20 (letter S) on 4 invoices
+           for 8 kegs. Same name, same $100, same product id, different
+           packagingId. Counting by item code reads 7 and 8 instead of 15, so each
+           looks like half a line. This is the first case where the ITEM CODE
+           itself is corrupted - the PRD's 'identity lives on the item code' rule
+           needs the product id as a cross-check here, which is the exact opposite
+           of the Albino Stout case where the product id wrongly merged two beers."
+        - "STOPPED LINE - ASK, DO NOT ASSUME. Last keg 2026-08-26; nothing in five
+           weeks to 2026-10-02. Berardi's spend rose in September ($616.60, $561,
+           $561 against a ~$240 summer average) which looks like a substitution,
+           but it is NOT: those invoices are 5 lb bags of Ethos bean. Cold brew is
+           also seasonal, so a deliberate autumn wind-down and a dropped line are
+           indistinguishable from the invoices. Confirm with the cafe."
+    windows:
+      - key: thunderkiss_monday
+        order_weekday: monday
+        order_time: "17:00"
+        delivery_weekday: tuesday
+        delivery_time: "09:00"
+        note: "Order day operator-confirmed 2026-10-02. Cutoff hour is assumed
+               17:00 to match the other Monday vendors and is NOT confirmed."
 
   - key: buckeye
     name: Buckeye Beverage

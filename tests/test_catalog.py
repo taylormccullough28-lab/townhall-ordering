@@ -596,3 +596,103 @@ class TestRotatingKegVendors:
 
         catalog = load_catalog()
         assert catalog.products["amarena_cherries"].order_critical is True
+
+
+class TestHartzlerHolidayDeadlines:
+    """The dairy's 2026 holiday notice, received 2026-10-02.
+
+    Hartzler is the longest lead in the building (Thursday 17:00 for Tuesday)
+    and supplies two items the cafe cannot open without. Their notice says
+    plainly "we will be unable to accept late orders", so a missed holiday
+    cutoff is a week without milk rather than a late delivery. That is why
+    these live as dated data rather than a note: a note does not fire on the
+    day it matters.
+    """
+
+    def _rules(self):
+        from thbev.catalog.loader import load_catalog
+
+        return load_catalog().vendor("hartzler").rules
+
+    def test_all_five_deadlines_load(self):
+        rules = self._rules()
+        assert len(rules.holiday_overrides) == 5
+        # Every holiday deadline is 10:00, against a standing cutoff of 17:00.
+        assert all(o.order_by.hour == 10 for o in rules.holiday_overrides)
+
+    def test_the_three_wednesday_deadlines_are_the_dangerous_ones(self):
+        """Three fall 31h before the normal cutoff; two fall 17h after it.
+
+        The Friday pair is harmless - anyone keeping the Thursday 17:00 habit
+        has already beaten them. The Wednesday trio is the whole risk, and the
+        reason is structural: Hartzler's order day is Thursday, and
+        Thanksgiving, Christmas Eve and New Year's Eve are all Thursdays.
+        """
+        from datetime import datetime, timedelta
+
+        rules = self._rules()
+        dangerous, harmless = [], []
+        for override in rules.holiday_overrides:
+            # The Tuesday delivery in that week, and the Thursday 17:00 before it.
+            tuesday = override.delivery_week_start + timedelta(days=1)
+            normal = datetime.combine(
+                tuesday - timedelta(days=5), time(17, 0)
+            )
+            (dangerous if override.order_by < normal else harmless).append(override)
+
+        assert len(dangerous) == 3
+        assert {o.order_by.strftime("%a") for o in dangerous} == {"Wed"}
+        assert {o.order_by.strftime("%a") for o in harmless} == {"Fri"}
+
+    def test_every_closure_lands_on_the_normal_order_day_or_the_day_after(self):
+        """Why the deadlines moved at all: the closures eat Thursday.
+
+        All six closed days are Thursday/Friday pairs, and Thursday is the
+        standing order day. If a future notice closes a Monday, nothing here
+        would need to move - this assertion records that the 2026 pattern is a
+        coincidence of the calendar, not a rule.
+        """
+        rules = self._rules()
+        assert len(rules.closed_dates) == 6
+        assert {d.weekday() for d in rules.closed_dates} == {3, 4}  # Thu, Fri
+
+    def test_a_delivery_in_a_holiday_week_finds_its_override(self):
+        from datetime import date, datetime
+
+        rules = self._rules()
+        # Tuesday 1 Dec 2026 is in the week after Thanksgiving.
+        found = rules.override_for(date(2026, 12, 1))
+        assert found is not None
+        assert found.order_by == datetime(2026, 11, 25, 10, 0)
+        # An ordinary week has no override and must fall back to the window.
+        assert rules.override_for(date(2026, 10, 13)) is None
+
+    def test_the_january_order_is_placed_in_the_previous_year(self):
+        """The one most likely to be missed outright.
+
+        The week of 4 Jan 2027 is ordered on 30 Dec 2026. Anything that reasons
+        about "this month" or rolls over at year end will lose it.
+        """
+        from datetime import date
+
+        rules = self._rules()
+        january = rules.override_for(date(2027, 1, 5))
+        assert january is not None
+        assert january.order_by.year == 2026
+        assert january.delivery_week_start.year == 2027
+
+    def test_no_other_vendor_has_holiday_overrides_yet(self):
+        """Only Hartzler sent a notice. The rest are still unknown, not clear.
+
+        Holiday schedules exist for every vendor; we have one in writing. This
+        records which, so an empty list is not mistaken for "business as usual".
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        with_overrides = sorted(
+            key
+            for key, vendor in catalog.vendors.items()
+            if vendor.rules.holiday_overrides
+        )
+        assert with_overrides == ["hartzler"]

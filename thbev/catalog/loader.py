@@ -14,11 +14,14 @@ from typing import Any, Sequence
 import yaml
 
 from ..normalize import normalize_key
+from datetime import date as _date_cls, datetime as _datetime_cls
+
 from .models import (
     BottleYields,
     Contact,
     ConversionType,
     EngineConfig,
+    HolidayOverride,
     Mapping,
     MappingKey,
     OrderWindow,
@@ -260,6 +263,41 @@ def _read(path: Path) -> dict[str, Any]:
     return data
 
 
+def _as_date(value: Any) -> _date_cls:
+    """Parse a YAML date, or an ISO ``YYYY-MM-DD`` string.
+
+    Raises:
+        ValueError: If the value is not a recognizable date.
+    """
+    if isinstance(value, _datetime_cls):
+        return value.date()
+    if isinstance(value, _date_cls):
+        return value
+    return _date_cls.fromisoformat(str(value).strip())
+
+
+def _as_datetime(value: Any) -> _datetime_cls:
+    """Parse ``"2026-11-20 10:00"``, an ISO datetime, or a YAML timestamp.
+
+    A bare date is rejected rather than defaulting to midnight: a cutoff whose
+    hour is silently wrong is the failure this whole structure exists to stop.
+
+    Raises:
+        ValueError: If the value has no time component or cannot be parsed.
+    """
+    if isinstance(value, _datetime_cls):
+        return value
+    if isinstance(value, _date_cls):
+        raise ValueError(f"{value!r} has a date but no time of day")
+    text = str(value).strip().replace("T", " ")
+    day, _, clock = text.partition(" ")
+    if not clock:
+        raise ValueError(f"{text!r} has a date but no time of day")
+    return _datetime_cls.combine(
+        _date_cls.fromisoformat(day), parse_time(clock)
+    )
+
+
 def _load_vendors(doc: dict[str, Any]) -> dict[str, Vendor]:
     vendors: dict[str, Vendor] = {}
     for entry in doc.get("vendors", []) or []:
@@ -269,6 +307,34 @@ def _load_vendors(doc: dict[str, Any]) -> dict[str, Vendor]:
         windows = tuple(_load_window(w, key) for w in entry.get("windows", []) or [])
         rules_doc = entry.get("rules", {}) or {}
         emergency = rules_doc.get("emergency_contact")
+        overrides = []
+        for raw in rules_doc.get("holiday_overrides", []) or []:
+            try:
+                overrides.append(
+                    HolidayOverride(
+                        delivery_week_start=_as_date(raw["delivery_week_start"]),
+                        order_by=_as_datetime(raw["order_by"]),
+                        note=raw.get("note"),
+                    )
+                )
+            except (KeyError, ValueError) as exc:
+                raise CatalogError(
+                    f"Vendor {key!r}: bad holiday_overrides entry {raw!r}: {exc}"
+                ) from exc
+        for override in overrides:
+            if override.delivery_week_start.weekday() != 0:
+                raise CatalogError(
+                    f"Vendor {key!r}: holiday override delivery_week_start "
+                    f"{override.delivery_week_start} is not a Monday."
+                )
+            if override.order_by.date() >= override.delivery_week_start:
+                raise CatalogError(
+                    f"Vendor {key!r}: holiday cutoff {override.order_by} does not "
+                    f"precede its delivery week {override.delivery_week_start}."
+                )
+        closed = tuple(
+            _as_date(d) for d in (rules_doc.get("closed_dates", []) or [])
+        )
         rules = VendorRules(
             email_only=bool(rules_doc.get("email_only", False)),
             order_email=rules_doc.get("order_email"),
@@ -280,6 +346,10 @@ def _load_vendors(doc: dict[str, Any]) -> dict[str, Vendor]:
             delivery_note=rules_doc.get("delivery_note"),
             minimum_order_units=float(rules_doc.get("minimum_order_units", 0) or 0),
             cover_buffer_days=int(rules_doc.get("cover_buffer_days", 0) or 0),
+            holiday_overrides=tuple(
+                sorted(overrides, key=lambda o: o.delivery_week_start)
+            ),
+            closed_dates=closed,
             max_cost_per_pint=float(rules_doc.get("max_cost_per_pint", 0) or 0),
             emergency_contact=Contact(**emergency) if emergency else None,
             notes=list(rules_doc.get("notes", []) or []),

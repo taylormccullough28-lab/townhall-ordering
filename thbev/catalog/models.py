@@ -93,6 +93,33 @@ class OrderWindow:
 
 
 @dataclass(frozen=True)
+class HolidayOverride:
+    """A one-off cutoff that replaces the vendor's standing window.
+
+    Holiday schedules are the case where the standing window is not merely
+    inconvenient but wrong, and a note in a document does not fire on the day it
+    matters. Hartzler's 2026 holiday notice is the worked example: the standing
+    cutoff is Thursday 17:00, and three of the five holiday deadlines fall on a
+    Wednesday at 10:00 - 31 hours earlier - because the Thursday in question is
+    Thanksgiving, Christmas Eve or New Year's Eve and the dairy is closed.
+
+    Args:
+        delivery_week_start: Monday of the delivery week this cutoff governs.
+        order_by: The replacement cutoff, date and time.
+        note: Why it moved, for the manager reading the recommendation.
+    """
+
+    delivery_week_start: date
+    order_by: datetime
+    note: str | None = None
+
+    def covers(self, delivery_date: date) -> bool:
+        """True when ``delivery_date`` falls in this override's Monday-Sunday week."""
+        delta = (delivery_date - self.delivery_week_start).days
+        return 0 <= delta <= 6
+
+
+@dataclass(frozen=True)
 class VendorRules:
     """Vendor-specific behaviour encoded from the order guide."""
 
@@ -120,7 +147,23 @@ class VendorRules:
     #: rather than poured at the house price. 0.0 means no ceiling.
     max_cost_per_pint: float = 0.0
     emergency_contact: Contact | None = None
+    #: Dated cutoffs that replace the standing window for one delivery week.
+    holiday_overrides: tuple[HolidayOverride, ...] = ()
+    #: Days the vendor's office is shut. An order cannot be placed or questioned
+    #: on these, which is usually why the neighbouring cutoff moved.
+    closed_dates: tuple[date, ...] = ()
     notes: list[str] = field(default_factory=list)
+
+    def override_for(self, delivery_date: date) -> HolidayOverride | None:
+        """The holiday cutoff governing a delivery, or None for a normal week."""
+        for override in self.holiday_overrides:
+            if override.covers(delivery_date):
+                return override
+        return None
+
+    def is_closed(self, day: date) -> bool:
+        """True when the vendor's office is shut on ``day``."""
+        return day in self.closed_dates
 
 
 @dataclass(frozen=True)

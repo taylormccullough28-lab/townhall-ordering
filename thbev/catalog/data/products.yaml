@@ -316,8 +316,12 @@ products:
       - "33497 (DeKuyper, a different brand). Heidelberg is the vendor actually used."
 
   # --- Non-alcoholic --------------------------------------------------------
+  # Red Bull is TWO orderable products, not one. Regular and sugar-free are
+  # separate Southern Glazer's item codes bought at different rates on the same
+  # drops, and a single combined product cannot produce a correct order for
+  # either. Split 2026-10-02 at the operator's request.
   - key: red_bull
-    name: Red Bull
+    name: Red Bull Energy Drink
     category: na_beverage
     conversion: packaged
     pack_size: 24
@@ -325,29 +329,74 @@ products:
     pack_label: case
     order_critical: true
     vendor: southern_glazers
-    vendor_confidence: marginedge
+    vendor_confidence: confirmed
     alt_vendors: [arena, columbus_distributing]
     notes:
       - "Lives under the NA Beverage sales category. Filtering that category out
          would mean never ordering Red Bull. Also a bottle-service bundle item."
+      - "MarginEdge: Southern Glazer's item 201010 'Red Bull Energy Drink'.
+         67 cases across 12 of ~13 weeks, 2026-06-30..09-22 = 5.15 cases/wk.
+         One of the most consistent lines in the building."
+      - "PRICE ROSE $42.00 -> $46.00 (+9.5%) during the window, unflagged. At 5.15
+         cases/wk that is roughly $1,070/yr of standing cost increase."
+      - "TRIPLE-SOURCED: Arena 6112690012/6112694267/6112697337 and Columbus
+         Distributing 01742 also carry Red Bull. Arena was used once (2026-08-28,
+         2 @ $25.99) as a top-up. Southern Glazer's is the standing vendor."
 
-# Recipes: cocktail specs and bottle-service bundles.
-#
-# NOTE: no cocktail spec book was available when this catalog was seeded. The
-# entries below exist to exercise the recipe machinery end to end and are
-# labelled unverified. Do not treat these amounts as house specs - PRD open
-# question 6 ("do cocktail recipes exist in writing?") is still open, and
-# spirit and prep forecasting is only as good as the answer.
-  # --- Named SKU on an otherwise style-only vendor ----------------------------
-  # Cavalier's standing rule is rotating 1/6 bbl only. Bumble Berry is a specific
-  # product it also carries, confirmed by the operator 2026-09-21. It carries
-  # named_sku so the rotating-line collapse does not swallow it into a
-  # style-and-count.
-      - "MarginEdge: Southern Glazer's 201010 (Energy Drink) and 0409127 (Sugarfree) are"
-      - "invoiced on every SGWS drop in the window - 33 and 18 cases respectively at $46."
-      - "TRIPLE-SOURCED: Arena 6112690012/6112694267/6112697337 and Columbus Distributing"
-      - "01742 also carry Red Bull. Arena was used once (2026-08-28, 2 @ $25.99) as a"
-      - "top-up. Southern Glazer's is the standing vendor."
+  - key: red_bull_sugar_free
+    name: Red Bull Sugar Free
+    category: na_beverage
+    conversion: packaged
+    pack_size: 24
+    unit_label: can
+    pack_label: case
+    order_critical: true
+    vendor: southern_glazers
+    vendor_confidence: confirmed
+    alt_vendors: [arena, columbus_distributing]
+    notes:
+      - "SEPARATE PRODUCT FROM red_bull, not a variant to fold in. MarginEdge:
+         Southern Glazer's item 0409127 'Red Bull Energy Sugarfree Ca'.
+         27 cases across 10 of ~13 weeks, 2026-06-30..09-22 = 2.08 cases/wk."
+      - "RATIO TO REGULAR IS ABOUT 2.5 : 1 and has held all quarter. Ordering the
+         two as one product and splitting by guess is how the cafe runs out of one
+         while sitting on the other."
+      - "Same $42.00 -> $46.00 (+9.5%) increase as regular, same silence."
+      - "Red Bull Watermelon (982819, 3 cases, 2026-09-01 only) is NOT carried as a
+         product: one date, one order, no repeat. It is a trial, and promoting it
+         would create a phantom line of exactly the kind the rotating-keg work
+         documented."
+
+  # --- Cafe: cold brew ------------------------------------------------------
+  - key: cold_brew_keg_20l
+    name: Cold Brew Coffee Keg 20L
+    category: na_beverage
+    conversion: packaged
+    pack_size: 1
+    unit_size_oz: 641
+    unit_label: keg
+    pack_label: keg
+    order_critical: true
+    vendor: thunderkiss
+    vendor_confidence: confirmed
+    named_sku: true
+    notes:
+      - "THUNDERKISS COFFEE, NOT BERARDI'S. The order guide listed a 'Coffee, Cold
+         Brew Keg (20L) ~1.2/wk $100.00' under Berardi's. Berardi's carries cold
+         brew only as GROUND coffee (6-856-5, 00-952-3) and a 5-gallon liquid PET
+         (00-856-15), all product id 469778257. The 20 L keg is Thunderkiss
+         TK520/TKS20, product id 544539218. Corrected 2026-10-02."
+      - "15 kegs, $1,500.00, 8 invoices, 2026-06-30..08-26 = 1.64 kegs/wk. Flat
+         $100.00 every time, so every invoice total is a round multiple of 100."
+      - "TWO ITEM CODES FOR ONE PRODUCT, DIFFERING BY A HOMOGLYPH: TK520 (digit
+         five, 7 kegs) and TKS20 (letter S, 8 kegs). Counting by item code halves
+         the rate. Cross-check the product id."
+      - "STOPPED 2026-08-26 - nothing for five weeks. Cold brew is seasonal, so a
+           deliberate autumn wind-down and a dropped line look identical here.
+           ASK the cafe before ordering or dropping."
+      - "20 L = 641 oz usable (BottleYields.twenty_liter_oz). At $100 that is
+         $2.50 per 16oz serving. Cafe menu pricing is not in this project, so no
+         pour cost is asserted - unlike draft, where $5.00 flat is confirmed."
 
   - key: fat_heads_bumble_berry
     name: "Fat Head's Bumble Berry Keg"
@@ -869,6 +918,17 @@ products:
       - "Roughly 1 case to every 15 of whole milk on a typical order."
 
 
+# Recipes: cocktail specs and bottle-service bundles.
+#
+# NOTE: no cocktail spec book was available when this catalog was seeded. The
+# entries below exist to exercise the recipe machinery end to end and are
+# labelled unverified. Do not treat these amounts as house specs - PRD open
+# question 6 ("do cocktail recipes exist in writing?") is still open, and
+# spirit and prep forecasting is only as good as the answer.
+#
+# This header sat 538 lines above the `recipes:` key until 2026-10-02, stranded
+# inside the red_bull notes list along with a comment about Cavalier's named SKU.
+# YAML ignores comments, so it parsed correctly and read as nonsense.
 recipes:
   - key: passionpunch_margarita
     description: "UNVERIFIED placeholder spec - replace with the house build."
