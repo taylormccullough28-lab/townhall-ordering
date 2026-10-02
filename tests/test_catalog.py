@@ -696,3 +696,47 @@ class TestHartzlerHolidayDeadlines:
             if vendor.rules.holiday_overrides
         )
         assert with_overrides == ["hartzler"]
+
+
+class TestColdBrewBelongsToThunderkiss:
+    """The 20 L cold brew keg is Thunderkiss's, operator-confirmed 2026-10-02.
+
+    The order guide credited it to Berardi's at "~1.2/wk, $100.00". Berardi's
+    carries cold brew only as ground coffee and a 5-gallon liquid PET, under a
+    different MarginEdge product id, and has no 20 L keg on its item list at
+    all. This is the third vendor misattribution found by reading invoices
+    rather than the guide, after the Hartzler dairy items and the Buckeye
+    omission, so it is pinned here the same way they were.
+    """
+
+    def test_the_keg_is_on_thunderkiss(self):
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        keg = catalog.products["cold_brew_keg_20l"]
+        assert keg.vendor == "thunderkiss"
+        assert keg.vendor_confidence == "confirmed"
+
+    def test_berardis_carries_no_cold_brew_keg(self):
+        """Berardi's supplies bean and syrup. Nothing kegged.
+
+        A cold brew product reappearing on Berardi's means somebody worked from
+        the old card again; the five-day cafe lead makes that expensive.
+        """
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        for key, product in catalog.products.items():
+            if product.vendor != "berardis":
+                continue
+            assert "keg" not in product.name.lower(), key
+
+    def test_thunderkiss_supplies_exactly_one_product(self):
+        """One vendor, one SKU, one price. Anything else here is an error."""
+        from thbev.catalog.loader import load_catalog
+
+        catalog = load_catalog()
+        items = sorted(
+            key for key, p in catalog.products.items() if p.vendor == "thunderkiss"
+        )
+        assert items == ["cold_brew_keg_20l"]

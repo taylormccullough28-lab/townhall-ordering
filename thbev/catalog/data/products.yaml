@@ -381,11 +381,12 @@ products:
     vendor_confidence: confirmed
     named_sku: true
     notes:
-      - "THUNDERKISS COFFEE, NOT BERARDI'S. The order guide listed a 'Coffee, Cold
-         Brew Keg (20L) ~1.2/wk $100.00' under Berardi's. Berardi's carries cold
-         brew only as GROUND coffee (6-856-5, 00-952-3) and a 5-gallon liquid PET
-         (00-856-15), all product id 469778257. The 20 L keg is Thunderkiss
-         TK520/TKS20, product id 544539218. Corrected 2026-10-02."
+      - "THUNDERKISS COFFEE, NOT BERARDI'S - OPERATOR-CONFIRMED 2026-10-02.
+         The order guide listed a 'Coffee, Cold Brew Keg (20L) ~1.2/wk $100.00'
+         under Berardi's. Berardi's carries cold brew only as GROUND coffee
+         (6-856-5, 00-952-3) and a 5-gallon liquid PET (00-856-15), all product id
+         469778257. The 20 L keg is Thunderkiss TK520/TKS20, product id 544539218.
+         Invoice evidence and the operator agree; this is settled."
       - "15 kegs, $1,500.00, 8 invoices, 2026-06-30..08-26 = 1.64 kegs/wk. Flat
          $100.00 every time, so every invoice total is a round multiple of 100."
       - "TWO ITEM CODES FOR ONE PRODUCT, DIFFERING BY A HOMOGLYPH: TK520 (digit

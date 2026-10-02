@@ -540,13 +540,15 @@ vendors:
            invoices over 2026-06-30..08-26."
         - "ORDER MONDAY (operator, 2026-10-02). Delivery is TUESDAY on 6 of 8
            invoices, with two Wednesdays (2026-07-29 and 08-26)."
-        - "THE COLD BREW KEG WAS ATTRIBUTED TO BERARDI'S AND IS NOT THEIRS.
-           Berardi's carries cold brew as GROUND coffee (6-856-5, 00-952-3) and as
-           a 5-gallon liquid PET (00-856-15), all under MarginEdge product
-           'Coffee, Cold Brew' id 469778257. The 20 L KEG is Thunderkiss item
-           TK520/TKS20 under product id 544539218 - a different product, and
-           Berardi's item list contains no 20 L keg at all. Four Berardi invoices
-           sampled (08-03, 09-09, 09-15, 09-22) are roasted bean only."
+        - "THUNDERKISS HAS THE COLD BREW KEGS - CONFIRMED BY THE OPERATOR
+           2026-10-02. The guide had credited them to Berardi's. The invoice
+           evidence agreed before the confirmation: Berardi's carries cold brew
+           only as GROUND coffee (6-856-5, 00-952-3) and a 5-gallon liquid PET
+           (00-856-15), all under MarginEdge product 'Coffee, Cold Brew' id
+           469778257, while the 20 L KEG is Thunderkiss TK520/TKS20 under product
+           id 544539218 - a different product. Berardi's item list contains no
+           20 L keg at all, and four Berardi invoices sampled (08-03, 09-09,
+           09-15, 09-22) are roasted bean only."
         - "ONE PRODUCT, TWO ITEM CODES, AND THE DIFFERENCE IS A HOMOGLYPH: TK520
            (digit five) on 4 invoices for 7 kegs, TKS20 (letter S) on 4 invoices
            for 8 kegs. Same name, same $100, same product id, different
