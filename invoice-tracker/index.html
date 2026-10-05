@@ -1,0 +1,567 @@
+<title>TownHall Invoice Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one operating column. Sticky bar with location tabs + week stepper,
+   a one-line verdict per location, then the vendor ledger sorted worst-first,
+   then invoices still moving through MarginEdge. Tokens shared with the pre-shift board. */
+:root{
+  --paper:#FAF9F7; --surface:#FFFFFF; --sunk:#F2F0EC;
+  --ink:#1C1A17; --ink-2:#5A544C; --ink-3:#8C857B;
+  --line:#E4E0D9; --line-2:#CFC9BF;
+  --accent:#15565B; --accent-ink:#0C3A3E; --accent-soft:#E2EEEE;
+  --red:#A4231B; --red-soft:#FAE8E6;
+  --amber:#87600A; --amber-soft:#F8F0D9;
+  --green:#17603F; --green-soft:#E1EFE7;
+  --focus:#15565B; --on-accent:#FFFFFF;
+  --font-display:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  --font-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#131312; --surface:#1C1B19; --sunk:#242320;
+  --ink:#F1EEE9; --ink-2:#A69F94; --ink-3:#7C756B;
+  --line:#312F2B; --line-2:#413E39;
+  --accent:#63C2C7; --accent-ink:#9BDCDF; --accent-soft:#14312F;
+  --red:#F09086; --red-soft:#3B1D19;
+  --amber:#DCAE59; --amber-soft:#342915;
+  --green:#71C89B; --green-soft:#15301F;
+  --focus:#63C2C7; --on-accent:#0B1C1D;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#131312; --surface:#1C1B19; --sunk:#242320;
+  --ink:#F1EEE9; --ink-2:#A69F94; --ink-3:#7C756B;
+  --line:#312F2B; --line-2:#413E39;
+  --accent:#63C2C7; --accent-ink:#9BDCDF; --accent-soft:#14312F;
+  --red:#F09086; --red-soft:#3B1D19;
+  --amber:#DCAE59; --amber-soft:#342915;
+  --green:#71C89B; --green-soft:#15301F;
+  --focus:#63C2C7; --on-accent:#0B1C1D;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2.5px solid var(--focus);outline-offset:2px;border-radius:4px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--font-mono)}
+
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-inline:-16px;padding:12px 16px}
+.brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap}
+h1{font-family:var(--font-display);font-weight:700;font-size:28px;letter-spacing:.01em;line-height:1;margin:0;text-transform:uppercase}
+h1 span{color:var(--accent)}
+.fresh{font-size:13px;color:var(--ink-3)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.tabs{display:inline-flex;background:var(--sunk);border-radius:999px;padding:3px}
+.tab{border:0;background:transparent;border-radius:999px;padding:6px 14px;font-weight:600;font-size:15px;color:var(--ink-2);display:inline-flex;gap:6px;align-items:center}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .08)}
+.tab .badge{font-size:12px;min-width:20px;padding:0 6px;border-radius:999px;background:var(--red-soft);color:var(--red);font-weight:700}
+.tab .badge.clear{background:var(--green-soft);color:var(--green)}
+.week{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface)}
+.week button{border:0;background:transparent;width:34px;height:34px;border-radius:999px;font-size:18px;color:var(--ink-2)}
+.week button:disabled{opacity:.3;cursor:default}
+.week .label{font-weight:600;font-size:15px;padding-inline:4px;white-space:nowrap}
+.btn{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.spacer{flex:1}
+
+.verdict{margin-top:20px;display:grid;gap:4px}
+.verdict h2{font-family:var(--font-display);font-weight:600;font-size:26px;line-height:1.1;margin:0;text-wrap:balance}
+.verdict p{margin:0;color:var(--ink-2);max-width:65ch}
+.tally{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--sunk);color:var(--ink-2)}
+.chip.red{background:var(--red-soft);color:var(--red)}
+.chip.amber{background:var(--amber-soft);color:var(--amber)}
+.chip.green{background:var(--green-soft);color:var(--green)}
+
+.notice{margin-top:14px;padding:10px 14px;border-radius:var(--r);background:var(--amber-soft);color:var(--amber);font-size:14px}
+.notice.error{background:var(--red-soft);color:var(--red)}
+.notice b{font-weight:700}
+
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:28px 0 8px;flex-wrap:wrap}
+.section-h h3{font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin:0}
+.section-h .hint{font-size:13px;color:var(--ink-3)}
+
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:6px minmax(0,1fr) auto;gap:0 14px;align-items:center;padding:10px 14px 10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.stripe{align-self:stretch;background:transparent}
+.row.missing .stripe{background:var(--red)}
+.row.low .stripe,.row.check .stripe{background:var(--amber)}
+.row.cleared .stripe{background:var(--green)}
+.vname{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.vmeta{font-size:13px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:1px}
+.right{display:flex;align-items:center;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.count{font-family:var(--font-mono);font-size:14px;text-align:right;min-width:72px}
+.count small{display:block;color:var(--ink-3);font-size:11px}
+.pill{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.pill.missing{background:var(--red-soft);color:var(--red)}
+.pill.low,.pill.check{background:var(--amber-soft);color:var(--amber)}
+.pill.ok{background:var(--green-soft);color:var(--green)}
+.pill.cleared{background:var(--green-soft);color:var(--green)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:22px}
+.spark i{display:block;width:5px;background:var(--line-2);border-radius:1px;min-height:2px}
+.spark i.zero{background:transparent;border-bottom:2px solid var(--line-2);border-radius:0}
+.spark i.cur{background:var(--accent)}
+.spark i.cur.zero{background:transparent;border-bottom-color:var(--red)}
+
+.resolve{grid-column:2 / -1;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:8px}
+.resolve select,.resolve input{border:1px solid var(--line-2);background:var(--paper);border-radius:6px;padding:4px 8px;font-size:14px}
+.resolve input{flex:1;min-width:0;width:12rem}
+.resolve .who{font-size:12px;color:var(--ink-3);width:100%}
+
+.more{margin-top:8px}
+.more summary{cursor:pointer;color:var(--ink-2);font-size:14px;font-weight:600;padding:6px 0}
+
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-top:1px solid var(--line);white-space:nowrap}
+thead th{border-top:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--sunk)}
+td.r,th.r{text-align:right}
+td.muted{color:var(--ink-3)}
+
+.empty{padding:28px 16px;text-align:center;color:var(--ink-3)}
+.loading .bar{height:46px;border-top:1px solid var(--line);background:linear-gradient(90deg,var(--surface),var(--sunk),var(--surface));background-size:200% 100%;animation:sh 1.4s linear infinite}
+.loading .bar:first-child{border-top:0}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.loading .bar{animation:none}}
+
+.foot{margin-top:28px;font-size:13px;color:var(--ink-3);max-width:70ch}
+.foot p{margin:0 0 6px}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600}
+textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--font-mono);font-size:13px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);padding:8px}
+
+@media (max-width:560px){
+  h1{font-size:24px}
+  .row{grid-template-columns:6px minmax(0,1fr);}
+  .right{grid-column:2;justify-content:flex-start;margin-top:6px}
+  .count{text-align:left;min-width:0}
+}
+</style>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="brandrow">
+      <h1>TownHall <span>Invoice Check</span></h1>
+      <div class="fresh" id="fresh">Connecting to MarginEdge…</div>
+    </div>
+    <div class="controls">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="week" aria-label="Week">
+        <button id="prevWeek" aria-label="Previous week">‹</button>
+        <span class="label num" id="weekLabel">—</span>
+        <button id="nextWeek" aria-label="Next week">›</button>
+      </div>
+      <span class="spacer"></span>
+      <button class="btn" id="copyBtn">Copy chase list</button>
+      <button class="btn primary" id="refreshBtn">Refresh</button>
+    </div>
+  </header>
+
+  <section class="verdict" id="verdict">
+    <h2>Checking this week's invoices…</h2>
+    <p>Pulling every invoice for TownHall Cleveland and TownHall Columbus from MarginEdge and comparing each distributor against its last 8 weeks.</p>
+  </section>
+  <div id="notices"></div>
+  <div id="copyFallback" hidden></div>
+
+  <div class="section-h"><h3>Distributors</h3><span class="hint">Bars show invoices per week, last 8 weeks then this one</span></div>
+  <div class="ledger loading" id="ledger"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+  <details class="more" id="occasional" hidden><summary id="occSummary"></summary><div class="ledger" id="occLedger"></div></details>
+
+  <div class="section-h"><h3>Still moving through MarginEdge</h3><span class="hint">Received but not closed yet</span></div>
+  <div id="pending"><div class="tbl-wrap"><div class="empty">Waiting for MarginEdge…</div></div></div>
+
+  <div class="foot">
+    <p><b>How a vendor gets flagged.</b> A vendor that billed in at least 6 of the last 8 weeks is expected every week: no invoice this week marks it <b>Missing</b>, and fewer than half its usual count marks it <b>Low</b>. A vendor that billed in 4 or 5 of the last 8 weeks shows <b>Check</b> when nothing came in. Vendors that bill less often than that are listed under occasional vendors.</p>
+    <p>Weeks run Monday to Sunday by invoice date. An invoice uploaded late still lands in the week it was dated, so refresh after uploads catch up. Marking a vendor "No delivery" or "Found" clears it for everyone who opens this page.</p>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+  const SERVER = "Margin Edge TH CBUS";
+  const TOOL_NAMES = ["Get_orders"];
+  const LOCATIONS = [
+    { key: "cle", id: 166232982, name: "Cleveland" },
+    { key: "cbus", id: 166233400, name: "Columbus" },
+  ];
+  const BASE_WEEKS = 8;
+  const MAX_BACK = 5; // how many full weeks back the stepper reaches
+  const STATUS_WORDS = {
+    PREPROCESSING: "Uploaded, being read",
+    INITIAL_REVIEW: "MarginEdge review",
+    AM_REVIEW: "Account manager review",
+    FINAL_REVIEW: "Final review",
+    PENDING_APPROVAL: "Needs your approval",
+    PENDING_RECONCILIATION: "Needs reconciliation",
+  };
+  const RESOLVE = {
+    "": "Not resolved",
+    none: "No delivery this week",
+    requested: "Asked vendor for copy",
+    found: "Found / uploaded",
+  };
+
+  // ---------- dates ----------
+  const pad = n => String(n).padStart(2, "0");
+  const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const monday = d => addDays(d, -((d.getDay() + 6) % 7));
+  const weekOf = s => iso(monday(parse(s)));
+  const fmtShort = d => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const weekLabel = w => { const a = parse(w); return `${fmtShort(a)} – ${fmtShort(addDays(a, 6))}`; };
+  const money = n => (n < 0 ? "−$" : "$") + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const thisMonday = monday(today);
+  const lastFull = iso(addDays(thisMonday, -7));
+  const earliestWeek = iso(addDays(thisMonday, -7 * MAX_BACK));
+  const fetchStart = iso(addDays(parse(earliestWeek), -7 * BASE_WEEKS));
+  const fetchEnd = iso(today);
+
+  // ---------- state ----------
+  let loc = "cle";
+  let week = lastFull;
+  try { const s = localStorage.getItem("ic.loc"); if (s && LOCATIONS.some(l => l.key === s)) loc = s; } catch (e) {}
+  const orders = {};        // loc -> array | undefined
+  const errors = {};        // loc -> {code,message}
+  let fetchedAt = null;
+  let checks = {};          // docId -> data
+  let db = null, user = null, canWrite = true, unsubChecks = null;
+  let mcp = null, toolName = null;
+
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => t.hidden = true, 2200); }
+
+  // ---------- analysis ----------
+  function vendorKey(o) { return String(o.vendorId || o.vendorName || "").trim(); }
+  function analyze(list, w) {
+    const base = []; for (let i = BASE_WEEKS; i >= 1; i--) base.push(iso(addDays(parse(w), -7 * i)));
+    const weeks = [...base, w];
+    const vendors = new Map();
+    for (const o of list) {
+      const k = vendorKey(o); if (!k || !o.vendorName) continue;
+      const wk = weekOf(o.invoiceDate || o.createdDate);
+      if (!weeks.includes(wk)) continue;
+      let v = vendors.get(k);
+      if (!v) { v = { key: k, name: o.vendorName, counts: Object.fromEntries(weeks.map(x => [x, 0])), total: 0, invoices: [] }; vendors.set(k, v); }
+      v.counts[wk]++;
+      if (wk === w) { v.total += Number(o.orderTotal) || 0; v.invoices.push(o); }
+    }
+    const inProgress = parse(w) >= thisMonday;
+    const rows = [];
+    for (const v of vendors.values()) {
+      const hits = base.filter(x => v.counts[x] > 0).length;
+      const avg = base.reduce((s, x) => s + v.counts[x], 0) / BASE_WEEKS;
+      const n = v.counts[w];
+      let status;
+      if (hits >= 6 && n === 0) status = inProgress ? "check" : "missing";
+      else if (hits >= 4 && n === 0) status = "check";
+      else if (hits >= 6 && avg >= 2 && n < avg * 0.5 && !inProgress) status = "low";
+      else if (n > 0) status = "ok";
+      else status = "rare";
+      rows.push({ ...v, hits, avg, n, status, history: weeks.map(x => v.counts[x]), isNew: hits === 0 && n > 0 });
+    }
+    const weekSet = list.filter(o => weekOf(o.invoiceDate || o.createdDate) === w);
+    const pending = weekSet.filter(o => o.status && o.status !== "CLOSED" && o.vendorName);
+    const recentCut = iso(addDays(today, -21));
+    const unidentified = list.filter(o => (!o.vendorName || !o.invoiceDate) && o.status !== "CLOSED" && o.createdDate >= recentCut);
+    return { rows, pending, unidentified, received: weekSet.filter(o => o.vendorName).length, inProgress };
+  }
+  function docId(l, w, k) { return `${l}_${w}_${k}`.replace(/[^A-Za-z0-9_\-.~:@+]/g, "-").slice(0, 190); }
+  function effective(r, l, w) {
+    const c = checks[docId(l, w, r.key)];
+    if ((r.status === "missing" || r.status === "low" || r.status === "check") && c && (c.state === "none" || c.state === "found")) return "cleared";
+    return r.status;
+  }
+  const ORDER = { missing: 0, low: 1, check: 2, cleared: 3, ok: 4, rare: 5 };
+
+  // ---------- render ----------
+  function renderTabs() {
+    const tabs = $("tabs"); tabs.replaceChildren();
+    for (const l of LOCATIONS) {
+      const b = el("button", "tab"); b.role = "tab"; b.setAttribute("aria-selected", String(l.key === loc));
+      b.append(l.name);
+      if (orders[l.key]) {
+        const a = analyze(orders[l.key], week);
+        const open = a.rows.filter(r => ["missing", "low"].includes(effective(r, l.key, week))).length;
+        const badge = el("span", "badge num" + (open ? "" : " clear"), open ? String(open) : "✓");
+        badge.title = open ? `${open} distributor${open > 1 ? "s" : ""} need a look` : "All accounted for";
+        b.append(badge);
+      }
+      b.onclick = () => { loc = l.key; try { localStorage.setItem("ic.loc", loc); } catch (e) {} render(); };
+      tabs.append(b);
+    }
+  }
+  function renderWeek() {
+    $("weekLabel").textContent = (parse(week) >= thisMonday ? "This week · " : "") + weekLabel(week);
+    $("prevWeek").disabled = week <= earliestWeek;
+    $("nextWeek").disabled = parse(week) >= thisMonday;
+  }
+  function spark(h) {
+    const s = el("div", "spark"); const max = Math.max(1, ...h);
+    s.setAttribute("aria-label", "Invoices per week: " + h.join(", "));
+    h.forEach((n, i) => { const b = el("i", (i === h.length - 1 ? "cur " : "") + (n ? "" : "zero")); b.style.height = n ? Math.max(4, Math.round(22 * n / max)) + "px" : "2px"; s.append(b); });
+    return s;
+  }
+  const PILL = { missing: "Missing", low: "Low", check: "Check", ok: "Received", cleared: "Cleared", rare: "None" };
+  function vendorRow(r, l, a) {
+    const st = effective(r, l, week);
+    const row = el("div", "row " + st);
+    row.append(el("div", "stripe"));
+    const mid = el("div"); mid.style.minWidth = "0";
+    mid.append(el("div", "vname", r.name));
+    const meta = el("div", "vmeta");
+    if (r.isNew) meta.append(el("span", null, "New vendor this window"));
+    else meta.append(el("span", "num", `Billed ${r.hits} of last 8 wks · avg ${r.avg.toFixed(1)}/wk`));
+    if (r.n) meta.append(el("span", "num", `#${r.invoices.map(o => o.invoiceNumber || "—").slice(0, 3).join(", #")}${r.invoices.length > 3 ? ` +${r.invoices.length - 3}` : ""}`));
+    mid.append(meta);
+    row.append(mid);
+    const right = el("div", "right");
+    right.append(spark(r.history));
+    const c = el("div", "count num"); c.append(`${r.n} inv`); const sm = el("small", null, r.n ? money(r.total) : "—"); c.append(sm);
+    right.append(c);
+    right.append(el("span", "pill " + st, PILL[st]));
+    row.append(right);
+    if (["missing", "low", "check", "cleared"].includes(st)) row.append(resolver(r, l));
+    return row;
+  }
+  function resolver(r, l) {
+    const id = docId(l, week, r.key);
+    const cur = checks[id] || {};
+    const box = el("div", "resolve");
+    const sel = el("select"); sel.id = "s-" + id; sel.setAttribute("aria-label", "Resolution for " + r.name);
+    for (const [v, t] of Object.entries(RESOLVE)) { const o = el("option", null, t); o.value = v; sel.append(o); }
+    sel.value = cur.state || "";
+    const note = el("input"); note.id = "n-" + id; note.placeholder = "Note (rep, credit, date expected…)"; note.value = cur.note || ""; note.setAttribute("aria-label", "Note for " + r.name);
+    const disabled = !db || !canWrite;
+    sel.disabled = note.disabled = disabled;
+    const save = async () => {
+      if (!db) return;
+      const state = sel.value, txt = note.value.trim();
+      if (state === (cur.state || "") && txt === (cur.note || "")) return;
+      try {
+        const by = user ? await user.id() : null;
+        await db.doc("checks/" + id).set({ loc: l, week, vendorKey: r.key, vendor: r.name, state, note: txt, by: by || "", at: new Date().toISOString() });
+        toast(state ? `Saved: ${r.name} – ${RESOLVE[state]}` : `Saved note for ${r.name}`);
+      } catch (e) {
+        if (e && e.code === "invalid_argument") { canWrite = false; toast("You can view this page but not change it"); render(); }
+        else toast("Could not save. Check your connection and try again.");
+      }
+    };
+    sel.onchange = save; note.onchange = save;
+    box.append(sel, note);
+    if (cur.at) {
+      const who = el("div", "who", `Updated ${new Date(cur.at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`);
+      box.append(who);
+      if (user && cur.by) user.profiles([cur.by]).then(ps => { const n = ps[cur.by] && ps[cur.by].name; if (n) who.textContent += ` by ${n}`; }).catch(() => {});
+    }
+    if (!db) box.append(el("div", "who", "Saving resolutions isn't available in this view."));
+    return box;
+  }
+
+  function render() {
+    renderTabs(); renderWeek();
+    const L = LOCATIONS.find(x => x.key === loc);
+    const notices = $("notices"); notices.replaceChildren();
+    const err = errors[loc];
+    const list = orders[loc];
+    if (err) notices.append(errorNotice(err));
+    if (!list) {
+      if (err) { $("ledger").className = "ledger"; $("ledger").replaceChildren(el("div", "empty", "No invoice data for " + L.name + " yet.")); $("pending").replaceChildren(); }
+      return;
+    }
+    const a = analyze(list, week);
+    const rows = a.rows.map(r => ({ r, st: effective(r, loc, week) }));
+    const missing = rows.filter(x => x.st === "missing").length, low = rows.filter(x => x.st === "low").length, check = rows.filter(x => x.st === "check").length, cleared = rows.filter(x => x.st === "cleared").length;
+    const vendorsIn = rows.filter(x => x.r.n > 0).length;
+
+    const v = $("verdict"); v.replaceChildren();
+    const h = el("h2");
+    if (a.inProgress) h.textContent = `${L.name}: week in progress, ${a.received} invoices so far`;
+    else if (missing + low === 0) h.textContent = `${L.name}: every regular distributor is accounted for`;
+    else h.textContent = `${L.name}: ${missing + low} distributor${missing + low > 1 ? "s" : ""} to chase for ${weekLabel(week)}`;
+    v.append(h);
+    v.append(el("p", null, `${a.received} invoices from ${vendorsIn} vendors dated ${weekLabel(week)}, checked against the 8 weeks before.`));
+    const t = el("div", "tally");
+    if (missing) t.append(el("span", "chip red num", `${missing} missing`));
+    if (low) t.append(el("span", "chip amber num", `${low} low`));
+    if (check) t.append(el("span", "chip amber num", `${check} to check`));
+    if (cleared) t.append(el("span", "chip green num", `${cleared} cleared`));
+    t.append(el("span", "chip num", `${a.pending.length} still processing`));
+    if (a.unidentified.length) t.append(el("span", "chip amber num", `${a.unidentified.length} uploads not yet read`));
+    v.append(t);
+
+    if (a.inProgress) notices.append(el("div", "notice", "This week isn't over. Vendors marked Check may still deliver or upload before Sunday."));
+    else if (week === lastFull && today.getDay() >= 1 && today.getDay() <= 2) notices.append(el("div", "notice", "Late-week invoices are often uploaded Monday or Tuesday. Refresh on Wednesday before chasing a vendor."));
+
+    const ledger = $("ledger"); ledger.className = "ledger"; ledger.replaceChildren();
+    const main = rows.filter(x => x.st !== "rare" && !(x.st === "ok" && x.r.hits < 4 && !x.r.isNew)).sort((x, y) => ORDER[x.st] - ORDER[y.st] || y.r.avg - x.r.avg || x.r.name.localeCompare(y.r.name));
+    if (!main.length) ledger.append(el("div", "empty", "No regular distributors found for this week."));
+    for (const x of main) ledger.append(vendorRow(x.r, loc, a));
+
+    const occ = rows.filter(x => !main.includes(x)).sort((x, y) => y.r.n - x.r.n || y.r.hits - x.r.hits || x.r.name.localeCompare(y.r.name));
+    $("occasional").hidden = !occ.length;
+    $("occSummary").textContent = `Occasional vendors (${occ.length}) · ${occ.filter(x => x.r.n).length} billed this week`;
+    $("occLedger").replaceChildren(...occ.map(x => vendorRow(x.r, loc, a)));
+
+    renderPending(a);
+  }
+
+  function renderPending(a) {
+    const box = $("pending"); box.replaceChildren();
+    const items = [...a.pending.map(o => ({ o, kind: "week" })), ...a.unidentified.map(o => ({ o, kind: "unread" }))];
+    const wrap = el("div", "tbl-wrap");
+    if (!items.length) { wrap.append(el("div", "empty", "Nothing in progress. Every invoice for this week is closed in MarginEdge.")); box.append(wrap); return; }
+    const t = el("table"); const th = el("thead"); const hr = el("tr");
+    ["Vendor", "Invoice", "Dated", "Uploaded", "Stage", "Total"].forEach((x, i) => { const c = el("th", i === 5 ? "r" : null, x); hr.append(c); });
+    th.append(hr); t.append(th);
+    const tb = el("tbody");
+    items.sort((x, y) => (x.kind === y.kind ? 0 : x.kind === "unread" ? -1 : 1) || (x.o.vendorName || "").localeCompare(y.o.vendorName || ""));
+    for (const { o, kind } of items) {
+      const tr = el("tr");
+      tr.append(el("td", o.vendorName ? null : "muted", o.vendorName || "Not read yet"));
+      tr.append(el("td", "mono" + (o.invoiceNumber ? "" : " muted"), o.invoiceNumber || "—"));
+      tr.append(el("td", "num" + (o.invoiceDate ? "" : " muted"), o.invoiceDate ? fmtShort(parse(o.invoiceDate)) : "—"));
+      tr.append(el("td", "num", fmtShort(parse(o.createdDate))));
+      tr.append(el("td", null, STATUS_WORDS[o.status] || o.status));
+      tr.append(el("td", "r num", o.orderTotal == null ? "—" : money(Number(o.orderTotal))));
+      tb.append(tr);
+    }
+    t.append(tb); wrap.append(t); box.append(wrap);
+    if (a.unidentified.length) box.append(el("div", "foot", "Rows marked “Not read yet” are uploads from the last 3 weeks that MarginEdge hasn't matched to a vendor or date. A missing invoice above may be one of these."));
+  }
+
+  function errorNotice(e) {
+    const n = el("div", "notice error");
+    const fix = {
+      needs_reauth: `MarginEdge needs to be reconnected. Open claude.ai Settings → Connectors and reconnect ${SERVER}, then press Refresh.`,
+      server_not_connected: `This page reads invoices through the ${SERVER} connector, and it isn't connected for you. Add it in claude.ai Settings → Connectors, then press Refresh.`,
+      selection_required: `You have more than one MarginEdge connector with this name. Choose one when Claude asks, then press Refresh.`,
+      not_in_manifest: `MarginEdge access is turned off for this page. Allow it from the page's Permissions menu, then press Refresh.`,
+      blocked_by_policy: `Your organization's settings block this page from reading MarginEdge.`,
+      approval_required: `Your organization requires approval for each MarginEdge call, which this page can't ask for yet.`,
+      server_unavailable: `MarginEdge didn't answer. Press Refresh in a minute.`,
+      tool_error: `MarginEdge refused the request: ${e.message || "no reason given"}.`,
+      no_mcp: `This view can't reach your connectors. Open the page on claude.ai while signed in.`,
+    }[e.code] || `Couldn't load invoices (${e.code || "error"}). ${e.message || ""} Press Refresh to try again.`;
+    n.textContent = fix;
+    return n;
+  }
+
+  // ---------- data ----------
+  async function pickTool() {
+    if (toolName) return toolName;
+    try {
+      const res = await mcp.listTools(SERVER);
+      const s = (res.servers || [])[0];
+      const names = s ? s.tools.map(t => t.name) : [];
+      toolName = TOOL_NAMES.find(n => names.includes(n)) || names.find(n => /^get[ _]?orders$/i.test(n)) || TOOL_NAMES[0];
+    } catch (e) { toolName = TOOL_NAMES[0]; }
+    return toolName;
+  }
+  function payloadOf(res) {
+    let p = res && res.payload;
+    if (typeof p === "string") { try { p = JSON.parse(p); } catch (e) {} }
+    return p || {};
+  }
+  async function fetchLocation(L, fresh) {
+    const tool = await pickTool();
+    const all = []; let next = null, guard = 0;
+    do {
+      const input = { restaurantUnitId: L.id, startDate: fetchStart, endDate: fetchEnd };
+      if (next) input.nextPage = next;
+      let res;
+      try { res = await mcp.callTool(SERVER, tool, input, { cache: { staleTime: fresh ? 0 : 300000, gcTime: 3600000, refresh: !!fresh } }); }
+      catch (e) {
+        if (e && e.retryable) { await new Promise(r => setTimeout(r, Math.min(e.retryAfterMs || 1500 + Math.random() * 1500, 60000))); res = await mcp.callTool(SERVER, tool, input, { cache: false }); }
+        else throw e;
+      }
+      if (res.cache && res.cache.storedAt) fetchedAt = Math.min(fetchedAt || Infinity, res.cache.storedAt);
+      const p = payloadOf(res);
+      all.push(...(p.orders || []));
+      next = p.nextPage || null;
+    } while (next && ++guard < 40);
+    return all;
+  }
+  let loading = false;
+  async function load(fresh) {
+    if (loading) return; loading = true;
+    $("refreshBtn").disabled = true; $("fresh").textContent = "Pulling invoices from MarginEdge…";
+    fetchedAt = null;
+    if (!mcp) {
+      for (const L of LOCATIONS) errors[L.key] = { code: "no_mcp" };
+      $("fresh").textContent = "Not connected"; loading = false; $("refreshBtn").disabled = false; render(); return;
+    }
+    await Promise.all(LOCATIONS.map(async L => {
+      try { orders[L.key] = await fetchLocation(L, fresh); delete errors[L.key]; }
+      catch (e) {
+        errors[L.key] = { code: (e && e.code) || "upstream_error", message: e && e.message };
+        if (["needs_reauth", "server_not_connected", "not_in_manifest", "blocked_by_policy", "selection_required"].includes(errors[L.key].code)) delete orders[L.key];
+      }
+      render();
+    }));
+    const stamp = new Date(fetchedAt || Date.now());
+    $("fresh").textContent = Object.keys(errors).length === LOCATIONS.length ? "Couldn't reach MarginEdge" : `MarginEdge as of ${stamp.toLocaleString("en-US", { weekday: "short", hour: "numeric", minute: "2-digit" })}`;
+    loading = false; $("refreshBtn").disabled = false;
+  }
+
+  function subscribeChecks() {
+    if (unsubChecks) { unsubChecks(); unsubChecks = null; }
+    if (!db) return;
+    unsubChecks = db.collection("checks").where("week", "==", week).onSnapshot(snap => {
+      const next = {}; snap.docs.forEach(d => { next[d.id] = d.data(); });
+      checks = next;
+      const a = document.activeElement;
+      if (a && a.closest && a.closest(".resolve")) return; // don't pull the field out from under someone typing
+      render();
+    }, () => {});
+  }
+
+  function chaseText() {
+    const lines = [`Invoice chase list · week of ${weekLabel(week)}`, ""];
+    for (const L of LOCATIONS) {
+      if (!orders[L.key]) { lines.push(`${L.name}: not loaded`, ""); continue; }
+      const a = analyze(orders[L.key], week);
+      const open = a.rows.map(r => ({ r, st: effective(r, L.key, week) })).filter(x => ["missing", "low", "check"].includes(x.st)).sort((x, y) => ORDER[x.st] - ORDER[y.st]);
+      lines.push(`TownHall ${L.name}`);
+      if (!open.length) lines.push("  All regular distributors accounted for");
+      for (const { r, st } of open) {
+        const c = checks[docId(L.key, week, r.key)];
+        lines.push(`  ${PILL[st].toUpperCase()}: ${r.name} (${r.n} received, usually ~${r.avg.toFixed(1)}/wk)${c && c.state ? " – " + RESOLVE[c.state] : ""}${c && c.note ? " – " + c.note : ""}`);
+      }
+      lines.push("");
+    }
+    return lines.join("\n");
+  }
+
+  $("prevWeek").onclick = () => { week = iso(addDays(parse(week), -7)); subscribeChecks(); render(); };
+  $("nextWeek").onclick = () => { week = iso(addDays(parse(week), 7)); subscribeChecks(); render(); };
+  $("refreshBtn").onclick = () => load(true);
+  $("copyBtn").onclick = () => {
+    const text = chaseText();
+    const fb = () => { const box = $("copyFallback"); box.hidden = false; box.replaceChildren(); const ta = el("textarea", "copybox"); ta.id = "chaseText"; ta.value = text; ta.readOnly = true; box.append(ta); ta.focus(); ta.select(); toast("Select and copy the list below"); };
+    try { navigator.clipboard.writeText(text).then(() => toast("Chase list copied"), fb); } catch (e) { fb(); }
+  };
+
+  renderTabs(); renderWeek();
+
+  (async () => {
+    const [m, d, u] = await Promise.all([claude.use("mcp"), claude.use("db"), claude.use("user")]);
+    mcp = m; db = d; user = u;
+    if (user) { try { const c = await user.can("data.write"); if (c === false) canWrite = false; } catch (e) {} }
+    subscribeChecks();
+    load(false);
+  })();
+})();
+</script>
