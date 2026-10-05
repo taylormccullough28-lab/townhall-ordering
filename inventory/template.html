@@ -1,0 +1,101 @@
+<title>TownHall LBW Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: a count sheet. Charcoal masthead, then one ruled table per distributor, grouped by category, with blank write-in columns. */
+:root {
+  --paper: #ffffff;
+  --ink: #1f2220;
+  --muted: #646b66;
+  --rule: #d5d9d4;
+  --band: #26292a;
+  --band-ink: #f4f5f2;
+  --sage: #6f7f63;
+  --sage-tint: #eef1ea;
+  --display: "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #181a19; --ink: #e8ebe6; --muted: #9ca39d; --rule: #343836;
+  --band: #0f1110; --band-ink: #f4f5f2; --sage: #a3b496; --sage-tint: #232822; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #181a19; --ink: #e8ebe6; --muted: #9ca39d; --rule: #343836;
+  --band: #0f1110; --band-ink: #f4f5f2; --sage: #a3b496; --sage-tint: #232822; color-scheme: dark }
+
+body { background: var(--paper); color: var(--ink); font: 400 13px/1.35 var(--body); }
+.sheet { max-width: 920px; margin: 0 auto; padding-inline: 16px; padding-block: 24px 48px; display: grid; gap: 28px; }
+
+.mast { background: var(--band); color: var(--band-ink); padding: 20px 22px; display: grid; gap: 14px; }
+.mast .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 24px; }
+.mast .eyebrow { font: 600 11px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: #a3b496; margin: 0 0 6px; }
+.mast h1 { font: 600 30px/1 var(--display); letter-spacing: .02em; text-transform: uppercase; margin: 0; text-wrap: balance; }
+.mast .meta { font-size: 12px; opacity: .8; margin: 0; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 20px; }
+.field { font: 500 11px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid rgba(244,245,242,.5); padding-bottom: 16px; }
+
+.index { display: grid; gap: 8px; }
+.index h2 { font: 600 13px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; margin: 0; color: var(--muted); }
+.index ul { list-style: none; margin: 0; padding: 0; columns: 3 200px; column-gap: 28px; }
+.index li { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px dotted var(--rule); break-inside: avoid; }
+.index b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.note { color: var(--muted); font-size: 12px; margin: 0; max-width: 70ch; }
+
+.vendor { display: grid; gap: 6px; }
+.vhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 3px solid var(--ink); padding-bottom: 4px; break-after: avoid; }
+.vhead h2 { font: 600 20px/1.1 var(--display); text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+.vhead p { margin: 0; color: var(--muted); font-size: 12px; }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; min-width: 640px; border-collapse: collapse; table-layout: fixed; }
+col.c-name { width: auto; } col.c-code { width: 84px; } col.c-unit { width: 100px; } col.c-cost { width: 72px; } col.c-w { width: 70px; }
+thead th { font: 500 10.5px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 6px 6px; border-bottom: 1px solid var(--ink); }
+td { padding: 5px 6px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.name { overflow-wrap: anywhere; }
+td.code { font: 400 11px/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+td.unit { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.write { border-left: 1px solid var(--rule); }
+tr.cat th { text-align: left; font: 600 11.5px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; background: var(--sage-tint); color: var(--sage); padding: 7px 6px; border-bottom: 1px solid var(--rule); }
+tr.cat th span { color: var(--muted); font-weight: 500; margin-left: 6px; }
+tbody tr:not(.cat):nth-child(even) td { background: color-mix(in srgb, var(--sage-tint) 35%, transparent); }
+
+@media print {
+  @page { size: letter; margin: 0.45in 0.4in; }
+  :root { --paper: #fff; --ink: #111; --muted: #555; --rule: #c9cdc8; --sage-tint: #eef1ea; --sage: #4f5d45; }
+  body { font-size: 10.5px; }
+  .sheet { max-width: none; padding: 0; gap: 18px; }
+  .mast { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  tr.cat th, tbody td { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table { min-width: 0; }
+  tr { break-inside: avoid; }
+  thead { display: table-header-group; }
+  .vendor.small { break-inside: avoid; }
+  .vendor + .vendor { margin-top: 6px; }
+  td { padding: 4px 5px; }
+}
+</style>
+
+<main class="sheet">
+  <header class="mast">
+    <div class="top">
+      <div>
+        <p class="eyebrow">TownHall Columbus · Bar</p>
+        <h1>Liquor, Beer &amp; Wine Inventory</h1>
+      </div>
+      <p class="meta">{{TOTAL}} products · {{NVENDORS}} distributors · from invoices {{RANGE}}</p>
+    </div>
+    <div class="fields">
+      <div class="field">Count date</div>
+      <div class="field">Counted by</div>
+      <div class="field">Verified by</div>
+    </div>
+  </header>
+
+  <section class="index">
+    <h2>Distributors</h2>
+    <ul>{{INDEX}}</ul>
+    <p class="note">Every liquor, wine and beer product invoiced at TownHall Columbus in MarginEdge over the period above, listed under each distributor that delivered it. Count in the unit shown; last cost is the most recent invoiced unit price. Keg deposits, mixers and freight are left off.</p>
+  </section>
+
+  {{SECTIONS}}
+</main>
