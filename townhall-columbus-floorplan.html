@@ -471,7 +471,7 @@
     J: ['33', '34', '35'],   K: ['24', '23'],         L: ['25', '26'],
     M: ['41', '42', '43'],   N: ['44', '45'],         O: ['81', '82'],
     P: ['61', '62', '51'],   Q: ['63', '52', '64'],   R: ['65', '53', '66'],
-    S: ['67', '68'],         T: ['71', '72', '73'],   U: ['83', '84', '85']
+    S: ['67', '68'],         T: ['71', '72'],         U: ['83', '84', '85', '73']
   };
 
   /* force: build the defaults outright. Otherwise only fill what a plan is
@@ -726,8 +726,13 @@
       });
     });
 
-    /* hulls first, so every name slot sits above them */
-    infos.forEach(function (info) {
+    /* Big sections paint first: where two overlap, the smaller stays legible. */
+    function hullArea(h) {
+      var a = 0;
+      for (var i = 0, j = h.length - 1; i < h.length; j = i++) a += (h[j][0] + h[i][0]) * (h[j][1] - h[i][1]);
+      return Math.abs(a / 2);
+    }
+    infos.slice().sort(function (a, b) { return hullArea(b.hull) - hullArea(a.hull); }).forEach(function (info) {
       var d = info.hull.map(function (q, i) {
         return (i ? 'L' : 'M') + Math.round(q[0]) + ',' + Math.round(q[1]);
       }).join(' ') + (info.hull.length > 2 ? ' Z' : '');
