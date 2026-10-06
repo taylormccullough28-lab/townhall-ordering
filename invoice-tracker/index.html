@@ -171,7 +171,7 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
   <div id="notices"></div>
   <div id="copyFallback" hidden></div>
 
-  <div class="section-h"><h3>Distributors</h3><span class="hint">Bars show invoices per week, last 8 weeks then this one</span></div>
+  <div class="section-h"><h3>Distributors</h3><span class="hint" id="barHint">Bars show invoices per week, last 8 weeks then this one</span></div>
   <div class="ledger loading" id="ledger"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
   <details class="more" id="occasional" hidden><summary id="occSummary"></summary><div class="ledger" id="occLedger"></div></details>
 
@@ -180,7 +180,7 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
 
   <div class="foot">
     <p><b>How a vendor gets flagged.</b> A vendor that billed in at least 6 of the last 8 weeks is expected every week: no invoice this week marks it <b>Missing</b>, and fewer than half its usual count marks it <b>Low</b>. A vendor that billed in 4 or 5 of the last 8 weeks shows <b>Check</b> when nothing came in. Vendors that bill less often than that are listed under occasional vendors.</p>
-    <p>Weeks run Monday to Sunday by invoice date. An invoice uploaded late still lands in the week it was dated, so refresh after uploads catch up. Marking a vendor "No delivery" or "Found" clears it for everyone who opens this page.</p>
+    <p>Check the current ordering week on Friday and close out the prior week on Monday. Weeks run Monday to Sunday by invoice date. While a week is in progress, each vendor is compared with the same days of past weeks. An invoice uploaded late still lands in the week it was dated, so refresh after uploads catch up. Marking a vendor "No delivery" or "Found" clears it for everyone who opens this page.</p>
   </div>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -230,7 +230,8 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
 
   // ---------- state ----------
   let loc = "cle";
-  let week = lastFull;
+  // Friday check covers the current ordering week; Monday check covers the week before.
+  let week = today.getDay() >= 1 && today.getDay() <= 4 ? lastFull : iso(thisMonday);
   try { const s = localStorage.getItem("ic.loc"); if (s && LOCATIONS.some(l => l.key === s)) loc = s; } catch (e) {}
   const orders = {};        // loc -> array | undefined
   const errors = {};        // loc -> {code,message}
@@ -248,26 +249,29 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
   function analyze(list, w) {
     const base = []; for (let i = BASE_WEEKS; i >= 1; i--) base.push(iso(addDays(parse(w), -7 * i)));
     const weeks = [...base, w];
+    const inProgress = parse(w) >= thisMonday;
+    // For the week in progress, compare like for like: only count each past week up to the same weekday.
+    const cutoff = inProgress ? Math.round((today - parse(w)) / 864e5) : 6;
+    const dayIn = o => { const d = parse(o.invoiceDate || o.createdDate); return Math.round((d - monday(d)) / 864e5); };
     const vendors = new Map();
     for (const o of list) {
       const k = vendorKey(o); if (!k || !o.vendorName) continue;
       const wk = weekOf(o.invoiceDate || o.createdDate);
-      if (!weeks.includes(wk)) continue;
+      if (!weeks.includes(wk) || (wk !== w && dayIn(o) > cutoff)) continue;
       let v = vendors.get(k);
       if (!v) { v = { key: k, name: o.vendorName, counts: Object.fromEntries(weeks.map(x => [x, 0])), total: 0, invoices: [] }; vendors.set(k, v); }
       v.counts[wk]++;
       if (wk === w) { v.total += Number(o.orderTotal) || 0; v.invoices.push(o); }
     }
-    const inProgress = parse(w) >= thisMonday;
     const rows = [];
     for (const v of vendors.values()) {
       const hits = base.filter(x => v.counts[x] > 0).length;
       const avg = base.reduce((s, x) => s + v.counts[x], 0) / BASE_WEEKS;
       const n = v.counts[w];
       let status;
-      if (hits >= 6 && n === 0) status = inProgress ? "check" : "missing";
+      if (hits >= 6 && n === 0) status = "missing";
       else if (hits >= 4 && n === 0) status = "check";
-      else if (hits >= 6 && avg >= 2 && n < avg * 0.5 && !inProgress) status = "low";
+      else if (hits >= 6 && avg >= 2 && n < avg * 0.5) status = "low";
       else if (n > 0) status = "ok";
       else status = "rare";
       rows.push({ ...v, hits, avg, n, status, history: weeks.map(x => v.counts[x]), isNew: hits === 0 && n > 0 });
@@ -276,7 +280,7 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
     const pending = weekSet.filter(o => o.status && o.status !== "CLOSED" && o.vendorName);
     const recentCut = iso(addDays(today, -21));
     const unidentified = list.filter(o => (!o.vendorName || !o.invoiceDate) && o.status !== "CLOSED" && o.createdDate >= recentCut);
-    return { rows, pending, unidentified, received: weekSet.filter(o => o.vendorName).length, inProgress };
+    return { rows, pending, unidentified, received: weekSet.filter(o => o.vendorName).length, inProgress, cutoff };
   }
   function docId(l, w, k) { return `${l}_${w}_${k}`.replace(/[^A-Za-z0-9_\-.~:@+]/g, "-").slice(0, 190); }
   function effective(r, l, w) {
@@ -402,9 +406,11 @@ textarea.copybox{width:100%;min-height:140px;margin-top:8px;font-family:var(--fo
     if (a.unidentified.length) t.append(el("span", "chip amber num", `${a.unidentified.length} uploads not yet read`));
     v.append(t);
 
-    if (a.inProgress) notices.append(el("div", "notice", "This week isn't over. Vendors marked Check may still deliver or upload before Sunday."));
-    else if (week === lastFull && today.getDay() >= 1 && today.getDay() <= 2) notices.append(el("div", "notice", "Late-week invoices are often uploaded Monday or Tuesday. Refresh on Wednesday before chasing a vendor."));
+    const dayName = d => ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][d];
+    if (a.inProgress) notices.append(el("div", "notice", `Week in progress. Each vendor is compared with what it had billed by ${dayName(a.cutoff)} in past weeks, so a vendor that usually bills later in the week isn't flagged yet.`));
+    else if (week === lastFull && today.getDay() === 1) notices.append(el("div", "notice", "Monday close-out for last week. Weekend invoices may still be uploading; press Refresh before chasing a vendor."));
 
+    $("barHint").textContent = a.inProgress ? `Bars show invoices billed Monday–${dayName(a.cutoff)}, last 8 weeks then this one` : "Bars show invoices per week, last 8 weeks then this one";
     const ledger = $("ledger"); ledger.className = "ledger"; ledger.replaceChildren();
     const main = rows.filter(x => x.st !== "rare" && !(x.st === "ok" && x.r.hits < 4 && !x.r.isNew)).sort((x, y) => ORDER[x.st] - ORDER[y.st] || y.r.avg - x.r.avg || x.r.name.localeCompare(y.r.name));
     if (!main.length) ledger.append(el("div", "empty", "No regular distributors found for this week."));
