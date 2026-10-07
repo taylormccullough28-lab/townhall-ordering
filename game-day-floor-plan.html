@@ -18,8 +18,6 @@
     --sage: #33593F;
     --sage-soft: #EAF1EA;
     --sand: #EFEADB;
-    --aqua: #DDEBE8;
-    --write: #1B1B16;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
@@ -30,14 +28,15 @@
     padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--line);
     position: sticky; top: 0; z-index: 20;
   }
-  .toolbar .hint { color: var(--muted); font-size: 13px; margin-right: auto; }
+  .tabs { display: flex; gap: 4px; margin-right: auto; flex-wrap: wrap; }
   button {
     font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .02em;
     border: 1px solid var(--line); background: var(--card); color: var(--ink);
     padding: 8px 12px; border-radius: 6px; cursor: pointer;
   }
-  button.primary { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
-  button.on { background: var(--sage); color: #fff; border-color: var(--sage); }
+  .tabs button[aria-selected="true"] { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
+  button.primary { background: var(--sage); color: #fff; border-color: var(--sage); }
+  button.on { background: #D08A2E; color: #fff; border-color: #D08A2E; }
   button:disabled { opacity: .4; cursor: default; }
 
   .edit-panel {
@@ -46,52 +45,55 @@
   }
   body.editing .edit-panel { display: flex; }
   .edit-panel label { display: flex; gap: 6px; align-items: center; }
-  .edit-panel input, .edit-panel select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 5px; width: 90px; }
+  .edit-panel input { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 5px; width: 80px; }
 
-  /* ---------- page ---------- */
-  .page { padding: 16px; max-width: 1400px; margin: 0 auto; }
+  /* ---------- sheets ---------- */
+  .sheet { padding: 16px; max-width: 1400px; margin: 0 auto; }
+  .sheet:not(.active) { display: none; }
   .header {
     background: var(--charcoal); color: #fff; border-radius: 8px 8px 0 0;
     padding: 14px 20px; display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: flex-end;
   }
   .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; line-height: 1; }
   .header h1 small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .2em; color: #C9C6B8; margin-bottom: 6px; }
+  .header h1 em { font-style: normal; color: #B9D3BF; }
   .header .fields { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-left: auto; }
   .hfield { display: flex; align-items: flex-end; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: #C9C6B8; }
   .hfield input {
     font: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0; color: #fff;
-    background: transparent; border: 0; border-bottom: 1.5px solid #8C897D; width: 140px; padding: 2px 4px; outline: none;
+    background: transparent; border: 0; border-bottom: 1.5px solid #8C897D; width: 130px; padding: 2px 4px; outline: none;
   }
 
   .stage-wrap { background: var(--card); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 8px 8px; overflow: hidden; position: relative; }
   .stage {
-    position: absolute; top: 0; left: 0; width: 1600px; height: 1100px; transform-origin: 0 0;
+    position: absolute; top: 0; left: 0; width: 1600px; height: 1060px; transform-origin: 0 0;
     background-image: radial-gradient(circle, #E9E5D8 1px, transparent 1.2px);
     background-size: 20px 20px;
   }
   body:not(.editing) .stage { background-image: none; }
 
   /* ---------- fixtures ---------- */
-  .fixture {
-    position: absolute; display: flex; align-items: center; justify-content: center; text-align: center;
-    font-size: 14px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
-    border: 2px solid #CFCAB8; border-radius: 6px; background: var(--sand);
+  .fx { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .fx.wall { background: var(--ink); }
+  .fx.dash { border: 2.5px dashed #8C897D; border-radius: 4px; font-size: 15px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .fx.dash.heavy { border: 4px solid var(--ink); outline: 2px dashed #8C897D; outline-offset: -9px; }
+  .fx.host { border: 4px solid var(--ink); border-radius: 4px; font-size: 15px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .fx.pillar {
+    border: 2.5px solid var(--ink); border-radius: 3px;
+    background: repeating-linear-gradient(45deg, #fff 0 6px, #BDB9AA 6px 8px);
   }
-  .fixture.dark { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
-  .fixture.patio { background: transparent; border: 2.5px dashed #A9B9AE; color: #7E9384; align-items: flex-start; justify-content: flex-start; padding: 8px 12px; }
-  .fixture.tv { background: var(--ink); color: #fff; font-size: 10px; letter-spacing: .14em; border-radius: 3px; border: 0; }
-  .fixture.door { background: transparent; border: 0; border-bottom: 4px solid var(--sage); border-radius: 0; color: var(--sage); align-items: flex-end; font-size: 11px; }
-  .fixture.aqua { background: var(--aqua); border-color: #BFD6D1; color: #4E6E68; }
+  .fx.note { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); justify-content: flex-start; white-space: nowrap; }
+  .fx.area { font-size: 34px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #C9D8CD; justify-content: flex-start; white-space: nowrap; }
 
   /* ---------- reservable tables ---------- */
-  .unit { position: absolute; width: 168px; display: flex; flex-direction: column; align-items: center; }
+  .unit { position: absolute; display: flex; flex-direction: column; align-items: center; }
   .writein {
-    width: 168px; background: #fff; border: 1.5px solid var(--ink); border-radius: 5px; padding: 5px 7px 6px;
-    display: grid; grid-template-columns: auto 1fr; column-gap: 5px; row-gap: 3px; align-items: end;
+    width: 140px; background: #fff; border: 1.5px solid var(--ink); border-radius: 5px; padding: 4px 6px 5px;
+    display: grid; grid-template-columns: auto 1fr; column-gap: 4px; row-gap: 2px; align-items: end;
   }
-  .writein span { font-size: 9px; font-weight: 800; letter-spacing: .1em; color: var(--muted); white-space: nowrap; line-height: 1.6; }
+  .writein span { font-size: 8.5px; font-weight: 800; letter-spacing: .08em; color: var(--muted); white-space: nowrap; line-height: 1.7; }
   .writein input {
-    font: inherit; font-size: 12px; font-weight: 600; color: var(--write);
+    font: inherit; font-size: 12px; font-weight: 600; color: var(--ink);
     border: 0; border-bottom: 1px solid #A8A495; background: transparent; padding: 0 2px; height: 19px; width: 100%; min-width: 0; outline: none;
   }
   .writein input:focus { border-bottom-color: var(--sage); background: var(--sage-soft); }
@@ -100,24 +102,19 @@
   .money input { padding-left: 9px; }
 
   .table {
-    margin-top: 6px; position: relative; display: flex; align-items: center; justify-content: center;
-    background: var(--charcoal); color: #fff; font-weight: 800; font-size: 18px; letter-spacing: .04em;
+    position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--charcoal); color: #fff; font-weight: 800; font-size: 17px; letter-spacing: .02em; line-height: 1;
+    border-radius: 5px;
   }
-  .table.rect { border-radius: 6px; }
   .table.round { border-radius: 50%; }
-  .table.booth { border-radius: 6px; box-shadow: 0 0 0 5px var(--sand), 0 0 0 7px #CFCAB8; }
-  .table.high { border-radius: 50%; background: var(--sage); }
-  .table { flex-direction: column; }
-  .table .seats { position: absolute; bottom: 3px; right: 6px; font-size: 9px; font-weight: 700; letter-spacing: .08em; color: #C9C6B8; white-space: nowrap; }
-  .table.round .seats, .table.high .seats { position: static; font-size: 8px; margin-top: 1px; }
-  .table.high .seats { color: #D7E5DA; }
-  .table.round, .table.high { line-height: 1; }
+  .table.half { border-radius: 0 0 999px 999px; }
+  .table .lbl { display: flex; flex-direction: column; align-items: center; }
+  .table .seats { font-size: 8px; font-weight: 700; letter-spacing: .08em; color: #C9C6B8; margin-top: 2px; white-space: nowrap; }
 
   /* edit-mode affordances */
-  body.editing .unit, body.editing .fixture { cursor: grab; }
-  body.editing .unit input, body.editing .writein { pointer-events: none; }
-  body.editing .writein { opacity: .55; }
-  .selected .table, .fixture.selected { outline: 3px solid #D08A2E; outline-offset: 4px; }
+  body.editing .unit, body.editing .fx { cursor: grab; }
+  body.editing .writein { pointer-events: none; opacity: .55; }
+  .selected .table, .fx.selected { outline: 3px solid #D08A2E; outline-offset: 4px; }
 
   .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 4px 0; font-size: 12px; color: var(--muted); }
   .legend b { color: var(--ink); }
@@ -127,117 +124,147 @@
   @page { size: letter landscape; margin: 0.3in; }
   @media print {
     html, body { background: #fff; }
-    .toolbar, .edit-panel, .no-print { display: none !important; }
-    .page { padding: 0; max-width: none; }
-    .stage { background-image: none !important; transform: scale(.6) !important; }
-    .stage-wrap { height: 660px !important; }
-    .selected .table, .fixture.selected { outline: none; }
+    .toolbar, .edit-panel { display: none !important; }
+    .sheet { display: block !important; padding: 0; max-width: none; break-after: page; page-break-after: always; }
+    .sheet:last-of-type { break-after: auto; page-break-after: auto; }
+    body.print-one .sheet:not(.active) { display: none !important; }
+    .stage { background-image: none !important; transform: none !important; zoom: .62; }
+    .stage-wrap { height: 658px !important; }
+    .selected .table, .fx.selected { outline: none; }
     body.editing .writein { opacity: 1; }
-    .header, .fixture.dark, .table, .fixture.tv { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .fixture, .table, .fixture.patio { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .header, .table, .fx { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .header { padding: 8px 14px; }
     .header h1 { font-size: 18px; }
     .legend { font-size: 10px; padding-top: 4px; }
   }
   @media (max-width: 640px) {
     .header h1 { font-size: 20px; }
-    .hfield input { width: 110px; }
+    .hfield input { width: 100px; }
   }
 </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <div class="hint" id="hint">Type in the boxes or print blank and write them in by hand.</div>
+  <div class="tabs" role="tablist" id="tabs"></div>
   <button id="editBtn">Edit layout</button>
   <button id="clearBtn">Clear reservations</button>
-  <button class="primary" id="printBtn">Print</button>
+  <button id="printOneBtn">Print this area</button>
+  <button class="primary" id="printAllBtn">Print all areas</button>
 </div>
 
 <div class="edit-panel" id="editPanel">
-  <strong>Edit layout:</strong> drag tables to match the room. Click a table to change it.
+  <strong>Edit layout:</strong> drag tables or fixtures. Click a table to change it.
   <label>Table # <input id="fLabel"></label>
-  <label>Seats <input id="fSeats" type="number" min="1" max="30"></label>
-  <label>Shape
-    <select id="fShape">
-      <option value="rect">4-top / square</option>
-      <option value="round">Round</option>
-      <option value="booth">Booth</option>
-      <option value="high">High-top</option>
-      <option value="long">Long / party</option>
-    </select>
-  </label>
+  <label>Seats <input id="fSeats" type="number" min="1" max="40" placeholder="blank"></label>
   <button id="delBtn" disabled>Delete selected</button>
   <button id="addBtn">+ Add table</button>
-  <button id="resetBtn">Reset to default</button>
+  <button id="resetBtn">Reset to the floor plan</button>
 </div>
 
-<div class="page">
-  <div class="header">
-    <h1><small>TOWNHALL COLUMBUS</small>GAME DAY FLOOR PLAN</h1>
-    <div class="fields">
-      <label class="hfield">DATE <input data-h="date"></label>
-      <label class="hfield">GAME <input data-h="game" placeholder=""></label>
-      <label class="hfield">KICKOFF <input data-h="kickoff" style="width:80px"></label>
-      <label class="hfield">MANAGER <input data-h="mgr"></label>
-    </div>
-  </div>
-  <div class="stage-wrap" id="wrap"><div class="stage" id="stage"></div></div>
-  <div class="legend">
-    <span><span class="sw" style="background:#222320"></span><b>Dining table</b></span>
-    <span><span class="sw" style="background:#222320;box-shadow:0 0 0 2px #EFEADB,0 0 0 3px #CFCAB8"></span><b>Booth</b></span>
-    <span><span class="sw" style="background:#33593F;border-radius:50%"></span><b>High-top</b></span>
-    <span><b>NAME</b> = reservation name</span>
-    <span><b>MIN</b> = minimum spend for the table</span>
-    <span><b>REFUND</b> = amount of the deposit refunded to the guest</span>
-  </div>
-</div>
+<main id="sheets"></main>
 
 <script>
 (function () {
-  const STORE = 'th-cbus-gameday-v1';
-  const W = 1600, H = 1100;
+  const STORE = 'th-cbus-gameday-v2';
+  const W = 1600, H = 1060, CARD_W = 140, CARD_H = 72, GAP = 6;
 
-  // Placeholder layout — use "Edit layout" to match the real Columbus room.
+  // Layout traced from "TownHall Columbus — Combined Floor Plan" (Sep 17, 2026), 53 tables.
+  // Positions are spread out from the source so every table has room for a write-in box above it.
+  // T(label, shape, centerX, top of write-in box, width, height, rotation)
+  const T = (label, shape, cx, y, w, h, rot) => ({ label, shape, cx, y, w, h, rot: rot || 0 });
+  const F = (cls, x, y, w, h, text) => ({ cls, x, y, w, h, text: text || '' });
+
   function defaults() {
-    const fixtures = [
-      { id: 'f-kitchen', label: 'Kitchen', cls: 'dark', x: 40, y: 20, w: 760, h: 60 },
-      { id: 'f-bar', label: 'Bar', cls: 'dark', x: 1060, y: 100, w: 500, h: 90 },
-      { id: 'f-wellness', label: 'Wellness bar', cls: 'aqua', x: 840, y: 20, w: 180, h: 60 },
-      { id: 'f-tv1', label: 'TV', cls: 'tv', x: 1110, y: 20, w: 110, h: 34 },
-      { id: 'f-tv2', label: 'TV', cls: 'tv', x: 1255, y: 20, w: 110, h: 34 },
-      { id: 'f-tv3', label: 'TV', cls: 'tv', x: 1400, y: 20, w: 110, h: 34 },
-      { id: 'f-tv4', label: 'TV', cls: 'tv', x: 4, y: 340, w: 30, h: 110 },
-      { id: 'f-tv5', label: 'TV', cls: 'tv', x: 1566, y: 520, w: 30, h: 110 },
-      { id: 'f-host', label: 'Host', cls: '', x: 1400, y: 700, w: 160, h: 50 },
-      { id: 'f-door', label: 'Entrance', cls: 'door', x: 1400, y: 760, w: 160, h: 40 },
-      { id: 'f-patio', label: 'Patio', cls: 'patio', x: 40, y: 860, w: 1520, h: 230 },
+    const areas = [
+      {
+        id: 'cafe', name: 'Cafe',
+        fixtures: [
+          F('wall', 24, 10, 4, 830),
+          F('wall', 24, 1040, 900, 4),
+          F('pillar', 660, 300, 150, 360),
+          F('dash', 600, 990, 170, 46, 'Door'),
+          F('area', 900, 60, 500, 50, 'Cafe'),
+          F('note', 840, 470, 400, 30, 'Dining Room · Table 15 →'),
+        ],
+        tables: [
+          T('C1', 'rect', 110, 20, 56, 46), T('C2', 'rect', 110, 160, 56, 46), T('C3', 'rect', 110, 300, 56, 46),
+          T('C4', 'rect', 110, 440, 56, 46), T('C5', 'rect', 110, 580, 56, 46), T('C6', 'rect', 110, 720, 56, 46),
+          T('C7', 'rect', 110, 870, 46, 80),
+          T('C8', 'round', 290, 900, 56, 56), T('C9', 'round', 460, 900, 56, 56),
+          T('C10', 'round', 460, 740, 56, 56),
+          T('C20', 'round', 480, 380, 64, 64), T('C21', 'round', 480, 560, 64, 64),
+        ],
+      },
+      {
+        id: 'dining', name: 'Dining Room',
+        fixtures: [
+          F('dash', 560, 40, 360, 80, 'Bar'),
+          F('wall', 380, 160, 884, 4), F('wall', 1260, 0, 4, 164),
+          F('wall', 1584, 0, 4, 790),
+          F('pillar', 1488, 296, 44, 40),
+          F('pillar', 860, 458, 80, 80),
+          F('pillar', 60, 278, 130, 240),
+          F('dash', 40, 830, 150, 46, 'Door'),
+          F('dash', 870, 830, 170, 46, 'Door'),
+          F('host', 1060, 826, 120, 54, 'Host'),
+          F('wall', 0, 892, 1200, 4), F('wall', 1200, 904, 240, 4),
+          F('note', 20, 950, 600, 30, '← Cafe · Sidewalk patio 51–66 below'),
+          F('note', 1100, 950, 480, 30, 'Patio 67–85 →'),
+        ],
+        tables: [
+          T('45', 'rect', 1510, 10, 56, 52), T('44', 'rect', 1510, 150, 56, 52), T('43', 'rect', 1510, 345, 56, 52),
+          T('42', 'rect', 1510, 490, 56, 52), T('41', 'rect', 1510, 635, 52, 66),
+          T('15', 'rect', 260, 200, 60, 240),
+          T('31', 'rect', 470, 200, 150, 48), T('21', 'rect', 470, 400, 150, 48),
+          T('32', 'round', 760, 200, 56, 56), T('33', 'round', 915, 200, 56, 56),
+          T('34', 'round', 1070, 200, 56, 56), T('35', 'round', 1225, 200, 56, 56),
+          T('22', 'round', 760, 400, 60, 60), T('23', 'round', 1040, 400, 60, 60),
+          T('24', 'rect', 1210, 380, 56, 130, 15), T('25', 'rect', 1370, 470, 56, 120, -30),
+          T('26', 'rect', 1300, 770, 60, 44),
+          T('16', 'rect', 110, 600, 60, 46), T('14', 'rect', 280, 690, 64, 40),
+          T('13', 'rect', 480, 690, 130, 36), T('12', 'rect', 650, 690, 60, 40), T('11', 'rect', 810, 610, 60, 46),
+        ],
+      },
+      {
+        id: 'patio', name: 'Patio',
+        fixtures: [
+          F('note', 20, 6, 700, 30, 'Building front · Cafe + Dining Room'),
+          F('wall', 0, 40, 1180, 4),
+          F('wall', 20, 430, 330, 4), F('wall', 400, 430, 660, 4),
+          F('note', 1080, 300, 300, 30, 'Sidewalk'),
+          F('area', 40, 520, 400, 50, 'Patio'),
+          F('note', 40, 580, 500, 30, '← Host / Dining Room table 26'),
+          F('dash', 1240, 480, 320, 60, 'Patio bar'),
+          F('dash', 1260, 556, 280, 46, 'Drink rail'),
+          F('dash', 1260, 616, 280, 46, 'Fireplace'),
+          F('wall', 220, 1010, 1100, 4),
+        ],
+        tables: [
+          T('51', 'rect', 180, 60, 60, 44), T('52', 'rect', 560, 60, 60, 44), T('53', 'rect', 800, 60, 60, 44),
+          T('61', 'rect', 100, 220, 50, 90), T('62', 'rect', 260, 220, 50, 90), T('63', 'rect', 480, 220, 50, 90),
+          T('64', 'rect', 640, 220, 50, 90), T('65', 'rect', 800, 220, 50, 90), T('66', 'rect', 960, 220, 50, 90),
+          T('81', 'rect', 760, 590, 50, 110, 12),
+          T('82', 'rect', 930, 560, 52, 52, 45), T('83', 'rect', 1100, 470, 52, 52, 45),
+          T('84', 'rect', 1330, 720, 52, 64), T('85', 'rect', 1490, 720, 52, 64),
+          T('67', 'rect', 330, 820, 50, 90), T('68', 'rect', 490, 820, 50, 90),
+          T('71', 'half', 780, 840, 84, 42), T('72', 'half', 950, 840, 84, 42), T('73', 'half', 1120, 840, 84, 42),
+        ],
+      },
     ];
-    const t = [];
-    const add = (label, shape, seats, x, y) => t.push({ id: 't-' + label, label, shape, seats, x, y });
-    // Booths along the left wall
-    [110, 300, 490, 680].forEach((y, i) => add(String(1 + i), 'booth', 4, 50, y));
-    // Main dining 4-tops
-    [260, 450, 640].forEach((x, c) => [110, 300, 490].forEach((y, r) => add(String(10 + c * 3 + r), 'rect', 4, x, y)));
-    // Large party tables
-    add('20', 'long', 8, 840, 300);
-    add('21', 'long', 8, 840, 490);
-    // High-tops by the bar
-    [1060, 1230, 1400].forEach((x, i) => add('H' + (i + 1), 'high', 4, x, 260));
-    [1060, 1230, 1400].forEach((x, i) => add('H' + (i + 4), 'high', 4, x, 450));
-    // Rounds
-    add('22', 'round', 6, 260, 680);
-    add('23', 'round', 6, 450, 680);
-    add('24', 'round', 6, 640, 680);
-    add('25', 'rect', 4, 1060, 640);
-    add('26', 'rect', 4, 1230, 640);
-    // Patio
-    [70, 290, 510, 730, 950, 1170].forEach((x, i) => add('P' + (i + 1), 'rect', 4, x, 900));
-    return { fixtures, tables: t, res: {}, head: {} };
+    areas.forEach(a => {
+      a.fixtures.forEach((f, i) => f.id = a.id + '-f' + i);
+      a.tables.forEach(t => {
+        t.id = a.id + '-' + t.label;
+        t.x = t.cx - Math.max(CARD_W, t.w) / 2;
+        delete t.cx;
+      });
+    });
+    return { areas, res: {}, head: {}, active: 'cafe' };
   }
 
   function load() {
-    try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.tables) return s; } catch (e) {}
+    try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.areas) return s; } catch (e) {}
     return defaults();
   }
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
@@ -245,124 +272,180 @@
   let state = load();
   state.res = state.res || {}; state.head = state.head || {};
   let editing = false, selected = null;
-
-  const stage = document.getElementById('stage');
-  const wrap = document.getElementById('wrap');
-
-  function dims(shape, seats) {
-    if (shape === 'round') return { w: 92, h: 92 };
-    if (shape === 'high') return { w: 66, h: 66 };
-    if (shape === 'booth') return { w: 120, h: 70 };
-    if (shape === 'long') return { w: 160, h: 70 };
-    return { w: 84, h: 70 };
-  }
+  const area = () => state.areas.find(a => a.id === state.active) || state.areas[0];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  function render() {
+  // ---------- build sheets ----------
+  const sheetsEl = document.getElementById('sheets');
+  const tabsEl = document.getElementById('tabs');
+
+  function buildSheets() {
+    sheetsEl.innerHTML = ''; tabsEl.innerHTML = '';
+    state.areas.forEach(a => {
+      const tab = document.createElement('button');
+      tab.setAttribute('role', 'tab'); tab.dataset.area = a.id;
+      tab.textContent = a.name + ' (' + a.tables.length + ')';
+      tabsEl.appendChild(tab);
+
+      const sec = document.createElement('section');
+      sec.className = 'sheet'; sec.dataset.area = a.id;
+      sec.innerHTML =
+        '<div class="header">' +
+          '<h1><small>TOWNHALL COLUMBUS · GAME DAY FLOOR PLAN</small><em>' + esc(a.name) + '</em> · ' + a.tables.length + ' TABLES</h1>' +
+          '<div class="fields">' +
+            '<label class="hfield">DATE <input data-h="date"></label>' +
+            '<label class="hfield">GAME <input data-h="game"></label>' +
+            '<label class="hfield">KICKOFF <input data-h="kickoff" style="width:80px"></label>' +
+            '<label class="hfield">MANAGER <input data-h="mgr"></label>' +
+          '</div>' +
+        '</div>' +
+        '<div class="stage-wrap"><div class="stage"></div></div>' +
+        '<div class="legend">' +
+          '<span><b>NAME</b> = reservation name</span>' +
+          '<span><b>MIN</b> = minimum spend for the table</span>' +
+          '<span><b>REFUND</b> = amount of the deposit refunded to the guest</span>' +
+          '<span><span class="sw" style="border:1.5px solid #1B1B16;background:repeating-linear-gradient(45deg,#fff 0 3px,#BDB9AA 3px 4px)"></span>Pillar / object</span>' +
+          '<span><span class="sw" style="border:1.5px dashed #8C897D"></span>Fixture</span>' +
+        '</div>';
+      sheetsEl.appendChild(sec);
+    });
+    sheetsEl.querySelectorAll('[data-h]').forEach(inp => {
+      inp.value = state.head[inp.dataset.h] || '';
+      inp.addEventListener('input', () => {
+        state.head[inp.dataset.h] = inp.value;
+        sheetsEl.querySelectorAll('[data-h="' + inp.dataset.h + '"]').forEach(o => { if (o !== inp) o.value = inp.value; });
+        save();
+      });
+    });
+    state.areas.forEach(renderArea);
+    setActive(state.active);
+  }
+
+  function stageOf(id) { return sheetsEl.querySelector('.sheet[data-area="' + id + '"] .stage'); }
+
+  function renderArea(a) {
+    const stage = stageOf(a.id);
     stage.innerHTML = '';
-    state.fixtures.forEach(f => {
+    a.fixtures.forEach(f => {
       const el = document.createElement('div');
-      el.className = 'fixture ' + (f.cls || '') + (selected === f.id ? ' selected' : '');
+      el.className = 'fx ' + f.cls.split(' ').map(c => c).join(' ') + (selected === f.id ? ' selected' : '');
       Object.assign(el.style, { left: f.x + 'px', top: f.y + 'px', width: f.w + 'px', height: f.h + 'px' });
-      el.textContent = f.label;
+      el.textContent = f.text;
       el.dataset.id = f.id; el.dataset.kind = 'fixture';
       stage.appendChild(el);
     });
-    state.tables.forEach(t => {
+    a.tables.forEach(t => {
       const r = state.res[t.id] || {};
-      const d = dims(t.shape, t.seats);
+      const unitW = Math.max(CARD_W, t.w);
+      // Leave room for the corners of rotated tables.
+      const rad = Math.abs(t.rot) * Math.PI / 180;
+      const bboxH = t.w * Math.sin(rad) + t.h * Math.cos(rad);
+      const extra = Math.max(0, (bboxH - t.h) / 2);
       const el = document.createElement('div');
       el.className = 'unit' + (selected === t.id ? ' selected' : '');
-      el.style.left = t.x + 'px'; el.style.top = t.y + 'px';
+      el.style.left = t.x + 'px'; el.style.top = t.y + 'px'; el.style.width = unitW + 'px';
       el.dataset.id = t.id; el.dataset.kind = 'table';
-      const cls = t.shape === 'long' ? 'rect' : t.shape;
+      const n = esc(t.label);
       el.innerHTML =
         '<div class="writein">' +
-          '<span>NAME</span><input data-f="name" value="' + esc(r.name || '') + '" aria-label="Table ' + esc(t.label) + ' reservation name">' +
-          '<span>MIN</span><div class="money"><input data-f="min" inputmode="decimal" value="' + esc(r.min || '') + '" aria-label="Table ' + esc(t.label) + ' minimum spend"></div>' +
-          '<span>REFUND</span><div class="money"><input data-f="refund" inputmode="decimal" value="' + esc(r.refund || '') + '" aria-label="Table ' + esc(t.label) + ' deposit refund"></div>' +
+          '<span>NAME</span><input data-f="name" value="' + esc(r.name || '') + '" aria-label="Table ' + n + ' reservation name">' +
+          '<span>MIN</span><div class="money"><input data-f="min" inputmode="decimal" value="' + esc(r.min || '') + '" aria-label="Table ' + n + ' minimum spend"></div>' +
+          '<span>REFUND</span><div class="money"><input data-f="refund" inputmode="decimal" value="' + esc(r.refund || '') + '" aria-label="Table ' + n + ' deposit refund"></div>' +
         '</div>' +
-        '<div class="table ' + cls + '" style="width:' + d.w + 'px;height:' + d.h + 'px">' + esc(t.label) +
-          '<span class="seats">' + t.seats + ' SEATS</span></div>';
+        '<div class="table ' + t.shape + '" style="width:' + t.w + 'px;height:' + t.h + 'px;margin-top:' + (GAP + extra) + 'px;transform:rotate(' + t.rot + 'deg)">' +
+          '<span class="lbl" style="transform:rotate(' + (-t.rot) + 'deg)">' + n +
+            (t.seats ? '<span class="seats">' + esc(t.seats) + ' SEATS</span>' : '') +
+          '</span>' +
+        '</div>';
       stage.appendChild(el);
     });
-    syncPanel();
   }
 
+  function setActive(id) {
+    state.active = id; save();
+    tabsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.area === id));
+    sheetsEl.querySelectorAll('.sheet').forEach(s => s.classList.toggle('active', s.dataset.area === id));
+    selected = null; syncPanel(); fit();
+  }
+  tabsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setActive(b.dataset.area); });
+
+  // Scale the 1600×1060 stage to fit the screen
+  let scale = 1;
+  function fit() {
+    const sec = sheetsEl.querySelector('.sheet.active'); if (!sec) return;
+    const wrap = sec.querySelector('.stage-wrap'), stage = sec.querySelector('.stage');
+    scale = wrap.clientWidth / W;
+    stage.style.transform = 'scale(' + scale + ')';
+    wrap.style.height = (H * scale) + 'px';
+  }
+  window.addEventListener('resize', fit);
+
   // Reservation inputs
-  stage.addEventListener('input', e => {
+  sheetsEl.addEventListener('input', e => {
     const inp = e.target.closest('input[data-f]'); if (!inp) return;
     const id = inp.closest('.unit').dataset.id;
     (state.res[id] = state.res[id] || {})[inp.dataset.f] = inp.value;
     save();
   });
-  document.querySelectorAll('[data-h]').forEach(inp => {
-    inp.value = state.head[inp.dataset.h] || '';
-    inp.addEventListener('input', () => { state.head[inp.dataset.h] = inp.value; save(); });
-  });
 
-  // Scale the 1600×1100 stage to fit its container
-  let scale = 1;
-  function fit(width) {
-    const w = width || wrap.clientWidth;
-    scale = w / W;
-    stage.style.transform = 'scale(' + scale + ')';
-    wrap.style.height = (H * scale) + 'px';
-  }
-  window.addEventListener('resize', () => fit());
-
-  // Dragging in edit mode
+  // ---------- edit mode ----------
   let drag = null;
-  stage.addEventListener('pointerdown', e => {
+  sheetsEl.addEventListener('pointerdown', e => {
     if (!editing) return;
-    const el = e.target.closest('[data-id]'); if (!el) { selected = null; render(); return; }
-    const list = el.dataset.kind === 'table' ? state.tables : state.fixtures;
-    const item = list.find(i => i.id === el.dataset.id);
+    const stage = e.target.closest('.stage'); if (!stage) return;
+    const el = e.target.closest('[data-id]');
+    if (!el) { selected = null; renderArea(area()); syncPanel(); return; }
+    const a = area();
+    const item = (el.dataset.kind === 'table' ? a.tables : a.fixtures).find(i => i.id === el.dataset.id);
     selected = item.id;
-    drag = { item, sx: e.clientX, sy: e.clientY, ox: item.x, oy: item.y, el };
     stage.querySelectorAll('.selected').forEach(n => n.classList.remove('selected'));
     el.classList.add('selected');
+    drag = { item, el, sx: e.clientX, sy: e.clientY, ox: item.x, oy: item.y };
     el.setPointerCapture(e.pointerId);
-    syncPanel();
-    e.preventDefault();
+    syncPanel(); e.preventDefault();
   });
-  stage.addEventListener('pointermove', e => {
+  sheetsEl.addEventListener('pointermove', e => {
     if (!drag) return;
     const snap = v => Math.round(v / 10) * 10;
-    drag.item.x = Math.max(0, Math.min(W - 40, snap(drag.ox + (e.clientX - drag.sx) / scale)));
-    drag.item.y = Math.max(0, Math.min(H - 40, snap(drag.oy + (e.clientY - drag.sy) / scale)));
+    drag.item.x = Math.max(-20, Math.min(W - 20, snap(drag.ox + (e.clientX - drag.sx) / scale)));
+    drag.item.y = Math.max(-20, Math.min(H - 20, snap(drag.oy + (e.clientY - drag.sy) / scale)));
     drag.el.style.left = drag.item.x + 'px'; drag.el.style.top = drag.item.y + 'px';
   });
-  stage.addEventListener('pointerup', () => { if (drag) { drag = null; save(); } });
+  sheetsEl.addEventListener('pointerup', () => { if (drag) { drag = null; save(); } });
 
-  // Edit panel
-  const fLabel = document.getElementById('fLabel'), fSeats = document.getElementById('fSeats'),
-        fShape = document.getElementById('fShape'), delBtn = document.getElementById('delBtn');
-  const selTable = () => state.tables.find(t => t.id === selected);
+  const fLabel = document.getElementById('fLabel'), fSeats = document.getElementById('fSeats'), delBtn = document.getElementById('delBtn');
+  const selTable = () => area().tables.find(t => t.id === selected);
   function syncPanel() {
     const t = selTable();
-    [fLabel, fSeats, fShape].forEach(i => i.disabled = !t);
-    delBtn.disabled = !selected;
-    fLabel.value = t ? t.label : ''; fSeats.value = t ? t.seats : ''; fShape.value = t ? t.shape : 'rect';
+    fLabel.disabled = fSeats.disabled = !t; delBtn.disabled = !selected;
+    fLabel.value = t ? t.label : ''; fSeats.value = t && t.seats ? t.seats : '';
   }
-  fLabel.addEventListener('change', () => { const t = selTable(); if (t) { t.label = fLabel.value.trim() || t.label; save(); render(); } });
-  fSeats.addEventListener('change', () => { const t = selTable(); if (t) { t.seats = Math.max(1, parseInt(fSeats.value, 10) || t.seats); save(); render(); } });
-  fShape.addEventListener('change', () => { const t = selTable(); if (t) { t.shape = fShape.value; save(); render(); } });
+  function refreshTabs() {
+    tabsEl.querySelectorAll('button').forEach(b => {
+      const a = state.areas.find(x => x.id === b.dataset.area); b.textContent = a.name + ' (' + a.tables.length + ')';
+    });
+    sheetsEl.querySelectorAll('.sheet').forEach(s => {
+      const a = state.areas.find(x => x.id === s.dataset.area);
+      s.querySelector('h1').innerHTML = '<small>TOWNHALL COLUMBUS · GAME DAY FLOOR PLAN</small><em>' + esc(a.name) + '</em> · ' + a.tables.length + ' TABLES';
+    });
+  }
+  fLabel.addEventListener('change', () => { const t = selTable(); if (t && fLabel.value.trim()) { t.label = fLabel.value.trim(); save(); renderArea(area()); } });
+  fSeats.addEventListener('change', () => { const t = selTable(); if (t) { t.seats = parseInt(fSeats.value, 10) || ''; save(); renderArea(area()); } });
   delBtn.addEventListener('click', () => {
-    state.tables = state.tables.filter(t => t.id !== selected);
-    state.fixtures = state.fixtures.filter(f => f.id !== selected);
-    delete state.res[selected]; selected = null; save(); render();
+    const a = area();
+    a.tables = a.tables.filter(t => t.id !== selected);
+    a.fixtures = a.fixtures.filter(f => f.id !== selected);
+    delete state.res[selected]; selected = null; save(); renderArea(a); refreshTabs(); syncPanel();
   });
   document.getElementById('addBtn').addEventListener('click', () => {
-    let n = state.tables.length + 1;
-    while (state.tables.some(t => t.label === String(n))) n++;
-    const t = { id: 't-' + Date.now(), label: String(n), shape: 'rect', seats: 4, x: 1230, y: 300 };
-    state.tables.push(t); selected = t.id; save(); render();
+    const a = area();
+    const t = { id: a.id + '-new' + Date.now(), label: 'NEW', shape: 'rect', x: 730, y: 450, w: 60, h: 46, rot: 0 };
+    a.tables.push(t); selected = t.id; save(); renderArea(a); refreshTabs(); syncPanel();
   });
   document.getElementById('resetBtn').addEventListener('click', () => {
-    if (!confirm('Reset the layout to the default? Reservations typed in will also be cleared.')) return;
-    state = defaults(); selected = null; save(); render();
-    document.querySelectorAll('[data-h]').forEach(i => i.value = '');
+    if (!confirm('Put every table back where the floor plan has it? Reservations you typed stay.')) return;
+    const keep = { res: state.res, head: state.head, active: state.active };
+    state = Object.assign(defaults(), keep); selected = null; save(); buildSheets();
   });
 
   document.getElementById('editBtn').addEventListener('click', e => {
@@ -370,16 +453,21 @@
     document.body.classList.toggle('editing', editing);
     e.target.classList.toggle('on', editing);
     e.target.textContent = editing ? 'Done editing' : 'Edit layout';
-    render(); fit();
+    state.areas.forEach(renderArea); syncPanel(); fit();
   });
   document.getElementById('clearBtn').addEventListener('click', () => {
-    if (!confirm('Clear every reservation name, minimum and refund (and the game details)? Use this to print a blank sheet.')) return;
-    state.res = {}; state.head = {}; save(); render();
-    document.querySelectorAll('[data-h]').forEach(i => i.value = '');
+    if (!confirm('Clear every reservation name, minimum and refund in all areas (and the game details)? Use this to print a blank sheet.')) return;
+    state.res = {}; state.head = {}; save(); buildSheets();
   });
-  document.getElementById('printBtn').addEventListener('click', () => window.print());
+  document.getElementById('printOneBtn').addEventListener('click', () => {
+    document.body.classList.add('print-one'); window.print();
+  });
+  document.getElementById('printAllBtn').addEventListener('click', () => {
+    document.body.classList.remove('print-one'); window.print();
+  });
+  window.addEventListener('afterprint', () => document.body.classList.remove('print-one'));
 
-  render(); fit();
+  buildSheets();
 })();
 </script>
 </body>
