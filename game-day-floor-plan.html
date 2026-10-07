@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Day Floor Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1B16;
+    --charcoal: #222320;
+    --bg: #FBFAF6;
+    --card: #FFFFFF;
+    --line: #E7E3D6;
+    --muted: #6B6B60;
+    --faint: #9C9C90;
+    --sage: #33593F;
+    --sage-soft: #EAF1EA;
+    --sand: #EFEADB;
+    --aqua: #DDEBE8;
+    --write: #1B1B16;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
+
+  /* ---------- toolbar (screen only) ---------- */
+  .toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .toolbar .hint { color: var(--muted); font-size: 13px; margin-right: auto; }
+  button {
+    font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .02em;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    padding: 8px 12px; border-radius: 6px; cursor: pointer;
+  }
+  button.primary { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
+  button.on { background: var(--sage); color: #fff; border-color: var(--sage); }
+  button:disabled { opacity: .4; cursor: default; }
+
+  .edit-panel {
+    display: none; gap: 8px; align-items: center; flex-wrap: wrap;
+    padding: 8px 16px; background: var(--sage-soft); border-bottom: 1px solid var(--line); font-size: 13px;
+  }
+  body.editing .edit-panel { display: flex; }
+  .edit-panel label { display: flex; gap: 6px; align-items: center; }
+  .edit-panel input, .edit-panel select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 5px; width: 90px; }
+
+  /* ---------- page ---------- */
+  .page { padding: 16px; max-width: 1400px; margin: 0 auto; }
+  .header {
+    background: var(--charcoal); color: #fff; border-radius: 8px 8px 0 0;
+    padding: 14px 20px; display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: flex-end;
+  }
+  .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; line-height: 1; }
+  .header h1 small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .2em; color: #C9C6B8; margin-bottom: 6px; }
+  .header .fields { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-left: auto; }
+  .hfield { display: flex; align-items: flex-end; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: #C9C6B8; }
+  .hfield input {
+    font: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0; color: #fff;
+    background: transparent; border: 0; border-bottom: 1.5px solid #8C897D; width: 140px; padding: 2px 4px; outline: none;
+  }
+
+  .stage-wrap { background: var(--card); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 8px 8px; overflow: hidden; position: relative; }
+  .stage {
+    position: absolute; top: 0; left: 0; width: 1600px; height: 1100px; transform-origin: 0 0;
+    background-image: radial-gradient(circle, #E9E5D8 1px, transparent 1.2px);
+    background-size: 20px 20px;
+  }
+  body:not(.editing) .stage { background-image: none; }
+
+  /* ---------- fixtures ---------- */
+  .fixture {
+    position: absolute; display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 14px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+    border: 2px solid #CFCAB8; border-radius: 6px; background: var(--sand);
+  }
+  .fixture.dark { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
+  .fixture.patio { background: transparent; border: 2.5px dashed #A9B9AE; color: #7E9384; align-items: flex-start; justify-content: flex-start; padding: 8px 12px; }
+  .fixture.tv { background: var(--ink); color: #fff; font-size: 10px; letter-spacing: .14em; border-radius: 3px; border: 0; }
+  .fixture.door { background: transparent; border: 0; border-bottom: 4px solid var(--sage); border-radius: 0; color: var(--sage); align-items: flex-end; font-size: 11px; }
+  .fixture.aqua { background: var(--aqua); border-color: #BFD6D1; color: #4E6E68; }
+
+  /* ---------- reservable tables ---------- */
+  .unit { position: absolute; width: 168px; display: flex; flex-direction: column; align-items: center; }
+  .writein {
+    width: 168px; background: #fff; border: 1.5px solid var(--ink); border-radius: 5px; padding: 5px 7px 6px;
+    display: grid; grid-template-columns: auto 1fr; column-gap: 5px; row-gap: 3px; align-items: end;
+  }
+  .writein span { font-size: 9px; font-weight: 800; letter-spacing: .1em; color: var(--muted); white-space: nowrap; line-height: 1.6; }
+  .writein input {
+    font: inherit; font-size: 12px; font-weight: 600; color: var(--write);
+    border: 0; border-bottom: 1px solid #A8A495; background: transparent; padding: 0 2px; height: 19px; width: 100%; min-width: 0; outline: none;
+  }
+  .writein input:focus { border-bottom-color: var(--sage); background: var(--sage-soft); }
+  .money { position: relative; }
+  .money::before { content: '$'; position: absolute; left: 0; bottom: 1px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .money input { padding-left: 9px; }
+
+  .table {
+    margin-top: 6px; position: relative; display: flex; align-items: center; justify-content: center;
+    background: var(--charcoal); color: #fff; font-weight: 800; font-size: 18px; letter-spacing: .04em;
+  }
+  .table.rect { border-radius: 6px; }
+  .table.round { border-radius: 50%; }
+  .table.booth { border-radius: 6px; box-shadow: 0 0 0 5px var(--sand), 0 0 0 7px #CFCAB8; }
+  .table.high { border-radius: 50%; background: var(--sage); }
+  .table { flex-direction: column; }
+  .table .seats { position: absolute; bottom: 3px; right: 6px; font-size: 9px; font-weight: 700; letter-spacing: .08em; color: #C9C6B8; white-space: nowrap; }
+  .table.round .seats, .table.high .seats { position: static; font-size: 8px; margin-top: 1px; }
+  .table.high .seats { color: #D7E5DA; }
+  .table.round, .table.high { line-height: 1; }
+
+  /* edit-mode affordances */
+  body.editing .unit, body.editing .fixture { cursor: grab; }
+  body.editing .unit input, body.editing .writein { pointer-events: none; }
+  body.editing .writein { opacity: .55; }
+  .selected .table, .fixture.selected { outline: 3px solid #D08A2E; outline-offset: 4px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 4px 0; font-size: 12px; color: var(--muted); }
+  .legend b { color: var(--ink); }
+  .sw { display: inline-block; width: 12px; height: 12px; vertical-align: -2px; margin-right: 5px; border-radius: 3px; }
+
+  /* ---------- print ---------- */
+  @page { size: letter landscape; margin: 0.3in; }
+  @media print {
+    html, body { background: #fff; }
+    .toolbar, .edit-panel, .no-print { display: none !important; }
+    .page { padding: 0; max-width: none; }
+    .stage { background-image: none !important; transform: scale(.6) !important; }
+    .stage-wrap { height: 660px !important; }
+    .selected .table, .fixture.selected { outline: none; }
+    body.editing .writein { opacity: 1; }
+    .header, .fixture.dark, .table, .fixture.tv { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .fixture, .table, .fixture.patio { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .header { padding: 8px 14px; }
+    .header h1 { font-size: 18px; }
+    .legend { font-size: 10px; padding-top: 4px; }
+  }
+  @media (max-width: 640px) {
+    .header h1 { font-size: 20px; }
+    .hfield input { width: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="hint" id="hint">Type in the boxes or print blank and write them in by hand.</div>
+  <button id="editBtn">Edit layout</button>
+  <button id="clearBtn">Clear reservations</button>
+  <button class="primary" id="printBtn">Print</button>
+</div>
+
+<div class="edit-panel" id="editPanel">
+  <strong>Edit layout:</strong> drag tables to match the room. Click a table to change it.
+  <label>Table # <input id="fLabel"></label>
+  <label>Seats <input id="fSeats" type="number" min="1" max="30"></label>
+  <label>Shape
+    <select id="fShape">
+      <option value="rect">4-top / square</option>
+      <option value="round">Round</option>
+      <option value="booth">Booth</option>
+      <option value="high">High-top</option>
+      <option value="long">Long / party</option>
+    </select>
+  </label>
+  <button id="delBtn" disabled>Delete selected</button>
+  <button id="addBtn">+ Add table</button>
+  <button id="resetBtn">Reset to default</button>
+</div>
+
+<div class="page">
+  <div class="header">
+    <h1><small>TOWNHALL COLUMBUS</small>GAME DAY FLOOR PLAN</h1>
+    <div class="fields">
+      <label class="hfield">DATE <input data-h="date"></label>
+      <label class="hfield">GAME <input data-h="game" placeholder=""></label>
+      <label class="hfield">KICKOFF <input data-h="kickoff" style="width:80px"></label>
+      <label class="hfield">MANAGER <input data-h="mgr"></label>
+    </div>
+  </div>
+  <div class="stage-wrap" id="wrap"><div class="stage" id="stage"></div></div>
+  <div class="legend">
+    <span><span class="sw" style="background:#222320"></span><b>Dining table</b></span>
+    <span><span class="sw" style="background:#222320;box-shadow:0 0 0 2px #EFEADB,0 0 0 3px #CFCAB8"></span><b>Booth</b></span>
+    <span><span class="sw" style="background:#33593F;border-radius:50%"></span><b>High-top</b></span>
+    <span><b>NAME</b> = reservation name</span>
+    <span><b>MIN</b> = minimum spend for the table</span>
+    <span><b>REFUND</b> = amount of the deposit refunded to the guest</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STORE = 'th-cbus-gameday-v1';
+  const W = 1600, H = 1100;
+
+  // Placeholder layout — use "Edit layout" to match the real Columbus room.
+  function defaults() {
+    const fixtures = [
+      { id: 'f-kitchen', label: 'Kitchen', cls: 'dark', x: 40, y: 20, w: 760, h: 60 },
+      { id: 'f-bar', label: 'Bar', cls: 'dark', x: 1060, y: 100, w: 500, h: 90 },
+      { id: 'f-wellness', label: 'Wellness bar', cls: 'aqua', x: 840, y: 20, w: 180, h: 60 },
+      { id: 'f-tv1', label: 'TV', cls: 'tv', x: 1110, y: 20, w: 110, h: 34 },
+      { id: 'f-tv2', label: 'TV', cls: 'tv', x: 1255, y: 20, w: 110, h: 34 },
+      { id: 'f-tv3', label: 'TV', cls: 'tv', x: 1400, y: 20, w: 110, h: 34 },
+      { id: 'f-tv4', label: 'TV', cls: 'tv', x: 4, y: 340, w: 30, h: 110 },
+      { id: 'f-tv5', label: 'TV', cls: 'tv', x: 1566, y: 520, w: 30, h: 110 },
+      { id: 'f-host', label: 'Host', cls: '', x: 1400, y: 700, w: 160, h: 50 },
+      { id: 'f-door', label: 'Entrance', cls: 'door', x: 1400, y: 760, w: 160, h: 40 },
+      { id: 'f-patio', label: 'Patio', cls: 'patio', x: 40, y: 860, w: 1520, h: 230 },
+    ];
+    const t = [];
+    const add = (label, shape, seats, x, y) => t.push({ id: 't-' + label, label, shape, seats, x, y });
+    // Booths along the left wall
+    [110, 300, 490, 680].forEach((y, i) => add(String(1 + i), 'booth', 4, 50, y));
+    // Main dining 4-tops
+    [260, 450, 640].forEach((x, c) => [110, 300, 490].forEach((y, r) => add(String(10 + c * 3 + r), 'rect', 4, x, y)));
+    // Large party tables
+    add('20', 'long', 8, 840, 300);
+    add('21', 'long', 8, 840, 490);
+    // High-tops by the bar
+    [1060, 1230, 1400].forEach((x, i) => add('H' + (i + 1), 'high', 4, x, 260));
+    [1060, 1230, 1400].forEach((x, i) => add('H' + (i + 4), 'high', 4, x, 450));
+    // Rounds
+    add('22', 'round', 6, 260, 680);
+    add('23', 'round', 6, 450, 680);
+    add('24', 'round', 6, 640, 680);
+    add('25', 'rect', 4, 1060, 640);
+    add('26', 'rect', 4, 1230, 640);
+    // Patio
+    [70, 290, 510, 730, 950, 1170].forEach((x, i) => add('P' + (i + 1), 'rect', 4, x, 900));
+    return { fixtures, tables: t, res: {}, head: {} };
+  }
+
+  function load() {
+    try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.tables) return s; } catch (e) {}
+    return defaults();
+  }
+  function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+
+  let state = load();
+  state.res = state.res || {}; state.head = state.head || {};
+  let editing = false, selected = null;
+
+  const stage = document.getElementById('stage');
+  const wrap = document.getElementById('wrap');
+
+  function dims(shape, seats) {
+    if (shape === 'round') return { w: 92, h: 92 };
+    if (shape === 'high') return { w: 66, h: 66 };
+    if (shape === 'booth') return { w: 120, h: 70 };
+    if (shape === 'long') return { w: 160, h: 70 };
+    return { w: 84, h: 70 };
+  }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function render() {
+    stage.innerHTML = '';
+    state.fixtures.forEach(f => {
+      const el = document.createElement('div');
+      el.className = 'fixture ' + (f.cls || '') + (selected === f.id ? ' selected' : '');
+      Object.assign(el.style, { left: f.x + 'px', top: f.y + 'px', width: f.w + 'px', height: f.h + 'px' });
+      el.textContent = f.label;
+      el.dataset.id = f.id; el.dataset.kind = 'fixture';
+      stage.appendChild(el);
+    });
+    state.tables.forEach(t => {
+      const r = state.res[t.id] || {};
+      const d = dims(t.shape, t.seats);
+      const el = document.createElement('div');
+      el.className = 'unit' + (selected === t.id ? ' selected' : '');
+      el.style.left = t.x + 'px'; el.style.top = t.y + 'px';
+      el.dataset.id = t.id; el.dataset.kind = 'table';
+      const cls = t.shape === 'long' ? 'rect' : t.shape;
+      el.innerHTML =
+        '<div class="writein">' +
+          '<span>NAME</span><input data-f="name" value="' + esc(r.name || '') + '" aria-label="Table ' + esc(t.label) + ' reservation name">' +
+          '<span>MIN</span><div class="money"><input data-f="min" inputmode="decimal" value="' + esc(r.min || '') + '" aria-label="Table ' + esc(t.label) + ' minimum spend"></div>' +
+          '<span>REFUND</span><div class="money"><input data-f="refund" inputmode="decimal" value="' + esc(r.refund || '') + '" aria-label="Table ' + esc(t.label) + ' deposit refund"></div>' +
+        '</div>' +
+        '<div class="table ' + cls + '" style="width:' + d.w + 'px;height:' + d.h + 'px">' + esc(t.label) +
+          '<span class="seats">' + t.seats + ' SEATS</span></div>';
+      stage.appendChild(el);
+    });
+    syncPanel();
+  }
+
+  // Reservation inputs
+  stage.addEventListener('input', e => {
+    const inp = e.target.closest('input[data-f]'); if (!inp) return;
+    const id = inp.closest('.unit').dataset.id;
+    (state.res[id] = state.res[id] || {})[inp.dataset.f] = inp.value;
+    save();
+  });
+  document.querySelectorAll('[data-h]').forEach(inp => {
+    inp.value = state.head[inp.dataset.h] || '';
+    inp.addEventListener('input', () => { state.head[inp.dataset.h] = inp.value; save(); });
+  });
+
+  // Scale the 1600×1100 stage to fit its container
+  let scale = 1;
+  function fit(width) {
+    const w = width || wrap.clientWidth;
+    scale = w / W;
+    stage.style.transform = 'scale(' + scale + ')';
+    wrap.style.height = (H * scale) + 'px';
+  }
+  window.addEventListener('resize', () => fit());
+
+  // Dragging in edit mode
+  let drag = null;
+  stage.addEventListener('pointerdown', e => {
+    if (!editing) return;
+    const el = e.target.closest('[data-id]'); if (!el) { selected = null; render(); return; }
+    const list = el.dataset.kind === 'table' ? state.tables : state.fixtures;
+    const item = list.find(i => i.id === el.dataset.id);
+    selected = item.id;
+    drag = { item, sx: e.clientX, sy: e.clientY, ox: item.x, oy: item.y, el };
+    stage.querySelectorAll('.selected').forEach(n => n.classList.remove('selected'));
+    el.classList.add('selected');
+    el.setPointerCapture(e.pointerId);
+    syncPanel();
+    e.preventDefault();
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const snap = v => Math.round(v / 10) * 10;
+    drag.item.x = Math.max(0, Math.min(W - 40, snap(drag.ox + (e.clientX - drag.sx) / scale)));
+    drag.item.y = Math.max(0, Math.min(H - 40, snap(drag.oy + (e.clientY - drag.sy) / scale)));
+    drag.el.style.left = drag.item.x + 'px'; drag.el.style.top = drag.item.y + 'px';
+  });
+  stage.addEventListener('pointerup', () => { if (drag) { drag = null; save(); } });
+
+  // Edit panel
+  const fLabel = document.getElementById('fLabel'), fSeats = document.getElementById('fSeats'),
+        fShape = document.getElementById('fShape'), delBtn = document.getElementById('delBtn');
+  const selTable = () => state.tables.find(t => t.id === selected);
+  function syncPanel() {
+    const t = selTable();
+    [fLabel, fSeats, fShape].forEach(i => i.disabled = !t);
+    delBtn.disabled = !selected;
+    fLabel.value = t ? t.label : ''; fSeats.value = t ? t.seats : ''; fShape.value = t ? t.shape : 'rect';
+  }
+  fLabel.addEventListener('change', () => { const t = selTable(); if (t) { t.label = fLabel.value.trim() || t.label; save(); render(); } });
+  fSeats.addEventListener('change', () => { const t = selTable(); if (t) { t.seats = Math.max(1, parseInt(fSeats.value, 10) || t.seats); save(); render(); } });
+  fShape.addEventListener('change', () => { const t = selTable(); if (t) { t.shape = fShape.value; save(); render(); } });
+  delBtn.addEventListener('click', () => {
+    state.tables = state.tables.filter(t => t.id !== selected);
+    state.fixtures = state.fixtures.filter(f => f.id !== selected);
+    delete state.res[selected]; selected = null; save(); render();
+  });
+  document.getElementById('addBtn').addEventListener('click', () => {
+    let n = state.tables.length + 1;
+    while (state.tables.some(t => t.label === String(n))) n++;
+    const t = { id: 't-' + Date.now(), label: String(n), shape: 'rect', seats: 4, x: 1230, y: 300 };
+    state.tables.push(t); selected = t.id; save(); render();
+  });
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (!confirm('Reset the layout to the default? Reservations typed in will also be cleared.')) return;
+    state = defaults(); selected = null; save(); render();
+    document.querySelectorAll('[data-h]').forEach(i => i.value = '');
+  });
+
+  document.getElementById('editBtn').addEventListener('click', e => {
+    editing = !editing; selected = null;
+    document.body.classList.toggle('editing', editing);
+    e.target.classList.toggle('on', editing);
+    e.target.textContent = editing ? 'Done editing' : 'Edit layout';
+    render(); fit();
+  });
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    if (!confirm('Clear every reservation name, minimum and refund (and the game details)? Use this to print a blank sheet.')) return;
+    state.res = {}; state.head = {}; save(); render();
+    document.querySelectorAll('[data-h]').forEach(i => i.value = '');
+  });
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  render(); fit();
+})();
+</script>
+</body>
+</html>
