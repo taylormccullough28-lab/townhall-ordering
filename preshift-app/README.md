@@ -11,8 +11,8 @@ Vercel.
 | Schema, roster, RLS | Done, verified by simulating roles |
 | Board merge RPCs, realtime publication | Done, deep merge verified |
 | `data.js` — auth, boards, 86 list, names, posting | Written, **not executed** |
-| `index.html` — sign-in + a read-back of what RLS grants | Written, **not executed** |
-| `board.html` — the board itself | Ported, **not executed** |
+| `index.html` — the board, with the sign-in gate | In use |
+| `check.html` — diagnostic: what the database says about your sign-in | In use |
 | `admin.html` — the roster | Written, **not executed**; its RLS verified |
 | Admin screen for the roster | Not started |
 
@@ -55,7 +55,7 @@ this up.
 
 ## The port
 
-`board.html` is the prototype with its data layer swapped, not a rewrite. The UI,
+`index.html` is the prototype with its data layer swapped, not a rewrite. The UI,
 CSS, post builder and section rendering are the proven ones. Every write in the
 prototype funnelled through a single `patchShift`, and only five places touched
 the data layer at all, so the port is six patch points:
